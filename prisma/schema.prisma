@@ -36,13 +36,22 @@ model Location {
   user       User   @relation(fields: [userId], references: [identifier])
   userId     String @unique
 }
+
 //TODO: need more work
 model Conversation {
   identifier     String   @id @default(uuid())
   createdAt      DateTime @default(now())
-  content        String[]   // each element represent the one message, but with prefix denote 'owner' || 'offer'
+  content        String[] // each element represent the one message, but with prefix denote 'owner' || 'offer'
   User           User?    @relation(fields: [userIdentifier], references: [identifier])
   userIdentifier String?
+}
+
+// the product owner can add as he want :)
+model Category {
+  identifier     String @id @default(uuid())
+  title          String @db.VarChar(50)
+  description    String
+  Items          Item[]
 }
 
 model Item {
@@ -54,11 +63,11 @@ model Item {
   userId      String
   sellType    SellType
   createdAt   DateTime @default(now())
+  category    Category @relation(fields: [catId], references: [identifier])
+  catId       String
 }
 
-
-enum SellType{
+enum SellType {
   SWAP
   FREE
 }
-
