@@ -9,14 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "date-fns": "^2.28.0",
     "dotenv": "^16.0.1",
+    "leaflet": "^1.8.0",
+    "mapbox.js": "^3.3.1",
     "next": "12.1.6",
     "nodemailer": "^6.7.5",
+    "ol": "^6.14.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "uuid-js": "^0.7.5",
-    "zod": "^3.16.0"
+    "zod": "^3.16.0",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@types/node": "17.0.32",
