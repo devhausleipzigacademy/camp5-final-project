@@ -1,11 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import useEmblaCarousel, {
-  EmblaCarouselType,
-  EmblaOptionsType,
-  EmblaPluginType,
-  EmblaEventType,
-} from "embla-carousel";
+
 
 interface ImgProps {
   src: string[];
@@ -15,21 +10,27 @@ interface ImgProps {
 const ItemImage = ({ src, fav }: ImgProps) => {
   const [images, setImages] = useState<string[]>(src);
   const [counter, setCounter] = useState<number>(0);
+
   const slideHandler = (dir: String) => {
-    console.log(dir, counter);
-      switch (dir) {
-        case "Left":
-          console.log(dir, counter);
-          setCounter((prev) => {counter === 0 : setCounter(0) ? prev - 1});
-          break;
-        case "Right":
-          console.log(dir, counter);
-          console.log(src);
+    switch (dir) {
+      case "Left":
+        if (counter > 0) {
+          setCounter((prev) => prev - 1);
+        } else {
+          setCounter(images.length - 1)
+        }
+        break;
+      case "Right":
+        if (counter < images.length - 1) {
           setCounter((prev) => prev + 1);
-          break;
-      }
+        } else {
+          setCounter(0)
+
+        }
+        break;
     }
-  };
+  }
+
   return (
     <>
       <button onClick={() => slideHandler("Left")}>{"<"}</button>
