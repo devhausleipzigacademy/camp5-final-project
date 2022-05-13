@@ -1,14 +1,9 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
-
-interface Props {
-  pagename: string;
-}
 
 const Header = () => {
   const router = useRouter();
   let pagename = router.asPath;
-
+  // add logic for chat later
   if (pagename === "/") {
     pagename = "Dashboard";
   } else {
@@ -20,6 +15,7 @@ const Header = () => {
   return (
     <div className="fixed flex flex-row top-0 bg-primary text-primary-text w-full h-16 place-items-center justify-center">
       <h3 className="text-base font-poppins">{pagename}</h3>
+      {/* add burgermenu later */}
       <button className="fixed right-4">
         <svg
           width="32"
@@ -42,7 +38,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// header title has to change dynamically
-// if route = "/" then Dashboard
-// if route = "/{pageName}/.." then {pageName}
