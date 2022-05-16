@@ -32,7 +32,7 @@ const ItemImage = ({ src, fav }: ImgProps) => {
   }
 
   return (
-    <>
+    <div className="scroll-smooth">
       <button onClick={() => slideHandler("Left")}>{"<"}</button>
       <Image
         alt=""
@@ -42,7 +42,7 @@ const ItemImage = ({ src, fav }: ImgProps) => {
         height={75}
       ></Image>
       <button onClick={() => slideHandler("Right")}>{">"}</button>
-    </>
+    </div>
   );
 };
 

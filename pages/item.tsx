@@ -1,3 +1,4 @@
+import Carousel from "../components/Carousel/Carousel";
 import ItemImage from "../components/Image/ItemImage";
 
 const imgArray = [
@@ -8,8 +9,12 @@ const imgArray = [
 export default function Item() {
   return (
     <>
-      <div className="w-full py-4 bg-primary text-center">Hello World</div>
-      <ItemImage src={imgArray} fav={false} />
+      <div className="w-full h-1/4 py-4 bg-primary text-center">Hello World</div>
+      <div className="block">
+      <Carousel />
+      {/* <ItemImage src={imgArray} fav={false} /> */}
+
+      </div>
     </>
   );
 }
