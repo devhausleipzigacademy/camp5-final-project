@@ -1,10 +1,10 @@
 import { Carousel as Slider } from '@trendyol-js/react-carousel';
 import Image from "next/image";
-
 interface CaroProps{
     imagesArray: string[]
 }
 const Carousel = ({imagesArray}:CaroProps) => {
+    // https://trendyol.github.io/react-carousel/docs/carousel/
     return (
         <Slider show={1} slide={1} swiping={true}  >
             {imagesArray.map((img, index) => {
