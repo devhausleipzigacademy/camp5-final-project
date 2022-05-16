@@ -1,1 +1,5 @@
 GET http://localhost:3000/api/items
+
+###
+
+GET http://localhost:3000/api/items/selltype
