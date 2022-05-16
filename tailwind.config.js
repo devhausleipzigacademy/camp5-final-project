@@ -4,6 +4,9 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      poppins: ["regular", "light", "bold", "extra-light"],
+    },
     colors: {
       primary: "#464E64",
       "primary-variant": "#3A4053",
