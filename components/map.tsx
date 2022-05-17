@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, MouseEvent } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl, { LngLatLike } from "mapbox-gl";
+import mapboxgl, { GeolocateControl, LngLatLike } from "mapbox-gl";
 import { stores } from "../assets/data";
 
 mapboxgl.accessToken =
@@ -33,6 +33,14 @@ const Map = () => {
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
   const [zoom, setZoom] = useState(14);
+
+  const geolocate = new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    trackUserLocation: true,
+    showUserHeading: true,
+  });
 
   useEffect(() => {
     if (map.current) return;
@@ -67,8 +75,13 @@ const Map = () => {
       }
     }
     if (!map.current) return;
+
     // @ts-ignore
     map.current.on("load", () => {
+      //@ts-ignore
+      map.current.addControl(geolocate);
+      // @ts-ignore
+      geolocate.trigger();
       // @ts-ignore
       map.addSource("places", {
         type: "geojson",
@@ -95,7 +108,7 @@ const Map = () => {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
     if (popUps[0]) popUps[0].remove();
 
-    const popup = new mapboxgl.Popup({ closeOnClick: false })
+    const popup = new mapboxgl.Popup({ closeOnClick: true })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML(
         `<h3>${currentFeature.properties.title}</h3><h4>${currentFeature.properties.address}</h4>`
