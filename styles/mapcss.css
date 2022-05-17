@@ -145,13 +145,13 @@ a:hover {
 }
 
 .mapboxgl-popup-tip {
-  margin-bottom: 50px;
+  margin-bottom: 51px;
 }
 .marker {
   border: none;
   cursor: pointer;
   height: 55px;
   width: 35px;
-  background-image: url(../assets/giftIcon.svg);
-  background-size: contain;
+  /* background-image: url(../assets/giftIcon.svg);
+  background-size: contain; */
 }

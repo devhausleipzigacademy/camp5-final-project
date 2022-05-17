@@ -33,7 +33,6 @@ const Map = () => {
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
   const [zoom, setZoom] = useState(14);
-  const [marker, setMarker] = useState();
 
   useEffect(() => {
     if (map.current) return;
@@ -45,9 +44,28 @@ const Map = () => {
       center: [lng, lat],
       zoom: zoom,
     });
-  });
+  }, []);
 
   useEffect(() => {
+    function addMarkers() {
+      for (const marker of stores.features) {
+        const el = document.createElement("img");
+        el.id = `marker-${marker.properties.title}`;
+        el.className = "marker";
+        marker.type === "Feature"
+          ? el.setAttribute("src", "swapIcon.svg")
+          : el.setAttribute("src", "giftIcon.svg");
+        el.addEventListener("click", (e) => {
+          flyToStore(marker);
+          createPopUp(marker);
+        });
+        new mapboxgl.Marker(el, { offset: [0, -23] })
+          //@ts-ignore
+          .setLngLat(marker.geometry.coordinates)
+          //@ts-ignore
+          .addTo(map.current);
+      }
+    }
     if (!map.current) return;
     // @ts-ignore
     map.current.on("load", () => {
@@ -71,7 +89,7 @@ const Map = () => {
 
       setZoom(map.current.getZoom().toFixed(2));
     });
-  });
+  }, []);
 
   function createPopUp(currentFeature: any) {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
@@ -93,23 +111,6 @@ const Map = () => {
       center: currentFeature.geometry.coordinates,
       zoom: 15,
     });
-  }
-
-  function addMarkers() {
-    for (const marker of stores.features) {
-      const el = document.createElement("div");
-      el.id = `marker-${marker.properties.title}`;
-      el.className = "marker";
-      el.addEventListener("click", (e) => {
-        flyToStore(marker);
-        createPopUp(marker);
-      });
-      new mapboxgl.Marker(el, { offset: [0, -23] })
-        //@ts-ignore
-        .setLngLat(marker.geometry.coordinates)
-        //@ts-ignore
-        .addTo(map.current);
-    }
   }
 
   return (

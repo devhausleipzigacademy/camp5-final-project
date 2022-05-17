@@ -2,7 +2,7 @@ export const stores = {
   type: "FeatureCollection",
   features: [
     {
-      type: "Feature",
+      type: "Something",
       geometry: {
         type: "Point",
         coordinates: [-77.034084142948, 38.909671288923],
