@@ -145,7 +145,9 @@ const Map = () => {
   function createPopUp(currentFeature: any) {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
     if (popUps[0]) popUps[0].remove();
-    let distance = turf.distance(from, currentFeature.geometry.coordinates);
+    let distance = turf
+      .distance(from, currentFeature.geometry.coordinates)
+      .toFixed(2);
 
     const popup = new mapboxgl.Popup({ closeOnClick: true })
       .setLngLat(currentFeature.geometry.coordinates)
