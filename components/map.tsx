@@ -42,10 +42,11 @@ const Map = () => {
   let to = [lng, lat];
   let from = [ulng, ulat];
   // reload in useEffect (which one?)
-  let initialdistance = turf.distance(from, to);
-  const [distance, setDistance] = useState(initialdistance);
+  let distance = turf.distance(from, to);
+  // const [distance, setDistance] = useState(initialdistance);
 
   console.log(distance);
+
   const geolocate = new mapboxgl.GeolocateControl({
     positionOptions: {
       enableHighAccuracy: true,
@@ -101,6 +102,13 @@ const Map = () => {
       });
     });
     addMarkers();
+
+    if (geolocate) {
+      // @ts-ignore
+      setULng(map.current.getCenter().lng.toFixed(4));
+      // @ts-ignore
+      setULat(map.current.getCenter().lat.toFixed(4));
+    }
 
     //@ts-ignore
     map.current.on("move", () => {
