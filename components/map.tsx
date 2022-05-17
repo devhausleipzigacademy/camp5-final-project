@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, MouseEvent } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { stores } from "../assets/data";
+import * as turf from "@turf/turf";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -32,7 +33,19 @@ const Map = () => {
   const map = useRef(null);
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
+  // coordinates of user
+  const [ulng, setULng] = useState(12.41);
+  const [ulat, setULat] = useState(51.33);
   const [zoom, setZoom] = useState(14);
+
+  // calculate distance with turf
+  let to = [lng, lat];
+  let from = [ulng, ulat];
+  // reload in useEffect (which one?)
+  let initialdistance = turf.distance(from, to);
+  const [distance, setDistance] = useState(initialdistance);
+
+  console.log(distance);
 
   useEffect(() => {
     if (map.current) return;
@@ -98,7 +111,7 @@ const Map = () => {
     const popup = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML(
-        `<h3>${currentFeature.properties.title}</h3><h4>${currentFeature.properties.address}</h4>`
+        `<h3>${currentFeature.properties.title}</h3><h4>${distance}</h4>`
       )
       //@ts-ignore
       .addTo(map.current);
