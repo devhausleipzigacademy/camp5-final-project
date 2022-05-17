@@ -1,13 +1,21 @@
 import clsx from "clsx";
+import { on } from "events";
 
 interface ButtonProps {
   bgColor: "primary" | "secondary" | "BG" | "error";
   text: string;
   width?: string;
-  py?: number
+  py?: number;
+  clickFunction?: Function;
 }
 
-const Button = ({ bgColor, text, width = "full", py = 0.5 }: ButtonProps) => {
+const Button = ({
+  bgColor,
+  text,
+  width = "full",
+  py = 0.5,
+  clickFunction,
+}: ButtonProps) => {
   return (
     <button
       // we tried to write like below, but it caused an error with next-js style rendering
@@ -26,6 +34,7 @@ const Button = ({ bgColor, text, width = "full", py = 0.5 }: ButtonProps) => {
           : "primary",
         `px-8 py-${py} rounded-md w-${width}`
       )}
+      onClick={() => clickFunction}
     >
       {text}
     </button>
