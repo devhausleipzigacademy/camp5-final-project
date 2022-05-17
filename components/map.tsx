@@ -38,14 +38,7 @@ const Map = () => {
   const [ulat, setULat] = useState(51.33);
   const [zoom, setZoom] = useState(14);
 
-  // calculate distance with turf
-  let to = [lng, lat];
   let from = [ulng, ulat];
-  // reload in useEffect (which one?)
-  let distance = turf.distance(from, to);
-  // const [distance, setDistance] = useState(initialdistance);
-
-  console.log(distance);
 
   const geolocate = new mapboxgl.GeolocateControl({
     positionOptions: {
@@ -89,9 +82,12 @@ const Map = () => {
     }
     if (!map.current) return;
     navigator.geolocation.getCurrentPosition((position) => {
-      setULng(position.coords.longitude);
-      setULat(position.coords.latitude);
-      const userCoordinates = [ulng, ulat];
+      const userCoordinates = [
+        position.coords.longitude,
+        position.coords.latitude,
+      ];
+      setULng(userCoordinates[0]);
+      setULat(userCoordinates[1]);
       //@ts-ignore
       map.current.addSource("user-coordinates", {
         type: "geojson",
@@ -149,11 +145,12 @@ const Map = () => {
   function createPopUp(currentFeature: any) {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
     if (popUps[0]) popUps[0].remove();
+    let distance = turf.distance(from, currentFeature.geometry.coordinates);
 
     const popup = new mapboxgl.Popup({ closeOnClick: true })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML(
-        `<h3>${currentFeature.properties.title}</h3><h4>${distance}</h4>`
+        `<h3>${currentFeature.properties.title}</h3><h4>${distance}km</h4>`
       )
       //@ts-ignore
       .addTo(map.current);
