@@ -9,13 +9,13 @@ const FilterButtons = () => {
 
   async function clickHandler(selltype: string) {
     try {
-      const response = await axios.get(
+      const fetchedItems: Item[] = await axios.get(
         `http://localhost:3000/api/items?sellType=${selltype}`
       );
     } catch (err) {
       console.log(err);
     }
-    useEffect(() => setItems, []);
+    useEffect((fetchedItems) => setItems(), [items]);
   }
   return (
     <div className="flex gap-2">
