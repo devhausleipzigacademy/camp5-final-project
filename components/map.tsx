@@ -88,7 +88,36 @@ const Map = () => {
       }
     }
     if (!map.current) return;
+    navigator.geolocation.getCurrentPosition((position) => {
+      const userCoordinates = [
+        position.coords.longitude,
+        position.coords.latitude,
+      ];
+      //@ts-ignore
+      map.current.addSource("user-coordinates", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: userCoordinates,
+          },
+        },
+      });
+      //@ts-ignore
 
+      map.current.addLayer({
+        id: "user-coordinates",
+        source: "user-coordinates",
+        type: "circle",
+      });
+      //@ts-ignore
+
+      map.current.flyTo({
+        center: userCoordinates,
+        zoom: 14,
+      });
+    });
     // @ts-ignore
     map.current.on("load", () => {
       //@ts-ignore
