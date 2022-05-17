@@ -33,7 +33,7 @@ export default function ProductPage() {
         <div className="flex-col px-4 space-y-2">
           <div className="flex justify-between">
             <div>
-              <p className="text-xl">Super Hype Camera</p>
+              <p className="text-xl font-poppins">Super Hype Camera</p>
             </div>
             <div>
               <Button bgColor={"primary"} text={"Swap"} />

@@ -6,7 +6,14 @@ interface CaroProps {
 const Carousel = ({ imagesArray }: CaroProps) => {
   // https://trendyol.github.io/react-carousel/docs/carousel/
   return (
-    <Slider show={1} slide={1} swiping={true}>
+    <Slider 
+    show={1} 
+    slide={1} 
+    swiping={true}
+    swipeOn={0.05}
+    useArrowKeys={true}
+    transition={0.3}
+    >
       {imagesArray.map((img, index) => {
         return (
           <Image
