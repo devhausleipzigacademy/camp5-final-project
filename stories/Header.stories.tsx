@@ -16,4 +16,17 @@ export default {
 const Template: ComponentStory<typeof Header> = (args) => <Header />;
 
 export const Primary = Template.bind({});
+Primary.parameters = {
+  nextRouter: {
+    asPath: "/",
+  },
+};
+
+export const Secondary = Template.bind({});
+Secondary.parameters = {
+  nextRouter: {
+    asPath: "/messages",
+  },
+};
+
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
