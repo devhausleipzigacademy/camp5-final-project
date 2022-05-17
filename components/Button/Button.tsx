@@ -4,9 +4,10 @@ interface ButtonProps {
   bgColor: "primary" | "secondary" | "BG" | "error";
   text: string;
   width?: string;
+  py?: number
 }
 
-const Button = ({ bgColor, text, width = "full" }: ButtonProps) => {
+const Button = ({ bgColor, text, width = "full", py = 0.5 }: ButtonProps) => {
   return (
     <button
       // we tried to write like below, but it caused an error with next-js style rendering
@@ -23,7 +24,7 @@ const Button = ({ bgColor, text, width = "full" }: ButtonProps) => {
           : bgColor === "BG"
           ? "bg-BG text-BG-text"
           : "primary",
-        `px-8 py-0.5 rounded-md w-${width}`
+        `px-8 py-${py} rounded-md w-${width}`
       )}
     >
       {text}

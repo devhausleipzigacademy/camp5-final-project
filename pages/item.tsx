@@ -1,5 +1,7 @@
 import Button from "../components/Button/Button";
 import Carousel from "../components/Carousel/Carousel";
+import ChatIcon from '../public/chat.svg';
+
 
 // images testing data:
 const imgRes = [
@@ -26,27 +28,27 @@ export default function ProductPage() {
       <div className="w-full h-1/4 py-4 bg-primary text-primary-text text-center">
         HEADER placeholder
       </div>
-      <div className="flex-col font-poppins space-y-2">
+      <div className="flex-col space-y-2">
         <div className="block w-full">
           <Carousel imagesArray={imgRes} />
         </div>
         <div className="flex-col px-4 space-y-2">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <div>
-              <p className="text-xl font-poppins">Super Hype Camera</p>
+              <p className="text-xl">Super Hype Camera</p>
             </div>
             <div>
               <Button bgColor={"primary"} text={"Swap"} />
             </div>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <div>
               <p className="text-md">offered by john duo</p>
-              <p className="text-xs">distance 2km</p>
-              <p className="text-xs">online for 2d</p>
+              <p className="text-xs">distance 2 km</p>
+              <p className="text-xs">posted 2 days ago</p>
             </div>
             <div>
-              <button>Chat icon</button>
+              <button className="text-primary w-10"><ChatIcon /></button>
             </div>
           </div>
           <div>
@@ -56,9 +58,10 @@ export default function ProductPage() {
               vero, quidem veniam fugiat atque eligendi ipsa sequi autem? Ipsum,
               tempore? Veritatis.
             </p>
+            <div className="min-h-full grow"></div>
           </div>
           <div>
-            <Button bgColor={"primary"} text={"Offer Trade"} />
+            <Button bgColor={"secondary"} text={"Offer Trade"} py={2} />
           </div>
         </div>
       </div>

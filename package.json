@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.14.0",
+    "@svgr/webpack": "^6.2.1",
     "@trendyol-js/react-carousel": "^2.0.1",
     "axios": "^0.27.2",
     "clsx": "^1.1.1",
