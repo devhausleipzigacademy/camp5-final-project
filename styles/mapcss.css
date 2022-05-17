@@ -108,7 +108,7 @@ a:hover {
 }
 .mapboxgl-popup-close-button {
   display: none;
-}
+} // NO
 
 .mapboxgl-popup-content {
   font: 400 15px/22px "Source Sans Pro", "Helvetica Neue", sans-serif;
@@ -126,7 +126,7 @@ a:hover {
   margin-top: -15px;
 }
 
-.mapboxgl-popup-content h4 {
+.mapboxgl-popup-content p {
   margin: 0;
   padding: 10px;
   font-weight: 400;

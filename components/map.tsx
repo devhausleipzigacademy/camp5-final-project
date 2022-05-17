@@ -152,7 +152,7 @@ const Map = () => {
     const popup = new mapboxgl.Popup({ closeOnClick: true })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML(
-        `<h3>${currentFeature.properties.title}</h3><h4>${distance}km</h4>`
+        `<h3>${currentFeature.properties.title}</h3><p>${distance}km</p>`
       )
       //@ts-ignore
       .addTo(map.current);
@@ -168,7 +168,7 @@ const Map = () => {
   }
 
   return (
-    <div>
+    <div className="map">
       <div className="sidebar">
         <div className="heading">
           <h1>Our locations</h1>
