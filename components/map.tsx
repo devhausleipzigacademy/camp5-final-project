@@ -89,10 +89,9 @@ const Map = () => {
     }
     if (!map.current) return;
     navigator.geolocation.getCurrentPosition((position) => {
-      const userCoordinates = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
+      setULng(position.coords.longitude);
+      setULat(position.coords.latitude);
+      const userCoordinates = [ulng, ulat];
       //@ts-ignore
       map.current.addSource("user-coordinates", {
         type: "geojson",
@@ -118,6 +117,7 @@ const Map = () => {
         zoom: 14,
       });
     });
+
     // @ts-ignore
     map.current.on("load", () => {
       //@ts-ignore
@@ -131,13 +131,6 @@ const Map = () => {
       });
     });
     addMarkers();
-
-    if (geolocate) {
-      // @ts-ignore
-      setULng(map.current.getCenter().lng.toFixed(4));
-      // @ts-ignore
-      setULat(map.current.getCenter().lat.toFixed(4));
-    }
 
     //@ts-ignore
     map.current.on("move", () => {
