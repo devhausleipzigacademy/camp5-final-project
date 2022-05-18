@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useState, MouseEvent } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl, { GeolocateControl, LngLatLike } from "mapbox-gl";
+import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { stores } from "../assets/data";
 import * as turf from "@turf/turf";
+import { Coord } from "@turf/turf";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -15,7 +16,7 @@ type Feature = {
 
 type Geometry = {
   type: string;
-  coordinates: LngLatLike;
+  coordinates: [number, number];
 };
 
 type Properties = {
@@ -30,27 +31,17 @@ type Properties = {
 
 const Map = () => {
   const mapContainer = useRef(null);
-  const map = useRef(null);
+  const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
-  // coordinates of user
-  const [ulng, setULng] = useState(12.41);
-  const [ulat, setULat] = useState(51.33);
+  const [userLocation, setUserLocation] = useState<Coord>();
   const [zoom, setZoom] = useState(14);
 
-  let from = [ulng, ulat];
-
-  const geolocate = new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    trackUserLocation: true,
-    showUserHeading: true,
-  });
+  let from = userLocation;
 
   useEffect(() => {
     if (map.current) return;
-    //@ts-ignore
+
     map.current = new mapboxgl.Map({
       //@ts-ignore
       container: mapContainer.current,
@@ -70,26 +61,23 @@ const Map = () => {
           ? el.setAttribute("src", "swapIcon.svg")
           : el.setAttribute("src", "giftIcon.svg");
         el.addEventListener("click", (e) => {
-          flyToStore(marker);
-          createPopUp(marker);
+          flyToStore(marker as Feature);
+          createPopUp(marker as Feature);
         });
         new mapboxgl.Marker(el, { offset: [0, -23] })
-          //@ts-ignore
-          .setLngLat(marker.geometry.coordinates)
-          //@ts-ignore
-          .addTo(map.current);
+          .setLngLat(marker.geometry.coordinates as LngLatLike)
+          .addTo(map.current as mapboxgl.Map);
       }
     }
+    addMarkers();
     if (!map.current) return;
     navigator.geolocation.getCurrentPosition((position) => {
       const userCoordinates = [
         position.coords.longitude,
         position.coords.latitude,
       ];
-      setULng(userCoordinates[0]);
-      setULat(userCoordinates[1]);
-      //@ts-ignore
-      map.current.addSource("user-coordinates", {
+
+      (map.current as mapboxgl.Map).addSource("user-coordinates", {
         type: "geojson",
         data: {
           type: "Feature",
@@ -97,69 +85,61 @@ const Map = () => {
             type: "Point",
             coordinates: userCoordinates,
           },
-        },
+        } as any,
       });
-      //@ts-ignore
+      setUserLocation(userCoordinates);
 
-      map.current.addLayer({
+      (map.current as mapboxgl.Map).addLayer({
         id: "user-coordinates",
         source: "user-coordinates",
         type: "circle",
       });
-      //@ts-ignore
 
-      map.current.flyTo({
-        center: userCoordinates,
+      (map.current as mapboxgl.Map).flyTo({
+        center: userCoordinates as LngLatLike,
         zoom: 14,
       });
     });
 
-    // @ts-ignore
     map.current.on("load", () => {
-      //@ts-ignore
-      map.current.addControl(geolocate);
-      // @ts-ignore
+      const geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showUserHeading: true,
+      });
+      (map.current as mapboxgl.Map).addControl(geolocate);
       geolocate.trigger();
-      // @ts-ignore
-      map.addSource("places", {
+      (map.current as mapboxgl.Map).addSource("places", {
         type: "geojson",
-        data: stores,
+        data: stores as any,
       });
     });
-    addMarkers();
 
-    //@ts-ignore
-    map.current.on("move", () => {
-      //@ts-ignore
-
-      setLng(map.current.getCenter().lng.toFixed(4));
-      //@ts-ignore
-
-      setLat(map.current.getCenter().lat.toFixed(4));
-      //@ts-ignore
-
-      setZoom(map.current.getZoom().toFixed(2));
+    (map.current as mapboxgl.Map).on("move", () => {
+      setLng(Number((map.current as mapboxgl.Map).getCenter().lng.toFixed(4)));
+      setLat(Number((map.current as mapboxgl.Map).getCenter().lat.toFixed(4)));
+      setZoom(Number((map.current as mapboxgl.Map).getZoom().toFixed(2)));
     });
   }, []);
 
-  function createPopUp(currentFeature: any) {
+  function createPopUp(currentFeature: Feature) {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
     if (popUps[0]) popUps[0].remove();
-    let distance = turf.distance(from, currentFeature.geometry.coordinates);
-
-    const popup = new mapboxgl.Popup({ closeOnClick: true })
+    let distance = turf
+      .distance(from as Coord, currentFeature.geometry.coordinates)
+      .toFixed(2);
+    const popup: mapboxgl.Popup = new mapboxgl.Popup({ closeOnClick: true })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML(
         `<h3>${currentFeature.properties.title}</h3><h4>${distance}km</h4>`
       )
-      //@ts-ignore
-      .addTo(map.current);
+      .addTo(map.current as mapboxgl.Map);
   }
 
-  //@ts-ignore
-  function flyToStore(currentFeature) {
-    //@ts-ignore
-    map.current.flyTo({
+  function flyToStore(currentFeature: Feature) {
+    (map.current as mapboxgl.Map).flyTo({
       center: currentFeature.geometry.coordinates,
       zoom: 15,
     });
@@ -179,13 +159,13 @@ const Map = () => {
                 id={`listing-${i}`}
                 className="item"
                 onClick={() => {
-                  flyToStore(feature);
-                  createPopUp(feature);
+                  flyToStore(feature as Feature);
+                  createPopUp(feature as Feature);
                   const activeItem = document.getElementsByClassName("active");
                   if (activeItem[0]) {
                     activeItem[0].classList.remove("active");
                   }
-                  //@ts-ignore
+
                   const thisElement = document.getElementById(`listing-${i}`);
                   (thisElement as HTMLElement).classList.add("active");
                 }}
