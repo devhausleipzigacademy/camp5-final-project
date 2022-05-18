@@ -13,9 +13,9 @@
     @apply flex rounded-md;
   }
 
-  .mapboxgl-popup-content {
+  /* .mapboxgl-popup-content {
     @apply w-44 font-poppins shadow-md;
-  }
+  } */
 
   /* .mapboxgl-popup-content h3 {
     @apply bg-secondary text-secondary-text p-2.5 rounded-sm font-semibold -mt-3.5;
@@ -24,10 +24,10 @@
   /* .mapboxgl-popup-content p {
     @apply text-BG-text;
   } */
-
+  /* 
   .mapboxgl-popup-tip {
     @apply mb-1;
-  }
+  } */
 
   .marker {
     @apply cursor-pointer h-14 w-9;

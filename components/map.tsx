@@ -7,6 +7,7 @@ import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
 import addMarkers from "../utils/addMarkers";
 import clsx from "clsx";
+import Image from "next/image";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -161,9 +162,35 @@ const Map = () => {
                   (thisElement as HTMLElement).classList.add("active");
                 }}
               >
-                <a href="#" className="title" id={`link-${i}`}>
-                  <div>{feature.properties.title}</div>
-                </a>
+                <div className="flex gap-2 items-center">
+                  <Image
+                    src={feature.properties.productImage}
+                    alt=""
+                    layout="intrinsic"
+                    // sizes="100vw"
+                    height={50}
+                    width={50}
+                    objectFit="cover"
+                  />
+                  <div className="flex w-full justify-between">
+                    <a href="#" className="title" id={`link-${i}`}>
+                      <div className="flex-col">
+                        <div>{feature.properties.title}</div>
+                        <div>{"distance away"}</div>
+                      </div>
+                    </a>
+                    <Image
+                      src={feature.properties.ownerImage}
+                      alt=""
+                      layout="intrinsic"
+                      // sizes="100vw"
+                      height={50}
+                      width={50}
+                      objectFit="cover"
+                      className="rounded-full"
+                    />
+                  </div>
+                </div>
               </div>
             ))}
         </div>
