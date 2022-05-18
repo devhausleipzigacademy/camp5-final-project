@@ -8,20 +8,10 @@ export default function useMap(
   map: any,
   setZoom: Dispatch<React.SetStateAction<number>>
 ) {
-  // const [ulng, setULng] = useState(12.37);
-  // const [ulat, setULat] = useState(51.34);
   const [userLocation, setUserLocation] = useState<Coord>();
 
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
-
-  const geolocate = new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    trackUserLocation: true,
-    showUserHeading: true,
-  });
 
   useEffect(() => {
     if (!map.current) return;

@@ -45,7 +45,7 @@ const Map = () => {
                 className="item"
                 onClick={() => {
                   flyToStore(feature as Feature, map);
-                  createPopUp(feature, userLocation as Coord, map);
+                  createPopUp(feature as Feature, userLocation as Coord, map);
                   const activeItem = document.getElementsByClassName("active");
                   if (activeItem[0]) {
                     activeItem[0].classList.remove("active");
