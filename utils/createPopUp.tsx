@@ -11,10 +11,14 @@ export default function createPopUp(
   let distance = turf
     .distance(from, currentFeature.geometry.coordinates)
     .toFixed(2);
-
+  if (distance < "1") {
+    distance = "distance: " + String(parseFloat(distance) * 1000) + "m";
+  } else {
+    distance = "distance: " + distance + "km";
+  }
   const popup = new mapboxgl.Popup({ closeOnClick: true })
     .setLngLat(currentFeature.geometry.coordinates)
-    .setHTML(`<h3>${currentFeature.properties.title}</h3><p>${distance}km</p>`)
+    .setHTML(`<h3>${currentFeature.properties.title}</h3><p>${distance}</p>`)
     //@ts-ignore
     .addTo(map.current);
 }

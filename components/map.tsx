@@ -37,8 +37,8 @@ const Map = () => {
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
   // coordinates of user
-  const [ulng, setULng] = useState(12.41);
-  const [ulat, setULat] = useState(51.33);
+  const [ulng, setULng] = useState(12.37);
+  const [ulat, setULat] = useState(51.34);
   const [zoom, setZoom] = useState(14);
 
   let from = [ulng, ulat];

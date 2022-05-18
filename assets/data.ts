@@ -100,7 +100,8 @@ export const stores = {
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [-77.097083330154, 38.980979],
+        // coordinates: [-77.097083330154, 38.980979],
+        coordinates: [12.407932, 51.330398],
       },
       properties: {
         title: "Box of child clothes",
