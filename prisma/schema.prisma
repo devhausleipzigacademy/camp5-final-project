@@ -21,7 +21,7 @@ model User {
   passwordSalt   String
   profilePicture String?
   rating         Float
-  Item           Item[]
+  item           Item[]
   favorite       String[]
   location       Location?
   locationId     String?
@@ -48,10 +48,10 @@ model Conversation {
 
 // the product owner can add as he want :)
 model Category {
-  identifier     String @id @default(uuid())
-  title          String @db.VarChar(50)
-  description    String
-  Items          Item[]
+  identifier  String @id @default(uuid())
+  title       String @db.VarChar(50)
+  description String
+  Items       Item[]
 }
 
 model Item {
