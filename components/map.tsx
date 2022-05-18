@@ -1,11 +1,9 @@
-import React, { useRef, useEffect, useState, MouseEvent } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl, { GeolocateControl, LngLatLike } from "mapbox-gl";
+import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { stores } from "../assets/data";
-import * as turf from "@turf/turf";
 import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
-import addMarkers from "../utils/addMarkers";
 import useMap from "../hooks/useMap";
 
 mapboxgl.accessToken =
