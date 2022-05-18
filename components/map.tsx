@@ -5,6 +5,7 @@ import { stores } from "../assets/data";
 import * as turf from "@turf/turf";
 import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
+import addMarkers from "../utils/addMarkers";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -50,6 +51,7 @@ const Map = () => {
     showUserHeading: true,
   });
 
+  // -----creates Map ----- //
   useEffect(() => {
     if (map.current) return;
     // @ts-ignore
@@ -62,26 +64,8 @@ const Map = () => {
     });
   }, []);
 
+  // ----- Map features ----- //
   useEffect(() => {
-    function addMarkers() {
-      for (const marker of stores.features) {
-        const el = document.createElement("img");
-        el.id = `marker-${marker.properties.title}`;
-        el.className = "marker";
-        marker.type === "Feature"
-          ? el.setAttribute("src", "swapIcon.svg")
-          : el.setAttribute("src", "giftIcon.svg");
-        el.addEventListener("click", (e) => {
-          flyToStore(marker, map);
-          createPopUp(marker, from, map);
-        });
-        new mapboxgl.Marker(el, { offset: [0, -23] })
-          //@ts-ignore
-          .setLngLat(marker.geometry.coordinates)
-          //@ts-ignore
-          .addTo(map.current);
-      }
-    }
     if (!map.current) return;
     navigator.geolocation.getCurrentPosition((position) => {
       const userCoordinates = [
@@ -128,7 +112,7 @@ const Map = () => {
         data: stores,
       });
     });
-    addMarkers();
+    addMarkers(from, map);
 
     //@ts-ignore
     map.current.on("move", () => {
