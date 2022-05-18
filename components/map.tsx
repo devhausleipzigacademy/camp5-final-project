@@ -3,6 +3,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl, { GeolocateControl, LngLatLike } from "mapbox-gl";
 import { stores } from "../assets/data";
 import * as turf from "@turf/turf";
+import createPopUp from "../utils/createPopUp";
+import flyToStore from "../utils/flyToStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -50,7 +52,7 @@ const Map = () => {
 
   useEffect(() => {
     if (map.current) return;
-    //@ts-ignore
+    // @ts-ignore
     map.current = new mapboxgl.Map({
       //@ts-ignore
       container: mapContainer.current,
@@ -70,8 +72,8 @@ const Map = () => {
           ? el.setAttribute("src", "swapIcon.svg")
           : el.setAttribute("src", "giftIcon.svg");
         el.addEventListener("click", (e) => {
-          flyToStore(marker);
-          createPopUp(marker);
+          flyToStore(marker, map);
+          createPopUp(marker, from, map);
         });
         new mapboxgl.Marker(el, { offset: [0, -23] })
           //@ts-ignore
@@ -142,31 +144,6 @@ const Map = () => {
     });
   }, []);
 
-  function createPopUp(currentFeature: any) {
-    const popUps = document.getElementsByClassName("mapboxgl-popup");
-    if (popUps[0]) popUps[0].remove();
-    let distance = turf
-      .distance(from, currentFeature.geometry.coordinates)
-      .toFixed(2);
-
-    const popup = new mapboxgl.Popup({ closeOnClick: true })
-      .setLngLat(currentFeature.geometry.coordinates)
-      .setHTML(
-        `<h3>${currentFeature.properties.title}</h3><p>${distance}km</p>`
-      )
-      //@ts-ignore
-      .addTo(map.current);
-  }
-
-  //@ts-ignore
-  function flyToStore(currentFeature) {
-    //@ts-ignore
-    map.current.flyTo({
-      center: currentFeature.geometry.coordinates,
-      zoom: 15,
-    });
-  }
-
   return (
     <div className="map">
       <div className="sidebar">
@@ -181,8 +158,8 @@ const Map = () => {
                 id={`listing-${i}`}
                 className="item"
                 onClick={() => {
-                  flyToStore(feature);
-                  createPopUp(feature);
+                  flyToStore(feature, map);
+                  createPopUp(feature, from, map);
                   const activeItem = document.getElementsByClassName("active");
                   if (activeItem[0]) {
                     activeItem[0].classList.remove("active");
