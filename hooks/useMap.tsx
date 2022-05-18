@@ -1,4 +1,5 @@
-import mapboxgl from "mapbox-gl";
+import { Coord } from "@turf/turf";
+import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
 import { stores } from "../assets/data";
 import addMarkers from "../utils/addMarkers";
@@ -7,12 +8,12 @@ export default function useMap(
   map: any,
   setZoom: Dispatch<React.SetStateAction<number>>
 ) {
-  const [ulng, setULng] = useState(12.37);
-  const [ulat, setULat] = useState(51.34);
+  // const [ulng, setULng] = useState(12.37);
+  // const [ulat, setULat] = useState(51.34);
+  const [userLocation, setUserLocation] = useState<Coord>();
+
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
-
-  let from = [ulng, ulat];
 
   const geolocate = new mapboxgl.GeolocateControl({
     positionOptions: {
@@ -29,10 +30,7 @@ export default function useMap(
         position.coords.longitude,
         position.coords.latitude,
       ];
-      setULng(userCoordinates[0]);
-      setULat(userCoordinates[1]);
-      //@ts-ignore
-      map.current.addSource("user-coordinates", {
+      (map.current as mapboxgl.Map).addSource("user-coordinates", {
         type: "geojson",
         data: {
           type: "Feature",
@@ -40,50 +38,45 @@ export default function useMap(
             type: "Point",
             coordinates: userCoordinates,
           },
-        },
+        } as any,
       });
-      //@ts-ignore
+      setUserLocation(userCoordinates);
 
-      map.current.addLayer({
+      (map.current as mapboxgl.Map).addLayer({
         id: "user-coordinates",
         source: "user-coordinates",
         type: "circle",
       });
-      //@ts-ignore
 
-      map.current.flyTo({
-        center: userCoordinates,
+      (map.current as mapboxgl.Map).flyTo({
+        center: userCoordinates as LngLatLike,
         zoom: 14,
       });
     });
 
-    // @ts-ignore
     map.current.on("load", () => {
-      //@ts-ignore
-      map.current.addControl(geolocate);
-      // @ts-ignore
+      const geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showUserHeading: true,
+      });
+      (map.current as mapboxgl.Map).addControl(geolocate);
       geolocate.trigger();
-      // @ts-ignore
-      map.addSource("places", {
+      (map.current as mapboxgl.Map).addSource("places", {
         type: "geojson",
-        data: stores,
+        data: stores as any,
       });
     });
-    addMarkers(from, map);
+    addMarkers(userLocation as Coord, map);
 
-    //@ts-ignore
-    map.current.on("move", () => {
-      //@ts-ignore
-
-      setLng(map.current.getCenter().lng.toFixed(4));
-      //@ts-ignore
-
-      setLat(map.current.getCenter().lat.toFixed(4));
-      //@ts-ignore
-
-      setZoom(map.current.getZoom().toFixed(2));
+    (map.current as mapboxgl.Map).on("move", () => {
+      setLng(Number((map.current as mapboxgl.Map).getCenter().lng.toFixed(4)));
+      setLat(Number((map.current as mapboxgl.Map).getCenter().lat.toFixed(4)));
+      setZoom(Number((map.current as mapboxgl.Map).getZoom().toFixed(2)));
     });
   }, []);
 
-  return { from, lng, lat, ulng, ulat };
+  return { userLocation, lng, lat };
 }

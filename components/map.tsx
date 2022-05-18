@@ -5,42 +5,22 @@ import { stores } from "../assets/data";
 import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
 import useMap from "../hooks/useMap";
+import { Feature } from "../utils/types";
+import { Coord } from "@turf/turf";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-type Feature = {
-  type: string;
-  geometry: Geometry;
-  properties: Properties;
-};
-
-type Geometry = {
-  type: string;
-  coordinates: LngLatLike;
-};
-
-type Properties = {
-  title: string;
-  address: string;
-  city: string;
-  country: string;
-  crossStreet: string;
-  postalCode: string;
-  state: string;
-};
-
 const Map = () => {
   const mapContainer = useRef(null);
-  const map = useRef(null);
+  const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
 
   // -----creates Map ----- //
   useEffect(() => {
     if (map.current) return;
-    // @ts-ignore
     map.current = new mapboxgl.Map({
-      //@ts-ignore
+      // @ts-ignore
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
@@ -48,7 +28,7 @@ const Map = () => {
     });
   }, []);
 
-  const { from, lng, lat } = useMap(map, setZoom);
+  const { userLocation, lng, lat } = useMap(map, setZoom);
 
   return (
     <div className="map">
@@ -64,13 +44,13 @@ const Map = () => {
                 id={`listing-${i}`}
                 className="item"
                 onClick={() => {
-                  flyToStore(feature, map);
-                  createPopUp(feature, from, map);
+                  flyToStore(feature as Feature, map);
+                  createPopUp(feature, userLocation as Coord, map);
                   const activeItem = document.getElementsByClassName("active");
                   if (activeItem[0]) {
                     activeItem[0].classList.remove("active");
                   }
-                  //@ts-ignore
+
                   const thisElement = document.getElementById(`listing-${i}`);
                   (thisElement as HTMLElement).classList.add("active");
                 }}
