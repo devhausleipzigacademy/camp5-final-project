@@ -22,9 +22,8 @@ model User {
   profilePicture String?
   rating         Float
   item           Item[]
-  favorite       String[]
+  favorite       Json
   location       Location?
-  locationId     String?
   conversations  Conversation[]
 }
 
@@ -41,7 +40,7 @@ model Location {
 model Conversation {
   identifier     String   @id @default(uuid())
   createdAt      DateTime @default(now())
-  content        String[] // each element represent the one message, but with prefix denote 'owner' || 'offer'
+  content        Json // each element represent the one message, but with prefix denote 'owner' || 'offer'
   User           User?    @relation(fields: [userIdentifier], references: [identifier])
   userIdentifier String?
 }
@@ -57,7 +56,7 @@ model Category {
 model Item {
   identifier  String   @id @default(uuid())
   title       String   @db.VarChar(50)
-  images      String[]
+  images      Json
   description String
   user        User     @relation(fields: [userId], references: [identifier])
   userId      String

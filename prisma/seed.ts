@@ -1,11 +1,30 @@
 import { PrismaClient } from "@prisma/client";
-import { mockData } from "../assets/data";
+import { create } from "domain";
+import { isTemplateExpression } from "typescript";
+import { mockData } from "../assets/newdata";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.user.createMany({
-    data: mockData,
+  const prismaCalls = mockData.map(async (obj) => {
+    const user = await prisma.user.create({
+      data: { ...obj.user },
+    });
+    await prisma.location.create({
+      data: { ...obj.location, userId: user.identifier },
+    });
+    const category = await prisma.category.create({
+      data: {
+        ...obj.category,
+        Items: {
+          create: obj.items.map((item) => {
+            return { ...item, userId: user.identifier };
+          }),
+        },
+      },
+    });
   });
+
+  await Promise.all(prismaCalls);
 }
 
 main()
