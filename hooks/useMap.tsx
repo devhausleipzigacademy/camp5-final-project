@@ -14,12 +14,17 @@ export default function useMap(
   const [lat, setLat] = useState(51.34);
 
   useEffect(() => {
+    //check, if map actually exists
     if (!map.current) return;
+
+    //get user location
     navigator.geolocation.getCurrentPosition((position) => {
       const userCoordinates = [
         position.coords.longitude,
         position.coords.latitude,
       ];
+
+      //feed user location infomation to the map
       (map.current as mapboxgl.Map).addSource("user-coordinates", {
         type: "geojson",
         data: {
@@ -30,21 +35,26 @@ export default function useMap(
           },
         } as any,
       });
-      setUserLocation(userCoordinates);
 
+      //display user location  on map
       (map.current as mapboxgl.Map).addLayer({
         id: "user-coordinates",
         source: "user-coordinates",
         type: "circle",
       });
 
+      //center map on user location
       (map.current as mapboxgl.Map).flyTo({
         center: userCoordinates as LngLatLike,
         zoom: 14,
       });
+
+      //store user location
+      setUserLocation(userCoordinates);
     });
 
     map.current.on("load", () => {
+      // create button for centering the map manually on user
       const geolocate = new mapboxgl.GeolocateControl({
         positionOptions: {
           enableHighAccuracy: true,
@@ -52,6 +62,8 @@ export default function useMap(
         trackUserLocation: true,
         showUserHeading: true,
       });
+
+      // place button on map
       (map.current as mapboxgl.Map).addControl(geolocate);
       //geolocate.trigger();
       (map.current as mapboxgl.Map).addSource("places", {
@@ -59,8 +71,11 @@ export default function useMap(
         data: stores as any,
       });
     });
+
+    // place all markers other than user on map
     addMarkers(userLocation as Coord, map);
 
+    //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {
       setLng(Number((map.current as mapboxgl.Map).getCenter().lng.toFixed(4)));
       setLat(Number((map.current as mapboxgl.Map).getCenter().lat.toFixed(4)));
