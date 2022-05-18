@@ -6,6 +6,7 @@ import * as turf from "@turf/turf";
 import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
 import addMarkers from "../utils/addMarkers";
+import useMap from "../hooks/useMap";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -34,22 +35,7 @@ type Properties = {
 const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(12.37);
-  const [lat, setLat] = useState(51.34);
-  // coordinates of user
-  const [ulng, setULng] = useState(12.37);
-  const [ulat, setULat] = useState(51.34);
   const [zoom, setZoom] = useState(14);
-
-  let from = [ulng, ulat];
-
-  const geolocate = new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    trackUserLocation: true,
-    showUserHeading: true,
-  });
 
   // -----creates Map ----- //
   useEffect(() => {
@@ -64,69 +50,7 @@ const Map = () => {
     });
   }, []);
 
-  // ----- Map features ----- //
-  useEffect(() => {
-    if (!map.current) return;
-    navigator.geolocation.getCurrentPosition((position) => {
-      const userCoordinates = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
-      setULng(userCoordinates[0]);
-      setULat(userCoordinates[1]);
-      //@ts-ignore
-      map.current.addSource("user-coordinates", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: userCoordinates,
-          },
-        },
-      });
-      //@ts-ignore
-
-      map.current.addLayer({
-        id: "user-coordinates",
-        source: "user-coordinates",
-        type: "circle",
-      });
-      //@ts-ignore
-
-      map.current.flyTo({
-        center: userCoordinates,
-        zoom: 14,
-      });
-    });
-
-    // @ts-ignore
-    map.current.on("load", () => {
-      //@ts-ignore
-      map.current.addControl(geolocate);
-      // @ts-ignore
-      geolocate.trigger();
-      // @ts-ignore
-      map.addSource("places", {
-        type: "geojson",
-        data: stores,
-      });
-    });
-    addMarkers(from, map);
-
-    //@ts-ignore
-    map.current.on("move", () => {
-      //@ts-ignore
-
-      setLng(map.current.getCenter().lng.toFixed(4));
-      //@ts-ignore
-
-      setLat(map.current.getCenter().lat.toFixed(4));
-      //@ts-ignore
-
-      setZoom(map.current.getZoom().toFixed(2));
-    });
-  }, []);
+  const { from, lng, lat } = useMap(map, setZoom);
 
   return (
     <div className="map">
