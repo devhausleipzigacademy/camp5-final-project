@@ -12,7 +12,7 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
 const Map = () => {
-  const mapContainer = useRef(null);
+  const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
 
@@ -20,8 +20,7 @@ const Map = () => {
   useEffect(() => {
     if (map.current) return;
     map.current = new mapboxgl.Map({
-      // @ts-ignore
-      container: mapContainer.current,
+      container: mapContainer.current as HTMLElement,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
       zoom: zoom,

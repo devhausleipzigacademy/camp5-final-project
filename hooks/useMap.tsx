@@ -53,7 +53,7 @@ export default function useMap(
         showUserHeading: true,
       });
       (map.current as mapboxgl.Map).addControl(geolocate);
-      geolocate.trigger();
+      //geolocate.trigger();
       (map.current as mapboxgl.Map).addSource("places", {
         type: "geojson",
         data: stores as any,
