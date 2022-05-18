@@ -6,6 +6,7 @@ import * as turf from "@turf/turf";
 import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
 import addMarkers from "../utils/addMarkers";
+import clsx from "clsx";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -29,6 +30,7 @@ type Properties = {
   crossStreet: string;
   postalCode: string;
   state: string;
+  owner: string;
 };
 
 const Map = () => {
@@ -128,12 +130,17 @@ const Map = () => {
     });
   }, []);
 
+  const [drawer, setDrawer] = useState(true);
+
   return (
     <div className="map">
-      <div className="sidebar">
-        <div className="heading">
-          <h1>Our locations</h1>
-        </div>
+      <div className={clsx(drawer ? "sidebar" : "sidebar.open")}>
+        <button
+          onClick={() => {
+            setDrawer((prev) => !prev);
+          }}
+          className="rounded-md h-2 bg-primary w-48 fixed left-1/4"
+        ></button>
         <div id="listings" className="listings">
           {stores.features.length &&
             stores.features.map((feature, i) => (
@@ -142,7 +149,8 @@ const Map = () => {
                 id={`listing-${i}`}
                 className="item"
                 onClick={() => {
-                  flyToStore(feature, map);
+                  setDrawer((prev) => !prev);
+                  setTimeout(() => flyToStore(feature, map), 300);
                   createPopUp(feature, from, map);
                   const activeItem = document.getElementsByClassName("active");
                   if (activeItem[0]) {

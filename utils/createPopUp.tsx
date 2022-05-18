@@ -14,11 +14,17 @@ export default function createPopUp(
   if (distance < "1") {
     distance = "distance: " + String(parseFloat(distance) * 1000) + "m";
   } else {
-    distance = "distance: " + distance + "km";
+    distance = distance + " km away";
   }
   const popup = new mapboxgl.Popup({ closeOnClick: true })
     .setLngLat(currentFeature.geometry.coordinates)
-    .setHTML(`<h3>${currentFeature.properties.title}</h3><p>${distance}</p>`)
+    .setHTML(
+      `<div>
+      <h3>${currentFeature.properties.title}</h3>
+      <span>${distance}</span>
+      <p>${currentFeature.properties.owner}</p>
+      </div>`
+    )
     //@ts-ignore
     .addTo(map.current);
 }
