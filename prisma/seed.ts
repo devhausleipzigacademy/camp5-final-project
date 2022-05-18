@@ -1,7 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { create } from "domain";
-import { isTemplateExpression } from "typescript";
-import { mockData } from "../assets/newdata";
+import { mockData } from "../assets/data";
 const prisma = new PrismaClient();
 
 async function main() {
