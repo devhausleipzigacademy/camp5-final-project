@@ -1,10 +1,14 @@
 module.exports = {
+  mode: 'jit',
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./layout/**/*.{js,ts,jsx,tsx}",
+    "./utilities/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     fontFamily: {
+      sans: ["Poppins", "sans-serif"],
       poppins: ["Poppins", "sans-serif"],
     },
     colors: {
@@ -21,4 +25,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-};
+}
