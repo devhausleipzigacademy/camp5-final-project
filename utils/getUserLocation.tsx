@@ -2,11 +2,10 @@ import { Coord } from "@turf/turf";
 import { LngLatLike } from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
 
-interface T {}
-
 export default function GetUserLocation() {
-  const lat = useRef<T | null>(null);
-  const long = useRef<T | null>(null);
+  const [lat, setLat] = useState(0);
+  const [long, setLong] = useState(0);
+
   useEffect(() => {
     if ("geolocation" in navigator) {
       console.log("Available");
@@ -14,10 +13,13 @@ export default function GetUserLocation() {
       console.log("Not Available");
     }
     navigator.geolocation.getCurrentPosition(function (position) {
-      lat.current = position.coords.latitude;
-      long.current = position.coords.longitude;
-      console.log(lat);
-      console.log(long);
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+      // console.log(lat);
+      // console.log(long);
     });
-  }, []);
+  }, [setLat, setLong]);
+  let userLocation: number[] = [long, lat];
+  console.log(userLocation);
+  return userLocation;
 }

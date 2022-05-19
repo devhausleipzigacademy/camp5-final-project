@@ -47,7 +47,9 @@ function ItemDrawer({ onClose }: ItemDrawerProps) {
   const [zoom, setZoom] = useState(14);
 
   // const { userLocation, lng, lat } = useMap(map, setZoom);
-  let userLocation = getUserLocation();
+
+  const userLocation = getUserLocation();
+
   let users = [
     { id: 1, name: "user1" },
     { id: 2, name: "user2" },
