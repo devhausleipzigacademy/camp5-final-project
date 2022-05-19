@@ -135,7 +135,7 @@ const Map = () => {
 
   return (
     <div className="map">
-      <div className={clsx(drawer ? "sidebar" : "sidebar.open")}>
+      {/* <div className={clsx(drawer ? "sidebar" : "sidebar.open")}>
         <button
           onClick={() => {
             setDrawer((prev) => !prev);
@@ -194,7 +194,7 @@ const Map = () => {
               </div>
             ))}
         </div>
-      </div>
+      </div> */}
       <div ref={mapContainer} className="map-container" />
     </div>
   );
