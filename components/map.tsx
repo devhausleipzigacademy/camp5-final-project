@@ -28,9 +28,9 @@ const Map = ({ data }: MapProps) => {
       center: [lng, lat],
       zoom: zoom,
     });
-  }, []);
+  });
 
-  const { userLocation, lng, lat } = useMap(map, setZoom);
+  const { userLocation, lng, lat } = useMap(map, setZoom, data);
 
   return (
     <div className="map">
