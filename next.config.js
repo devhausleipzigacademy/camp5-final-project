@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     domains: ["upload.wikimedia.org", "placeimg.com"],
   },
@@ -11,7 +11,6 @@ module.exports = {
       issuer: /\.[jt]sx?$/,
       use: ["@svgr/webpack"]
     });
-
     return config;
   }
 };

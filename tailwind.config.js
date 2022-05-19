@@ -9,6 +9,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ["Poppins", "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
     },
     colors: {
       primary: "#464E64",
