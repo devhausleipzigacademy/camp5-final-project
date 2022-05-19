@@ -27,6 +27,10 @@
   },
   "dependencies": {
     "@prisma/client": "^3.14.0",
+    "@svgr/webpack": "^6.2.1",
+    "@trendyol-js/react-carousel": "^2.0.1",
+    "axios": "^0.27.2",
+    "clsx": "^1.1.1",
     "@turf/turf": "^6.5.0",
     "@types/geojson": "^7946.0.8",
     "@types/mapbox-gl": "^2.7.1",
