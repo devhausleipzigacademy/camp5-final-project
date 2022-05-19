@@ -79,7 +79,7 @@ export default function ProductPage({
             </div>
           </div>
           {/* not sure how to make the description responsive in size */}
-          <div className="overflow-y-scroll">{description}</div>
+          <div className="overflow-y-scroll h-56">{description}</div>
           <Button
             bgColor={"secondary"}
             text={"Offer Trade"}

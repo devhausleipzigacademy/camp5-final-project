@@ -4,7 +4,7 @@ import { on } from "events";
 interface ButtonProps {
   bgColor: "primary" | "secondary" | "BG" | "error";
   text: string;
-  width?: string;
+  width?: string | number;
   py?: number;
   clickFunction?: Function;
 }
@@ -18,21 +18,10 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button
-      // we tried to write like below, but it caused an error with next-js style rendering
-      //   className={`bg-${bgColor} text-${bgColor}-text px-2 py-1 rounded-md`}
-      //   so we used a package clsx which generates strings from tournaries
-      // see more: https://github.com/lukeed/clsx/blob/master/readme.md
+      //clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
+      // https://github.com/lukeed/clsx/blob/master/readme.md
       className={clsx(
-        bgColor === "primary"
-          ? "bg-primary text-primary-text"
-          : bgColor === "secondary"
-          ? "bg-secondary text-secondary-text"
-          : bgColor === "error"
-          ? "bg-error text-error-text"
-          : bgColor === "BG"
-          ? "bg-BG text-BG-text"
-          : "primary",
-        `px-8 py-${py} rounded-md w-${width}`
+        `bg-${bgColor} text-${bgColor}-text py-${py} w-${width} px-8 rounded-md`
       )}
       onClick={() => clickFunction}
     >
