@@ -5,9 +5,9 @@ import { Feature } from "./types";
 
 export default function getDistance(currentFeature: Feature, map: any) {
   let to = turf.point(currentFeature.geometry.coordinates);
-  let userLocation: number[] = getUserLocation();
+  let userLocation = getUserLocation();
   console.log(userLocation);
-  let from = turf.point(userLocation as Position);
+  let from = turf.point(userLocation);
   let distance = turf.distance(from, to).toFixed(2);
   return distance;
 }
