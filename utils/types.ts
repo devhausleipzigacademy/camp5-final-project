@@ -11,10 +11,9 @@ export type Geometry = {
 
 export type Properties = {
   title: string;
-  address: string;
-  city: string;
-  country: string;
-  crossStreet: string;
-  postalCode: string;
-  state: string;
+};
+
+export type MapData = {
+  type: string;
+  features: Feature[];
 };

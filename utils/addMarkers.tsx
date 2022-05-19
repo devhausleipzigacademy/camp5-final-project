@@ -1,12 +1,11 @@
 import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
-import { stores } from "../assets/data";
 import createPopUp from "./createPopUp";
 import flyToStore from "./flyToStore";
 import { Feature } from "./types";
 
 export default function addMarkers(userLocation: Coord, map: any) {
-  for (const marker of stores.features) {
+  for (const marker of data.features) {
     const el = document.createElement("img");
     el.id = `marker-${marker.properties.title}`;
     el.className = "marker";

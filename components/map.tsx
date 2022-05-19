@@ -1,17 +1,20 @@
 import React, { useRef, useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
-import { stores } from "../assets/data";
 import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
 import useMap from "../hooks/useMap";
-import { Feature } from "../utils/types";
+import { Feature, MapData } from "../utils/types";
 import { Coord } from "@turf/turf";
+import Link from "next/link";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-const Map = () => {
+type MapProps = {
+  data: MapData;
+};
+const Map = ({ data }: MapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
@@ -36,8 +39,8 @@ const Map = () => {
           <h1>Our locations</h1>
         </div>
         <div id="listings" className="listings">
-          {stores.features.length &&
-            stores.features.map((feature, i) => (
+          {data.features.length &&
+            data.features.map((feature, i) => (
               <div
                 key={i}
                 id={`listing-${i}`}
@@ -54,9 +57,9 @@ const Map = () => {
                   (thisElement as HTMLElement).classList.add("active");
                 }}
               >
-                <a href="#" className="title" id={`link-${i}`}>
+                <Link href="/" className="title" id={`link-${i}`}>
                   <div>{feature.properties.title}</div>
-                </a>
+                </Link>
               </div>
             ))}
         </div>

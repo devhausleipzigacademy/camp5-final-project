@@ -1,7 +1,6 @@
 import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
-import { stores } from "../assets/data";
 import addMarkers from "../utils/addMarkers";
 
 export default function useMap(
@@ -68,7 +67,7 @@ export default function useMap(
       //geolocate.trigger();
       (map.current as mapboxgl.Map).addSource("places", {
         type: "geojson",
-        data: stores as any,
+        data: data as any,
       });
     });
 

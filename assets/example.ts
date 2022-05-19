@@ -27,13 +27,7 @@ const data = {
         coordinates: [-77.034084142948, 38.909671288923],
       },
       properties: {
-        title: "Old Piano", // item
-        address: "1471 P St NW",
-        city: "Washington DC",
-        country: "United States",
-        crossStreet: "at 15th St NW",
-        postalCode: "20005",
-        state: "D.C.",
+        title: "Old Piano",
       },
     },
     // ...
