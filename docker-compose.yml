@@ -1,4 +1,6 @@
 version: "3.7"
+volumes:
+  pgsql-data:
 services:
   postgres:
     image: postgres:latest
@@ -10,4 +12,6 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - type: volume
+        source: pgsql-data
+        target: /var/lib/postgresql/data
