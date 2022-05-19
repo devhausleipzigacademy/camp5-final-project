@@ -11,6 +11,7 @@ import useMap from "../../hooks/useMap";
 import getDistance from "../../utils/getDistance";
 import { Coord } from "@turf/turf";
 import { Feature } from "../../utils/types";
+import getUserLocation from "../../utils/getUserLocation";
 
 export default function Example() {
   let [open, setOpen] = useState(true);
@@ -45,8 +46,8 @@ function ItemDrawer({ onClose }: ItemDrawerProps) {
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
 
-  const { userLocation, lng, lat } = useMap(map, setZoom);
-
+  // const { userLocation, lng, lat } = useMap(map, setZoom);
+  let userLocation = getUserLocation();
   let users = [
     { id: 1, name: "user1" },
     { id: 2, name: "user2" },
