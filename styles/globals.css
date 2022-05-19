@@ -3,3 +3,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .map {
+    @apply h-full w-full m-2;
+  }
+
+  .map-container {
+    @apply flex h-full;
+  }
+
+  .mapboxgl-popup-content {
+    @apply w-44 font-poppins;
+  }
+
+  .mapboxgl-popup-content h3 {
+    @apply bg-secondary text-secondary-text p-2.5 rounded-sm font-semibold -mt-3.5;
+  }
+
+  .mapboxgl-popup-content p {
+    @apply p-2.5 text-BG-text;
+  }
+
+  .mapboxgl-popup-tip {
+    @apply mb-12;
+  }
+
+  .marker {
+    @apply cursor-pointer h-14 w-9;
+  }
+}
