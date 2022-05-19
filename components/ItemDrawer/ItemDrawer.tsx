@@ -7,6 +7,10 @@ import createPopUp from "../../utils/createPopUp";
 import addMarkers from "../../utils/addMarkers";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { stores } from "../../assets/data";
+import useMap from "../../hooks/useMap";
+import getDistance from "../../utils/getDistance";
+import { Coord } from "@turf/turf";
+import { Feature } from "../../utils/types";
 
 export default function Example() {
   let [open, setOpen] = useState(true);
@@ -36,111 +40,12 @@ interface ModalProps {
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-type Feature = {
-  type: string;
-  geometry: Geometry;
-  properties: Properties;
-};
-
-type Geometry = {
-  type: string;
-  coordinates: LngLatLike;
-};
-
-type Properties = {
-  title: string;
-  address: string;
-  city: string;
-  country: string;
-  crossStreet: string;
-  postalCode: string;
-  state: string;
-  owner: string;
-};
-
 function ItemDrawer({ onClose }: ItemDrawerProps) {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const [lng, setLng] = useState(12.37);
-  const [lat, setLat] = useState(51.34);
-  // coordinates of user
-  const [ulng, setULng] = useState(12.37);
-  const [ulat, setULat] = useState(51.34);
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
 
-  let from = [ulng, ulat];
-
-  const geolocate = new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    trackUserLocation: true,
-    showUserHeading: true,
-  });
-
-  // ----- Map features ----- //
-  useEffect(() => {
-    if (!map.current) return;
-    navigator.geolocation.getCurrentPosition((position) => {
-      const userCoordinates = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
-      setULng(userCoordinates[0]);
-      setULat(userCoordinates[1]);
-      //@ts-ignore
-      map.current.addSource("user-coordinates", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: userCoordinates,
-          },
-        },
-      });
-      //@ts-ignore
-
-      map.current.addLayer({
-        id: "user-coordinates",
-        source: "user-coordinates",
-        type: "circle",
-      });
-      //@ts-ignore
-
-      map.current.flyTo({
-        center: userCoordinates,
-        zoom: 14,
-      });
-    });
-
-    // @ts-ignore
-    map.current.on("load", () => {
-      //@ts-ignore
-      map.current.addControl(geolocate);
-      // @ts-ignore
-      geolocate.trigger();
-      // @ts-ignore
-      map.addSource("places", {
-        type: "geojson",
-        data: stores,
-      });
-    });
-    addMarkers(from, map);
-
-    //@ts-ignore
-    map.current.on("move", () => {
-      //@ts-ignore
-
-      setLng(map.current.getCenter().lng.toFixed(4));
-      //@ts-ignore
-
-      setLat(map.current.getCenter().lat.toFixed(4));
-      //@ts-ignore
-
-      setZoom(map.current.getZoom().toFixed(2));
-    });
-  }, []);
+  const { userLocation, lng, lat } = useMap(map, setZoom);
 
   let users = [
     { id: 1, name: "user1" },
@@ -178,8 +83,15 @@ function ItemDrawer({ onClose }: ItemDrawerProps) {
                           id={`listing-${i}`}
                           className="item"
                           onClick={() => {
-                            setTimeout(() => flyToStore(feature, map), 300);
-                            createPopUp(feature, from, map);
+                            setTimeout(
+                              () => flyToStore(feature as Feature, map),
+                              300
+                            );
+                            createPopUp(
+                              feature as Feature,
+                              userLocation as Coord,
+                              map
+                            );
                             const activeItem =
                               document.getElementsByClassName("active");
                             if (activeItem[0]) {
@@ -208,7 +120,12 @@ function ItemDrawer({ onClose }: ItemDrawerProps) {
                               <a href="#" className="title" id={`link-${i}`}>
                                 <div className="flex-col">
                                   <div>{feature.properties.title}</div>
-                                  <div>{"distance away"}</div>
+                                  <div>
+                                    {getDistance(
+                                      feature as Feature,
+                                      userLocation as Coord
+                                    )}
+                                  </div>
                                 </div>
                               </a>
                               <Image

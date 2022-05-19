@@ -1,22 +1,24 @@
 import mapboxgl from "mapbox-gl";
 import * as turf from "@turf/turf";
+import { Coord } from "@turf/turf";
+import { Feature } from "./types";
+import getDistance from "./getDistance";
 
 export default function createPopUp(
-  currentFeature: any,
-  from: number[],
+  currentFeature: Feature,
+  userLocation: Coord,
   map: any
 ) {
   const popUps = document.getElementsByClassName("mapboxgl-popup");
   if (popUps[0]) popUps[0].remove();
-  let distance = turf
-    .distance(from, currentFeature.geometry.coordinates)
-    .toFixed(2);
+  console.log(currentFeature, userLocation);
+  let distance = getDistance(currentFeature, userLocation);
   if (distance < "1") {
     distance = "distance: " + String(parseFloat(distance) * 1000) + "m";
   } else {
     distance = distance + " km away";
   }
-  const popup = new mapboxgl.Popup({ closeOnClick: true })
+  const popup: mapboxgl.Popup = new mapboxgl.Popup({ closeOnClick: true })
     .setLngLat(currentFeature.geometry.coordinates)
     .setHTML(
       `<div>
@@ -26,5 +28,5 @@ export default function createPopUp(
       </div>`
     )
     //@ts-ignore
-    .addTo(map.current);
+    .addTo(map.current as mapboxgl.Map);
 }
