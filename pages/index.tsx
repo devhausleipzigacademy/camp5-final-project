@@ -19,8 +19,8 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Search features={data} />
       <div className={styles.container}>{data && <Map data={data} />}</div>;
+      <Search properties={data?.features!} />
     </div>
   );
 };

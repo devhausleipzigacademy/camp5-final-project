@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { MapData } from "../../utils/types";
+import { MapData, Feature, Geometry, Properties } from "../../utils/types";
 
 const people = [
   { id: 1, name: "Wade Cooper" },
@@ -12,20 +12,24 @@ const people = [
   { id: 6, name: "Hellen Schmidt" },
 ];
 
-export default function Search(searchProps: MapData) {
+type SearchProps = {
+  properties: Feature[];
+};
+
+export default function Search({ properties }: SearchProps) {
   const [selected, setSelected] = useState();
   const [query, setQuery] = useState("");
 
-  const filteredPeople =
+  console.log(properties);
+  const filteredItems =
     query === ""
-      ? people
-      : people.filter((person) =>
-          person.name
+      ? properties
+      : properties.filter((element) =>
+          element.properties.title
             .toLowerCase()
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
-
   return (
     <div className="fixed top-16 w-72">
       <Combobox value={selected} onChange={setSelected}>
@@ -50,20 +54,21 @@ export default function Search(searchProps: MapData) {
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredPeople.length === 0 && query !== "" ? (
+              {!!filteredItems?.length && query !== "" ? (
                 <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                   Nothing found.
                 </div>
               ) : (
-                filteredPeople.map((person) => (
+                !!filteredItems?.length &&
+                filteredItems.map((element, index) => (
                   <Combobox.Option
-                    key={person.id}
+                    key={index}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
                         active ? "bg-teal-600 text-white" : "text-gray-900"
                       }`
                     }
-                    value={person}
+                    value={element.properties.title}
                   >
                     {({ selected, active }) => (
                       <>
@@ -72,7 +77,7 @@ export default function Search(searchProps: MapData) {
                             selected ? "font-medium" : "font-normal"
                           }`}
                         >
-                          {person.name}
+                          {element.properties.title}
                         </span>
                         {selected ? (
                           <span
