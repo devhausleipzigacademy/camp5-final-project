@@ -2,7 +2,7 @@ import { Coord } from "@turf/turf";
 import { LngLatLike } from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
 
-export default function GetUserLocation() {
+export default function useUserLocation() {
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
 

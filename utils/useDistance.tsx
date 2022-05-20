@@ -1,12 +1,10 @@
 import * as turf from "@turf/turf";
-import { Coord, Position } from "@turf/turf";
-import useMap from "../hooks/useMap";
-import getUserLocation from "./getUserLocation";
+import useUserLocation from "./useUserLocation";
 import { Feature } from "./types";
 
-export default function getDistance(currentFeature: Feature, map: any) {
+export default function useDistance(currentFeature: Feature) {
   let to = turf.point(currentFeature.geometry.coordinates);
-  let userLocation = getUserLocation();
+  let userLocation = useUserLocation();
   let from = turf.point(userLocation);
   let distance = turf.distance(from, to).toFixed(2);
   if (distance < "1") {
