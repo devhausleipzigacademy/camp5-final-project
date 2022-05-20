@@ -1,6 +1,7 @@
 import { Item } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Button from "./Button/Button";
 
 const FilterButtons = () => {
   const [items, setItems] = useState<Item[]>([]);
@@ -19,18 +20,9 @@ const FilterButtons = () => {
   }
   return (
     <div className="flex gap-2">
-      <button
-        className="bg-primary text-primary-text flex-grow py-2 rounded-sm"
-        onClick={clickHandler("FREE")}
-      >
-        Free
-      </button>
-      <button
-        className="bg-primary text-primary-text flex-grow py-2 rounded-sm"
-        onClick={clickHandler("SWAP")}
-      >
-        Swap
-      </button>
+      <Button bgColor={"primary"} text={"Free"} />
+
+      <Button bgColor={"primary"} text={"Swap"} />
     </div>
   );
 };
