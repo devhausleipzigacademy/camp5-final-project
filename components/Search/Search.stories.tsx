@@ -10,7 +10,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof Search>;
 
-const Template: ComponentStory<typeof Search> = () => <Search />;
+const Template: ComponentStory<typeof Search> = (args) => <Search {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};
