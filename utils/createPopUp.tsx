@@ -1,7 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import * as turf from "@turf/turf";
 import { Coord } from "@turf/turf";
-import { Feature } from "./types";
+import type { Feature } from "./types";
 
 export default function createPopUp(
   currentFeature: Feature,

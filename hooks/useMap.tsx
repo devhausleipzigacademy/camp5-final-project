@@ -1,12 +1,13 @@
 import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
-import { stores } from "../assets/data";
 import addMarkers from "../utils/addMarkers";
+import { MapData } from "../utils/types";
 
 export default function useMap(
   map: any,
-  setZoom: Dispatch<React.SetStateAction<number>>
+  setZoom: Dispatch<React.SetStateAction<number>>,
+  data: MapData
 ) {
   const [userLocation, setUserLocation] = useState<Coord>();
 
@@ -68,12 +69,12 @@ export default function useMap(
       //geolocate.trigger();
       (map.current as mapboxgl.Map).addSource("places", {
         type: "geojson",
-        data: stores as any,
+        data: data as any,
       });
     });
 
     // place all markers other than user on map
-    addMarkers(userLocation as Coord, map);
+    addMarkers(userLocation as Coord, map, data as MapData);
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {
