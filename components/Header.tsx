@@ -4,7 +4,7 @@ const Header = () => {
   const router = useRouter();
   let pagename = router.asPath;
   // add logic for chat later
-  if (pagename === "/") {
+  if (pagename === "/#" || pagename === "/") {
     pagename = "Dashboard";
   } else {
     pagename = pagename.slice(1);
