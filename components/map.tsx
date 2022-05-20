@@ -39,7 +39,7 @@ const Map = ({ data }: MapProps) => {
           <h1>Our locations</h1>
         </div>
         <div id="listings" className="listings">
-          {data.features.length &&
+          {data.features &&
             data.features.map((feature, i) => (
               <div
                 key={i}
