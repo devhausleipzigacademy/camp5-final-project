@@ -28,10 +28,9 @@ const Map = ({ mapData }: MapProps) => {
       center: [lng, lat],
       zoom: zoom,
     });
-  });
-
+  }, []);
   const { userLocation, lng, lat } = useMap(map, setZoom, mapData);
-
+  console.log(mapData);
   return (
     <div className="map">
       <div className="sidebar">
@@ -40,6 +39,7 @@ const Map = ({ mapData }: MapProps) => {
         </div>
         <div id="listings" className="listings">
           {mapData.features &&
+            mapData.features.length &&
             mapData.features.map((feature, i) => (
               <div
                 key={i}

@@ -8,7 +8,7 @@ import { getListData } from "../utils/getListData";
 
 const Home: NextPage = () => {
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [ListData, setListData] = useState<ListData | null>(null);
+  const [listData, setListData] = useState<ListData | null>(null);
 
   async function getData() {
     const mapDataFetch = await getMapData();
