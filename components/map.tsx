@@ -35,9 +35,7 @@ const Map = ({ data }: MapProps) => {
   return (
     <div className="map">
       <div className="sidebar">
-        <div className="heading">
-          <h1>Our locations</h1>
-        </div>
+        <div className="heading"></div>
         <div id="listings" className="listings">
           {data.features.length &&
             data.features.map((feature, i) => (
