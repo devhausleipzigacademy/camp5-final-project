@@ -7,7 +7,7 @@ import { MapData } from "../utils/types";
 export default function useMap(
   map: any,
   setZoom: Dispatch<React.SetStateAction<number>>,
-  data: MapData
+  mapData: MapData
 ) {
   const [userLocation, setUserLocation] = useState<Coord>();
 
@@ -69,12 +69,12 @@ export default function useMap(
       //geolocate.trigger();
       (map.current as mapboxgl.Map).addSource("places", {
         type: "geojson",
-        data: data as any,
+        data: mapData as any,
       });
     });
 
     // place all markers other than user on map
-    addMarkers(userLocation as Coord, map, data as MapData);
+    addMarkers(userLocation as Coord, map, mapData as MapData);
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {

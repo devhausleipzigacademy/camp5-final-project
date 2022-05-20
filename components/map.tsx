@@ -12,9 +12,9 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
 type MapProps = {
-  data: MapData;
+  mapData: MapData;
 };
-const Map = ({ data }: MapProps) => {
+const Map = ({ mapData }: MapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
@@ -30,7 +30,7 @@ const Map = ({ data }: MapProps) => {
     });
   });
 
-  const { userLocation, lng, lat } = useMap(map, setZoom, data);
+  const { userLocation, lng, lat } = useMap(map, setZoom, mapData);
 
   return (
     <div className="map">
@@ -39,8 +39,8 @@ const Map = ({ data }: MapProps) => {
           <h1>Our locations</h1>
         </div>
         <div id="listings" className="listings">
-          {data.features &&
-            data.features.map((feature, i) => (
+          {mapData.features &&
+            mapData.features.map((feature, i) => (
               <div
                 key={i}
                 id={`listing-${i}`}

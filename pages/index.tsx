@@ -21,7 +21,9 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <div className={styles.container}>{mapData && <Map data={mapData} />}</div>
+    <div className={styles.container}>
+      {mapData && <Map mapData={mapData} />}
+    </div>
   );
 };
 
