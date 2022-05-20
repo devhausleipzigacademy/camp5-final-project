@@ -11,6 +11,7 @@ import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { stores } from "../../assets/data";
 import { Feature } from "../../utils/types";
 import ListingItem from "../ListingItem/ListingItem";
+import React from "react";
 
 export default function Example() {
   let [open, setOpen] = useState(true);
@@ -23,7 +24,7 @@ export default function Example() {
       ></button>
 
       <AnimatePresence>
-        {open && <ItemDrawer ref={ref} onClose={() => setOpen(false)} />}
+        {open && <ItemDrawer onClose={() => setOpen(false)} />}
       </AnimatePresence>
     </>
   );
@@ -31,8 +32,8 @@ export default function Example() {
 
 interface ItemDrawerProps {
   onClose: () => void;
-  ref: React.MutableRefObject<any | null>;
 }
+
 interface ModalProps {
   onClose: () => void;
   children: ReactNode;
@@ -41,53 +42,55 @@ interface ModalProps {
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-export function ItemDrawer({ onClose, ref }: ItemDrawerProps) {
-  const [zoom, setZoom] = useState(14);
+export const ItemDrawer = React.forwardRef(
+  ({ onClose }: ItemDrawerProps, ref) => {
+    const [zoom, setZoom] = useState(14);
 
-  // const { userLocation, lng, lat } = useMap(map, setZoom);
+    // const { userLocation, lng, lat } = useMap(map, setZoom);
 
-  // jsx for styling the drawer
-  return (
-    <Modal onClose={onClose}>
-      <div className="flex flex-col h-full pt-4">
-        <div className="px-3 pb-4 shadow-sm">
-          <div className="fixed top-3 left-1/4">
-            <button
-              onClick={onClose}
-              className="rounded-md h-2 bg-primary w-48 fixed top-3 left-1/4"
-            ></button>
+    // jsx for styling the drawer
+    return (
+      <Modal onClose={onClose}>
+        <div className="flex flex-col h-full pt-4">
+          <div className="px-3 pb-4 shadow-sm">
+            <div className="fixed top-3 left-1/4">
+              <button
+                onClick={onClose}
+                className="rounded-md h-2 bg-primary w-48 fixed top-3 left-1/4"
+              ></button>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-scroll">
+            {!stores.features ? (
+              <div className="flex items-center justify-center pt-12">
+                {/* <Spinner /> */}
+              </div>
+            ) : (
+              <>
+                <ul className="px-3 text-left">
+                  {
+                    <div id="listings" className="listings">
+                      {stores.features.length &&
+                        stores.features.map((feature, i) => (
+                          <ListingItem
+                            key={i}
+                            i={i}
+                            feature={feature as Feature}
+                            ref={ref}
+                          />
+                        ))}
+                    </div>
+                  }
+                </ul>
+              </>
+            )}
           </div>
         </div>
-
-        <div className="flex-1 overflow-y-scroll">
-          {!stores.features ? (
-            <div className="flex items-center justify-center pt-12">
-              {/* <Spinner /> */}
-            </div>
-          ) : (
-            <>
-              <ul className="px-3 text-left">
-                {
-                  <div id="listings" className="listings">
-                    {stores.features.length &&
-                      stores.features.map((feature, i) => (
-                        <ListingItem
-                          key={i}
-                          i={i}
-                          feature={feature as Feature}
-                          map={ref}
-                        />
-                      ))}
-                  </div>
-                }
-              </ul>
-            </>
-          )}
-        </div>
-      </div>
-    </Modal>
-  );
-}
+      </Modal>
+    );
+  }
+);
 
 // function to close the drawer
 function Modal({ onClose, children }: ModalProps) {

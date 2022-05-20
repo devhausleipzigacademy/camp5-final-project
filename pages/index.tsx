@@ -12,12 +12,13 @@ import Map from "../components/map";
 import SearchBar from "../components/SearchBar/searchbar";
 import useMap from "../hooks/useMap";
 
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
+
 const Home: NextPage = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
-
-  const ref = React.createRef();
 
   // -----creates Map ----- //
   useEffect(() => {
@@ -30,13 +31,16 @@ const Home: NextPage = () => {
     });
   }, []);
 
-  const { userLocation, lng, lat } = useMap(map, setZoom);
+  const { lng, lat } = useMap(map, setZoom);
+
   return (
     <div className="space-y-4">
       <Header />
       <SearchBar />
       <ItemTypeButtons />
-      <Map />
+      <div className="map">
+        <div ref={mapContainer} className="map-container" />
+      </div>
       <ItemDrawer ref={map} />
     </div>
   );

@@ -5,14 +5,14 @@ import { Coord } from "@turf/turf";
 import { Feature } from "../../utils/types";
 import useUserLocation from "../../utils/useUserLocation";
 import useDistance from "../../utils/useDistance";
+import React from "react";
 
 interface Props {
   feature: Feature;
-  map: any;
   i: number;
 }
 
-const ListingItem = ({ feature, map, i }: Props) => {
+const ListingItem = React.forwardRef(({ feature, i }: Props, ref) => {
   const userLocation = useUserLocation();
   const distance = useDistance(feature);
   return (
@@ -20,8 +20,8 @@ const ListingItem = ({ feature, map, i }: Props) => {
       id={`listing-${i}`}
       className="item"
       onClick={() => {
-        createPopUp(feature as Feature, userLocation as Coord, map, distance);
-        setTimeout(() => flyToStore(feature as Feature, map), 300);
+        createPopUp(feature as Feature, ref, distance);
+        setTimeout(() => flyToStore(feature as Feature, ref), 300);
         const activeItem = document.getElementsByClassName("active");
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
@@ -62,6 +62,6 @@ const ListingItem = ({ feature, map, i }: Props) => {
       </div>
     </div>
   );
-};
+});
 
 export default ListingItem;

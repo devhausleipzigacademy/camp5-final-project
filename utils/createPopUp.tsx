@@ -4,7 +4,6 @@ import { Feature } from "./types";
 
 export default function createPopUp(
   currentFeature: Feature,
-  userLocation: Coord,
   map: any,
   distance: string
 ) {
