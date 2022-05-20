@@ -17,3 +17,11 @@ export type MapData = {
   type: string;
   features: Feature[];
 };
+
+export type ListData = {
+  image?: string;
+  title: string;
+  profilePicture?: string;
+  coordinates: [number, number];
+  sellType: "FREE" | "SWAP";
+};
