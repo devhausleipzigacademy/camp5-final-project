@@ -1,9 +1,6 @@
 import { Item, Location, PrismaClient, User } from ".prisma/client";
-import { SellType } from "@prisma/client";
-import { el } from "date-fns/locale";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { imageOptimizer } from "next/dist/server/image-optimizer";
-import { Feature, ListData } from "../../../utils/types";
+import { ListData } from "../../../utils/types";
 
 const prisma = new PrismaClient();
 
@@ -20,17 +17,9 @@ export default async function handler(
       items = await prisma.item.findMany();
       locations = await prisma.location.findMany();
       users = await prisma.user.findMany();
-
+      console.log(items);
       //define a response object
-      const data: ListData[] = [
-        {
-          image: "",
-          title: "",
-          profilePicture: "",
-          coordinates: [0, 0],
-          sellType: "FREE",
-        },
-      ];
+      const data: ListData[] = [];
 
       //"fill" response object
       items.forEach((item) => {
@@ -41,9 +30,7 @@ export default async function handler(
               item.userId === user.identifier
             ) {
               const listObject: ListData = {
-                image: `${
-                  item.images ? JSON.parse(item.images as string)[0] : ""
-                }`,
+                image: (item.images as string[])[0],
                 title: item.title,
                 profilePicture: `${
                   user.profilePicture ? user.profilePicture : ""
