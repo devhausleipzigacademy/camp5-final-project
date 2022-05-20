@@ -4,6 +4,7 @@ import Map from "../components/map";
 import { useEffect, useState } from "react";
 import { getMapData } from "../utils/getMapData";
 import { MapData } from "../utils/types";
+import Search from "../components/Search/Search";
 
 const Home: NextPage = () => {
   const [data, setData] = useState<MapData | null>(null);
@@ -16,7 +17,12 @@ const Home: NextPage = () => {
     getAndSetMapData();
   }, []);
 
-  return <div className={styles.container}>{data && <Map data={data} />}</div>;
+  return (
+    <div>
+      <Search features={data} />
+      <div className={styles.container}>{data && <Map data={data} />}</div>;
+    </div>
+  );
 };
 
 export default Home;
