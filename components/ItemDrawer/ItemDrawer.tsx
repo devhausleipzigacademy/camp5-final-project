@@ -9,9 +9,10 @@ import {
 } from "react";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { stores } from "../../assets/data";
-import { Feature } from "../../utils/types";
+import { Feature, ListData } from "../../utils/types";
 import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
+import { getListData } from "../../utils/getListData";
 
 export default function Example() {
   let [open, setOpen] = useState(true);
@@ -44,7 +45,15 @@ mapboxgl.accessToken =
 
 export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
   const [zoom, setZoom] = useState(14);
+  const [listData, setListData] = useState<ListData[]>([]);
 
+  async function getData() {
+    const listDataFetch = await getListData();
+    setListData(listDataFetch);
+  }
+  useEffect(() => {
+    getData();
+  }, []);
   // const { userLocation, lng, lat } = useMap(map, setZoom);
 
   // jsx for styling the drawer
@@ -61,7 +70,7 @@ export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
         </div>
 
         <div className="flex-1 overflow-y-scroll">
-          {!stores.features ? (
+          {!listData ? (
             <div className="flex items-center justify-center pt-12">
               {/* <Spinner /> */}
             </div>
@@ -70,13 +79,13 @@ export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
               <ul className="px-3 text-left">
                 {
                   <div id="listings" className="listings">
-                    {stores.features.length &&
-                      stores.features.map((feature, i) => (
+                    {listData.length &&
+                      listData.map((listData, i) => (
                         <ListingItem
                           onClose={onClose}
                           key={i}
                           i={i}
-                          feature={feature as Feature}
+                          listData={listData}
                         />
                       ))}
                   </div>

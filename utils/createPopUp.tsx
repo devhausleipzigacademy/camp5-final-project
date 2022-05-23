@@ -1,21 +1,17 @@
 import mapboxgl from "mapbox-gl";
 import { Coord } from "@turf/turf";
-import type { Feature } from "./types";
+import type { Feature, ListData } from "./types";
 import * as turf from "@turf/turf";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 export default function createPopUp(
-  currentFeature: Feature,
-  userLocation: Coord,
+  listData: ListData,
+  userLocation: number[],
   map: any
 ) {
   console.log(userLocation);
   const popUps = document.getElementsByClassName("mapboxgl-popup");
   if (popUps[0]) popUps[0].remove();
-  console.log(currentFeature, userLocation);
-  let distance = turf
-    .distance(userLocation as Coord, currentFeature.geometry.coordinates)
-    .toFixed(2);
+  let distance = turf.distance(userLocation, listData.coordinates).toFixed(2);
   if (distance < "1") {
     distance = "distance: " + String(parseFloat(distance) * 1000) + "m";
   } else {
@@ -23,12 +19,12 @@ export default function createPopUp(
   }
   console.log(distance);
   const popup: mapboxgl.Popup = new mapboxgl.Popup({ closeOnClick: false })
-    .setLngLat(currentFeature.geometry.coordinates)
+    .setLngLat(listData.coordinates)
     .setHTML(
       `<div>
-      <h3>${currentFeature.properties.title}</h3>
+      <h3>${listData.title}</h3>
       <span>${distance}</span>
-      <p>${currentFeature.properties.owner}</p>
+      <p>${listData.owner}</p>
       </div>`
     )
     .addTo(map.current as mapboxgl.Map);

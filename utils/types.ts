@@ -33,4 +33,5 @@ export type ListData = {
   profilePicture?: string;
   coordinates: [number, number];
   sellType: "FREE" | "SWAP";
+  owner?: string;
 };

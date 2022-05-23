@@ -1,11 +1,11 @@
 import * as turf from "@turf/turf";
-import useUserLocation from "./useUserLocation";
-import { Feature } from "./types";
+import { ListData } from "./types";
+import { useLocationStore } from "../stores/locationStore";
 
-export default function useDistance(currentFeature: Feature) {
-  let to = turf.point(currentFeature.geometry.coordinates);
-  let userLocation = useUserLocation();
-  let from = turf.point(userLocation);
+export default function useDistance(listData: ListData) {
+  let to = turf.point(listData.coordinates);
+  const { location } = useLocationStore();
+  let from = turf.point(location);
   let distance = turf.distance(from, to).toFixed(2);
   if (distance < "1") {
     distance = "distance: " + String(parseFloat(distance) * 1000) + "m";

@@ -2,7 +2,7 @@ import Image from "next/image";
 import flyToStore from "../../utils/flyToStore";
 import createPopUp from "../../utils/createPopUp";
 import { Coord } from "@turf/turf";
-import { Feature } from "../../utils/types";
+import { Feature, ListData } from "../../utils/types";
 import useUserLocation from "../../utils/useUserLocation";
 import useDistance from "../../utils/useDistance";
 import React from "react";
@@ -10,14 +10,14 @@ import { useLocationStore } from "../../stores/locationStore";
 import { useMapStore } from "../../stores/mapStore";
 
 interface Props {
-  feature: Feature;
+  listData: ListData;
   i: number;
   onClose: () => void;
 }
 
-const ListingItem = ({ feature, i, onClose }: Props) => {
+const ListingItem = ({ listData, i, onClose }: Props) => {
   const userLocation = useUserLocation();
-  const distance = useDistance(feature);
+  const distance = useDistance(listData);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
   return (
@@ -25,9 +25,9 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
       id={`listing-${i}`}
       className="item"
       onClick={() => {
-        createPopUp(feature as Feature, location, mapRef);
         onClose();
-        setTimeout(() => flyToStore(feature as Feature, mapRef), 300);
+        createPopUp(listData, location, mapRef);
+        setTimeout(() => flyToStore(listData, mapRef), 300);
         const activeItem = document.getElementsByClassName("active");
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
@@ -39,7 +39,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
     >
       <div className="flex gap-2 items-center">
         <Image
-          src={feature.properties.productImage}
+          src={listData.image as string}
           alt=""
           layout="intrinsic"
           // sizes="100vw"
@@ -50,12 +50,12 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
         <div className="flex w-full justify-between">
           <a href="#" className="title" id={`link-${i}`}>
             <div className="flex-col">
-              <div>{feature.properties.title}</div>
+              <div>{listData.title}</div>
               <div>{distance}</div>
             </div>
           </a>
           <Image
-            src={feature.properties.ownerImage}
+            src={listData.profilePicture as string}
             alt=""
             layout="intrinsic"
             // sizes="100vw"

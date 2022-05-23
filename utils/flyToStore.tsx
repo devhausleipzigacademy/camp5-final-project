@@ -1,9 +1,9 @@
-import { Feature } from "./types";
+import { Feature, ListData } from "./types";
 
-export default function flyToStore(currentFeature: Feature, map: any) {
+export default function flyToStore(listData: ListData, map: any) {
   console.log(map.current);
   (map.current as mapboxgl.Map).flyTo({
-    center: currentFeature.geometry.coordinates,
+    center: listData.coordinates,
     zoom: 15,
   });
 }
