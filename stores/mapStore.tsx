@@ -1,7 +1,7 @@
 import { createRef } from "react";
 import create from "zustand";
 
-type MapRef = React.MutableRefObject<mapboxgl.Map | null>;
+export type MapRef = React.MutableRefObject<mapboxgl.Map | null>;
 
 interface MapState {
   mapRef: MapRef;

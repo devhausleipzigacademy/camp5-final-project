@@ -38,37 +38,9 @@ const Map = ({ mapData, listData }: MapProps) => {
       zoom: zoom,
     });
   }, []);
-  const { lng, lat } = useMap(map, setZoom, mapData);
+  const { lng, lat } = useMap(mapRef, setZoom, mapData, listData);
   return (
     <div className="map">
-      <div className="sidebar">
-        <div id="listings" className="listings">
-          {mapData.features &&
-            mapData.features.length &&
-            mapData.features.map((feature, i) => (
-              <div
-                key={i}
-                id={`listing-${i}`}
-                className="item"
-                onClick={() => {
-                  flyToStore(listData, map);
-                  createPopUp(listData, location, map);
-                  const activeItem = document.getElementsByClassName("active");
-                  if (activeItem[0]) {
-                    activeItem[0].classList.remove("active");
-                  }
-
-                  const thisElement = document.getElementById(`listing-${i}`);
-                  (thisElement as HTMLElement).classList.add("active");
-                }}
-              >
-                <Link href="/" className="title" id={`link-${i}`}>
-                  <div>{feature.properties.title}</div>
-                </Link>
-              </div>
-            ))}
-        </div>
-      </div>
       <div ref={mapContainer} className="map-container" />
     </div>
   );

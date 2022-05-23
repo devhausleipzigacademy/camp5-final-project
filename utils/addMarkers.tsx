@@ -1,13 +1,15 @@
 import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
+import { MapRef } from "../stores/mapStore";
 import createPopUp from "./createPopUp";
 import flyToStore from "./flyToStore";
-import { Feature, MapData } from "./types";
+import { Feature, ListData, MapData } from "./types";
 
 export default function addMarkers(
-  userLocation: Coord,
-  map: any,
-  data: MapData
+  userLocation: number[],
+  map: MapRef,
+  data: MapData,
+  listData: ListData
 ) {
   if (!data) {
     return;
@@ -20,8 +22,8 @@ export default function addMarkers(
         ? el.setAttribute("src", "swapIcon.svg")
         : el.setAttribute("src", "giftIcon.svg");
       el.addEventListener("click", (e) => {
-        flyToStore(marker as Feature, map as mapboxgl.Map);
-        createPopUp(marker as Feature, userLocation, map as mapboxgl.Map);
+        flyToStore(listData, map);
+        createPopUp(listData, userLocation, map);
       });
       new mapboxgl.Marker(el, { offset: [0, -23] })
         .setLngLat(marker.geometry.coordinates as LngLatLike)

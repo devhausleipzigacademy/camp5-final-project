@@ -2,13 +2,15 @@ import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
 import { useLocationStore } from "../stores/locationStore";
+import { MapRef } from "../stores/mapStore";
 import addMarkers from "../utils/addMarkers";
-import { MapData } from "../utils/types";
+import { ListData, MapData } from "../utils/types";
 
 export default function useMap(
-  map: any,
+  map: MapRef,
   setZoom: Dispatch<React.SetStateAction<number>>,
-  mapData: MapData
+  mapData: MapData,
+  listData: ListData
 ) {
   const { setLocation, location } = useLocationStore();
   // const [userLocation, setUserLocation] = useState<Coord>();
@@ -74,7 +76,7 @@ export default function useMap(
     });
 
     // place all markers other than user on map
-    addMarkers(location, map, mapData as MapData);
+    addMarkers(location, map, mapData as MapData, listData);
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {
