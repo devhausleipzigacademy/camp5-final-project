@@ -16,7 +16,7 @@ export default function addMarkers(
       const el = document.createElement("img");
       el.id = `marker-${marker.properties.title}`;
       el.className = "marker";
-      marker.type === "Feature"
+      marker.type === "SWAP"
         ? el.setAttribute("src", "swapIcon.svg")
         : el.setAttribute("src", "giftIcon.svg");
       el.addEventListener("click", (e) => {
