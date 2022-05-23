@@ -17,7 +17,6 @@ export default async function handler(
       items = await prisma.item.findMany();
       locations = await prisma.location.findMany();
       users = await prisma.user.findMany();
-      console.log(items);
       //define a response object
       const data: ListData[] = [];
 

@@ -3,20 +3,28 @@ import styles from "../styles/Home.module.css";
 import Map from "../components/map";
 import { useEffect, useState } from "react";
 import { getMapData } from "../utils/getMapData";
-import { MapData } from "../utils/types";
+import { MapData, ListData } from "../utils/types";
+import { getListData } from "../utils/getListData";
 
 const Home: NextPage = () => {
-  const [data, setData] = useState<MapData | null>(null);
+  const [mapData, setMapData] = useState<MapData | null>(null);
+  const [listData, setListData] = useState<ListData | null>(null);
 
-  async function getAndSetMapData() {
-    const mapData = await getMapData();
-    setData(mapData);
+  async function getData() {
+    const mapDataFetch = await getMapData();
+    setMapData(mapDataFetch);
+    const listDataFetch = await getListData();
+    setMapData(listDataFetch);
   }
   useEffect(() => {
-    getAndSetMapData();
+    getData();
   }, []);
 
-  return <div className={styles.container}>{data && <Map data={data} />}</div>;
+  return (
+    <div className={styles.container}>
+      {mapData && <Map mapData={mapData} />}
+    </div>
+  );
 };
 
 export default Home;
