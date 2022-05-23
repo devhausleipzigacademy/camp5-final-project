@@ -6,22 +6,28 @@ import { Feature } from "../../utils/types";
 import useUserLocation from "../../utils/useUserLocation";
 import useDistance from "../../utils/useDistance";
 import React from "react";
+import { useLocationStore } from "../../stores/locationStore";
+import { useMapStore } from "../../stores/mapStore";
 
 interface Props {
   feature: Feature;
   i: number;
+  onClose: () => void;
 }
 
-const ListingItem = React.forwardRef(({ feature, i }: Props, ref) => {
+const ListingItem = ({ feature, i, onClose }: Props) => {
   const userLocation = useUserLocation();
   const distance = useDistance(feature);
+  const { location } = useLocationStore();
+  const { mapRef } = useMapStore();
   return (
     <div
       id={`listing-${i}`}
       className="item"
       onClick={() => {
-        createPopUp(feature as Feature, ref, distance);
-        setTimeout(() => flyToStore(feature as Feature, ref), 300);
+        createPopUp(feature as Feature, location, mapRef);
+        onClose();
+        setTimeout(() => flyToStore(feature as Feature, mapRef), 300);
         const activeItem = document.getElementsByClassName("active");
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
@@ -62,6 +68,6 @@ const ListingItem = React.forwardRef(({ feature, i }: Props, ref) => {
       </div>
     </div>
   );
-});
+};
 
 export default ListingItem;

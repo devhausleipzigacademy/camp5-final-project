@@ -42,55 +42,53 @@ interface ModalProps {
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-export const ItemDrawer = React.forwardRef(
-  ({ onClose }: ItemDrawerProps, ref) => {
-    const [zoom, setZoom] = useState(14);
+export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
+  const [zoom, setZoom] = useState(14);
 
-    // const { userLocation, lng, lat } = useMap(map, setZoom);
+  // const { userLocation, lng, lat } = useMap(map, setZoom);
 
-    // jsx for styling the drawer
-    return (
-      <Modal onClose={onClose}>
-        <div className="flex flex-col h-full pt-4">
-          <div className="px-3 pb-4 shadow-sm">
-            <div className="fixed top-3 left-1/4">
-              <button
-                onClick={onClose}
-                className="rounded-md h-2 bg-primary w-48 fixed top-3 left-1/4"
-              ></button>
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-scroll">
-            {!stores.features ? (
-              <div className="flex items-center justify-center pt-12">
-                {/* <Spinner /> */}
-              </div>
-            ) : (
-              <>
-                <ul className="px-3 text-left">
-                  {
-                    <div id="listings" className="listings">
-                      {stores.features.length &&
-                        stores.features.map((feature, i) => (
-                          <ListingItem
-                            key={i}
-                            i={i}
-                            feature={feature as Feature}
-                            ref={ref}
-                          />
-                        ))}
-                    </div>
-                  }
-                </ul>
-              </>
-            )}
+  // jsx for styling the drawer
+  return (
+    <Modal onClose={onClose}>
+      <div className="flex flex-col h-full pt-4">
+        <div className="px-3 pb-4 shadow-sm">
+          <div className="fixed top-3 left-1/4">
+            <button
+              onClick={onClose}
+              className="rounded-md h-2 bg-primary w-48 fixed top-3 left-1/4"
+            ></button>
           </div>
         </div>
-      </Modal>
-    );
-  }
-);
+
+        <div className="flex-1 overflow-y-scroll">
+          {!stores.features ? (
+            <div className="flex items-center justify-center pt-12">
+              {/* <Spinner /> */}
+            </div>
+          ) : (
+            <>
+              <ul className="px-3 text-left">
+                {
+                  <div id="listings" className="listings">
+                    {stores.features.length &&
+                      stores.features.map((feature, i) => (
+                        <ListingItem
+                          onClose={onClose}
+                          key={i}
+                          i={i}
+                          feature={feature as Feature}
+                        />
+                      ))}
+                  </div>
+                }
+              </ul>
+            </>
+          )}
+        </div>
+      </div>
+    </Modal>
+  );
+};
 
 // function to close the drawer
 function Modal({ onClose, children }: ModalProps) {
