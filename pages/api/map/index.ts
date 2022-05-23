@@ -39,7 +39,10 @@ export default async function handler(
       items.forEach((item) => {
         locations.forEach((location) => {
           users.forEach((user) => {
-            if (item.userId === location.userId) {
+            if (
+              item.userId === location.userId &&
+              item.userId === user.identifier
+            ) {
               const featureObject: Feature = {
                 type: item.sellType,
                 geometry: {
