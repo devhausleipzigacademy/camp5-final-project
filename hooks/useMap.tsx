@@ -4,13 +4,13 @@ import { Dispatch, useEffect, useState } from "react";
 import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";
 import addMarkers from "../utils/addMarkers";
-import { ListData, MapData } from "../utils/types";
+import { Feature, ListData, MapData } from "../utils/types";
 
 export default function useMap(
   map: MapRef,
   setZoom: Dispatch<React.SetStateAction<number>>,
   mapData: MapData,
-  listData: ListData
+  feature: Feature
 ) {
   const { setLocation, location } = useLocationStore();
   // const [userLocation, setUserLocation] = useState<Coord>();
@@ -76,7 +76,7 @@ export default function useMap(
     });
 
     // place all markers other than user on map
-    addMarkers(location, map, mapData as MapData, listData);
+    addMarkers(location, feature, map, mapData as MapData);
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {

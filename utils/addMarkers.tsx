@@ -7,9 +7,9 @@ import { Feature, ListData, MapData } from "./types";
 
 export default function addMarkers(
   userLocation: number[],
+  feature: Feature,
   map: MapRef,
-  data: MapData,
-  listData: ListData
+  data: MapData
 ) {
   if (!data) {
     return;
@@ -18,12 +18,12 @@ export default function addMarkers(
       const el = document.createElement("img");
       el.id = `marker-${marker.properties.title}`;
       el.className = "marker";
-      marker.type === "Feature"
+      marker.type === "SWAP"
         ? el.setAttribute("src", "swapIcon.svg")
         : el.setAttribute("src", "giftIcon.svg");
       el.addEventListener("click", (e) => {
-        flyToStore(listData, map);
-        createPopUp(listData, userLocation, map);
+        flyToStore(feature as Feature, map);
+        createPopUp(feature as Feature, userLocation, map);
       });
       new mapboxgl.Marker(el, { offset: [0, -23] })
         .setLngLat(marker.geometry.coordinates as LngLatLike)

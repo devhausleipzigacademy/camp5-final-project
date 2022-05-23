@@ -4,27 +4,27 @@ import type { Feature, ListData } from "./types";
 import * as turf from "@turf/turf";
 
 export default function createPopUp(
-  listData: ListData,
+  feature: Feature,
   userLocation: number[],
   map: any
 ) {
-  console.log(userLocation);
   const popUps = document.getElementsByClassName("mapboxgl-popup");
   if (popUps[0]) popUps[0].remove();
-  let distance = turf.distance(userLocation, listData.coordinates).toFixed(2);
+  let distance = turf
+    .distance(userLocation, feature.geometry.coordinates)
+    .toFixed(2);
   if (distance < "1") {
     distance = "distance: " + String(parseFloat(distance) * 1000) + "m";
   } else {
     distance = "distance: " + distance + "km";
   }
-  console.log(distance);
   const popup: mapboxgl.Popup = new mapboxgl.Popup({ closeOnClick: false })
-    .setLngLat(listData.coordinates)
+    .setLngLat(feature.geometry.coordinates)
     .setHTML(
       `<div>
-      <h3>${listData.title}</h3>
+      <h3>${feature.properties.title}</h3>
       <span>${distance}</span>
-      <p>${listData.owner}</p>
+      <p>${feature.properties.owner}</p>
       </div>`
     )
     .addTo(map.current as mapboxgl.Map);

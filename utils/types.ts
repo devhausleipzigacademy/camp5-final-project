@@ -1,7 +1,7 @@
 export type Feature = {
   type: string;
   geometry: Geometry;
-  properties: Properties;
+  properties: ListData;
 };
 
 export type Geometry = {
@@ -34,4 +34,5 @@ export type ListData = {
   coordinates: [number, number];
   sellType: "FREE" | "SWAP";
   owner?: string;
+  id: string;
 };

@@ -1,9 +1,9 @@
 import * as turf from "@turf/turf";
-import { ListData } from "./types";
+import { Feature, ListData } from "./types";
 import { useLocationStore } from "../stores/locationStore";
 
-export default function useDistance(listData: ListData) {
-  let to = turf.point(listData.coordinates);
+export default function useDistance(feature: Feature) {
+  let to = turf.point(feature.geometry.coordinates);
   const { location } = useLocationStore();
   let from = turf.point(location);
   let distance = turf.distance(from, to).toFixed(2);

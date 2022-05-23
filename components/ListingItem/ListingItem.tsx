@@ -10,13 +10,13 @@ import { useLocationStore } from "../../stores/locationStore";
 import { useMapStore } from "../../stores/mapStore";
 
 interface Props {
-  listData: ListData;
+  feature: Feature;
   i: number;
   onClose: () => void;
 }
 
-const ListingItem = ({ listData, i, onClose }: Props) => {
-  const distance = useDistance(listData);
+const ListingItem = ({ feature, i, onClose }: Props) => {
+  const distance = useDistance(feature);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
   return (
@@ -25,8 +25,8 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
       className="item"
       onClick={() => {
         onClose();
-        createPopUp(listData, location, mapRef);
-        setTimeout(() => flyToStore(listData, mapRef), 300);
+        createPopUp(feature, location, mapRef);
+        setTimeout(() => flyToStore(feature, mapRef), 300);
         const activeItem = document.getElementsByClassName("active");
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
@@ -38,7 +38,7 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
     >
       <div className="flex gap-2 items-center">
         <Image
-          src={listData.image as string}
+          src={feature.properties.image as string}
           alt=""
           layout="intrinsic"
           // sizes="100vw"
@@ -49,12 +49,12 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
         <div className="flex w-full justify-between">
           <a href="#" className="title" id={`link-${i}`}>
             <div className="flex-col">
-              <div>{listData.title}</div>
+              <div>{feature.properties.title}</div>
               <div>{distance}</div>
             </div>
           </a>
           <Image
-            src={listData.profilePicture as string}
+            src={feature.properties.profilePicture as string}
             alt=""
             layout="intrinsic"
             // sizes="100vw"

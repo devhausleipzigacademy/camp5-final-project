@@ -15,7 +15,7 @@ mapboxgl.accessToken =
 
 type MapProps = {
   mapData: MapData;
-  listData: ListData;
+  listData: Feature;
 };
 const Map = ({ mapData, listData }: MapProps) => {
   const { mapRef, setMapRef } = useMapStore();

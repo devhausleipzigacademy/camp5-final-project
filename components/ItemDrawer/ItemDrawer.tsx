@@ -45,7 +45,7 @@ mapboxgl.accessToken =
 
 export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
   const [zoom, setZoom] = useState(14);
-  const [listData, setListData] = useState<ListData[]>([]);
+  const [listData, setListData] = useState<Feature[]>([]);
 
   async function getData() {
     const listDataFetch = await getListData();
@@ -85,7 +85,7 @@ export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
                           onClose={onClose}
                           key={i}
                           i={i}
-                          listData={listData}
+                          feature={listData}
                         />
                       ))}
                   </div>

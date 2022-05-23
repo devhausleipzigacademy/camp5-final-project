@@ -20,7 +20,7 @@ const Home: NextPage = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(14);
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [listData, setListData] = useState<ListData | null>(null);
+  const [listData, setListData] = useState<Feature | null>(null);
 
   async function getData() {
     const mapDataFetch = await getMapData();
@@ -38,9 +38,11 @@ const Home: NextPage = () => {
       <SearchBar />
       <ItemTypeButtons />
       <div>
-        {mapData && <Map mapData={mapData} listData={listData as ListData} />}
+        {mapData && listData ? (
+          <Map mapData={mapData} listData={listData as Feature} />
+        ) : null}
       </div>
-      <ItemDrawer />
+      {mapData && listData ? <ItemDrawer /> : null}
     </div>
   );
 };

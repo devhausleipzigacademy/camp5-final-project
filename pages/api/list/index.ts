@@ -1,6 +1,7 @@
 import { Item, Location, PrismaClient, User } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ListData } from "../../../utils/types";
+import { Geometry } from "ol/geom";
+import { Feature, ListData } from "../../../utils/types";
 
 const prisma = new PrismaClient();
 
@@ -18,7 +19,7 @@ export default async function handler(
       locations = await prisma.location.findMany();
       users = await prisma.user.findMany();
       //define a response object
-      const data: ListData[] = [];
+      const data: Feature[] = [];
 
       //"fill" response object
       items.forEach((item) => {
@@ -28,14 +29,29 @@ export default async function handler(
               item.userId === location.userId &&
               item.userId === user.identifier
             ) {
-              const listObject: ListData = {
-                image: (item.images as string[])[0],
-                title: item.title,
-                profilePicture: `${
-                  user.profilePicture ? user.profilePicture : ""
-                }`,
-                coordinates: [location.lon, location.lat],
-                sellType: item.sellType,
+              const listObject: Feature = {
+                type: item.sellType,
+                geometry: {
+                  type: "Point",
+                  coordinates: [location.lon, location.lat],
+                },
+                properties: {
+                  image: (item.images as string[])[0],
+                  title: item.title,
+                  profilePicture: `${
+                    user.profilePicture ? user.profilePicture : ""
+                  }`,
+                  owner: user.firstname,
+                  id: item.identifier,
+                },
+                // image: (item.images as string[])[0],
+                // title: item.title,
+                // profilePicture: `${
+                //   user.profilePicture ? user.profilePicture : ""
+                // }`,
+                // coordinates: [location.lon, location.lat],
+                // sellType: item.sellType,
+                // id: item.identifier,
               };
               data.push(listObject);
             }
