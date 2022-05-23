@@ -1,4 +1,4 @@
-let Example = {
+export let Example = {
   identifier: "",
   title: "",
   images: [""],
