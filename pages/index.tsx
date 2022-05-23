@@ -14,7 +14,7 @@ const Home: NextPage = () => {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
     const listDataFetch = await getListData();
-    setMapData(listDataFetch);
+    setListData(listDataFetch);
   }
   useEffect(() => {
     getData();
