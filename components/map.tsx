@@ -7,6 +7,7 @@ import useMap from "../hooks/useMap";
 import { Feature, MapData } from "../utils/types";
 import { Coord } from "@turf/turf";
 import Link from "next/link";
+import { useLocationStore } from "../stores/locationStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -15,6 +16,7 @@ type MapProps = {
   mapData: MapData;
 };
 const Map = ({ mapData }: MapProps) => {
+  const { location } = useLocationStore();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
@@ -25,12 +27,11 @@ const Map = ({ mapData }: MapProps) => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current as HTMLElement,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
+      center: location,
       zoom: zoom,
     });
   }, []);
-  const { userLocation, lng, lat } = useMap(map, setZoom, mapData);
-  console.log(mapData);
+  const { lng, lat } = useMap(map, setZoom, mapData);
   return (
     <div className="map">
       <div className="sidebar">
@@ -47,7 +48,7 @@ const Map = ({ mapData }: MapProps) => {
                 className="item"
                 onClick={() => {
                   flyToStore(feature as Feature, map);
-                  createPopUp(feature as Feature, userLocation as Coord, map);
+                  createPopUp(feature as Feature, location, map);
                   const activeItem = document.getElementsByClassName("active");
                   if (activeItem[0]) {
                     activeItem[0].classList.remove("active");

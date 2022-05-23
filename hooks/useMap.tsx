@@ -1,6 +1,7 @@
 import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
+import { useLocationStore } from "../stores/locationStore";
 import addMarkers from "../utils/addMarkers";
 import { MapData } from "../utils/types";
 
@@ -9,7 +10,8 @@ export default function useMap(
   setZoom: Dispatch<React.SetStateAction<number>>,
   mapData: MapData
 ) {
-  const [userLocation, setUserLocation] = useState<Coord>();
+  const { setLocation, location } = useLocationStore();
+  // const [userLocation, setUserLocation] = useState<Coord>();
 
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
@@ -20,6 +22,7 @@ export default function useMap(
 
     //get user location
     navigator.geolocation.getCurrentPosition((position) => {
+      setLocation([position.coords.longitude, position.coords.latitude]);
       const userCoordinates = [
         position.coords.longitude,
         position.coords.latitude,
@@ -51,7 +54,7 @@ export default function useMap(
       });
 
       //store user location
-      setUserLocation(userCoordinates);
+      // setUserLocation(userCoordinates);
     });
 
     map.current.on("load", () => {
@@ -74,7 +77,7 @@ export default function useMap(
     });
 
     // place all markers other than user on map
-    addMarkers(userLocation as Coord, map, mapData as MapData);
+    addMarkers(location, map, mapData as MapData);
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {
@@ -84,5 +87,5 @@ export default function useMap(
     });
   }, []);
 
-  return { userLocation, lng, lat };
+  return { lng, lat };
 }
