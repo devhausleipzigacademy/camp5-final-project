@@ -16,7 +16,6 @@ interface Props {
 }
 
 const ListingItem = ({ listData, i, onClose }: Props) => {
-  const userLocation = useUserLocation();
   const distance = useDistance(listData);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();

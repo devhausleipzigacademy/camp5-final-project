@@ -4,7 +4,7 @@ import mapboxgl, { LngLatLike } from "mapbox-gl";
 import createPopUp from "../utils/createPopUp";
 import flyToStore from "../utils/flyToStore";
 import useMap from "../hooks/useMap";
-import { Feature, MapData } from "../utils/types";
+import { Feature, ListData, MapData } from "../utils/types";
 import { Coord } from "@turf/turf";
 import Link from "next/link";
 import { useLocationStore } from "../stores/locationStore";
@@ -15,8 +15,9 @@ mapboxgl.accessToken =
 
 type MapProps = {
   mapData: MapData;
+  listData: ListData;
 };
-const Map = ({ mapData }: MapProps) => {
+const Map = ({ mapData, listData }: MapProps) => {
   const { mapRef, setMapRef } = useMapStore();
   const { location } = useLocationStore();
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -41,9 +42,6 @@ const Map = ({ mapData }: MapProps) => {
   return (
     <div className="map">
       <div className="sidebar">
-        <div className="heading">
-          <h1>Our locations</h1>
-        </div>
         <div id="listings" className="listings">
           {mapData.features &&
             mapData.features.length &&
@@ -53,8 +51,8 @@ const Map = ({ mapData }: MapProps) => {
                 id={`listing-${i}`}
                 className="item"
                 onClick={() => {
-                  flyToStore(feature as Feature, map);
-                  createPopUp(feature as Feature, location, map);
+                  flyToStore(listData, map);
+                  createPopUp(listData, location, map);
                   const activeItem = document.getElementsByClassName("active");
                   if (activeItem[0]) {
                     activeItem[0].classList.remove("active");

@@ -21,13 +21,13 @@ const Home: NextPage = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(14);
   const [mapData, setMapData] = useState<MapData | null>(null);
-  //  const [listData, setListData] = useState<ListData | null>(null);
+  const [listData, setListData] = useState<ListData | null>(null);
 
   async function getData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
-    // const listDataFetch = await getListData();
-    // setListData(listDataFetch);
+    const listDataFetch = await getListData();
+    setListData(listDataFetch);
   }
   useEffect(() => {
     getData();
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
       <SearchBar />
       <ItemTypeButtons />
       <div className={styles.container}>
-        {mapData && <Map mapData={mapData} />}
+        {mapData && <Map mapData={mapData} listData={listData as ListData} />}
       </div>
       <ItemDrawer />
     </div>
