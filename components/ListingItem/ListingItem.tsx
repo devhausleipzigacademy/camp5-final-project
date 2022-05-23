@@ -19,6 +19,7 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
   const distance = useDistance(listData);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
+  console.log(listData.image, listData.profilePicture);
   return (
     <div
       id={`listing-${i}`}
@@ -31,7 +32,7 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
         }
-        //@ts-ignore
+
         const thisElement = document.getElementById(`listing-${i}`);
         (thisElement as HTMLElement).classList.add("active");
       }}
@@ -44,7 +45,7 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
           // sizes="100vw"
           height={50}
           width={50}
-          objectFit="cover"
+          objectFit="contain"
         />
         <div className="flex w-full justify-between">
           <a href="#" className="title" id={`link-${i}`}>
@@ -60,7 +61,7 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
             // sizes="100vw"
             height={50}
             width={50}
-            objectFit="cover"
+            objectFit="contain"
             className="rounded-full"
           />
         </div>
