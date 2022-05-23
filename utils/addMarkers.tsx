@@ -3,11 +3,10 @@ import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { MapRef } from "../stores/mapStore";
 import createPopUp from "./createPopUp";
 import flyToStore from "./flyToStore";
-import { Feature, ListData, MapData } from "./types";
+import { Feature, MapData } from "./types";
 
 export default function addMarkers(
   userLocation: number[],
-  feature: Feature,
   map: MapRef,
   data: MapData
 ) {
@@ -16,7 +15,7 @@ export default function addMarkers(
   } else {
     for (const marker of data.features) {
       const el = document.createElement("img");
-      el.id = `marker-${marker.properties.title}`;
+      el.id = `marker-${marker.properties.id}`;
       el.className = "marker";
       marker.type === "SWAP"
         ? el.setAttribute("src", "swapIcon.svg")

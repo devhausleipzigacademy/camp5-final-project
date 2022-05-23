@@ -9,19 +9,20 @@ import { Feature, ListData, MapData } from "../utils/types";
 export default function useMap(
   map: MapRef,
   setZoom: Dispatch<React.SetStateAction<number>>,
-  mapData: MapData,
-  feature: Feature
+  mapData: MapData
 ) {
   const { setLocation, location } = useLocationStore();
   // const [userLocation, setUserLocation] = useState<Coord>();
 
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
-  const [userLocation, setUserLocation] = useState<Coord>();
 
   useEffect(() => {
+    console.log(map);
     //check, if map actually exists
-    if (!map.current) return;
+    if (!map.current) {
+      return;
+    }
     navigator.geolocation.getCurrentPosition((position) => {
       setLocation([position.coords.longitude, position.coords.latitude]);
       const userCoordinates = [
@@ -76,7 +77,8 @@ export default function useMap(
     });
 
     // place all markers other than user on map
-    addMarkers(location, feature, map, mapData as MapData);
+
+    addMarkers(location, map, mapData as MapData);
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {

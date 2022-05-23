@@ -15,18 +15,13 @@ mapboxgl.accessToken =
 
 type MapProps = {
   mapData: MapData;
-  listData: Feature;
 };
-const Map = ({ mapData, listData }: MapProps) => {
+const Map = ({ mapData }: MapProps) => {
   const { mapRef, setMapRef } = useMapStore();
   const { location } = useLocationStore();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
-
-  useEffect(() => {
-    setMapRef(map);
-  }, [map, setMapRef]);
 
   // -----creates Map ----- //
   useEffect(() => {
@@ -38,7 +33,12 @@ const Map = ({ mapData, listData }: MapProps) => {
       zoom: zoom,
     });
   }, []);
-  const { lng, lat } = useMap(mapRef, setZoom, mapData, listData);
+
+  useEffect(() => {
+    setMapRef(map);
+  }, [map, setMapRef]);
+
+  const { lng, lat } = useMap(map, setZoom, mapData);
   return (
     <div className="map">
       <div ref={mapContainer} className="map-container" />
