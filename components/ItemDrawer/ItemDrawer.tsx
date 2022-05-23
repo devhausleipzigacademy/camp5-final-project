@@ -8,7 +8,6 @@ import {
   useState,
 } from "react";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
-import { stores } from "../../assets/data";
 import { Feature, ListData } from "../../utils/types";
 import ListingItem from "../ListingItem/ListingItem";
 import React from "react";

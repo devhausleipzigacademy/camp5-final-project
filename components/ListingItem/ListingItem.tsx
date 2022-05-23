@@ -45,7 +45,7 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
           // sizes="100vw"
           height={50}
           width={50}
-          objectFit="contain"
+          objectFit="cover"
         />
         <div className="flex w-full justify-between">
           <a href="#" className="title" id={`link-${i}`}>
@@ -61,7 +61,7 @@ const ListingItem = ({ listData, i, onClose }: Props) => {
             // sizes="100vw"
             height={50}
             width={50}
-            objectFit="contain"
+            objectFit="cover"
             className="rounded-full"
           />
         </div>
