@@ -6,7 +6,7 @@ import useMap from "../hooks/useMap";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-const Map = React.forwardRef((props, ref) => {
+const Map = (props) => {
   const mapContainer = useRef<HTMLDivElement>(null);
 
   return (
@@ -14,6 +14,6 @@ const Map = React.forwardRef((props, ref) => {
       <div ref={mapContainer} className="map-container" />
     </div>
   );
-});
+};
 
 export default Map;
