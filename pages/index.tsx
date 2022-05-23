@@ -6,7 +6,6 @@ import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import ItemTypeButtons from "../components/ItemTypeButtons/itemTypeButtons";
 import ListingItem from "../components/ListingItem/ListingItem";
-import styles from "../styles/Home.module.css";
 import Map from "../components/map";
 import SearchBar from "../components/SearchBar/searchbar";
 import { Feature } from "../utils/types";
@@ -34,11 +33,11 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <div className="pt-16 space-y-2">
       <Header />
       <SearchBar />
       <ItemTypeButtons />
-      <div className={styles.container}>
+      <div>
         {mapData && <Map mapData={mapData} listData={listData as ListData} />}
       </div>
       <ItemDrawer />

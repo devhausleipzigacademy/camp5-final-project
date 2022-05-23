@@ -21,7 +21,7 @@ export default function Example() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-md h-2 bg-primary w-48 fixed left-1/4"
+        className="rounded-md h-2 bg-primary w-48 fixed left-[calc(50%-96px)]"
       ></button>
 
       <AnimatePresence>
@@ -64,7 +64,7 @@ export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
           <div className="fixed top-3 left-1/4">
             <button
               onClick={onClose}
-              className="rounded-md h-2 bg-primary w-48 fixed top-3 left-1/4"
+              className="rounded-md h-2 bg-primary w-48 fixed left-[calc(50%-96px)]"
             ></button>
           </div>
         </div>
