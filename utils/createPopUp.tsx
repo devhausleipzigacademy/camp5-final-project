@@ -9,6 +9,7 @@ export default function createPopUp(
   userLocation: Coord,
   map: any
 ) {
+  console.log(userLocation);
   const popUps = document.getElementsByClassName("mapboxgl-popup");
   if (popUps[0]) popUps[0].remove();
   console.log(currentFeature, userLocation);
