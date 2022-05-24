@@ -1,5 +1,5 @@
 import { Coord } from "@turf/turf";
-import mapboxgl, { LngLatLike } from "mapbox-gl";
+import mapboxgl, { LngLatLike, Marker } from "mapbox-gl";
 import { MapRef } from "../stores/mapStore";
 import createPopUp from "./createPopUp";
 import flyToStore from "./flyToStore";
@@ -13,6 +13,7 @@ export default function addMarkers(
   if (!data) {
     return;
   } else {
+    let markerArray = [];
     for (const marker of data.features) {
       const el = document.createElement("img");
       el.id = `marker-${marker.properties.id}`;
@@ -27,6 +28,9 @@ export default function addMarkers(
       new mapboxgl.Marker(el, { offset: [0, -23] })
         .setLngLat(marker.geometry.coordinates as LngLatLike)
         .addTo(map.current as mapboxgl.Map);
+      markerArray.push(marker);
     }
+    console.log(markerArray);
+    return markerArray;
   }
 }
