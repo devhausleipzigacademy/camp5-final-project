@@ -13,9 +13,10 @@ import { Feature, ListData } from "../../utils/types";
 import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
 import { getListData } from "../../utils/getListData";
+import { Spinner } from "../Spinner/Spinner";
 
 export default function Example() {
-  let [open, setOpen] = useState(true);
+  let [open, setOpen] = useState(false);
 
   return (
     <>
@@ -72,7 +73,7 @@ export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
         <div className="flex-1 overflow-y-scroll">
           {!listData ? (
             <div className="flex items-center justify-center pt-12">
-              {/* <Spinner /> */}
+              <Spinner height={73} />
             </div>
           ) : (
             <>

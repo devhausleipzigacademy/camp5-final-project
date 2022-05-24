@@ -12,6 +12,7 @@ import { Feature } from "../utils/types";
 import { MapData, ListData } from "../utils/types";
 import { getMapData } from "../utils/getMapData";
 import { getListData } from "../utils/getListData";
+import { Spinner } from "../components/Spinner/Spinner";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -34,7 +35,7 @@ const Home: NextPage = () => {
       <Header />
       <SearchBar />
       <ItemTypeButtons />
-      <div>{mapData && <Map mapData={mapData} />}</div>
+      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
       <ItemDrawer />
     </div>
   );
