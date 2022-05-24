@@ -19,6 +19,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
   const distance = useDistance(feature);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
+  console.log(listData.image, listData.profilePicture);
   return (
     <div
       id={`listing-${i}`}
@@ -31,7 +32,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
         }
-        //@ts-ignore
+
         const thisElement = document.getElementById(`listing-${i}`);
         (thisElement as HTMLElement).classList.add("active");
       }}
