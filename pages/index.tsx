@@ -4,20 +4,13 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
-import ItemTypeButtons from "../components/ItemTypeButtons/itemTypeButtons";
-import ListingItem from "../components/ListingItem/ListingItem";
 import Map from "../components/map";
 import SearchBar from "../components/SearchBar/searchbar";
 import { getMapData } from "../utils/getMapData";
 import { MapData, ListData, Feature } from "../utils/types";
-import { getListData } from "../utils/getListData";
-import Button from "../components/Button/Button";
 import FilterButtons from "../components/FilterButtons/filterButtons";
 import { Spinner } from "../components/Spinner/Spinner";
-import { getFreeItems } from "../utils/getFreeItems";
-import { getSwapItems } from "../utils/getSwapItems";
 import addMarkers from "../utils/addMarkers";
-import { useStore } from "zustand";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 
@@ -55,6 +48,7 @@ const Home: NextPage = () => {
       };
       console.log(updatedMapData);
       setMapData(updatedMapData);
+      console.log("MapDataNew", mapData);
       addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     } else {
@@ -67,6 +61,7 @@ const Home: NextPage = () => {
       };
       console.log(updatedMapData);
       setMapData(updatedMapData);
+      console.log("MapDataNew", mapData);
       addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     }
