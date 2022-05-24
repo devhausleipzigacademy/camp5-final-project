@@ -35,7 +35,13 @@ const Home: NextPage = () => {
       <Header />
       <SearchBar />
       <ItemTypeButtons />
-      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+      {/* {!mapData ? <Spinner /> : <Map mapData={mapData} />} */}
+      {!mapData && (
+        <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
+          <Spinner />
+        </div>
+      )}
+      {mapData && <Map mapData={mapData} />}
       <ItemDrawer />
     </div>
   );

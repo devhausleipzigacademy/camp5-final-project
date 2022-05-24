@@ -80,7 +80,12 @@ export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
               <ul className="px-3 text-left">
                 {
                   <div id="listings" className="listings">
-                    {listData.length &&
+                    {listData.length === 0 && (
+                      <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
+                        <Spinner />
+                      </div>
+                    )}
+                    {listData.length > 0 &&
                       listData.map((listData, i) => (
                         <ListingItem
                           onClose={onClose}
