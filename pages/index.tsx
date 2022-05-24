@@ -8,9 +8,8 @@ import ItemTypeButtons from "../components/ItemTypeButtons/itemTypeButtons";
 import ListingItem from "../components/ListingItem/ListingItem";
 import Map from "../components/map";
 import SearchBar from "../components/SearchBar/searchbar";
-import { Feature } from "../utils/types";
-import { MapData, ListData } from "../utils/types";
 import { getMapData } from "../utils/getMapData";
+import { MapData, ListData, Feature } from "../utils/types";
 import { getListData } from "../utils/getListData";
 import { Spinner } from "../components/Spinner/Spinner";
 
@@ -29,6 +28,30 @@ const Home: NextPage = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const filterMarkers = (event: MouseEvent) => {
+    if (!mapData) {
+      return;
+    } else if ((event.target as any).text === "FREE") {
+      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+        (feature) => feature.type === "FREE"
+      );
+      const updatedMapData: MapData = {
+        ...mapData,
+        features: filteredMarkersArr,
+      };
+      setMapData(updatedMapData);
+    } else {
+      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+        (feature) => feature.type === "SWAP"
+      );
+      const updatedMapData: MapData = {
+        ...mapData,
+        features: filteredMarkersArr,
+      };
+      setMapData(updatedMapData);
+    }
+  };
 
   return (
     <div className="pt-16 space-y-2">

@@ -41,3 +41,11 @@ if you need to reset:
 - `docker-compose down`
 - `docker volume prune`
 - `docker-compose up -d`
+
+## Backend Seeding
+
+- make sure that you have installed all the dependencies (yarn)
+- run Docker Desktop by 'docker-compose up'
+- start the development server (yarn dev)
+- run 'yarn db:push' to sync the database
+- run 'yarn prisma db seed' to seed the database
