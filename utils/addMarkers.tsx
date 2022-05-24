@@ -14,7 +14,9 @@ export default function addMarkers(
     return;
   } else {
     let markerArray = [];
+    console.log("from addMarkers:", data);
     for (const marker of data.features) {
+      console.log("Marker", marker);
       const el = document.createElement("img");
       el.id = `marker-${marker.properties.id}`;
       el.className = "marker";

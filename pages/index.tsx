@@ -51,6 +51,7 @@ const Home: NextPage = () => {
       };
       console.log(updatedMapData);
       setMapData(updatedMapData);
+      console.log("MapDataNew", mapData);
       addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     } else {
@@ -63,6 +64,7 @@ const Home: NextPage = () => {
       };
       console.log(updatedMapData);
       setMapData(updatedMapData);
+      console.log("MapDataNew", mapData);
       addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     }
