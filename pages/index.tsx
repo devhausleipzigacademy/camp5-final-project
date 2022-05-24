@@ -46,7 +46,7 @@ const Home: NextPage = () => {
         ...mapData,
         features: filteredMarkersArr,
       };
-      console.log("did i gethere?");
+      console.log("did i get here?");
       setMapData(updatedMapData);
     } else {
       console.log("or did i get here?");
