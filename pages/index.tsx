@@ -21,7 +21,9 @@ const Home: NextPage = () => {
   }, []);
 
   const filterMarkers = (event: MouseEvent) => {
-    if ((event.target as any).text === "FREE") {
+    if (!mapData) {
+      return;
+    } else if ((event.target as any).text === "FREE") {
       const filteredMarkersArr: Feature[] = mapData?.features.filter(
         (feature) => feature.properties.sellType === "FREE"
       );
