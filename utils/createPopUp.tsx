@@ -10,6 +10,7 @@ export default function createPopUp(
 ) {
   const popUps = document.getElementsByClassName("mapboxgl-popup");
   if (popUps[0]) popUps[0].remove();
+  console.log(userLocation);
   let distance = turf
     .distance(userLocation, feature.geometry.coordinates)
     .toFixed(2);

@@ -1,5 +1,6 @@
 import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
+import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";
 import createPopUp from "./createPopUp";
 import flyToStore from "./flyToStore";
@@ -10,6 +11,7 @@ export default function addMarkers(
   map: MapRef,
   data: MapData
 ) {
+  console.log("addMarkers", userLocation);
   if (!data) {
     return;
   } else {
