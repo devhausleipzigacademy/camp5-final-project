@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { getMapData } from "../utils/getMapData";
 import { MapData, ListData, Feature } from "../utils/types";
 import { getListData } from "../utils/getListData";
+import Button from "../components/Button/Button";
+import FilterButtons from "../components/FilterButtons/filterButtons";
 
 const Home: NextPage = () => {
   const [mapData, setMapData] = useState<MapData | null>(null);
@@ -25,7 +27,7 @@ const Home: NextPage = () => {
       return;
     } else if ((event.target as any).text === "FREE") {
       const filteredMarkersArr: Feature[] = mapData?.features.filter(
-        (feature) => feature.properties.sellType === "FREE"
+        (feature) => feature.type === "FREE"
       );
       const updatedMapData: MapData = {
         ...mapData,
@@ -34,7 +36,7 @@ const Home: NextPage = () => {
       setMapData(updatedMapData);
     } else {
       const filteredMarkersArr: Feature[] = mapData?.features.filter(
-        (feature) => feature.properties.sellType === "SWAP"
+        (feature) => feature.type === "SWAP"
       );
       const updatedMapData: MapData = {
         ...mapData,
@@ -46,6 +48,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
+      <FilterButtons filterHandler={filterMarkers} />
       {mapData && <Map mapData={mapData} />}
     </div>
   );

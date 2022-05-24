@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../Button/Button";
 
 type FilterButtonsProps = {
-  filterHandler: () => void;
+  filterHandler: Function;
 };
 
 const FilterButtons = ({ filterHandler }: FilterButtonsProps) => {
