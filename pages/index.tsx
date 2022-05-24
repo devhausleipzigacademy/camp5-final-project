@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import Map from "../components/map";
 import { useEffect, useState } from "react";
 import { getMapData } from "../utils/getMapData";
-import { MapData, ListData } from "../utils/types";
+import { MapData, ListData, Feature } from "../utils/types";
 import { getListData } from "../utils/getListData";
 
 const Home: NextPage = () => {
@@ -19,6 +19,28 @@ const Home: NextPage = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const filterMarkers = (event: MouseEvent) => {
+    if ((event.target as any).text === "FREE") {
+      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+        (feature) => feature.properties.sellType === "FREE"
+      );
+      const updatedMapData: MapData = {
+        ...mapData,
+        features: filteredMarkersArr,
+      };
+      setMapData(updatedMapData);
+    } else {
+      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+        (feature) => feature.properties.sellType === "SWAP"
+      );
+      const updatedMapData: MapData = {
+        ...mapData,
+        features: filteredMarkersArr,
+      };
+      setMapData(updatedMapData);
+    }
+  };
 
   return (
     <div className={styles.container}>

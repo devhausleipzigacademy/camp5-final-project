@@ -11,6 +11,7 @@ export type Geometry = {
 
 export type Properties = {
   title: string;
+  sellType: string;
 };
 
 export type MapData = {

@@ -44,6 +44,7 @@ export default async function handler(
               },
               properties: {
                 title: item.title,
+                sellType: item.sellType,
               },
             };
             data.features.push(featureObject);
