@@ -46,10 +46,10 @@ const Home: NextPage = () => {
         ...mapData,
         features: filteredMarkersArr,
       };
-      console.log("did i get here?");
+      console.log("entered free");
       setMapData(updatedMapData);
     } else {
-      console.log("or did i get here?");
+      console.log("entered swap");
       const filteredMarkersArr: Feature[] = mapData?.features.filter(
         (feature) => feature.type === "SWAP"
       );
