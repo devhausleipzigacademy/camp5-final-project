@@ -50,6 +50,7 @@ model Category {
   identifier  String @id @default(uuid())
   title       String @db.VarChar(50)
   description String
+  subCategories SubCategory[]
   Items       Item[]
 }
 
@@ -69,4 +70,19 @@ model Item {
 enum SellType {
   SWAP
   FREE
+}
+
+model SubCategory {
+  id     String  @id @default(cuid())
+  name   String
+  type   String?
+  Brand String?
+  Age    String?
+  Conditon String?
+  Colors  String[]
+  Manual String?
+  Dimensions Float[]
+  Material String?
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [identifier], onDelete: Cascade, onUpdate: Cascade)
 }
