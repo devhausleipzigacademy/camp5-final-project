@@ -16,6 +16,10 @@ import FilterButtons from "../components/FilterButtons/filterButtons";
 import { Spinner } from "../components/Spinner/Spinner";
 import { getFreeItems } from "../utils/getFreeItems";
 import { getSwapItems } from "../utils/getSwapItems";
+import addMarkers from "../utils/addMarkers";
+import { useStore } from "zustand";
+import { useMapStore } from "../stores/mapStore";
+import { useLocationStore } from "../stores/locationStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -24,10 +28,14 @@ const Home: NextPage = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(14);
   const [mapData, setMapData] = useState<MapData | null>(null);
+  const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
+  const { location } = useLocationStore();
+  const { mapRef } = useMapStore();
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
+    setInitialMapData(mapDataFetch);
   }
 
   useEffect(() => {
@@ -35,29 +43,32 @@ const Home: NextPage = () => {
   }, []);
 
   const filterMarkers = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (!mapData) {
-      console.log("no mapData");
+    if (!initialMapData) {
       return;
     } else if ((event.target as HTMLButtonElement).value === "Free") {
-      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+      const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
         (feature) => feature.type === "FREE"
       );
       const updatedMapData: MapData = {
-        ...mapData,
+        ...initialMapData,
         features: filteredMarkersArr,
       };
-      console.log("entered free");
+      console.log(updatedMapData);
       setMapData(updatedMapData);
+      addMarkers(location, mapRef, mapData as MapData);
+      console.log(mapRef, location);
     } else {
-      console.log("entered swap");
-      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+      const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
         (feature) => feature.type === "SWAP"
       );
       const updatedMapData: MapData = {
-        ...mapData,
+        ...initialMapData,
         features: filteredMarkersArr,
       };
+      console.log(updatedMapData);
       setMapData(updatedMapData);
+      addMarkers(location, mapRef, mapData as MapData);
+      console.log(mapRef, location);
     }
   };
 
