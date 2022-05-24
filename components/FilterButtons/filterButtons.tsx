@@ -17,33 +17,6 @@ type FilterButtonsProps = {
 };
 
 const FilterButtons = ({ clickHandler }: FilterButtonsProps) => {
-  //   const filterMarkers = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //     if (!mapData) {
-  //       console.log("no mapData");
-  //       return;
-  //     } else if ((event.target as HTMLButtonElement).value === "Free") {
-  //       const filteredMarkersArr: Feature[] = mapData?.features.filter(
-  //         (feature) => feature.type === "FREE"
-  //       );
-  //       const updatedMapData: MapData = {
-  //         ...mapData,
-  //         features: filteredMarkersArr,
-  //       };
-  //       console.log("did i get here?");
-  //       setMapData(updatedMapData);
-  //     } else {
-  //       console.log("or did i get here?");
-  //       const filteredMarkersArr: Feature[] = mapData?.features.filter(
-  //         (feature) => feature.type === "SWAP"
-  //       );
-  //       const updatedMapData: MapData = {
-  //         ...mapData,
-  //         features: filteredMarkersArr,
-  //       };
-  //       setMapData(updatedMapData);
-  //     }
-  //   };
-
   return (
     <div className="flex gap-2">
       <Button bgColor={"primary"} onClick={clickHandler} value={"Free"} />
