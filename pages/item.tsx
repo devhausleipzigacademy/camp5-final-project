@@ -35,7 +35,7 @@ export default function ProductPage({
   const locationHandler = () => {};
   return (
     <>
-      <div className="flex-col space-y-2 h-[calc(100vh-50px)] overflow-hidden">
+      <div className="flex-col space-y-2 h-[calc(100vh-64px)] overflow-hidden">
         <div className="relative block w-full">
           <Carousel imagesArray={imagesArray} />
           <button

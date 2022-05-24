@@ -267,6 +267,9 @@ export const stores = {
         crossStreet: "at 15th St NW",
         postalCode: "20005",
         state: "D.C.",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -283,6 +286,9 @@ export const stores = {
         crossStreet: "at 22nd St NW",
         postalCode: "20037",
         state: "D.C.",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -299,6 +305,9 @@ export const stores = {
         crossStreet: "at Dupont Circle",
         postalCode: "20036",
         state: "D.C.",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -315,6 +324,9 @@ export const stores = {
         crossStreet: "at 34th St NW",
         postalCode: "20007",
         state: "D.C.",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -331,6 +343,9 @@ export const stores = {
         crossStreet: "btwn 2nd & 3rd Sts. SE",
         postalCode: "20003",
         state: "D.C.",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -346,6 +361,9 @@ export const stores = {
         country: "United States",
         postalCode: "20740",
         state: "MD",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -363,6 +381,9 @@ export const stores = {
         country: "United States",
         postalCode: "20814",
         state: "MD",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -379,6 +400,9 @@ export const stores = {
         crossStreet: "btw Explorer & Library",
         postalCode: "20190",
         state: "VA",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -395,6 +419,9 @@ export const stores = {
         crossStreet: "at N Randolph St.",
         postalCode: "22203",
         state: "VA",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -410,6 +437,9 @@ export const stores = {
         country: "United States",
         postalCode: "19003",
         state: "PA",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -425,6 +455,9 @@ export const stores = {
         country: "United States",
         postalCode: "19104",
         state: "PA",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50/tech",
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
     {
@@ -441,6 +474,10 @@ export const stores = {
         crossStreet: "at 19th St",
         postalCode: "20036",
         state: "D.C.",
+        owner: "Joe B",
+        productImage: "https://placeimg.com/50/50",
+
+        ownerImage: "https://placeimg.com/50/50/people",
       },
     },
   ],
