@@ -32,7 +32,7 @@ model Location {
   address    String
   lat        Float
   lon        Float
-  user       User   @relation(fields: [userId], references: [identifier])
+  user       User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
   userId     String @unique
 }
 
@@ -58,7 +58,7 @@ model Item {
   title       String   @db.VarChar(50)
   images      Json
   description String
-  user        User     @relation(fields: [userId], references: [identifier])
+  user        User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
   userId      String
   sellType    SellType
   createdAt   DateTime @default(now())

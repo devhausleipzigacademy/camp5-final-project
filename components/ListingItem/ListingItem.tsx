@@ -19,7 +19,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
   const distance = useDistance(feature);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  console.log(listData.image, listData.profilePicture);
+  // console.log(listData.image, listData.profilePicture);
   return (
     <div
       id={`listing-${i}`}
