@@ -7,12 +7,14 @@ import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
 import SearchBar from "../components/SearchBar/searchbar";
 import { getMapData } from "../utils/getMapData";
-import { MapData, ListData, Feature } from "../utils/types";
+import { MapData, Feature } from "../utils/types";
 import FilterButtons from "../components/FilterButtons/filterButtons";
 import { Spinner } from "../components/Spinner/Spinner";
 import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
+import { useMarkerStore } from "../stores/markerStore";
+import { isFunctionDeclaration } from "typescript";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -24,7 +26,9 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [isActiveFree, setIsActiveFree] = useState<boolean>(false);
+  const [isActiveSwap, setIsActiveSwap] = useState<boolean>(false);
+  const [selectedFilter, setSelectedFilter] = useState("");
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -36,37 +40,59 @@ const Home: NextPage = () => {
     getAllMapData();
   }, []);
 
+  const { marker } = useMarkerStore();
+
+  function resetAndSetMarkers(updatedMapData: MapData) {
+    marker?.forEach((m) => m.remove());
+    const markerElements = document.getElementsByClassName("marker");
+    while (markerElements.length > 0) {
+      markerElements[0].remove();
+    }
+    addMarkers(location, mapRef, updatedMapData as MapData);
+  }
+
   const filterMarkers = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!initialMapData) {
       return;
     } else if ((event.target as HTMLButtonElement).value === "Free") {
-      const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
-        (feature) => feature.type === "FREE"
-      );
-      const updatedMapData: MapData = {
-        ...initialMapData,
-        features: filteredMarkersArr,
-      };
-      console.log(updatedMapData);
-      setMapData(updatedMapData);
-      console.log("MapDataNew", mapData);
-      addMarkers(location, mapRef, mapData as MapData);
+      if (selectedFilter === "Free") {
+        setIsActiveFree((prev) => !prev);
+        setSelectedFilter("");
+        setMapData(initialMapData);
+        resetAndSetMarkers(initialMapData);
+      } else {
+        const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
+          (feature) => feature.type === "FREE"
+        );
+        setSelectedFilter("Free");
+        const updatedMapData: MapData = {
+          ...initialMapData,
+          features: filteredMarkersArr,
+        };
+        setMapData(() => updatedMapData);
+        resetAndSetMarkers(updatedMapData);
+      }
       console.log(mapRef, location);
-      setIsActive((prev) => !prev);
     } else {
-      const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
-        (feature) => feature.type === "SWAP"
-      );
-      const updatedMapData: MapData = {
-        ...initialMapData,
-        features: filteredMarkersArr,
-      };
-      console.log(updatedMapData);
-      setMapData(updatedMapData);
-      console.log("MapDataNew", mapData);
-      addMarkers(location, mapRef, mapData as MapData);
+      if (selectedFilter === "Swap") {
+        setSelectedFilter("");
+        setMapData(initialMapData);
+        resetAndSetMarkers(initialMapData);
+        setIsActiveSwap((prev) => !prev);
+      } else {
+        const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
+          (feature) => feature.type === "SWAP"
+        );
+        setSelectedFilter("Swap");
+        const updatedMapData: MapData = {
+          ...initialMapData,
+          features: filteredMarkersArr,
+        };
+        setMapData(() => updatedMapData);
+        resetAndSetMarkers(updatedMapData);
+      }
+      // addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
-      setIsActive((prev) => !prev);
     }
   };
 
@@ -74,8 +100,16 @@ const Home: NextPage = () => {
     <div className="pt-16 space-y-2">
       <Header />
       <SearchBar />
-      <FilterButtons clickHandler={filterMarkers} isActive={isActive} />
-      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+      <FilterButtons
+        clickHandler={filterMarkers}
+        isActiveFree={isActiveFree}
+        isActiveSwap={isActiveSwap}
+      />
+      {!mapData && (
+        <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
+          <Spinner />
+        </div>
+      )}
       <ItemDrawer />
     </div>
   );

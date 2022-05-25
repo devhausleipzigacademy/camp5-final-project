@@ -3,6 +3,7 @@ import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
 import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";
+import { useMarkerStore } from "../stores/markerStore";
 import addMarkers from "../utils/addMarkers";
 import { Feature, ListData, MapData } from "../utils/types";
 
@@ -11,9 +12,13 @@ export default function useMap(
   setZoom: Dispatch<React.SetStateAction<number>>,
   mapData: MapData
 ) {
+
+  const { setLocation, location } = useLocationStore();
+  // const [markers, setMarkers] = useState<Feature[] | undefined>([]);
+  const { setMarkerArray } = useMarkerStore();
+
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
-  const { location } = useLocationStore();
 
   useEffect(() => {
     //check, if map actually exists
@@ -73,7 +78,12 @@ export default function useMap(
     });
 
     // place all markers other than user on map
-    addMarkers(location, map, mapData as MapData);
+
+    const markerArray = addMarkers(location, map, mapData as MapData);
+    // setMarkers(markerArray);
+    if (markerArray?.length) {
+      setMarkerArray(markerArray);
+    }
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {

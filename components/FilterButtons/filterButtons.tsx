@@ -12,21 +12,26 @@ import Button from "../Button/Button";
 
 type FilterButtonsProps = {
   clickHandler: MouseEventHandler<HTMLButtonElement> | undefined;
-  isActive: boolean;
+  isActiveFree: boolean;
+  isActiveSwap: boolean;
   // mapData: MapData | null;
   // setMapData: React.Dispatch<React.SetStateAction<MapData | null>>;
 };
 
-const FilterButtons = ({ clickHandler, isActive }: FilterButtonsProps) => {
+const FilterButtons = ({
+  clickHandler,
+  isActiveFree,
+  isActiveSwap,
+}: FilterButtonsProps) => {
   return (
     <div className="flex gap-2 px-2">
       <Button
-        bgColor={isActive ? "primary" : "secondary"}
+        bgColor={isActiveFree ? "primary" : "secondary"}
         onClick={clickHandler}
         value={"Free"}
       />
       <Button
-        bgColor={isActive ? "primary" : "secondary"}
+        bgColor={isActiveSwap ? "primary" : "secondary"}
         onClick={clickHandler}
         value={"Swap"}
       />
