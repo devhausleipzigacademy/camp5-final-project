@@ -41,12 +41,12 @@ const Home: NextPage = () => {
   const { marker } = useMarkerStore();
 
   function resetAndSetMarkers(updatedMapData: MapData) {
+    const popUps = document.getElementsByClassName("mapboxgl-popup");
+    if (popUps[0]) popUps[0].remove();
     marker?.forEach((m) => m.remove());
     const markerElements = document.getElementsByClassName("marker");
     while (markerElements.length > 0) {
       markerElements[0].remove();
-      const popUps = document.getElementsByClassName("mapboxgl-popup");
-      if (popUps[0]) popUps[0].remove();
     }
     addMarkers(location, mapRef, updatedMapData as MapData);
   }
