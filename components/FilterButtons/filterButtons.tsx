@@ -18,7 +18,7 @@ type FilterButtonsProps = {
 
 const FilterButtons = ({ clickHandler }: FilterButtonsProps) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 px-2 text-primary-text">
       <Button bgColor={"primary"} onClick={clickHandler} value={"Free"} />
       <Button bgColor={"primary"} onClick={clickHandler} value={"Swap"} />
     </div>
