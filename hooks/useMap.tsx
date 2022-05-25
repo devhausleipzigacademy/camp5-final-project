@@ -11,24 +11,21 @@ export default function useMap(
   setZoom: Dispatch<React.SetStateAction<number>>,
   mapData: MapData
 ) {
-  const { setLocation, location } = useLocationStore();
-  // const [userLocation, setUserLocation] = useState<Coord>();
-
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
+  const { location } = useLocationStore();
 
   useEffect(() => {
-    console.log(map);
     //check, if map actually exists
     if (!map.current) {
       return;
     }
     navigator.geolocation.getCurrentPosition((position) => {
-      setLocation([position.coords.longitude, position.coords.latitude]);
       const userCoordinates = [
         position.coords.longitude,
         position.coords.latitude,
       ];
+
       //feed user location infomation to the map
       (map.current as mapboxgl.Map).addSource("user-coordinates", {
         type: "geojson",
@@ -55,7 +52,6 @@ export default function useMap(
       });
 
       //store user location
-      // setUserLocation(userCoordinates);
     });
     map.current.on("load", () => {
       // create button for centering the map manually on user
@@ -77,7 +73,6 @@ export default function useMap(
     });
 
     // place all markers other than user on map
-
     addMarkers(location, map, mapData as MapData);
 
     //enable scrolling and zooming for map
