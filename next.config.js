@@ -3,7 +3,12 @@
 module.exports = {
   reactStrictMode: false,
   images: {
-    domains: ["upload.wikimedia.org", "placeimg.com"],
+    domains: [
+      "upload.wikimedia.org",
+      "placeimg.com",
+      "images.unsplash.com",
+      "unsplash.com",
+    ],
   },
   webpack(config) {
     config.module.rules.push({

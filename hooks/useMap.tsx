@@ -2,27 +2,25 @@ import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
 import { useLocationStore } from "../stores/locationStore";
+import { MapRef } from "../stores/mapStore";
 import addMarkers from "../utils/addMarkers";
-import { MapData } from "../utils/types";
+import { Feature, ListData, MapData } from "../utils/types";
 
 export default function useMap(
-  map: any,
+  map: MapRef,
   setZoom: Dispatch<React.SetStateAction<number>>,
   mapData: MapData
 ) {
-  const { setLocation, location } = useLocationStore();
-  // const [userLocation, setUserLocation] = useState<Coord>();
-
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
+  const { location } = useLocationStore();
 
   useEffect(() => {
     //check, if map actually exists
-    if (!map.current) return;
-
-    //get user location
+    if (!map.current) {
+      return;
+    }
     navigator.geolocation.getCurrentPosition((position) => {
-      setLocation([position.coords.longitude, position.coords.latitude]);
       const userCoordinates = [
         position.coords.longitude,
         position.coords.latitude,
@@ -54,9 +52,7 @@ export default function useMap(
       });
 
       //store user location
-      // setUserLocation(userCoordinates);
     });
-
     map.current.on("load", () => {
       // create button for centering the map manually on user
       const geolocate = new mapboxgl.GeolocateControl({
