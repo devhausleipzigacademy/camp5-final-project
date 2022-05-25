@@ -56,11 +56,11 @@ const Home: NextPage = () => {
       return;
     } else if ((event.target as HTMLButtonElement).value === "Free") {
       if (selectedFilter === "Free") {
-        setIsActiveFree((prev) => !prev);
         setSelectedFilter("");
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
       } else {
+        setIsActiveFree((prev) => !prev);
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "FREE"
         );
@@ -78,8 +78,8 @@ const Home: NextPage = () => {
         setSelectedFilter("");
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
-        setIsActiveSwap((prev) => !prev);
       } else {
+        setIsActiveSwap((prev) => !prev);
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "SWAP"
         );
