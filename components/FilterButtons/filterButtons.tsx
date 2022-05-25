@@ -12,15 +12,24 @@ import Button from "../Button/Button";
 
 type FilterButtonsProps = {
   clickHandler: MouseEventHandler<HTMLButtonElement> | undefined;
+  isActive: boolean;
   // mapData: MapData | null;
   // setMapData: React.Dispatch<React.SetStateAction<MapData | null>>;
 };
 
-const FilterButtons = ({ clickHandler }: FilterButtonsProps) => {
+const FilterButtons = ({ clickHandler, isActive }: FilterButtonsProps) => {
   return (
-    <div className="flex gap-2 px-2 text-primary-text">
-      <Button bgColor={"primary"} onClick={clickHandler} value={"Free"} />
-      <Button bgColor={"primary"} onClick={clickHandler} value={"Swap"} />
+    <div className="flex gap-2 px-2">
+      <Button
+        bgColor={isActive ? "primary" : "secondary"}
+        onClick={clickHandler}
+        value={"Free"}
+      />
+      <Button
+        bgColor={isActive ? "primary" : "secondary"}
+        onClick={clickHandler}
+        value={"Swap"}
+      />
     </div>
   );
 };

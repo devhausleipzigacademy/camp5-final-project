@@ -24,6 +24,7 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -51,6 +52,7 @@ const Home: NextPage = () => {
       console.log("MapDataNew", mapData);
       addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
+      setIsActive((prev) => !prev);
     } else {
       const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
         (feature) => feature.type === "SWAP"
@@ -64,6 +66,7 @@ const Home: NextPage = () => {
       console.log("MapDataNew", mapData);
       addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
+      setIsActive((prev) => !prev);
     }
   };
 
@@ -71,7 +74,7 @@ const Home: NextPage = () => {
     <div className="pt-16 space-y-2">
       <Header />
       <SearchBar />
-      <FilterButtons clickHandler={filterMarkers} />
+      <FilterButtons clickHandler={filterMarkers} isActive={isActive} />
       {!mapData ? <Spinner /> : <Map mapData={mapData} />}
       <ItemDrawer />
     </div>
