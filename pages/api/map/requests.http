@@ -1,1 +1,9 @@
 GET http://localhost:3000/api/map
+
+###
+
+GET http://localhost:3000/api/map?sellType=FREE
+
+###
+
+GET http://localhost:3000/api/map?sellType=SWAP
