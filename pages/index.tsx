@@ -8,10 +8,11 @@ import ItemTypeButtons from "../components/ItemTypeButtons/itemTypeButtons";
 import ListingItem from "../components/ListingItem/ListingItem";
 import Map from "../components/map";
 import SearchBar from "../components/SearchBar/searchbar";
-import { Feature } from "../utils/types";
-import { MapData, ListData } from "../utils/types";
 import { getMapData } from "../utils/getMapData";
+import { MapData, ListData, Feature } from "../utils/types";
 import { getListData } from "../utils/getListData";
+import Button from "../components/Button/Button";
+import FilterButtons from "../components/FilterButtons/filterButtons";
 import { Spinner } from "../components/Spinner/Spinner";
 
 mapboxgl.accessToken =
@@ -30,18 +31,36 @@ const Home: NextPage = () => {
     getData();
   }, []);
 
+  const filterMarkers = (event: MouseEvent) => {
+    if (!mapData) {
+      return;
+    } else if ((event.target as any).text === "FREE") {
+      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+        (feature) => feature.type === "FREE"
+      );
+      const updatedMapData: MapData = {
+        ...mapData,
+        features: filteredMarkersArr,
+      };
+      setMapData(updatedMapData);
+    } else {
+      const filteredMarkersArr: Feature[] = mapData?.features.filter(
+        (feature) => feature.type === "SWAP"
+      );
+      const updatedMapData: MapData = {
+        ...mapData,
+        features: filteredMarkersArr,
+      };
+      setMapData(updatedMapData);
+    }
+  };
+
   return (
     <div className="pt-16 space-y-2">
       <Header />
       <SearchBar />
-      <ItemTypeButtons />
-      {/* {!mapData ? <Spinner /> : <Map mapData={mapData} />} */}
-      {!mapData && (
-        <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
-          <Spinner />
-        </div>
-      )}
-      {mapData && <Map mapData={mapData} />}
+      <FilterButtons filterHandler={filterMarkers} />
+      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
       <ItemDrawer />
     </div>
   );

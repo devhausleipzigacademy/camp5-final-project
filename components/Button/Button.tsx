@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { on } from "events";
+import { useState } from "react";
 
 interface ButtonProps {
   bgColor: "primary" | "secondary" | "BG" | "error";

@@ -22,8 +22,3 @@ Secondary.args = {
   bgColor: "secondary",
   text: "Accept",
 };
-export const Error = Template.bind({});
-Error.args = {
-  bgColor: "error",
-  text: "Reject",
-};
