@@ -1,11 +1,12 @@
+import mapboxgl from "mapbox-gl";
 import create from "zustand";
 import { Feature } from "../utils/types";
 
-const initialMarker: Feature[] = [];
+const initialMarker: mapboxgl.Marker[] = [];
 
 interface MarkerState {
-  marker: Feature[];
-  setMarkerArray: (m: Feature[]) => void;
+  marker: mapboxgl.Marker[];
+  setMarkerArray: (m: mapboxgl.Marker[]) => void;
 }
 
 export const useMarkerStore = create<MarkerState>()((set) => ({

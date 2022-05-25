@@ -80,13 +80,11 @@ export default function useMap(
 
     // place all markers other than user on map
 
-    const markerArray: Feature[] | undefined = addMarkers(
-      location,
-      map,
-      mapData as MapData
-    );
+    const markerArray = addMarkers(location, map, mapData as MapData);
     // setMarkers(markerArray);
-    setMarkerArray(markerArray as Feature[]);
+    if (markerArray?.length) {
+      setMarkerArray(markerArray);
+    }
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {

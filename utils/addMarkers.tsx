@@ -27,12 +27,12 @@ export default function addMarkers(
         flyToStore(marker as Feature, map);
         createPopUp(marker as Feature, userLocation, map);
       });
-      new mapboxgl.Marker(el, { offset: [0, -23] })
+      const realMarker = new mapboxgl.Marker(el, { offset: [0, -23] })
         .setLngLat(marker.geometry.coordinates as LngLatLike)
         .addTo(map.current as mapboxgl.Map);
-      markerArray.push(marker);
+      markerArray.push(realMarker);
     }
-    console.log(markerArray);
     return markerArray;
+    // console.log(markerArray);
   }
 }
