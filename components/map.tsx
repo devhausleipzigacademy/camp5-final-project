@@ -9,6 +9,7 @@ import { Coord } from "@turf/turf";
 import Link from "next/link";
 import { useLocationStore } from "../stores/locationStore";
 import { useMapStore } from "../stores/mapStore";
+import addMarkers from "../utils/addMarkers";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -39,6 +40,7 @@ const Map = ({ mapData }: MapProps) => {
   }, [map, setMapRef]);
 
   const { lng, lat } = useMap(map, setZoom, mapData);
+
   return (
     <div className="map">
       <div ref={mapContainer} className="map-container" />
