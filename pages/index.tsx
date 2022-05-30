@@ -101,9 +101,8 @@ const Home: NextPage = () => {
     <div className="pt-16 space-y-2">
       <Header />
 
-      <Search properties={data?.features!} />
-
       <FilterButtons clickHandler={filterMarkers} />
+      <Search properties={data?.features!} />
       {!mapData ? <Spinner /> : <Map mapData={mapData} />}
       <ItemDrawer />
     </div>
