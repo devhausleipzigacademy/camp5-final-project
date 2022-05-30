@@ -12,15 +12,35 @@ import Button from "../Button/Button";
 
 type FilterButtonsProps = {
   clickHandler: MouseEventHandler<HTMLButtonElement> | undefined;
+  toggle: string;
   // mapData: MapData | null;
   // setMapData: React.Dispatch<React.SetStateAction<MapData | null>>;
 };
 
-const FilterButtons = ({ clickHandler }: FilterButtonsProps) => {
+const FilterButtons = ({ clickHandler, toggle }: FilterButtonsProps) => {
+  // const [activateFree, setActivateFree] = useState("secondary");
+  // const [activateSwap, setActivateSwap] = useState("secondary");
+
+  // function changeColor() {
+  //   if (toggle === "Free") {
+  //     setActivateSwap("primary");
+  //   }
+  //   if (toggle === "Swap") {
+  //     setActivateFree("primary");
+  //   }
+  //   if (toggle === "") {
+  //     setActivateFree("secondary");
+  //     setActivateSwap("secondary");
+  //   }
+  //   console.log("not working");
+  // }
+
+  // changeColor();
+
   return (
-    <div className="flex gap-2 px-2 text-primary-text">
-      <Button bgColor={"primary"} onClick={clickHandler} value={"Free"} />
-      <Button bgColor={"primary"} onClick={clickHandler} value={"Swap"} />
+    <div className="flex gap-2 px-2">
+      <Button bgColor={activateFree} onClick={clickHandler} value={"Free"} />
+      <Button bgColor={activateSwap} onClick={clickHandler} value={"Swap"} />
     </div>
   );
 };
