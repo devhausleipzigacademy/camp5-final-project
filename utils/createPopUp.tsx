@@ -2,6 +2,7 @@ import mapboxgl from "mapbox-gl";
 import { Coord } from "@turf/turf";
 import type { Feature, ListData } from "./types";
 import * as turf from "@turf/turf";
+import Link from "next/link";
 
 export default function createPopUp(
   feature: Feature,
@@ -22,11 +23,15 @@ export default function createPopUp(
   const popup: mapboxgl.Popup = new mapboxgl.Popup({ closeOnClick: false })
     .setLngLat(feature.geometry.coordinates)
     .setHTML(
-      `<div>
-      <h3>${feature.properties.title}</h3>
-      <span>${distance}</span>
-      <p>${feature.properties.owner}</p>
-      </div>`
+      `<Link href=/item?identifier=${feature.properties.id}>
+        <a>
+          <div>
+          <h3>${feature.properties.title}</h3>
+          <span>${distance}</span>
+          <p>${feature.properties.owner}</p>
+          </div>
+        </a>
+      </Link>`
     )
     .addTo(map.current as mapboxgl.Map);
 }

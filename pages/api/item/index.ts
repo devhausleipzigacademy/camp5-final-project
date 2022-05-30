@@ -1,5 +1,4 @@
 import { Item, PrismaClient } from ".prisma/client";
-import { SellType } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
@@ -9,11 +8,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const id = req.query.identifier as string | undefined;
+    const id = req.query.identifier as string;
     try {
-      let items: Item | null;
+      let item: Item | null;
       if (id) {
-        items = await prisma.item.findUnique({
+        item = await prisma.item.findUnique({
           where: {
             identifier: id,
           },
@@ -21,7 +20,8 @@ export default async function handler(
       } else {
         throw new Error("item not found");
       }
-      res.status(200).json(items);
+      const data = res.status(200).json(item);
+      return data;
     } catch (err) {
       console.log(err);
     }

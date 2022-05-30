@@ -1,4 +1,5 @@
 import { Coord } from "@turf/turf";
+import id from "date-fns/esm/locale/id/index.js";
 import mapboxgl, { LngLatLike, Marker } from "mapbox-gl";
 
 import { useLocationStore } from "../stores/locationStore";

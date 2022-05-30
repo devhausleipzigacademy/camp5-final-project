@@ -5,18 +5,23 @@ import BackIcon from "../public/back.svg";
 import StarIcon from "../public/star.svg";
 import StarFilledIcon from "../public/star_filled.svg";
 import LocationIcon from "../public/location.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Header from "../components/Header/Header";
+import { getProduct } from "../utils/getProduct";
+import { Item } from "../utils/types";
 
 export interface ProductProps {
   imagesArray: string[];
   title: string;
-  offerType: "Free" | "Swap";
+  offerType: string;
   owner: string;
   createdAt: string;
   distance: number;
   description: string;
   favorited: boolean;
+  id: string;
 }
+
 export default function ProductPage({
   imagesArray,
   title,
@@ -26,16 +31,45 @@ export default function ProductPage({
   distance,
   description,
   favorited = false,
+  id = "629e6538-ce13-4b8f-9101-f46f82ea8dbd",
 }: ProductProps) {
   const [isFavorited, SetIsFavorited] = useState(favorited);
+  const [productData, setProductData] = useState<Item | null>(null);
+
+  async function getProductData(id: string) {
+    const item = await getProduct(id);
+    setProductData(item);
+  }
+  useEffect(() => {
+    getProductData(id);
+  }, []);
+
+  imagesArray = [
+    "http://placeimg.com/640/360/tech",
+    "http://placeimg.com/640/360/people",
+    "http://placeimg.com/640/360/animals",
+  ];
+  offerType = "Free";
+
+  if (!productData) {
+    return;
+  } else {
+    title = productData.title;
+    // imagesArray = productData.images;
+    description = productData.description;
+    owner = productData.userId;
+    offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
+    createdAt = productData.createdAt;
+  }
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
   const offerTradeHandler = () => {};
   const chatHandler = () => {};
   const backHandler = () => {};
   const locationHandler = () => {};
   return (
-    <>
-      <div className="flex-col space-y-2 h-[calc(100vh-64px)] overflow-hidden">
+    <div className="pt-16">
+      <Header />
+      <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
         <div className="relative block w-full">
           <Carousel imagesArray={imagesArray} />
           <button
@@ -62,13 +96,14 @@ export default function ProductPage({
             <div>
               <p className="text-xl">{title}</p>
             </div>
-            <div>
-              <Button
-                bgColor={"primary"}
-                value={offerType}
-                onClick={() => {}}
-              />
-            </div>
+            <Button
+              bgColor={"primary"}
+              width={8}
+              py={0.5}
+              value={offerType}
+              onClick={() => {}}
+              px={8}
+            />
           </div>
           <div className="flex justify-between items-center">
             <div>
@@ -85,13 +120,14 @@ export default function ProductPage({
           {/* not sure how to make the description responsive in size */}
           <div className="overflow-y-scroll h-56">{description}</div>
           <Button
-            bgColor={"secondary"}
+            bgColor={"primary"}
             value={"Offer Trade"}
             py={2}
+            width={"full"}
             onClick={offerTradeHandler}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -34,3 +34,16 @@ export type ListData = {
   owner?: string;
   id: string;
 };
+
+export type Item = {
+  identifier: string;
+  title: string;
+  images: string[];
+  description: string;
+  user: string;
+  userId: string;
+  sellType: string;
+  createdAt: string;
+  category: string;
+  catId: string;
+};
