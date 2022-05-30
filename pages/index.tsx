@@ -58,12 +58,14 @@ const Home: NextPage = () => {
     if (!initialMapData) {
       return;
     } else if ((event.target as HTMLButtonElement).value === "Free") {
+      // DEACTIVATE
       if (selectedFilter === "Swap") {
-        setSelectedFilter("");
+        setSelectedFilter("all"); // swap comes back in
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
         setActivateFree("secondary");
-      } else {
+        // ACTIVATE
+      } else if (selectedFilter === "all") {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "SWAP"
         );
@@ -75,16 +77,39 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
         setActivateFree("primary");
+        // another if statement with selectedFilter("none")
+      } else if (activateFree === "secondary" && activateSwap === "primary") {
+        setSelectedFilter("none");
+        const filteredMarkersArr: Feature[] = [];
+        const updatedMapData: MapData = {
+          ...initialMapData,
+          features: filteredMarkersArr,
+        };
+        resetAndSetMarkers(updatedMapData);
+        setActivateFree("primary");
+      } else if (selectedFilter === "none") {
+        const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
+          (feature) => feature.type === "FREE"
+        );
+        setSelectedFilter("Free");
+        const updatedMapData: MapData = {
+          ...initialMapData,
+          features: filteredMarkersArr,
+        };
+        setMapData(() => updatedMapData);
+        resetAndSetMarkers(updatedMapData);
+        setActivateFree("secondary");
       }
       console.log(mapRef, location);
-      // write for swapbuttonevent
     } else if ((event.target as HTMLButtonElement).value === "Swap") {
+      // DEACTIVATE
       if (selectedFilter === "Free") {
-        setSelectedFilter("");
+        setSelectedFilter("all"); // free comes back in
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
         setActivateSwap("secondary");
-      } else {
+        // ACTIVATE
+      } else if (selectedFilter === "all") {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "FREE"
         );
@@ -96,12 +121,31 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
         setActivateSwap("primary");
+      } else if (activateFree === "primary" && activateSwap === "secondary") {
+        setSelectedFilter("none");
+        const filteredMarkersArr: Feature[] = [];
+        const updatedMapData: MapData = {
+          ...initialMapData,
+          features: filteredMarkersArr,
+        };
+        resetAndSetMarkers(updatedMapData);
+        setActivateSwap("primary");
+      } else if (selectedFilter === "none") {
+        const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
+          (feature) => feature.type === "SWAP"
+        );
+        setSelectedFilter("Swap");
+        const updatedMapData: MapData = {
+          ...initialMapData,
+          features: filteredMarkersArr,
+        };
+        setMapData(() => updatedMapData);
+        resetAndSetMarkers(updatedMapData);
+        setActivateSwap("secondary");
       }
-      // here goes the else statement that resets all markers
-      // need a state for selectedFilter("none"?)
-      // addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     }
+    console.log();
   };
 
   return (
