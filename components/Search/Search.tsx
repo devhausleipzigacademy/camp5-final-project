@@ -1,6 +1,11 @@
 import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
-import { CheckIcon, SearchIcon } from "@heroicons/react/solid";
+import {
+  CheckIcon,
+  SearchIcon,
+  GiftIcon,
+  SwitchVerticalIcon,
+} from "@heroicons/react/solid";
 import { Feature } from "../../utils/types";
 
 type SearchProps = {
@@ -52,14 +57,19 @@ export default function Search({ properties }: SearchProps) {
                   <Combobox.Option
                     key={index}
                     className={({ active }) =>
-                      `relative cursor-default select-none bg-BG pl-10 pr-4 ${
-                        active ? "bg-primary-text text-primary" : "bg-BG"
+                      `flex space-x-3 relative cursor-default select-none ${
+                        active ? "bg-BG text-primary" : "bg-BG"
                       }`
                     }
                     value={element.properties.title}
                   >
                     {({ selected, active }) => (
                       <>
+                        {element.type === "FREE" ? (
+                          <GiftIcon className="w-6 h-6 ml-1 flex justify-center" />
+                        ) : (
+                          <SwitchVerticalIcon className="w-6 h-6 ml-1 flex justify-center" />
+                        )}
                         <span
                           className={`block truncate ${
                             selected ? "font-medium" : "font-normal"
