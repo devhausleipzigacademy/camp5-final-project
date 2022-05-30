@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
-import SearchBar from "../components/SearchBar/searchbar";
+
 import { getMapData } from "../utils/getMapData";
 import { MapData, Feature } from "../utils/types";
 import FilterButtons from "../components/FilterButtons/filterButtons";
@@ -15,6 +15,7 @@ import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
 import { isFunctionDeclaration } from "typescript";
+import Search from "../components/Search/Search";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -27,11 +28,13 @@ const Home: NextPage = () => {
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
     setInitialMapData(mapDataFetch);
+    setData(mapData);
   }
 
   useEffect(() => {
@@ -97,7 +100,9 @@ const Home: NextPage = () => {
   return (
     <div className="pt-16 space-y-2">
       <Header />
-      <SearchBar />
+
+      <Search properties={data?.features!} />
+
       <FilterButtons clickHandler={filterMarkers} />
       {!mapData ? <Spinner /> : <Map mapData={mapData} />}
       <ItemDrawer />
