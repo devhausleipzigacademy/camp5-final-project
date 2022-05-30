@@ -41,7 +41,7 @@ export default function Search({ properties }: SearchProps) {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="z-50 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+            <Combobox.Options className="z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg focus:outline-none sm:text-sm">
               {!filteredItems && query !== "" ? (
                 <div className="relative cursor-default select-none py-2 px-4 text-BG-text">
                   Nothing found.
