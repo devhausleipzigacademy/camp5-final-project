@@ -77,7 +77,7 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
         setActivateFree("primary");
-        // another if statement with selectedFilter("none")
+        // DEACTIVATE BOTH
       } else if (activateFree === "secondary" && activateSwap === "primary") {
         setSelectedFilter("none");
         const filteredMarkersArr: Feature[] = [];
@@ -87,6 +87,7 @@ const Home: NextPage = () => {
         };
         resetAndSetMarkers(updatedMapData);
         setActivateFree("primary");
+        // ACTIVATE after full deactivation
       } else if (selectedFilter === "none") {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "FREE"
@@ -121,6 +122,7 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
         setActivateSwap("primary");
+        // DEACTIVATE BOTH
       } else if (activateFree === "primary" && activateSwap === "secondary") {
         setSelectedFilter("none");
         const filteredMarkersArr: Feature[] = [];
@@ -130,6 +132,7 @@ const Home: NextPage = () => {
         };
         resetAndSetMarkers(updatedMapData);
         setActivateSwap("primary");
+        // ACTIVATE after full deactivation
       } else if (selectedFilter === "none") {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "SWAP"
@@ -152,7 +155,6 @@ const Home: NextPage = () => {
     <div className="pt-16 space-y-2">
       <Header />
       <SearchBar />
-      {/* <FilterButtons clickHandler={filterMarkers} toggle={selectedFilter} /> */}
       <div className="flex gap-2 px-2">
         <Button bgColor={activateFree} onClick={filterMarkers} value={"Free"} />
         <Button bgColor={activateSwap} onClick={filterMarkers} value={"Swap"} />
