@@ -72,11 +72,6 @@ export default function Search({ properties }: SearchProps) {
                     onClick={() => {
                       createPopUp(element, location, mapRef);
                       setTimeout(() => flyToStore(element, mapRef), 300);
-                      const activeItem =
-                        document.getElementsByClassName("active");
-                      if (activeItem[0]) {
-                        activeItem[0].classList.remove("active");
-                      }
                     }}
                   >
                     {({ selected, active }) => (
