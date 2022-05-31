@@ -1,74 +1,74 @@
-import Button from "../components/Button/Button";
-import Carousel from "../components/Carousel/Carousel";
-import ChatIcon from "../public/chat.svg";
-import BackIcon from "../public/back.svg";
-import StarIcon from "../public/star.svg";
-import StarFilledIcon from "../public/star_filled.svg";
-import LocationIcon from "../public/location.svg";
+import Button from "../../components/Button/Button";
+import Carousel from "../../components/Carousel/Carousel";
+import ChatIcon from "../../public/chat.svg";
+import BackIcon from "../../public/back.svg";
+import StarIcon from "../../public/star.svg";
+import StarFilledIcon from "../../public/star_filled.svg";
+import LocationIcon from "../../public/location.svg";
 import { useEffect, useState } from "react";
-import Header from "../components/Header/Header";
-import { getProduct } from "../utils/getProduct";
-import { Item } from "../utils/types";
+import Header from "../../components/Header/Header";
+import { getProduct } from "../../utils/getProduct";
+import { Item } from "../../utils/types";
+import { useRouter } from "next/router";
+import { formatDistance, subDays } from "date-fns";
 
-export interface ProductProps {
-  imagesArray: string[];
-  title: string;
-  offerType: string;
-  owner: string;
-  createdAt: string;
-  distance: number;
-  description: string;
-  favorited: boolean;
-  id: string;
-}
-
-export default function ProductPage({
-  imagesArray,
-  title,
-  offerType,
-  owner,
-  createdAt,
-  distance,
-  description,
-  favorited = false,
-  id = "629e6538-ce13-4b8f-9101-f46f82ea8dbd",
-}: ProductProps) {
+export default function ProductPage(): JSX.Element {
+  let favorited = false;
   const [isFavorited, SetIsFavorited] = useState(favorited);
   const [productData, setProductData] = useState<Item | null>(null);
+
+  const router = useRouter();
+  let title = router.asPath.split("title=")[1].split("&")[0];
+  let id = router.asPath.split("identifier=")[1].split("&")[0];
+  let distance = router.asPath.split("distance=")[1].split("&")[0];
+  let owner = router.asPath.split("owner=")[1];
 
   async function getProductData(id: string) {
     const item = await getProduct(id);
     setProductData(item);
   }
   useEffect(() => {
-    getProductData(id);
+    const storedValue = id;
+    if (storedValue) {
+      getProductData(storedValue);
+    }
   }, []);
 
-  imagesArray = [
-    "http://placeimg.com/640/360/tech",
-    "http://placeimg.com/640/360/people",
-    "http://placeimg.com/640/360/animals",
-  ];
-  offerType = "Free";
+  // let imagesArray = [
+  //   "http://placeimg.com/640/360/tech",
+  //   "http://placeimg.com/640/360/people",
+  //   "http://placeimg.com/640/360/animals",
+  // ];
+  let imagesArray;
+  let description;
+  let offerType;
+  let createdAt;
+  let createdAgo;
 
   if (!productData) {
-    return;
+    return <></>;
   } else {
     title = productData.title;
     // imagesArray = productData.images;
     description = productData.description;
-    owner = productData.userId;
     offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
+    imagesArray = productData.images;
     createdAt = productData.createdAt;
+    createdAgo = formatDistance(subDays(new Date(createdAt), 0), new Date(), {
+      addSuffix: true,
+    });
   }
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
   const offerTradeHandler = () => {};
   const chatHandler = () => {};
-  const backHandler = () => {};
+  const backHandler = () => {
+    router.push({
+      pathname: "/",
+    });
+  };
   const locationHandler = () => {};
   return (
     <div className="pt-16">
-      <Header />
       <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
         <div className="relative block w-full">
           <Carousel imagesArray={imagesArray} />
@@ -109,7 +109,7 @@ export default function ProductPage({
             <div>
               <p className="text-md"> {`Offered by ${owner}`} </p>
               <p className="text-xs">{`distance ${distance} km`} </p>
-              <p className="text-xs">{`posted ${createdAt}`} </p>
+              <p className="text-xs">{`posted ${createdAgo}`} </p>
             </div>
             <div>
               <button onClick={chatHandler} className="text-primary w-10">
@@ -118,7 +118,7 @@ export default function ProductPage({
             </div>
           </div>
           {/* not sure how to make the description responsive in size */}
-          <div className="overflow-y-scroll h-56">{description}</div>
+          <div className="overflow-y-scroll h-52">{description}</div>
           <Button
             bgColor={"primary"}
             value={"Offer Trade"}

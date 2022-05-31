@@ -71,7 +71,6 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
       }
-      console.log(mapRef, location);
     } else {
       if (selectedFilter === "Swap") {
         setSelectedFilter("");
