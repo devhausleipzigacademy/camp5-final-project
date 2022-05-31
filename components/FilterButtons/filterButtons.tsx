@@ -22,43 +22,45 @@ type FilterButtonsProps = {
 const FilterButtons = ({ parentCallback }: FilterButtonsProps) => {
   const [free, setFree] = useState(false);
   const [swap, setSwap] = useState(false);
-  let [buttonData] = useState<string[]>([]);
-
-  // let buttonData = ["free", "swap"];
-
-  let bgFree = "secondary";
-  let bgSwap = "secondary";
+  const [bgFree, setBgFree] = useState("secondary");
+  const [bgSwap, setBgSwap] = useState("secondary");
+  let [buttonData] = useState(["free", "swap"]);
 
   function clickHandler(event: React.MouseEvent<HTMLButtonElement>) {
     if ((event.target as HTMLButtonElement).value === "Free") {
       if (free === true) {
         setFree(false);
-        bgFree = "primary";
+        setBgFree("primary");
         buttonData = buttonData.filter((f) => f !== "free");
       }
       if (free === false) {
         setFree(true);
-        bgFree = "secondary";
+        setBgFree("secondary");
         buttonData.push("free");
       }
-      parentCallback(buttonData);
+      // parentCallback(buttonData);
+      console.log("inside free", buttonData);
     }
     if ((event.target as HTMLButtonElement).value === "Swap") {
       if (swap === true) {
         setSwap(false);
-        bgSwap = "primary";
+        setBgSwap("primary");
         buttonData = buttonData.filter((f) => f !== "swap");
       }
       if (swap === false) {
         setSwap(true);
-        bgSwap = "secondary";
+        setBgSwap("secondary");
         buttonData.push("swap");
       }
-      parentCallback(buttonData);
+      // parentCallback(buttonData);
+      console.log("inside swap", buttonData);
     }
+    console.log("inside function, outside if", buttonData);
+    parentCallback(buttonData);
+    return buttonData;
   }
 
-  console.log(buttonData);
+  console.log("outside function:", buttonData);
 
   return (
     <div className="flex gap-2 px-2">
