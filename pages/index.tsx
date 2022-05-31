@@ -98,7 +98,13 @@ const Home: NextPage = () => {
       <Header />
       <SearchBar />
       <FilterButtons clickHandler={filterMarkers} />
-      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+      {!mapData ? (
+        <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
+          <Spinner />
+        </div>
+      ) : (
+        <Map mapData={mapData} />
+      )}
       <ItemDrawer />
     </div>
   );

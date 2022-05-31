@@ -6,22 +6,27 @@ import StarIcon from "../../public/star.svg";
 import StarFilledIcon from "../../public/star_filled.svg";
 import LocationIcon from "../../public/location.svg";
 import { useEffect, useState } from "react";
-import Header from "../../components/Header/Header";
 import { getProduct } from "../../utils/getProduct";
 import { Item } from "../../utils/types";
 import { useRouter } from "next/router";
 import { formatDistance, subDays } from "date-fns";
 
 export default function ProductPage(): JSX.Element {
-  let favorited = false;
-  const [isFavorited, SetIsFavorited] = useState(favorited);
-  const [productData, setProductData] = useState<Item | null>(null);
-
   const router = useRouter();
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
   let owner = router.asPath.split("owner=")[1];
+
+  let imagesArray;
+  let description;
+  let offerType;
+  let createdAt;
+  let createdAgo;
+  let favorited = false;
+
+  const [isFavorited, SetIsFavorited] = useState(favorited);
+  const [productData, setProductData] = useState<Item | null>(null);
 
   async function getProductData(id: string) {
     const item = await getProduct(id);
@@ -34,16 +39,12 @@ export default function ProductPage(): JSX.Element {
     }
   }, []);
 
+  // mock data to demonstrate carousel functionality
   // let imagesArray = [
   //   "http://placeimg.com/640/360/tech",
   //   "http://placeimg.com/640/360/people",
   //   "http://placeimg.com/640/360/animals",
   // ];
-  let imagesArray;
-  let description;
-  let offerType;
-  let createdAt;
-  let createdAgo;
 
   if (!productData) {
     return <></>;
