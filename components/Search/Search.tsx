@@ -7,7 +7,12 @@ import {
   SwitchVerticalIcon,
 } from "@heroicons/react/solid";
 import { Feature } from "../../utils/types";
+import createPopUp from "../../utils/createPopUp";
 
+import { feature } from "@turf/turf";
+import flyToStore from "../../utils/flyToStore";
+import { useMapStore } from "../../stores/mapStore";
+import { useLocationStore } from "../../stores/locationStore";
 type SearchProps = {
   properties: Feature[];
 };
@@ -15,6 +20,8 @@ type SearchProps = {
 export default function Search({ properties }: SearchProps) {
   const [selected, setSelected] = useState();
   const [query, setQuery] = useState("");
+  const { mapRef } = useMapStore();
+  const { location } = useLocationStore();
 
   const filteredItems =
     query === ""
@@ -62,6 +69,15 @@ export default function Search({ properties }: SearchProps) {
                       }`
                     }
                     value={element.properties.title}
+                    onClick={() => {
+                      createPopUp(element, location, mapRef);
+                      setTimeout(() => flyToStore(element, mapRef), 300);
+                      const activeItem =
+                        document.getElementsByClassName("active");
+                      if (activeItem[0]) {
+                        activeItem[0].classList.remove("active");
+                      }
+                    }}
                   >
                     {({ selected, active }) => (
                       <>
