@@ -39,10 +39,10 @@ export default function Search({ properties }: SearchProps) {
         <Combobox value={selected} onChange={setSelected}>
           <div className="relative w-full cursor-default overflow-hidden bg-white text-left">
             <Combobox.Input
-              className="pl-2 w-full focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
+              className="pl-2 w-10/12 focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
               onChange={(event) => setQuery(event.target.value)}
             />
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center opacity-100">
+            <Combobox.Button className="absolute inset-y-0 right-2 flex items-center opacity-100">
               <SearchIcon className="h-5 w-5 text-BG-text" aria-hidden="true" />
             </Combobox.Button>
           </div>
