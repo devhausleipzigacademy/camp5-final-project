@@ -1,6 +1,5 @@
 import mapboxgl from "mapbox-gl";
 import create from "zustand";
-import { Feature } from "../utils/types";
 
 const initialMarker: mapboxgl.Marker[] = [];
 

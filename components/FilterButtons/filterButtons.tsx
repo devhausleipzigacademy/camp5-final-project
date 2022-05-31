@@ -11,63 +11,61 @@ import { Feature, MapData } from "../../utils/types";
 import Button from "../Button/Button";
 
 type FilterButtonsProps = {
-  clickHandler: MouseEventHandler<HTMLButtonElement> | undefined;
-  toggle: string;
+  parentCallback: (buttonData: string[]) => void;
+  // clickHandler: MouseEventHandler<HTMLButtonElement> | undefined;
+  // free: boolean;
+  // swap: boolean;
   // mapData: MapData | null;
   // setMapData: React.Dispatch<React.SetStateAction<MapData | null>>;
 };
 
-const FilterButtons = ({ clickHandler, toggle }: FilterButtonsProps) => {
-  // const [activateFree, setActivateFree] = useState("secondary");
-  // const [activateSwap, setActivateSwap] = useState("secondary");
+const FilterButtons = ({ parentCallback }: FilterButtonsProps) => {
+  const [free, setFree] = useState(false);
+  const [swap, setSwap] = useState(false);
+  let [buttonData] = useState<string[]>([]);
 
-  // function changeColor() {
-  //   if (toggle === "Free") {
-  //     setActivateSwap("primary");
-  //   }
-  //   if (toggle === "Swap") {
-  //     setActivateFree("primary");
-  //   }
-  //   if (toggle === "") {
-  //     setActivateFree("secondary");
-  //     setActivateSwap("secondary");
-  //   }
-  //   console.log("not working");
-  // }
+  // let buttonData = ["free", "swap"];
 
-  // changeColor();
+  let bgFree = "secondary";
+  let bgSwap = "secondary";
+
+  function clickHandler(event: React.MouseEvent<HTMLButtonElement>) {
+    if ((event.target as HTMLButtonElement).value === "Free") {
+      if (free === true) {
+        setFree(false);
+        bgFree = "primary";
+        buttonData = buttonData.filter((f) => f !== "free");
+      }
+      if (free === false) {
+        setFree(true);
+        bgFree = "secondary";
+        buttonData.push("free");
+      }
+      parentCallback(buttonData);
+    }
+    if ((event.target as HTMLButtonElement).value === "Swap") {
+      if (swap === true) {
+        setSwap(false);
+        bgSwap = "primary";
+        buttonData = buttonData.filter((f) => f !== "swap");
+      }
+      if (swap === false) {
+        setSwap(true);
+        bgSwap = "secondary";
+        buttonData.push("swap");
+      }
+      parentCallback(buttonData);
+    }
+  }
+
+  console.log(buttonData);
 
   return (
     <div className="flex gap-2 px-2">
-      <Button bgColor={activateFree} onClick={clickHandler} value={"Free"} />
-      <Button bgColor={activateSwap} onClick={clickHandler} value={"Swap"} />
+      <Button bgColor={bgFree} onClick={clickHandler} value={"Free"} />
+      <Button bgColor={bgSwap} onClick={clickHandler} value={"Swap"} />
     </div>
   );
 };
 
 export default FilterButtons;
-
-// async function getAllMapData() {
-//   const mapDataFetch = await getMapData();
-//   setMapData(mapDataFetch);
-// }
-
-// async function getFreeData() {
-//   const freeItems = await getFreeItems();
-//   setMapData(freeItems);
-// }
-
-// async function getSwapData() {
-//   const swapItems = await getSwapItems();
-//   setMapData(swapItems);
-// }
-
-// const filterMarkers = (event: React.MouseEvent<HTMLButtonElement>) => {
-//   if ((event.target as HTMLButtonElement).value === "Free") {
-//     getFreeData();
-//     console.log("free baby");
-//   } else if ((event.target as HTMLButtonElement).value === "Swap") {
-//     getSwapData();
-//   } else {
-//     getAllMapData();
-//   }

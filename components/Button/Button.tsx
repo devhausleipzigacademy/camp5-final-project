@@ -18,7 +18,6 @@ const Button = ({
   py = 0.5,
   onClick,
 }: ButtonProps) => {
-  // const bgColor = "primary";
   return (
     <button
       //clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
