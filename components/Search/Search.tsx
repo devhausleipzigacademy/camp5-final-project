@@ -32,7 +32,8 @@ export default function Search({ properties }: SearchProps) {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
-  console.log(properties);
+  console.log(query);
+  console.log(filteredItems);
   return (
     <div className="flex px-2 mt-2">
       <div className="w-full h-full rounded-md border-primary border-2 text-center">
@@ -54,10 +55,12 @@ export default function Search({ properties }: SearchProps) {
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-[calc(100vw-16px)] overflow-auto rounded-md bg-white text-base shadow-lg sm:text-sm">
-              {!filteredItems && query !== "" ? (
-                <div className="relative cursor-default select-none py-2 px-4 text-BG-text">
-                  Nothing found.
-                </div>
+              {filteredItems?.length === 0 && query.length > 0 ? (
+                <Combobox.Option value="" key="" className="z-50">
+                  <span className="relative py-2 px-4 text-BG-text">
+                    Nothing found.
+                  </span>
+                </Combobox.Option>
               ) : (
                 !!filteredItems?.length &&
                 filteredItems.map((element, index) => (
