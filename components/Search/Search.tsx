@@ -32,18 +32,17 @@ export default function Search({ properties }: SearchProps) {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
-  console.log(query);
-  console.log(filteredItems);
+
   return (
     <div className="flex px-2 mt-2">
       <div className="w-full h-full rounded-md border-primary border-2 text-center">
         <Combobox value={selected} onChange={setSelected}>
           <div className="relative w-full cursor-default overflow-hidden bg-white text-left">
             <Combobox.Input
-              className="w-full focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
+              className="pl-2 w-full focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
               onChange={(event) => setQuery(event.target.value)}
             />
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center opacity-100">
               <SearchIcon className="h-5 w-5 text-BG-text" aria-hidden="true" />
             </Combobox.Button>
           </div>
@@ -56,8 +55,12 @@ export default function Search({ properties }: SearchProps) {
           >
             <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-[calc(100vw-16px)] overflow-auto rounded-md bg-white text-base shadow-lg sm:text-sm">
               {filteredItems?.length === 0 && query.length > 0 ? (
-                <Combobox.Option value="" key="" className="z-50">
-                  <span className="relative py-2 px-4 text-BG-text">
+                <Combobox.Option
+                  value=""
+                  key=""
+                  className="flex space-x-3 relative cursor-default select-none bg-BG"
+                >
+                  <span className="relative py-2 px-4 text-BG-text overflow-auto">
                     Nothing found.
                   </span>
                 </Combobox.Option>
