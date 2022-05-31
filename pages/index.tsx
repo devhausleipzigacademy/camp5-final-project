@@ -28,8 +28,8 @@ const Home: NextPage = () => {
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] = useState("all");
-  const [activateFree, setActivateFree] = useState("secondary");
-  const [activateSwap, setActivateSwap] = useState("secondary");
+  const [activateFree, setActivateFree] = useState("primary");
+  const [activateSwap, setActivateSwap] = useState("primary");
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -58,37 +58,12 @@ const Home: NextPage = () => {
     if (!initialMapData) {
       return;
     } else if ((event.target as HTMLButtonElement).value === "Free") {
-      // DEACTIVATE
-      if (selectedFilter === "Swap") {
-        setSelectedFilter("all"); // swap comes back in
+      if (selectedFilter === "Free") {
+        setSelectedFilter("");
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
-        setActivateFree("secondary");
-        // ACTIVATE
-      } else if (selectedFilter === "all") {
-        const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
-          (feature) => feature.type === "SWAP"
-        );
-        setSelectedFilter("Swap");
-        const updatedMapData: MapData = {
-          ...initialMapData,
-          features: filteredMarkersArr,
-        };
-        setMapData(() => updatedMapData);
-        resetAndSetMarkers(updatedMapData);
         setActivateFree("primary");
-        // DEACTIVATE BOTH
-      } else if (activateFree === "secondary" && activateSwap === "primary") {
-        setSelectedFilter("none");
-        const filteredMarkersArr: Feature[] = [];
-        const updatedMapData: MapData = {
-          ...initialMapData,
-          features: filteredMarkersArr,
-        };
-        resetAndSetMarkers(updatedMapData);
-        setActivateFree("primary");
-        // ACTIVATE after full deactivation
-      } else if (selectedFilter === "none") {
+      } else {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "FREE"
         );
@@ -102,38 +77,13 @@ const Home: NextPage = () => {
         setActivateFree("secondary");
       }
       console.log(mapRef, location);
-    } else if ((event.target as HTMLButtonElement).value === "Swap") {
-      // DEACTIVATE
-      if (selectedFilter === "Free") {
-        setSelectedFilter("all"); // free comes back in
+    } else {
+      if (selectedFilter === "Swap") {
+        setSelectedFilter("");
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
-        setActivateSwap("secondary");
-        // ACTIVATE
-      } else if (selectedFilter === "all") {
-        const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
-          (feature) => feature.type === "FREE"
-        );
-        setSelectedFilter("Free");
-        const updatedMapData: MapData = {
-          ...initialMapData,
-          features: filteredMarkersArr,
-        };
-        setMapData(() => updatedMapData);
-        resetAndSetMarkers(updatedMapData);
         setActivateSwap("primary");
-        // DEACTIVATE BOTH
-      } else if (activateFree === "primary" && activateSwap === "secondary") {
-        setSelectedFilter("none");
-        const filteredMarkersArr: Feature[] = [];
-        const updatedMapData: MapData = {
-          ...initialMapData,
-          features: filteredMarkersArr,
-        };
-        resetAndSetMarkers(updatedMapData);
-        setActivateSwap("primary");
-        // ACTIVATE after full deactivation
-      } else if (selectedFilter === "none") {
+      } else {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "SWAP"
         );
@@ -146,9 +96,9 @@ const Home: NextPage = () => {
         resetAndSetMarkers(updatedMapData);
         setActivateSwap("secondary");
       }
+      // addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     }
-    console.log();
   };
 
   return (
