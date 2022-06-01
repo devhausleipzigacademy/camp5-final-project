@@ -28,7 +28,7 @@ const Home: NextPage = () => {
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] = useState<string>("");
-  const [data, setData] = useState<MapData | null>(null);
+  // const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -98,7 +98,7 @@ const Home: NextPage = () => {
   return (
     <div className="pt-16 space-y-2">
       <Header />
-      <Search properties={data?.features!} />
+      <Search properties={mapData?.features!} />
       <div className="flex gap-2 px-2">
         <Button
           selected={selectedFilter === "Free"}

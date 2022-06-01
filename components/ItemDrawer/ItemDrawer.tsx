@@ -13,7 +13,6 @@ import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
 import { getListData } from "../../utils/getListData";
 import { Spinner } from "../Spinner/Spinner";
-import useFilter from "../../utils/useFilter";
 
 export default function Example({
   selectedFilter,
