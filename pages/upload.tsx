@@ -9,7 +9,20 @@ import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
 import CategoryInputs from "../components/Inputfields/CategoryInputs";
 import { useState, useEffect } from "react";
 
-const categories = {
+type Field = {
+  name: string;
+  placeholder: string;
+};
+
+type SubCategory = {
+  [key: string]: Field[];
+};
+
+type Category = {
+  [key: keyof SubCategory]: SubCategory;
+};
+
+const categories: Category = {
   catOne: {
     subCatOne: [{ name: "type", placeholder: "Type" }],
     subCatTwo: [
@@ -33,25 +46,27 @@ const UploadPage: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
-  const [fields, setFields] = useState<{ name: string; placeholder: string }[]>(
-    []
-  );
+  const [fields, setFields] = useState<Field[]>([]);
+
+  // useEffect(() => {
+  //   console.log("");
+  // }, [selectedCategory]);
 
   useEffect(() => {
     if (selectedCategory) {
       setPossibleSub(Object.keys(categories[selectedCategory]));
     } else {
       setPossibleSub([]);
+      setSelectedSub(() => "");
     }
-  }, [selectedCategory]);
-
-  useEffect(() => {
+    console.log(selectedCategory, selectedSub);
     if (selectedCategory && selectedSub) {
-      setFields(categories[selectedCategory][selectedSub]);
-    } else if (!selectedSub) {
+      console.log("fields", categories[selectedCategory][selectedSub]);
+      setFields(() => categories[selectedCategory][selectedSub]);
+    } else if (!selectedSub || !selectedCategory) {
       setFields([]);
     }
-  }, [selectedSub]);
+  }, [selectedCategory, selectedSub]);
 
   return (
     <div className="font-medium w-80 flex-col pt-16 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
@@ -64,7 +79,10 @@ const UploadPage: NextPage = () => {
       <select
         name="category"
         id="category"
-        onChange={(evt) => setSelectedCategory(evt.target.value)}
+        onChange={(evt) => {
+          setSelectedSub("");
+          setSelectedCategory(evt.target.value);
+        }}
       >
         <option value={""} label="Empty"></option>
         {Object.keys(categories).map((cat) => (
