@@ -37,7 +37,7 @@ export default NextAuth({
       console.log(token);
       session.user.email = token.token.user.email;
       session.user.name = token.token.user.name;
-      session.user.image = token.token.user.picture;
+      session.user.image = token.token.user.image;
       return session;
     },
   },

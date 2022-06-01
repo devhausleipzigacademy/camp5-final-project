@@ -22,6 +22,8 @@ import {
   UseSessionOptions,
 } from "next-auth/react";
 import Button from "../components/Button/Button";
+import GoogleIcon from "../public/google.svg";
+import FacebookIcon from "../public/facebook.svg";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -105,6 +107,11 @@ const Home: NextPage = () => {
       console.log(mapRef, location);
     }
   };
+  const [showMap, setShowMap] = useState<boolean>(false);
+  function showMapHandler() {
+    setShowMap((prev) => !prev);
+    console.log(showMap);
+  }
 
   const { data: session, status } = useSession();
 
@@ -113,47 +120,94 @@ const Home: NextPage = () => {
   }, [session]);
 
   const loading = status === "loading";
-  const [content, setContent] = useState();
+
+  // placeholder function for submitting
+  // an email / password login
+  function submitForm() {}
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div className="pt-16 space-y-2 h-screen">
-      {/* <Header />
-      <SearchBar />
-      <FilterButtons clickHandler={filterMarkers} />
-      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
-      <ItemDrawer /> */}
+    <div className="pt-16 space-y-2 h-[calc(100vh-64px)]">
+      {showMap && (
+        <>
+          <Header />
+          <SearchBar />
+          <FilterButtons clickHandler={filterMarkers} />
+          {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+          <ItemDrawer />
+        </>
+      )}
 
       {!session && (
-        <div className="flex-col space-y-2 pt-2 text-center w-full h-full">
-          <Button
-            bgColor={"primary"}
-            value={"Sign In"}
-            onClick={() => signIn()}
-            width={"1/2"}
-          />
+        <div className="flex w-screen h-2/3 justify-around items-center px-4">
+          <div className="flex-col text-center space-y-4 text-BG-text">
+            <p>Sign in with</p>
+            <div className="flex w-1/2 justify-around mx-auto items-center">
+              <GoogleIcon type={"button"} onClick={() => signIn()} />
+              <FacebookIcon />
+            </div>
+            <p>or</p>
+            <input
+              className="w-full py-3 indent-4 bg-BG rounded-md"
+              placeholder="Username / E-mail"
+              name="username"
+              type="email"
+            ></input>
+            <input
+              className="w-full py-3 indent-4 bg-BG rounded-md"
+              placeholder="Password"
+              name="password"
+              type="password"
+            ></input>
+            <Button
+              bgColor={"primary"}
+              value={"Sign In"}
+              onClick={() => submitForm()}
+              py={2}
+              width={"1/3"}
+            />
+          </div>
         </div>
       )}
 
       {session && session.user && (
-        <>
-          <h4>You are logged as: {session.user.name}</h4>
-          <div>
-            <h4>Email: {session.user.email}</h4>
-            <br />
+        <div className="flex w-screen h-2/3 justify-around items-center">
+          <div className="flex-col text-center space-y-2">
             {session.user.image && (
               <span>
                 <Image
                   src={session.user.image}
                   alt={session.user.name as string}
+                  width={80}
+                  height={80}
+                  className={"rounded-full"}
                 />
               </span>
             )}
+            <p className="font-semibold">Welcome!</p>
+            <p>{session.user.name}</p>
+            <p>{session.user.email}</p>
+            <div className="flex-col space-y-2 pt-2 text-center w-full h-full">
+              <Button
+                bgColor={"primary"}
+                value={"Sign Out"}
+                onClick={() => signOut()}
+                width={"1/2"}
+                py={2}
+              />
+              <Button
+                bgColor={"secondary"}
+                value={"Let's Swap"}
+                onClick={() => showMapHandler()}
+                width={"1/2"}
+                py={2}
+              />
+            </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
