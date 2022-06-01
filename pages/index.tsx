@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
-
 import { getMapData } from "../utils/getMapData";
 import { MapData, Feature } from "../utils/types";
 import { Spinner } from "../components/Spinner/Spinner";
@@ -14,7 +13,6 @@ import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
 import Button from "../components/Button/Button";
-import { isFunctionDeclaration } from "typescript";
 import Search from "../components/Search/Search";
 
 mapboxgl.accessToken =
