@@ -34,3 +34,9 @@ export type ListData = {
   owner?: string;
   id: string;
 };
+
+export type Filter = {
+  free: string;
+  swap: string;
+  all: string;
+};

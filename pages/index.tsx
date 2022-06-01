@@ -27,15 +27,13 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  const [selectedFilter, setSelectedFilter] =
-    useState<"" | "Free" | "Swap">("");
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
     setInitialMapData(mapDataFetch);
-    setData(mapDataFetch);
   }
 
   useEffect(() => {
@@ -114,7 +112,7 @@ const Home: NextPage = () => {
         />
       </div>
       {!mapData ? <Spinner /> : <Map mapData={mapData} />}
-      <ItemDrawer />
+      <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
     </div>
   );
 };

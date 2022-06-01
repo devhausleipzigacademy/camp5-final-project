@@ -13,8 +13,11 @@ import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
 import { getListData } from "../../utils/getListData";
 import { Spinner } from "../Spinner/Spinner";
+import useFilter from "../../utils/useFilter";
 
-export default function Example() {
+export default function Example({
+  selectedFilter,
+}: Omit<ItemDrawerProps, "onClose">) {
   let [open, setOpen] = useState(false);
 
   return (
@@ -25,7 +28,12 @@ export default function Example() {
       ></button>
 
       <AnimatePresence>
-        {open && <ItemDrawer onClose={() => setOpen(false)} />}
+        {open && (
+          <ItemDrawer
+            onClose={() => setOpen(false)}
+            selectedFilter={selectedFilter}
+          />
+        )}
       </AnimatePresence>
     </>
   );
@@ -33,6 +41,7 @@ export default function Example() {
 
 interface ItemDrawerProps {
   onClose: () => void;
+  selectedFilter?: string | undefined;
 }
 
 interface ModalProps {
@@ -43,19 +52,44 @@ interface ModalProps {
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
+export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
   const [zoom, setZoom] = useState(14);
   const [listData, setListData] = useState<Feature[]>([]);
+  const [initialListData, setInitialListData] = useState<Feature[]>([]);
 
   async function getData() {
     const listDataFetch = await getListData();
+    // useFilter(listDataFetch, selectedFilter);
     setListData(listDataFetch);
+    setInitialListData(listDataFetch);
   }
   useEffect(() => {
     getData();
   }, []);
-  // const { userLocation, lng, lat } = useMap(map, setZoom);
 
+  console.log(selectedFilter);
+
+  const filterList = () => {
+    if (selectedFilter === "Free") {
+      const filteredList: Feature[] = initialListData?.filter(
+        (feature) => feature.type === "FREE"
+      );
+      setListData(() => filteredList);
+    } else if (selectedFilter === "Swap") {
+      const filteredList: Feature[] = initialListData?.filter(
+        (feature) => feature.type === "SWAP"
+      );
+      setListData(() => filteredList);
+    } else {
+      setListData(initialListData);
+    }
+  };
+
+  useEffect(() => {
+    if (initialListData.length) {
+      filterList();
+    }
+  }, [initialListData]);
   // jsx for styling the drawer
   return (
     <Modal onClose={onClose}>
