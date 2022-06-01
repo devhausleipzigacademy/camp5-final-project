@@ -3,6 +3,8 @@ import { mockData } from "../assets/data";
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.user.deleteMany();
+
   const prismaCalls = mockData.map(async (obj) => {
     const user = await prisma.user.create({
       data: { ...obj.user },

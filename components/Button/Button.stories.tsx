@@ -15,15 +15,8 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   bgColor: "primary",
-  text: "Swap",
 };
 export const Secondary = Template.bind({});
 Secondary.args = {
   bgColor: "secondary",
-  text: "Accept",
-};
-export const Error = Template.bind({});
-Error.args = {
-  bgColor: "error",
-  text: "Reject",
 };

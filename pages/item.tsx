@@ -35,7 +35,7 @@ export default function ProductPage({
   const locationHandler = () => {};
   return (
     <>
-      <div className="flex-col space-y-2 h-[calc(100vh-50px)] overflow-hidden">
+      <div className="flex-col space-y-2 h-[calc(100vh-64px)] overflow-hidden">
         <div className="relative block w-full">
           <Carousel imagesArray={imagesArray} />
           <button
@@ -63,7 +63,11 @@ export default function ProductPage({
               <p className="text-xl">{title}</p>
             </div>
             <div>
-              <Button bgColor={"primary"} text={offerType} />
+              <Button
+                bgColor={"primary"}
+                value={offerType}
+                onClick={() => {}}
+              />
             </div>
           </div>
           <div className="flex justify-between items-center">
@@ -82,9 +86,9 @@ export default function ProductPage({
           <div className="overflow-y-scroll h-56">{description}</div>
           <Button
             bgColor={"secondary"}
-            text={"Offer Trade"}
+            value={"Offer Trade"}
             py={2}
-            clickFunction={offerTradeHandler}
+            onClick={offerTradeHandler}
           />
         </div>
       </div>

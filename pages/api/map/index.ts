@@ -1,4 +1,4 @@
-import { Item, Location, PrismaClient } from ".prisma/client";
+import { Item, Location, PrismaClient, User } from ".prisma/client";
 import { SellType } from "@prisma/client";
 import { el } from "date-fns/locale";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -15,6 +15,7 @@ export default async function handler(
     try {
       let items: Item[] = [];
       let locations: Location[] = [];
+      let users: User[] = [];
 
       if (itemtype) {
         items = await prisma.item.findMany({
@@ -23,9 +24,11 @@ export default async function handler(
           },
         });
         locations = await prisma.location.findMany();
+        users = await prisma.user.findMany();
       } else {
         items = await prisma.item.findMany();
         locations = await prisma.location.findMany();
+        users = await prisma.user.findMany();
       }
       //define a response object
       const data: MapData = {
@@ -35,19 +38,26 @@ export default async function handler(
       //"fill" response object
       items.forEach((item) => {
         locations.forEach((location) => {
-          if (item.userId === location.userId) {
-            const featureObject: Feature = {
-              type: item.sellType,
-              geometry: {
-                type: "Point",
-                coordinates: [location.lon, location.lat],
-              },
-              properties: {
-                title: item.title,
-              },
-            };
-            data.features.push(featureObject);
-          }
+          users.forEach((user) => {
+            if (
+              item.userId === location.userId &&
+              item.userId === user.identifier
+            ) {
+              const featureObject: Feature = {
+                type: item.sellType,
+                geometry: {
+                  type: "Point",
+                  coordinates: [location.lon, location.lat],
+                },
+                properties: {
+                  title: item.title,
+                  id: item.identifier,
+                  owner: user.firstname,
+                },
+              };
+              data.features.push(featureObject);
+            }
+          });
         });
       });
       res.status(200).json(data);

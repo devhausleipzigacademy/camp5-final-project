@@ -2,27 +2,29 @@ import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { Dispatch, useEffect, useState } from "react";
 import { useLocationStore } from "../stores/locationStore";
+import { MapRef } from "../stores/mapStore";
+import { useMarkerStore } from "../stores/markerStore";
 import addMarkers from "../utils/addMarkers";
-import { MapData } from "../utils/types";
+import { Feature, ListData, MapData } from "../utils/types";
 
 export default function useMap(
-  map: any,
+  map: MapRef,
   setZoom: Dispatch<React.SetStateAction<number>>,
   mapData: MapData
 ) {
   const { setLocation, location } = useLocationStore();
-  // const [userLocation, setUserLocation] = useState<Coord>();
+  // const [markers, setMarkers] = useState<Feature[] | undefined>([]);
+  const { setMarkerArray } = useMarkerStore();
 
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
 
   useEffect(() => {
     //check, if map actually exists
-    if (!map.current) return;
-
-    //get user location
+    if (!map.current) {
+      return;
+    }
     navigator.geolocation.getCurrentPosition((position) => {
-      setLocation([position.coords.longitude, position.coords.latitude]);
       const userCoordinates = [
         position.coords.longitude,
         position.coords.latitude,
@@ -54,9 +56,7 @@ export default function useMap(
       });
 
       //store user location
-      // setUserLocation(userCoordinates);
     });
-
     map.current.on("load", () => {
       // create button for centering the map manually on user
       const geolocate = new mapboxgl.GeolocateControl({
@@ -77,7 +77,12 @@ export default function useMap(
     });
 
     // place all markers other than user on map
-    addMarkers(location, map, mapData as MapData);
+
+    const markerArray = addMarkers(location, map, mapData as MapData);
+    // setMarkers(markerArray);
+    if (markerArray?.length) {
+      setMarkerArray(markerArray);
+    }
 
     //enable scrolling and zooming for map
     (map.current as mapboxgl.Map).on("move", () => {
