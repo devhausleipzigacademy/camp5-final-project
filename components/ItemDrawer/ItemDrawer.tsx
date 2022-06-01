@@ -13,6 +13,7 @@ import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
 import { getListData } from "../../utils/getListData";
 import { Spinner } from "../Spinner/Spinner";
+import filterList from "../../utils/filterList";
 
 export default function Example({
   selectedFilter,
@@ -40,7 +41,7 @@ export default function Example({
 
 interface ItemDrawerProps {
   onClose: () => void;
-  selectedFilter?: string | undefined;
+  selectedFilter: string;
 }
 
 interface ModalProps {
@@ -66,25 +67,9 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
 
   console.log(selectedFilter);
 
-  const filterList = () => {
-    if (selectedFilter === "Free") {
-      const filteredList: Feature[] = initialListData?.filter(
-        (feature) => feature.type === "FREE"
-      );
-      setListData(() => filteredList);
-    } else if (selectedFilter === "Swap") {
-      const filteredList: Feature[] = initialListData?.filter(
-        (feature) => feature.type === "SWAP"
-      );
-      setListData(() => filteredList);
-    } else {
-      setListData(initialListData);
-    }
-  };
-
   useEffect(() => {
     if (initialListData.length) {
-      filterList();
+      filterList(selectedFilter, initialListData, setListData);
     }
   }, [initialListData, selectedFilter]);
   // jsx for styling the drawer
@@ -136,7 +121,7 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
 };
 
 // function to close the drawer
-function Modal({ onClose, children }: ModalProps) {
+function Modal({ children }: ModalProps) {
   return (
     <Dialog
       className="fixed top-[150px] right-0 left-0 bottom-0 z-10"
