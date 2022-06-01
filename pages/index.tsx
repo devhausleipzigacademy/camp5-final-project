@@ -7,16 +7,13 @@ import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
 import SearchBar from "../components/SearchBar/searchbar";
 import { getMapData } from "../utils/getMapData";
-import { MapData, Feature, ButtonBGType } from "../utils/types";
-import FilterButtons from "../components/FilterButtons/filterButtons";
+import { MapData, Feature } from "../utils/types";
 import { Spinner } from "../components/Spinner/Spinner";
 import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
-import { isFunctionDeclaration } from "typescript";
 import Button from "../components/Button/Button";
-import clsx from "clsx";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -30,9 +27,6 @@ const Home: NextPage = () => {
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] =
     useState<"" | "Free" | "Swap">("");
-
-  const [activateFree, setActivateFree] = useState("notactivefilter");
-  const [activateSwap, setActivateSwap] = useState("notactivefilter");
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -65,7 +59,6 @@ const Home: NextPage = () => {
         setSelectedFilter("");
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
-        setActivateFree("notactivefilter");
       } else {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "FREE"
@@ -77,7 +70,6 @@ const Home: NextPage = () => {
         };
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
-        setActivateFree("activefilter");
       }
       console.log(mapRef, location);
     } else {
@@ -85,7 +77,6 @@ const Home: NextPage = () => {
         setSelectedFilter("");
         setMapData(initialMapData);
         resetAndSetMarkers(initialMapData);
-        setActivateSwap("notactivefilter");
       } else {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "SWAP"
@@ -97,9 +88,7 @@ const Home: NextPage = () => {
         };
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
-        setActivateSwap("activefilter");
       }
-      // addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     }
   };
