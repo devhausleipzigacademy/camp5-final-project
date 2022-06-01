@@ -48,56 +48,9 @@ model Conversation {
 // the product owner can add as he want :)
 model Category {
   identifier  String @id @default(uuid())
-  title       KitchenCategories
+  title       String
   description String
-  subCategories SubCategory[]
-  Items       Item[]
-}
-
-enum KitchenCategories {
-  Appliances
-  Cookware
-  Cutlery
-  Dishes
-  OtherKitchenCategories
-}
-
-enum Appliances {
-  Toasters
-  Blenders
-  CoffeeMachine
-  Juicers
-  PopcornMakers
-  TeaKettles
-  WaffleMakers
-  OtherAppliances  
-}
-
-enum Cookware {
-  Pots
-  Pans
-  Forms
-  OtherCookware
-}
-
-enum Dishes {
-  Plates
-  Mugs
-  Bowls
-  Cups
-  Platters
-  Trays
-  TeaPots
-  OtherDishes
-}
-
-enum Cutlery {
-  Knives
-  Forks
-  TeaSpoons
-  SoupSpoons
-  ChopSticks
-  OtherCutlery
+  subcategories Subcategory[]
 }
 
 model Item {
@@ -105,12 +58,13 @@ model Item {
   title       String   @db.VarChar(50)
   images      Json
   description String
+  details     Json
   user        User     @relation(fields: [userId], references: [identifier])
   userId      String
   sellType    SellType
   createdAt   DateTime @default(now())
-  category    Category @relation(fields: [catId], references: [identifier])
-  catId       String
+  subcategory Subcategory @relation(fields: [subCatId], references: [identifier])
+  subcatId    String
 }
 
 enum SellType {
@@ -118,18 +72,11 @@ enum SellType {
   FREE
 }
 
-model SubCategory {
-  id     String  @id @default(cuid())
+model Subcategory {
+  identifier     String  @id @default(cuid())
   name   String
-  type   String?
-  Brand String?
-  Age    String?
-  Conditon String?
-  Colors  String[]
-  Manual String?
-  Dimensions Float[]
-  Material String?
   categoryId String
   category   Category @relation(fields: [categoryId], references: [identifier], onDelete: Cascade, onUpdate: Cascade)
+  items Item[]
 }
 
