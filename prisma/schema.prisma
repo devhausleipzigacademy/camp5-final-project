@@ -48,10 +48,56 @@ model Conversation {
 // the product owner can add as he want :)
 model Category {
   identifier  String @id @default(uuid())
-  title       String @db.VarChar(50)
+  title       KitchenCategories
   description String
   subCategories SubCategory[]
   Items       Item[]
+}
+
+enum KitchenCategories {
+  Appliances
+  Cookware
+  Cutlery
+  Dishes
+  OtherKitchenCategories
+}
+
+enum Appliances {
+  Toasters
+  Blenders
+  CoffeeMachine
+  Juicers
+  PopcornMakers
+  TeaKettles
+  WaffleMakers
+  OtherAppliances  
+}
+
+enum Cookware {
+  Pots
+  Pans
+  Forms
+  OtherCookware
+}
+
+enum Dishes {
+  Plates
+  Mugs
+  Bowls
+  Cups
+  Platters
+  Trays
+  TeaPots
+  OtherDishes
+}
+
+enum Cutlery {
+  Knives
+  Forks
+  TeaSpoons
+  SoupSpoons
+  ChopSticks
+  OtherCutlery
 }
 
 model Item {
@@ -86,3 +132,4 @@ model SubCategory {
   categoryId String
   category   Category @relation(fields: [categoryId], references: [identifier], onDelete: Cascade, onUpdate: Cascade)
 }
+
