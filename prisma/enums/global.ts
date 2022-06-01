@@ -56,7 +56,7 @@ export const AllSubCategories = z.union([
 export const Brands = z.enum([
   "Melitta",
   "WMF",
-  "Krupps",
+  "Krups",
   "Philips",
   "Severin",
   "AEG",
