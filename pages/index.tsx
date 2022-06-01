@@ -107,6 +107,11 @@ const Home: NextPage = () => {
   };
 
   const { data: session, status } = useSession();
+
+  useEffect(() => {
+    console.log(session, status);
+  }, [session]);
+
   const loading = status === "loading";
   const [content, setContent] = useState();
 
@@ -133,17 +138,17 @@ const Home: NextPage = () => {
         </div>
       )}
 
-      {session && (
+      {session && session.user && (
         <>
-          <h4>You are logged as: {session.user!.name}</h4>
+          <h4>You are logged as: {session.user.name}</h4>
           <div>
-            <h4>Email: {session.user!.email}</h4>
+            <h4>Email: {session.user.email}</h4>
             <br />
-            {session.user!.image && (
+            {session.user.image && (
               <span>
                 <Image
-                  src={session.user!.image}
-                  alt={session.user!.name as string}
+                  src={session.user.image}
+                  alt={session.user.name as string}
                 />
               </span>
             )}

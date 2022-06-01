@@ -11,6 +11,7 @@ export default NextAuth({
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
+          scope: "openid email profile",
         },
       },
     }),
@@ -31,6 +32,13 @@ export default NextAuth({
         return Promise.resolve("/");
       }
       return Promise.resolve("/");
+    },
+    session: async ({ session, token, user }) => {
+      console.log(token);
+      session.user.email = token.token.user.email;
+      session.user.name = token.token.user.name;
+      session.user.image = token.token.user.picture;
+      return session;
     },
   },
 });
