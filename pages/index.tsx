@@ -28,7 +28,8 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedFilter, setSelectedFilter] =
+    useState<"" | "Free" | "Swap">("");
 
   const [activateFree, setActivateFree] = useState("notactivefilter");
   const [activateSwap, setActivateSwap] = useState("notactivefilter");
@@ -109,12 +110,12 @@ const Home: NextPage = () => {
       <SearchBar />
       <div className="flex gap-2 px-2">
         <Button
-          category={activateFree}
+          selected={selectedFilter === "Free"}
           onClick={filterMarkers}
           value={"Free"}
         />
         <Button
-          category={activateSwap}
+          selected={selectedFilter === "Swap"}
           onClick={filterMarkers}
           value={"Swap"}
         />

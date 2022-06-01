@@ -18,7 +18,8 @@ import {
 // }
 
 interface ButtonProps {
-  category: "activefilter" | "notactivefilter";
+  selected: boolean;
+  // category: "activefilter" | "notactivefilter";
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
   value: string;
 }
@@ -30,7 +31,7 @@ const Button = ({
   // py = "py-0.5",
   onClick,
   // text = `text-${bgColor}-text`,
-  category,
+  selected,
 }: ButtonProps) => {
   const styling = {
     activefilter: {
@@ -46,14 +47,20 @@ const Button = ({
       text: "text-primary-text",
     },
   };
-  category = "activefilter";
+  // category = "activefilter";
 
   return (
     <button
       // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
       // https://github.com/lukeed/clsx/blob/master/readme.md
       // doesn't work? hardcode the values and start again
-      className={`${styling[category].bg} ${styling[category].py} ${styling[category].width} px-8 rounded-md ${styling[category].text}`}
+      className={clsx(
+        "py-0.5 w-full",
+        selected
+          ? "bg-secondary text-secondary-text"
+          : "bg-primary text-primary-text"
+      )}
+      // className={`${styling[category].bg} ${styling[category].py} ${styling[category].width} px-8 rounded-md ${styling[category].text}`}
       onClick={onClick}
       value={value}
     >
