@@ -63,6 +63,7 @@ model Item {
   userId      String
   sellType    SellType
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   subcategory Subcategory @relation(fields: [subcatId], references: [identifier])
   subcatId    String
 }

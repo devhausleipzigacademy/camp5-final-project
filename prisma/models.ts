@@ -1,64 +1,37 @@
 import { string, z } from "zod";
+import {
+  Age,
+  AllSubCategories,
+  Brands,
+  Conditions,
+  Dishes,
+  EnergyEfficiencyClass,
+  subcategories,
+} from "./enums/global";
 
 // one tabe for every top level category
 // for now only kitchen
 
-const KitchenCategories = z.enum([
-  "Appliances",
-  "Cookware",
-  "Cutlery",
-  "Dishes",
-  "Other Kitchen Categories",
-]);
-
-const Appliances = z.enum([
-  "Toasters",
-  "Blenders",
-  "Coffee Machines",
-  "Juicers",
-  "Popcorn Makers",
-  "Tea Kettles",
-  "Water Heaters",
-  "Waffle Makers",
-  "Other Appliances",
-]);
-
-const Cutlery = z.enum([
-  "Knives",
-  "Forks",
-  "Tea Spoons",
-  "Soup Spoons",
-  "Chop Sticks",
-  "Other Cutlery",
-]);
-const Cookware = z.enum(["Pots", "Pans", "Forms", "Other Cookware"]);
-const Dishes = z.enum([
-  "Plates",
-  "Mugs",
-  "Bowls",
-  "Cups",
-  "Platters",
-  "Trays",
-  "Tea Pots",
-  "Other Dishes",
-]);
-
-const subcategories = z.object({
-  dishes: Dishes,
-  cutlery: Cutlery,
-  appliances: Appliances,
-  cookware: Cookware,
+const CoffeeMachineItem = z.object({
+  title: z.string(),
+  images: z.array(z.string()),
+  description: z.string().optional(),
+  details: z.object({
+    Brand: Brands,
+    Age: Age,
+    Condition: Conditions,
+    EnergyEfficiencyClass: EnergyEfficiencyClass,
+  }),
+  subcategory: AllSubCategories,
 });
 
-const CoffeeMachineItem = z
-  .object({
-    title: z.string(),
-    images: z.array(z.string()),
-    description: z.string().optional(),
-    details: z.object({}).optional(),
-    subcategory: subcategories,
-  })
-  .refine((data) => data.subcategory.appliances === "Coffee Machines");
+// next steps:
+// Create a post request for the coffee machine item
+// create a get request for the coffee machine subcategory
+
+// One object with all of the pieces (Zod enums and categories)
+// One object with keys and nesting structure describes how to construct a specific item model
+// A function that parses the above object and outputs a single-level object with all of the constructed item models keyed by subcategory
 
 // Details that are useable on every item
 

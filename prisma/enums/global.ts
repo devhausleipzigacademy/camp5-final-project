@@ -1,5 +1,58 @@
 import { z } from "zod";
 
+export const KitchenCategories = z.enum([
+  "Appliances",
+  "Cookware",
+  "Cutlery",
+  "Dishes",
+  "Other Kitchen Categories",
+]);
+
+export const Appliances = z.enum([
+  "Toasters",
+  "Blenders",
+  "Coffee Machines",
+  "Juicers",
+  "Popcorn Makers",
+  "Tea Kettles",
+  "Water Heaters",
+  "Waffle Makers",
+  "Other Appliances",
+]);
+
+export const Cutlery = z.enum([
+  "Knives",
+  "Forks",
+  "Tea Spoons",
+  "Soup Spoons",
+  "Chop Sticks",
+  "Other Cutlery",
+]);
+export const Cookware = z.enum(["Pots", "Pans", "Forms", "Other Cookware"]);
+export const Dishes = z.enum([
+  "Plates",
+  "Mugs",
+  "Bowls",
+  "Cups",
+  "Platters",
+  "Trays",
+  "Tea Pots",
+  "Other Dishes",
+]);
+export const subcategories = z.object({
+  dishes: Dishes,
+  cutlery: Cutlery,
+  appliances: Appliances,
+  cookware: Cookware,
+});
+
+export const AllSubCategories = z.union([
+  Dishes,
+  Cutlery,
+  Appliances,
+  Cookware,
+]);
+
 export const Brands = z.enum([
   "Melitta",
   "WMF",
