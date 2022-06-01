@@ -58,8 +58,6 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
 
   async function getData() {
     const listDataFetch = await getListData();
-    // useFilter(listDataFetch, selectedFilter);
-    setListData(listDataFetch);
     setInitialListData(listDataFetch);
   }
   useEffect(() => {
@@ -88,7 +86,7 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
     if (initialListData.length) {
       filterList();
     }
-  }, [initialListData]);
+  }, [initialListData, selectedFilter]);
   // jsx for styling the drawer
   return (
     <Modal onClose={onClose}>
@@ -140,8 +138,12 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
 // function to close the drawer
 function Modal({ onClose, children }: ModalProps) {
   return (
-    <Dialog className="fixed inset-0 z-10" onClose={onClose} open={true}>
-      <div className="flex flex-col justify-center h-full px-1 pt-4 text-center sm:block sm:p-0">
+    <Dialog
+      className="fixed top-[150px] right-0 left-0 bottom-0 z-10"
+      onClose={() => {}}
+      open={true}
+    >
+      <div className="flex flex-col justify-center h-full px-1 text-center sm:block sm:p-0">
         <Dialog.Overlay
           as={motion.div}
           initial={{ opacity: 0 }}
@@ -153,7 +155,7 @@ function Modal({ onClose, children }: ModalProps) {
             opacity: 0,
             transition: { duration: 0.3, ease: [0.36, 0.66, 0.04, 1] },
           }}
-          className="fixed inset-0 bg-black/40"
+          className="fixed top-40 right-0 left-0 bottom-0 bg-black/40"
         />
 
         <motion.div
