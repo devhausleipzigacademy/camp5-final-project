@@ -3,7 +3,7 @@ import "../styles/mapcss.css";
 import type { AppProps } from "next/app";
 import Header from "../components/Header/Header";
 import { useLocationStore } from "../stores/locationStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { setLocation } = useLocationStore();

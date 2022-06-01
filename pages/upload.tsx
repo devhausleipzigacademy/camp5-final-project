@@ -6,6 +6,7 @@ import UploadImage from "../components/Header/UploadImage";
 import InputTitle from "../components/Inputfields/TitleInput";
 import PriceInputfield from "../components/Inputfields/PriceInput";
 import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
+import CategoryInputs from "../components/Inputfields/CategoryInputs";
 
 const UploadPage: NextPage = () => {
   return (
@@ -17,6 +18,7 @@ const UploadPage: NextPage = () => {
       <UploadImage />
       <PriceInputfield />
       <CreateButton />
+      <CategoryInputs />
     </div>
   );
 };
