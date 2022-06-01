@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
-import SearchBar from "../components/SearchBar/searchbar";
+
 import { getMapData } from "../utils/getMapData";
 import { MapData, Feature } from "../utils/types";
 import { Spinner } from "../components/Spinner/Spinner";
@@ -14,6 +14,8 @@ import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
 import Button from "../components/Button/Button";
+import { isFunctionDeclaration } from "typescript";
+import Search from "../components/Search/Search";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -27,11 +29,13 @@ const Home: NextPage = () => {
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] =
     useState<"" | "Free" | "Swap">("");
+  const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
     setInitialMapData(mapDataFetch);
+    setData(mapDataFetch);
   }
 
   useEffect(() => {
@@ -96,7 +100,7 @@ const Home: NextPage = () => {
   return (
     <div className="pt-16 space-y-2">
       <Header />
-      <SearchBar />
+      <Search properties={data?.features!} />
       <div className="flex gap-2 px-2">
         <Button
           selected={selectedFilter === "Free"}
