@@ -1,27 +1,26 @@
 const Checkbox = () => {
   return (
+    // Giveaway Checkbox
     <div className="flex items-center gap-1 justify-center">
-      <div className="mt-4" />
-      <div className="relative flex items-center py-4">
-        <div className="ml-3 flex items-center h-5">
+      <div className="ml-3  flex items-center h-5">
+        <div>
           <input
-            id="free"
-            name="free"
+            id="Giveaway"
+            name="Giveaway"
             type="checkbox"
             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
           />
         </div>
 
+        {/*Giveaway lettering  */}
         <div className="min-w-0 flex-1 text-sm">
-          <label
-            htmlFor="free"
-            className="font-medium text-gray-700 select-none"
-          >
-            Free
+          <label htmlFor="Giveaway" className="text-gray-700 select-none">
+            Giveaway
           </label>
         </div>
       </div>
 
+      {/* // Swap Checkbox */}
       <div className="ml-3 flex items-center h-5">
         <input
           id="Swap"
@@ -29,14 +28,10 @@ const Checkbox = () => {
           type="checkbox"
           className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
         />
-      </div>
 
-      <div className="relative flex items-start py-4">
+        {/*Swap lettering  */}
         <div className="min-w-0 flex-1 text-sm">
-          <label
-            htmlFor="Swap"
-            className="font-medium text-gray-700 select-none"
-          >
+          <label htmlFor="Swap" className="text-gray-700 select-none">
             Swap
           </label>
         </div>
