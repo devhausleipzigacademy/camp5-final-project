@@ -21,7 +21,9 @@ const Button = ({
     <button
       //clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
       // https://github.com/lukeed/clsx/blob/master/readme.md
-      className={clsx(`bg-${bgColor} py-${py} w-${width} px-8 rounded-md`)}
+      className={clsx(
+        `bg-${bgColor} text-${bgColor}-text py-${py} w-${width} px-8 rounded-md`
+      )}
       onClick={onClick}
       value={value}
     >

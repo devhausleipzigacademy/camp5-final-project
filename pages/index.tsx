@@ -1,5 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import type { NextPage } from "next";
+import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
@@ -14,10 +15,21 @@ import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
-import { isFunctionDeclaration } from "typescript";
+import {
+  signIn,
+  signOut,
+  useSession,
+  UseSessionOptions,
+} from "next-auth/react";
+import Button from "../components/Button/Button";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
+
+interface Session {
+  data: string;
+  status: string;
+}
 
 const Home: NextPage = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -94,13 +106,50 @@ const Home: NextPage = () => {
     }
   };
 
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+  const [content, setContent] = useState();
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="pt-16 space-y-2">
-      <Header />
+    <div className="pt-16 space-y-2 h-screen">
+      {/* <Header />
       <SearchBar />
       <FilterButtons clickHandler={filterMarkers} />
       {!mapData ? <Spinner /> : <Map mapData={mapData} />}
-      <ItemDrawer />
+      <ItemDrawer /> */}
+
+      {!session && (
+        <div className="flex-col space-y-2 pt-2 text-center w-full h-full">
+          <Button
+            bgColor={"primary"}
+            value={"Sign In"}
+            onClick={() => signIn()}
+            width={"1/2"}
+          />
+        </div>
+      )}
+
+      {session && (
+        <>
+          <h4>You are logged as: {session.user!.name}</h4>
+          <div>
+            <h4>Email: {session.user!.email}</h4>
+            <br />
+            {session.user!.image && (
+              <span>
+                <Image
+                  src={session.user!.image}
+                  alt={session.user!.name as string}
+                />
+              </span>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
