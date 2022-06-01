@@ -10,8 +10,16 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const itemtype = req.query.sellType as SellType | undefined;
+    const user = req.query.userId as string | undefined;
     try {
       let items: Item[] = [];
+      if (user) {
+        items = await prisma.item.findMany({
+          where: {
+            userId: user,
+          },
+        });
+      }
       if (itemtype) {
         items = await prisma.item.findMany({
           where: {
