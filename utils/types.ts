@@ -34,3 +34,7 @@ export type ListData = {
   owner?: string;
   id: string;
 };
+
+export type ButtonBGType = {
+  category: "activefilter" | "notactivefilter";
+};
