@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const SellType = z.enum(["SWAP", "FREE"]);
+
 export const KitchenCategories = z.enum([
   "Appliances",
   "Cookware",

@@ -6,22 +6,26 @@ import {
   Conditions,
   Dishes,
   EnergyEfficiencyClass,
+  SellType,
   subcategories,
 } from "./enums/global";
 
-// one tabe for every top level category
+// one table for every top level category
 // for now only kitchen
 
 export const CoffeeMachineItem = z.object({
   title: z.string(),
   images: z.array(z.string()),
   description: z.string().optional(),
-  details: z.object({
-    Brand: Brands,
-    Age: Age,
-    Condition: Conditions,
-    EnergyEfficiencyClass: EnergyEfficiencyClass,
-  }),
+  sellType: SellType,
+  details: z
+    .object({
+      Brand: Brands.optional(),
+      Age: Age.optional(),
+      Condition: Conditions.optional(),
+      EnergyEfficiencyClass: EnergyEfficiencyClass.optional(),
+    })
+    .optional(),
   subcategory: AllSubCategories,
 });
 

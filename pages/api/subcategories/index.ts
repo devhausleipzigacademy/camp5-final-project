@@ -10,18 +10,6 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      const categoryTitle = req.body.title as string;
-
-      let categories: Category[] = await prisma.category.findMany({
-        where: {
-          title: categoryTitle,
-        },
-      });
-      res.status(200).json(categories);
-    } catch (err) {
-      console.log(err);
-    }
-    try {
       const subcategoryTitle = req.body.title as string;
 
       let subcategories: Subcategory[] = await prisma.subcategory.findMany({
