@@ -6,7 +6,6 @@ import UploadImage from "../components/Header/UploadImage";
 import InputTitle from "../components/Inputfields/TitleInput";
 import PriceInputfield from "../components/Inputfields/PriceInput";
 import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
-import CategoryInputs from "../components/Inputfields/CategoryInputs";
 import { useState, useEffect } from "react";
 
 type Field = {
