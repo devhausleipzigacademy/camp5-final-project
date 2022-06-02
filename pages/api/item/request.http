@@ -3,7 +3,8 @@ Content-Type: application/json
 
     {
   "title": "Nespresso",
-  "images": ["x.png"],
+  "userId": "b7d7b045-e207-48e7-84d4-4aa48995452b",
+  "images": {},
   "description": "damn good coffee",
   "sellType": "FREE",
   "details": {

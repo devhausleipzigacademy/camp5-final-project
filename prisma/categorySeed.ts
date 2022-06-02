@@ -4,37 +4,37 @@ import { categorySeed } from "../assets/categories";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.subcategory.deleteMany();
-  await prisma.category.deleteMany();
+    await prisma.subcategory.deleteMany();
+    await prisma.category.deleteMany();
 
-  const prismaCallCat = Object.keys(categorySeed.KitchenCategories).map(
-    async function (key, index) {
-      const categories = await prisma.category.create({
-        data: {
-          title: key[index],
-        },
-      });
-    }
-  );
-  const prismaCallSubcat = categorySeed.KitchenCategories.Appliances.map(
-    async (obj) => {
-      const subcategory = await prisma.subcategory.create({
-        data: {
-          name: obj,
-        },
-      });
-    }
-  );
+    const prismaCallCat = Object.keys(categorySeed.KitchenCategories).map(
+        async function (key, index) {
+            const categories = await prisma.category.create({
+                data: {
+                    title: key[index],
+                },
+            });
+        }
+    );
+    const prismaCallSubcat = categorySeed.KitchenCategories.Appliances.map(
+        async (obj) => {
+            const subcategory = await prisma.subcategory.create({
+                data: {
+                    name: obj,
+                },
+            });
+        }
+    );
 
-  await Promise.all(prismaCallSubcat);
-  await Promise.all(prismaCallCat);
+    await Promise.all(prismaCallSubcat);
+    await Promise.all(prismaCallCat);
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+    .catch((e) => {
+        console.error(e);
+        process.exit(1);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
