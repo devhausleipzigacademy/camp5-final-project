@@ -8,6 +8,7 @@ interface ButtonProps {
   width?: string | number;
   py?: number;
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
 const Button = ({
@@ -16,6 +17,7 @@ const Button = ({
   width = "full",
   py = 0.5,
   onClick,
+  type,
 }: ButtonProps) => {
   return (
     <button
@@ -26,6 +28,7 @@ const Button = ({
       )}
       onClick={onClick}
       value={value}
+      type={type}
     >
       {value}
     </button>

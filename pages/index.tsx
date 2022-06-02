@@ -1,7 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import type { NextPage } from "next";
 import Image from "next/image";
-import React from "react";
+import React, { Component } from "react";
 import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
@@ -41,6 +41,8 @@ const Home: NextPage = () => {
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -121,13 +123,27 @@ const Home: NextPage = () => {
 
   const loading = status === "loading";
 
-  // placeholder function for submitting
-  // an email / password login
-  function submitForm() {}
-
   if (loading) {
     return <p>Loading...</p>;
   }
+
+  // class Form extends Component<{}, { value: string }> {
+  //   constructor(props: any) {
+  //     super(props);
+  //     this.state = { value: "" };
+  //     this.onInputchange = this.onInputchange.bind(this);
+  //     this.onSubmitForm = this.onSubmitForm.bind(this);
+  //   }
+
+  //   onInputchange = (event: any) => {
+  //     this.setState({ value: event.target.value });
+  //   };
+
+  //   onSubmitForm() {
+  //     console.log(this.state);
+  //   }
+
+  //   render() {
 
   return (
     <div className="pt-16 space-y-2 h-[calc(100vh-64px)]">
@@ -152,22 +168,27 @@ const Home: NextPage = () => {
             <p>or</p>
             <input
               className="w-full py-3 indent-4 bg-BG rounded-md"
-              placeholder="Username / E-mail"
-              name="username"
+              placeholder="E-mail"
+              name="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             ></input>
             <input
               className="w-full py-3 indent-4 bg-BG rounded-md"
               placeholder="Password"
               name="password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             ></input>
             <Button
               bgColor={"primary"}
               value={"Sign In"}
-              onClick={() => submitForm()}
+              onClick={() => {}}
               py={2}
               width={"1/3"}
+              type={"submit"}
             />
           </div>
         </div>
