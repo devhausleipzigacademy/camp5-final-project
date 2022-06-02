@@ -1,0 +1,35 @@
+export const categorySeed = {
+  KitchenCategories: {
+    Appliances: [
+      "Toasters",
+      "Blenders",
+      "Coffee Machines",
+      "Juicers",
+      "Popcorn Makers",
+      "Tea Kettles",
+      "Water Heaters",
+      "Waffle Makers",
+      "Other Appliances",
+    ],
+    Cookware: ["Pots", "Pans", "Forms", "Other Cookware"],
+    Cutlery: [
+      "Knives",
+      "Forks",
+      "Tea Spoons",
+      "Soup Spoons",
+      "Chop Sticks",
+      "Other Cutlery",
+    ],
+    Dishes: [
+      "Plates",
+      "Mugs",
+      "Bowls",
+      "Cups",
+      "Platters",
+      "Trays",
+      "Tea Pots",
+      "Other Dishes",
+    ],
+    OtherKitchenCategories: "Other Kitchen Categories",
+  },
+};

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/categorySeed.ts",
+    "cat-seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/categorySeed.ts"
   },
   "scripts": {
     "dev": "next dev",
