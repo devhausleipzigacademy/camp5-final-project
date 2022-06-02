@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialProvider from "next-auth/providers/credentials";
-import { addMinutes } from "date-fns";
+import FacebookProvider from "next-auth/providers/facebook";
 
 export default NextAuth({
   providers: [
@@ -16,6 +16,10 @@ export default NextAuth({
           scope: "openid email profile",
         },
       },
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
     }),
     CredentialProvider({
       name: "credentials",
@@ -69,6 +73,13 @@ export default NextAuth({
         session.user.image = token.token.user.image;
       }
       return session;
+    },
+    pages: {
+      signIn: "/auth/signin",
+      signOut: "/auth/signout",
+      error: "/auth/error", // Error code passed in query string as ?error=
+      verifyRequest: "/auth/verify-request", // (used for check email message)
+      newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
     },
   },
 });

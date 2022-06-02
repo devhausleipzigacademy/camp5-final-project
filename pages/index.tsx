@@ -24,6 +24,7 @@ import {
 import Button from "../components/Button/Button";
 import GoogleIcon from "../public/google.svg";
 import FacebookIcon from "../public/facebook.svg";
+import Router, { useRouter } from "next/router";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -117,8 +118,12 @@ const Home: NextPage = () => {
 
   const { data: session, status } = useSession();
 
+  const router = useRouter();
   useEffect(() => {
     console.log(session, status);
+    // if (!session) {
+    //   router.push("/api/auth/signin");
+    // }
   }, [session]);
 
   const loading = status === "loading";
@@ -126,24 +131,6 @@ const Home: NextPage = () => {
   if (loading) {
     return <p>Loading...</p>;
   }
-
-  // class Form extends Component<{}, { value: string }> {
-  //   constructor(props: any) {
-  //     super(props);
-  //     this.state = { value: "" };
-  //     this.onInputchange = this.onInputchange.bind(this);
-  //     this.onSubmitForm = this.onSubmitForm.bind(this);
-  //   }
-
-  //   onInputchange = (event: any) => {
-  //     this.setState({ value: event.target.value });
-  //   };
-
-  //   onSubmitForm() {
-  //     console.log(this.state);
-  //   }
-
-  //   render() {
 
   return (
     <div className="pt-16 space-y-2 h-[calc(100vh-64px)]">
@@ -157,7 +144,10 @@ const Home: NextPage = () => {
         </>
       )}
 
-      {!session && (
+      {/* {!session && (
+        router.push to this url http://localhost:3000/api/auth/signin
+
+
         <div className="flex w-screen h-2/3 justify-around items-center px-4">
           <div className="flex-col text-center space-y-4 text-BG-text">
             <p>Sign in with</p>
@@ -192,7 +182,7 @@ const Home: NextPage = () => {
             />
           </div>
         </div>
-      )}
+      )} */}
 
       {session && session.user && (
         <div className="flex w-screen h-2/3 justify-around items-center">
