@@ -49,7 +49,7 @@ model Conversation {
 model Category {
   identifier  String @id @default(uuid())
   title       String
-  description String
+  description String?
   subcategories Subcategory[]
 }
 

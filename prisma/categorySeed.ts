@@ -6,17 +6,29 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.subcategory.deleteMany();
 
-  const prismaCalls = categorySeed.KitchenCategories.Appliances.map(
+  const prismaCallCat = Object.keys(categorySeed.KitchenCategories).map(
+  async function (key, index) {
+      const categories = await prisma.category.create({
+      data: {
+          title: key[index],
+          subcategories: categorySeed.KitchenCategories.Appliances
+      }
+  } 
+      
+})
+const prismaCallSubcat = categorySeed.KitchenCategories.Appliances.map(
     async (obj) => {
       const subcategory = await prisma.subcategory.create({
         data: {
-          obj,
+          name: obj,
+          category: categorySeed.KitchenCategories
         },
       });
     }
   );
 
-  await Promise.all(prismaCalls);
+  await Promise.all(prismaCallSubcat);
+  await Promise.all(prismaCallCat);
 }
 
 main()

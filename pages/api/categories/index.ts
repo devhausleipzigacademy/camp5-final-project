@@ -10,14 +10,13 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      let categories: Category[] = await prisma.item.findMany({
-          where: {
-            
-          },
-        });
-      } 
-      }
-      res.status(200).json(items);
+      const categoryTitle = req.body.title as string;
+      let categories: Category[] = await prisma.category.findMany({
+        where: {
+          title: categoryTitle,
+        },
+      });
+      res.status(200).json(categories);
     } catch (err) {
       console.log(err);
     }
