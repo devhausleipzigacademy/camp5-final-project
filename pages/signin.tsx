@@ -52,9 +52,11 @@ import {
   getSession,
   getCsrfToken,
 } from "next-auth/react";
+import { NextPageContext } from "next";
 
 interface ProvidersList {
   providers: Providers;
+  csrfToken: string;
 }
 
 interface Providers {
@@ -65,14 +67,21 @@ interface Providers {
   callbackUrl: string;
 }
 
-export default function signin({ providers }: ProvidersList) {
-  console.log(providers);
+export default function signin({ providers, csrfToken }: ProvidersList) {
+  console.log(Object.values(providers));
+  const signInHandler = (provider: Providers) => {
+    if (provider.id === "credentials") {
+      signIn(provider.id, { username: "admin@admin.com", password: "admin" });
+    } else {
+      signIn(provider.id);
+    }
+  };
   return (
-    <div>
+    <div className="pt-16">
       {Object.values(providers).map((provider) => {
         return (
           <div key={provider.name}>
-            <button onClick={() => signIn(provider.id)}>
+            <button onClick={() => signInHandler(provider)}>
               Sign in with {provider.name}
             </button>
           </div>
@@ -82,7 +91,7 @@ export default function signin({ providers }: ProvidersList) {
   );
 }
 
-signin.getInitialProps = async (context: any) => {
+signin.getInitialProps = async (context: NextPageContext) => {
   const { req, res } = context;
   const session = await getSession({ req });
 

@@ -22,8 +22,6 @@ import {
   UseSessionOptions,
 } from "next-auth/react";
 import Button from "../components/Button/Button";
-import GoogleIcon from "../public/google.svg";
-import FacebookIcon from "../public/facebook.svg";
 import Router, { useRouter } from "next/router";
 
 mapboxgl.accessToken =
@@ -119,10 +117,10 @@ const Home: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     console.log(session, status);
-    if (!session) {
+    if (status === "unauthenticated") {
       router.push("/signin");
     }
-  }, [session]);
+  }, [status]);
 
   const loading = status === "loading";
 

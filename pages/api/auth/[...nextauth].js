@@ -4,9 +4,9 @@ import CredentialProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 
 export default NextAuth({
-  pages: {
-    signIn: "/signin",
-  },
+  // pages: {
+  //   signIn: "/signin",
+  // },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -63,12 +63,12 @@ export default NextAuth({
       }
       return token;
     },
-    // redirect: async (url, _baseUrl) => {
-    //   if (url === "/profile") {
-    //     return Promise.resolve("/");
-    //   }
-    //   return Promise.resolve("/");
-    // },
+    redirect: async (url, _baseUrl) => {
+      if (url === "/profile") {
+        return Promise.resolve("/");
+      }
+      return Promise.resolve("/");
+    },
     session: async ({ session, token }) => {
       if (token) {
         session.user.email = token.token.user.email;
