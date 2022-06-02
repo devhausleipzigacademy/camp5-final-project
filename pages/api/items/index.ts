@@ -10,7 +10,6 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const itemtype = req.query.sellType as SellType | undefined;
-    const user = req.query.userId as string;
     try {
       let items: Item[] = [];
       if (itemtype) {
