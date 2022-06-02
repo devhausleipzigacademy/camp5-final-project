@@ -42,8 +42,6 @@ const Home: NextPage = () => {
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] = useState("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -121,9 +119,9 @@ const Home: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     console.log(session, status);
-    // if (!session) {
-    //   router.push("/api/auth/signin");
-    // }
+    if (!session) {
+      router.push("/signin");
+    }
   }, [session]);
 
   const loading = status === "loading";

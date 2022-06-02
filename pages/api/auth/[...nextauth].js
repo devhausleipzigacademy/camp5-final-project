@@ -4,6 +4,9 @@ import CredentialProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 
 export default NextAuth({
+  pages: {
+    signIn: "/signin",
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -60,12 +63,12 @@ export default NextAuth({
       }
       return token;
     },
-    redirect: async (url, _baseUrl) => {
-      if (url === "/profile") {
-        return Promise.resolve("/");
-      }
-      return Promise.resolve("/");
-    },
+    // redirect: async (url, _baseUrl) => {
+    //   if (url === "/profile") {
+    //     return Promise.resolve("/");
+    //   }
+    //   return Promise.resolve("/");
+    // },
     session: async ({ session, token }) => {
       if (token) {
         session.user.email = token.token.user.email;
@@ -73,13 +76,6 @@ export default NextAuth({
         session.user.image = token.token.user.image;
       }
       return session;
-    },
-    pages: {
-      signIn: "/auth/signin",
-      signOut: "/auth/signout",
-      error: "/auth/error", // Error code passed in query string as ?error=
-      verifyRequest: "/auth/verify-request", // (used for check email message)
-      newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
     },
   },
 });
