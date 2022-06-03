@@ -13,5 +13,5 @@ Content-Type: application/json
     "Condition": "*****",
     "EnergyEfficiencyClass": "A+"
     },
-  "subcategory": "Coffee Machines"
+  "subcatName": "Appliances"
 }
