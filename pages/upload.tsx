@@ -7,6 +7,9 @@ import InputTitle from "../components/Inputfields/TitleInput";
 import PriceInputfield from "../components/Inputfields/PriceInput";
 import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
 import { useState, useEffect, FormEvent } from "react";
+import { useFilePicker } from "use-file-picker";
+import Button from "../components/Button/Button";
+import { FileContent } from "use-file-picker/dist/interfaces";
 
 type Field = {
   name: string;
@@ -46,8 +49,21 @@ const UploadPage: NextPage = () => {
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
   const [fields, setFields] = useState<Field[]>([]);
-  const [imageSrc, setImageSrc] = useState();
-  const [uploadData, setUploadData] = useState();
+
+  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: true,
+    limitFilesConfig: { max: 1 },
+    minFileSize: 0.1, // in megabytes
+    maxFileSize: 50,
+    imageSizeRestrictions: {
+      maxHeight: 900, // in pixels
+      maxWidth: 1600,
+      minHeight: 600,
+      minWidth: 768,
+    },
+  });
 
   // useEffect(() => {
   //   console.log("");
@@ -65,15 +81,10 @@ const UploadPage: NextPage = () => {
 
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
-    const form = event.currentTarget as HTMLFormElement;
-    const fileInput = Array.from(form.elements).find(
-      ({ id }) => id === "multiple_files"
-    );
-    console.log(fileInput);
+    // UPLOAD IMAGE
     const formData = new FormData();
-
-    for (const file of fileInput.files) {
-      formData.append("file", file);
+    for (const file of filesContent) {
+      formData.append("file", file.content);
     }
 
     formData.append("upload_preset", "sharing-app-uploads");
@@ -103,21 +114,28 @@ const UploadPage: NextPage = () => {
     }
   }, [selectedCategory, selectedSub]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (errors.length) {
+    return <div>Error...</div>;
+  }
   return (
     <div className="font-medium w-80 flex-col pt-16 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
-      <form method="post" onSubmit={handleOnSubmit}>
-        <InputTitle />
+      {/* <InputTitle />
         <DescriptionInputfield />
-        <Checkbox />
-        <p>Upload Images and Videos here</p>
-        <input
-          className="px-3 py-2 block w-full text-sm text-gray-900 bg-BG rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-BG dark:border-gray-600 dark:placeholder-gray-400"
-          id="multiple_files"
-          type="file"
-          name="file"
-          multiple
-        />
-        <PriceInputfield />
+        <Checkbox /> */}
+      <p>Upload Images and Videos here</p>
+      <button onClick={() => openFileSelector()}>Select files </button>
+      {filesContent.map((file, index) => (
+        <div key={index}>
+          <h2>{file.name}</h2>
+          <img alt={file.name} src={file.content}></img>
+          <br />
+        </div>
+      ))}
+      {/* <PriceInputfield />
         <select
           name="category"
           id="category"
@@ -152,7 +170,8 @@ const UploadPage: NextPage = () => {
               name={field.name}
               placeholder={field.placeholder}
             />
-          ))}
+          ))} */}
+      <form method="post" onSubmit={handleOnSubmit}>
         <button
           type="submit"
           className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
