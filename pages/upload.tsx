@@ -49,7 +49,16 @@ const UploadPage: NextPage = () => {
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
   const [fields, setFields] = useState<Field[]>([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [price, setPrice] = useState("");
 
+  function toggleCheck(index: number) {
+    setChecked((prev) => !prev);
+    checkedItems[index];
+  }
   const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
@@ -122,20 +131,46 @@ const UploadPage: NextPage = () => {
   //   return <div>Error...</div>;
   // }
   return (
-    <div className="font-medium w-80 flex-col pt-16 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
+    <div className="font-medium w-80 flex-col pt-32 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
       <form method="post" onSubmit={handleOnSubmit}>
-        <InputTitle />
-        <DescriptionInputfield />
-        <Checkbox />
+        <label htmlFor="title" className="sr-only">
+          Title
+        </label>
+        <input
+          value={title}
+          id="Title"
+          name="Title"
+          type="Text"
+          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          placeholder="Title"
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        {/* <InputTitle onChange={() => setTitle()} /> */}
+        <label htmlFor="Description" className="sr-only">
+          Description
+        </label>
+        <input
+          value={description}
+          id="Description"
+          name="Description"
+          type="text"
+          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          placeholder="Description"
+          onChange={(event) => setDescription(event.target.value)}
+        />
+        <Checkbox
+          onChange={() => toggleCheck(0)}
+          name="Giveaway"
+          id="giveaway"
+        />
+        <Checkbox onChange={() => toggleCheck(1)} name="Swap" id="swap" />
         <p>Upload Images and Videos here</p>
-
         <button
           className="text-primary-text group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           onClick={() => openFileSelector()}
         >
           Select files{" "}
         </button>
-
         {errors.length ? (
           errors.map((error, index) => (
             <div key={index} className="flex bg-error text-error-text">
@@ -155,7 +190,17 @@ const UploadPage: NextPage = () => {
             ))}
           </div>
         )}
-        <PriceInputfield />
+        <label htmlFor="Price" className="sr-only">
+          Price
+        </label>
+        <input
+          onChange={(event) => setPrice(event.target.value)}
+          id="Price"
+          name="Price"
+          type="text"
+          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          placeholder="Price / Value"
+        />
         <select
           name="category"
           id="category"
