@@ -15,7 +15,7 @@ import {
 
 export const CoffeeMachineItem = z.object({
   title: z.string(),
-  images: z.array(z.string()),
+  images: z.object({}),
   description: z.string().optional(),
   sellType: SellType,
   details: z
