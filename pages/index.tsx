@@ -15,14 +15,9 @@ import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
-import {
-  signIn,
-  signOut,
-  useSession,
-  UseSessionOptions,
-} from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Button from "../components/Button/Button";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -139,46 +134,6 @@ const Home: NextPage = () => {
           <ItemDrawer />
         </>
       )}
-
-      {/* {!session && (
-        router.push to this url http://localhost:3000/api/auth/signin
-
-
-        <div className="flex w-screen h-2/3 justify-around items-center px-4">
-          <div className="flex-col text-center space-y-4 text-BG-text">
-            <p>Sign in with</p>
-            <div className="flex w-1/2 justify-around mx-auto items-center">
-              <GoogleIcon type={"button"} onClick={() => signIn()} />
-              <FacebookIcon />
-            </div>
-            <p>or</p>
-            <input
-              className="w-full py-3 indent-4 bg-BG rounded-md"
-              placeholder="E-mail"
-              name="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            ></input>
-            <input
-              className="w-full py-3 indent-4 bg-BG rounded-md"
-              placeholder="Password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></input>
-            <Button
-              bgColor={"primary"}
-              value={"Sign In"}
-              onClick={() => {}}
-              py={2}
-              width={"1/3"}
-              type={"submit"}
-            />
-          </div>
-        </div>
-      )} */}
 
       {session && session.user && (
         <div className="flex w-screen h-2/3 justify-around items-center">

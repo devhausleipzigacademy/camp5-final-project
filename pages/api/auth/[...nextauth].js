@@ -44,6 +44,7 @@ export default NextAuth({
             id: 1,
             name: "admin",
             email: "admin@admin.com",
+            image: "http://placeimg.com/150/150/tech",
           };
         }
         // login failed
