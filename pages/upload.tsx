@@ -6,7 +6,7 @@ import UploadImage from "../components/Header/UploadImage";
 import InputTitle from "../components/Inputfields/TitleInput";
 import PriceInputfield from "../components/Inputfields/PriceInput";
 import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 
 type Field = {
   name: string;
@@ -53,30 +53,33 @@ const UploadPage: NextPage = () => {
   //   console.log("");
   // }, [selectedCategory]);
 
-  function handleOnChange() {
-    const reader = new FileReader();
+  // function handleOnChange() {
+  //   const reader = new FileReader();
 
-    reader.onload = function (onLoadEvent) {
-      setImageSrc(onLoadEvent.target.result);
-      setUploadData(undefined);
-    };
-    reader.readAsDataURL(changeEvent.target.files[0]);
-  }
+  //   reader.onload = function (onLoadEvent) {
+  //     setImageSrc(onLoadEvent.target.result);
+  //     setUploadData(undefined);
+  //   };
+  //   reader.readAsDataURL(changeEvent.target.files[0]);
+  // }
 
-  async function handleOnSubmit(event: SubmitEvent) {
+  async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
-    const form = event.currentTarget;
+    const form = event.currentTarget as HTMLFormElement;
     const fileInput = Array.from(form.elements).find(
-      ({ name }) => name === "file"
+      ({ id }) => id === "multiple_files"
     );
+    console.log(fileInput);
     const formData = new FormData();
 
     for (const file of fileInput.files) {
       formData.append("file", file);
     }
 
+    formData.append("upload_preset", "sharing-app-uploads");
+
     const data = await fetch(
-      "https://api.cloudinary.com/v1_1/share-inga-pp/image/upload",
+      "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
       {
         method: "POST",
         body: formData,
@@ -102,20 +105,18 @@ const UploadPage: NextPage = () => {
 
   return (
     <div className="font-medium w-80 flex-col pt-16 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
-      <form method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
+      <form method="post" onSubmit={handleOnSubmit}>
         <InputTitle />
         <DescriptionInputfield />
         <Checkbox />
-        <div className="mt-6">
-          <p>Upload Images and Videos here</p>
-          <input
-            className="px-3 py-2 block w-full text-sm text-gray-900 bg-BG rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-BG dark:border-gray-600 dark:placeholder-gray-400"
-            id="multiple_files"
-            type="file"
-            name="file"
-            multiple
-          />
-        </div>
+        <p>Upload Images and Videos here</p>
+        <input
+          className="px-3 py-2 block w-full text-sm text-gray-900 bg-BG rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-BG dark:border-gray-600 dark:placeholder-gray-400"
+          id="multiple_files"
+          type="file"
+          name="file"
+          multiple
+        />
         <PriceInputfield />
         <select
           name="category"
@@ -152,7 +153,14 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))}
-        <CreateButton />
+        <button
+          type="submit"
+          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          <span className="absolute inset-0 flex items-center pl-3"></span>
+          Create Offer
+        </button>
+        {/* <CreateButton /> */}
         {/* <CategoryInputs /> */}
       </form>
     </div>
