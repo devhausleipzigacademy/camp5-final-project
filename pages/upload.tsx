@@ -123,72 +123,77 @@ const UploadPage: NextPage = () => {
   // }
   return (
     <div className="font-medium w-80 flex-col pt-16 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
-      <InputTitle />
-      <DescriptionInputfield />
-      <Checkbox />
-      <p>Upload Images and Videos here</p>
+      <form method="post" onSubmit={handleOnSubmit}>
+        <InputTitle />
+        <DescriptionInputfield />
+        <Checkbox />
+        <p>Upload Images and Videos here</p>
 
-      <button onClick={() => openFileSelector()}>Select files </button>
+        <button
+          className="text-primary-text group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onClick={() => openFileSelector()}
+        >
+          Select files{" "}
+        </button>
 
-      {errors.length ? (
-        errors.map((error, index) => (
-          <div key={index}>
-            <h2>{error.name}</h2>
-            <br />
+        {errors.length ? (
+          errors.map((error, index) => (
+            <div key={index} className="flex bg-error text-error-text">
+              <p>{error.name}</p>
+              <p>INVALID PIC</p>
+              <br />
+            </div>
+          ))
+        ) : (
+          <div>
+            {filesContent.map((file, index) => (
+              <div key={index}>
+                <h2>{file.name}</h2>
+                <img alt={file.name} src={file.content}></img>
+                <br />
+              </div>
+            ))}
           </div>
-        ))
-      ) : (
-        <div>
-          <p>Huhu</p>
-        </div>
-      )}
-      {filesContent.map((file, index) => (
-        <div key={index}>
-          <h2>{file.name}</h2>
-          <img alt={file.name} src={file.content}></img>
-          <br />
-        </div>
-      ))}
-      <PriceInputfield />
-      <select
-        name="category"
-        id="category"
-        onChange={(evt) => {
-          setSelectedSub("");
-          setSelectedCategory(evt.target.value);
-        }}
-      >
-        <option value={""} label="Empty"></option>
-        {Object.keys(categories).map((cat) => (
-          <option key={cat} value={cat} label={cat}></option>
-        ))}
-      </select>
-
-      {!!possibleSub.length && (
+        )}
+        <PriceInputfield />
         <select
           name="category"
           id="category"
-          onChange={(evt) => setSelectedSub(evt.target.value)}
+          onChange={(evt) => {
+            setSelectedSub("");
+            setSelectedCategory(evt.target.value);
+          }}
         >
           <option value={""} label="Empty"></option>
-          {possibleSub.map((cat) => (
+          {Object.keys(categories).map((cat) => (
             <option key={cat} value={cat} label={cat}></option>
           ))}
         </select>
-      )}
-      {!!fields.length &&
-        fields.map((field) => (
-          <input
-            type="text"
-            key={field.name}
-            name={field.name}
-            placeholder={field.placeholder}
-          />
-        ))}
-      <form method="post" onSubmit={handleOnSubmit}>
+
+        {!!possibleSub.length && (
+          <select
+            name="category"
+            id="category"
+            onChange={(evt) => setSelectedSub(evt.target.value)}
+          >
+            <option value={""} label="Empty"></option>
+            {possibleSub.map((cat) => (
+              <option key={cat} value={cat} label={cat}></option>
+            ))}
+          </select>
+        )}
+        {!!fields.length &&
+          fields.map((field) => (
+            <input
+              type="text"
+              key={field.name}
+              name={field.name}
+              placeholder={field.placeholder}
+            />
+          ))}
         <button
           type="submit"
-          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="text-primary-text group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <span className="absolute inset-0 flex items-center pl-3"></span>
           Create Offer
