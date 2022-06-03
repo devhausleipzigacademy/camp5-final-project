@@ -118,16 +118,30 @@ const UploadPage: NextPage = () => {
     return <div>Loading...</div>;
   }
 
-  if (errors.length) {
-    return <div>Error...</div>;
-  }
+  // if (errors.length) {
+  //   return <div>Error...</div>;
+  // }
   return (
     <div className="font-medium w-80 flex-col pt-16 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
-      {/* <InputTitle />
-        <DescriptionInputfield />
-        <Checkbox /> */}
+      <InputTitle />
+      <DescriptionInputfield />
+      <Checkbox />
       <p>Upload Images and Videos here</p>
+
       <button onClick={() => openFileSelector()}>Select files </button>
+
+      {errors.length ? (
+        errors.map((error, index) => (
+          <div key={index}>
+            <h2>{error.name}</h2>
+            <br />
+          </div>
+        ))
+      ) : (
+        <div>
+          <p>Huhu</p>
+        </div>
+      )}
       {filesContent.map((file, index) => (
         <div key={index}>
           <h2>{file.name}</h2>
@@ -135,42 +149,42 @@ const UploadPage: NextPage = () => {
           <br />
         </div>
       ))}
-      {/* <PriceInputfield />
+      <PriceInputfield />
+      <select
+        name="category"
+        id="category"
+        onChange={(evt) => {
+          setSelectedSub("");
+          setSelectedCategory(evt.target.value);
+        }}
+      >
+        <option value={""} label="Empty"></option>
+        {Object.keys(categories).map((cat) => (
+          <option key={cat} value={cat} label={cat}></option>
+        ))}
+      </select>
+
+      {!!possibleSub.length && (
         <select
           name="category"
           id="category"
-          onChange={(evt) => {
-            setSelectedSub("");
-            setSelectedCategory(evt.target.value);
-          }}
+          onChange={(evt) => setSelectedSub(evt.target.value)}
         >
           <option value={""} label="Empty"></option>
-          {Object.keys(categories).map((cat) => (
+          {possibleSub.map((cat) => (
             <option key={cat} value={cat} label={cat}></option>
           ))}
         </select>
-
-        {!!possibleSub.length && (
-          <select
-            name="category"
-            id="category"
-            onChange={(evt) => setSelectedSub(evt.target.value)}
-          >
-            <option value={""} label="Empty"></option>
-            {possibleSub.map((cat) => (
-              <option key={cat} value={cat} label={cat}></option>
-            ))}
-          </select>
-        )}
-        {!!fields.length &&
-          fields.map((field) => (
-            <input
-              type="text"
-              key={field.name}
-              name={field.name}
-              placeholder={field.placeholder}
-            />
-          ))} */}
+      )}
+      {!!fields.length &&
+        fields.map((field) => (
+          <input
+            type="text"
+            key={field.name}
+            name={field.name}
+            placeholder={field.placeholder}
+          />
+        ))}
       <form method="post" onSubmit={handleOnSubmit}>
         <button
           type="submit"
@@ -179,8 +193,6 @@ const UploadPage: NextPage = () => {
           <span className="absolute inset-0 flex items-center pl-3"></span>
           Create Offer
         </button>
-        {/* <CreateButton /> */}
-        {/* <CategoryInputs /> */}
       </form>
     </div>
   );
