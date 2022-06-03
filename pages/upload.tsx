@@ -59,6 +59,15 @@ const UploadPage: NextPage = () => {
     setChecked((prev) => !prev);
     checkedItems[index];
   }
+
+  function clearInput() {
+    setTitle("");
+    setDescription("");
+    setPrice("");
+    setPossibleSub([]);
+    setSelectedSub(() => "");
+    setFields([]);
+  }
   const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
@@ -92,6 +101,7 @@ const UploadPage: NextPage = () => {
     event.preventDefault();
     // UPLOAD IMAGE
     const formData = new FormData();
+
     for (const file of filesContent) {
       formData.append("file", file.content);
     }
@@ -105,6 +115,22 @@ const UploadPage: NextPage = () => {
         body: formData,
       }
     ).then((r) => r.json());
+
+    let imageFile = data.secure_url;
+    console.log(data);
+
+    const realData = {
+      title,
+      description,
+      checkedItems,
+      price,
+      selectedCategory,
+      selectedSub,
+      imageFile,
+    };
+
+    console.log(realData);
+    clearInput();
   }
 
   useEffect(() => {
@@ -127,11 +153,8 @@ const UploadPage: NextPage = () => {
     return <div>Loading...</div>;
   }
 
-  // if (errors.length) {
-  //   return <div>Error...</div>;
-  // }
   return (
-    <div className="font-medium w-80 flex-col pt-32 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
+    <div className="font-medium flex-col pt-32 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
       <form method="post" onSubmit={handleOnSubmit}>
         <label htmlFor="title" className="sr-only">
           Title
