@@ -64,8 +64,8 @@ model Item {
   sellType    SellType
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  subcategory Subcategory @relation(fields: [subcatName], references: [name])
-  subcatName  String
+  subcategory Subcategory @relation(fields: [subcatId], references: [identifier])
+  subcatId  String
 }
 
 enum SellType {
@@ -75,7 +75,7 @@ enum SellType {
 
 model Subcategory {
   identifier String   @id @default(cuid())
-  name       String   @unique
+  title       String   
   categoryId String
   category   Category @relation(fields: [categoryId], references: [identifier], onDelete: Cascade, onUpdate: Cascade)
   items      Item[]
