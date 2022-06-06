@@ -1,33 +1,29 @@
 import { useState } from "react";
 
 interface Props {
-  onChange: () => void;
+  isChecked: boolean;
   id: string;
   name: string;
+  checkHandler: () => void;
 }
 
-const Checkbox = ({ onChange, id, name }: Props) => {
+const Checkbox = ({ isChecked, id, name, checkHandler }: Props) => {
   return (
     // Giveaway Checkbox
-    <div className="flex items-center gap-1 justify-center">
-      <div className="ml-3  flex items-center h-5">
-        <div>
-          <input
-            onChange={onChange}
-            id={id}
-            name={name}
-            type="checkbox"
-            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-          />
-        </div>
-
-        {/*Giveaway lettering  */}
-        <div className="min-w-0 flex-1 text-sm">
-          <label htmlFor={name} className="text-gray-700 select-none">
-            {name}
-          </label>
-        </div>
-      </div>
+    <div className="flex items-center justify-center space-x-1">
+      {/* <div className="h-5 w-5 bg-primary opacity-20 rounded-sm"> */}
+      <input
+        onChange={checkHandler}
+        id={id}
+        name={name}
+        checked={isChecked}
+        type="checkbox"
+        className="focus:ring-indigo-500 h-5 w-5 rounded-sm bg-primary"
+      />
+      {/* </div> */}
+      <label htmlFor={name} className="text-primary select-none text-xs pr-2">
+        {name}
+      </label>
     </div>
   );
 };

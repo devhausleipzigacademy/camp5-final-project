@@ -10,6 +10,7 @@ import { useState, useEffect, FormEvent } from "react";
 import { useFilePicker } from "use-file-picker";
 import Button from "../components/Button/Button";
 import { FileContent } from "use-file-picker/dist/interfaces";
+import { PlusCircleIcon } from "@heroicons/react/solid";
 
 type Field = {
   name: string;
@@ -51,13 +52,17 @@ const UploadPage: NextPage = () => {
   const [fields, setFields] = useState<Field[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checkedItems, setCheckedItems] = useState("FREE");
+  const [isChecked, setIsChecked] = useState<boolean>(true);
   const [price, setPrice] = useState("");
 
-  function toggleCheck(index: number) {
-    setChecked((prev) => !prev);
-    checkedItems[index];
+  function checkHandler() {
+    setIsChecked((prev) => !prev);
+    if (!isChecked) {
+      setCheckedItems("FREE");
+    } else {
+      setCheckedItems("SWAP");
+    }
   }
 
   function clearInput() {
@@ -67,6 +72,7 @@ const UploadPage: NextPage = () => {
     setPossibleSub([]);
     setSelectedSub(() => "");
     setFields([]);
+    setIsChecked(true);
   }
   const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
     readAs: "DataURL",
@@ -86,16 +92,6 @@ const UploadPage: NextPage = () => {
   // useEffect(() => {
   //   console.log("");
   // }, [selectedCategory]);
-
-  // function handleOnChange() {
-  //   const reader = new FileReader();
-
-  //   reader.onload = function (onLoadEvent) {
-  //     setImageSrc(onLoadEvent.target.result);
-  //     setUploadData(undefined);
-  //   };
-  //   reader.readAsDataURL(changeEvent.target.files[0]);
-  // }
 
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
@@ -154,8 +150,14 @@ const UploadPage: NextPage = () => {
   }
 
   return (
-    <div className="font-medium flex-col pt-32 min-h-full flex items-center justify-center py-1 px-1 mx-auto lg:px-8 w-full space-y-2">
-      <form method="post" onSubmit={handleOnSubmit}>
+    <div className="font-medium flex-col pt-20 min-h-full flex items-center justify-center py-1 pl-4 pr-10 mx-auto lg:px-8 w-full space-y-2 scroll-smooth">
+      <form
+        method="post"
+        onSubmit={handleOnSubmit}
+        className="w-full space-y-2 box-border"
+      >
+        {/* ---------------------- TITLE ------------------------- */}
+
         <label htmlFor="title" className="sr-only">
           Title
         </label>
@@ -164,55 +166,80 @@ const UploadPage: NextPage = () => {
           id="Title"
           name="Title"
           type="Text"
-          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           placeholder="Title"
           onChange={(event) => setTitle(event.target.value)}
         />
-        {/* <InputTitle onChange={() => setTitle()} /> */}
-        <label htmlFor="Description" className="sr-only">
+        {/* ---------------------- DESCRIPTION ------------------------- */}
+
+        <label htmlFor="Description" className="sr-only text-primary">
           Description
         </label>
-        <input
+        <textarea
           value={description}
           id="Description"
           name="Description"
-          type="text"
-          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
           placeholder="Description"
           onChange={(event) => setDescription(event.target.value)}
         />
-        <Checkbox
-          onChange={() => toggleCheck(0)}
-          name="Giveaway"
-          id="giveaway"
-        />
-        <Checkbox onChange={() => toggleCheck(1)} name="Swap" id="swap" />
-        <p>Upload Images and Videos here</p>
-        <button
-          className="text-primary-text group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={() => openFileSelector()}
-        >
-          Select files{" "}
-        </button>
-        {errors.length ? (
-          errors.map((error, index) => (
-            <div key={index} className="flex bg-error text-error-text">
-              <p>{error.name}</p>
-              <p>INVALID PIC</p>
-              <br />
-            </div>
-          ))
-        ) : (
-          <div>
-            {filesContent.map((file, index) => (
-              <div key={index}>
-                <h2>{file.name}</h2>
-                <img alt={file.name} src={file.content}></img>
-                <br />
+        {/* ---------------------- UPLOAD ------------------------- */}
+        <div className="w-full">
+          {errors.length ? (
+            errors.map((error, index) => (
+              <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+                <div key={index} className="flex bg-error text-error-text">
+                  <p>{error.name}</p>
+                  <p>INVALID PIC</p>
+                  <br />
+                </div>
+                <button onClick={() => openFileSelector()}>
+                  <PlusCircleIcon className="text-primary h-8" />
+                </button>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          ) : filesContent.length ? (
+            <div>
+              {filesContent.map((file, index) => (
+                <div key={index}>
+                  <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+                    <p className="font-normal">{file.name}</p>
+                    <button onClick={() => openFileSelector()}>
+                      <PlusCircleIcon className="text-primary h-8" />
+                    </button>
+                  </div>
+                  <img alt={file.name} src={file.content}></img>
+                  <br />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+              <p className="font-normal">Photo </p>
+              <button onClick={() => openFileSelector()}>
+                <PlusCircleIcon className="text-primary h-8" />
+              </button>
+            </div>
+          )}
+        </div>
+        {/* ---------------------- CHECKBOXES ------------------------- */}
+
+        <div className="flex flex-row py-3 ">
+          <Checkbox
+            isChecked={isChecked}
+            name="Giveaway"
+            id="giveaway"
+            checkHandler={checkHandler}
+          />
+          <Checkbox
+            isChecked={!isChecked}
+            name="Swap"
+            id="swap"
+            checkHandler={checkHandler}
+          />
+        </div>
+        {/* ---------------------- VALUE ------------------------- */}
+
         <label htmlFor="Price" className="sr-only">
           Price
         </label>
@@ -221,9 +248,12 @@ const UploadPage: NextPage = () => {
           id="Price"
           name="Price"
           type="text"
-          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           placeholder="Price / Value"
+          value={price}
         />
+        {/* ---------------------- CATEGORIES ------------------------- */}
+
         <select
           name="category"
           id="category"
@@ -259,13 +289,17 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))}
-        <button
-          type="submit"
-          className="text-primary-text group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          <span className="absolute inset-0 flex items-center pl-3"></span>
-          Create Offer
-        </button>
+        {/* <div className="w-full relative bottom-0 h-20">
+          <button
+            type="submit"
+            className="text-primary-text  w-full py-4 px-4 text-sm font-medium rounded-md bg-primary"
+          >
+            Create Offer
+          </button>
+        </div> */}
+        <div className="w-full min-h-screen pt-24">
+          <Button type="submit" value="Create Offer" selected={false} />
+        </div>
       </form>
     </div>
   );
