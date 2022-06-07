@@ -14,7 +14,7 @@ export default async function handler(
 
       let subcategories: Subcategory[] = await prisma.subcategory.findMany({
         where: {
-          name: subcategoryTitle,
+          title: subcategoryTitle,
         },
       });
       res.status(200).json(subcategories);

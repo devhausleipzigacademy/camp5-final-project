@@ -1,31 +1,31 @@
 function isIterable(obj) {
-	if (obj == null) {
-		return false;
-	}
-	return typeof obj[Symbol.iterator] === "function";
+  if (obj == null) {
+    return false;
+  }
+  return typeof obj[Symbol.iterator] === "function";
 }
 
 function isObject(obj) {
-	return (
-		obj !== null && typeof obj === "object" && Array.isArray(obj) === false
-	);
+  return (
+    obj !== null && typeof obj === "object" && Array.isArray(obj) === false
+  );
 }
 
 export function* generatePathLeafPairs(collection, path = []) {
-	console.log(collection);
-	if (isObject(collection)) {
-		console.log("object", collection);
-		for (const [key, value] of Object.entries(collection)) {
-			yield* generatePathLeafPairs(value, [...path, key]);
-		}
-	} else if (Array.isArray(collection)) {
-		console.log("array", collection);
-		yield* collection.map((element) => {
-			return [path, element];
-		});
-	} else {
-		throw new Error(`Unrecognized node type: ${typeof collection}`);
-	}
+  console.log(collection);
+  if (isObject(collection)) {
+    console.log("object", collection);
+    for (const [key, value] of Object.entries(collection)) {
+      yield* generatePathLeafPairs(value, [...path, key]);
+    }
+  } else if (Array.isArray(collection)) {
+    console.log("array", collection);
+    yield* collection.map((element) => {
+      return [path, element];
+    });
+  } else {
+    throw new Error(`Unrecognized node type: ${typeof collection}`);
+  }
 }
 
 //////////////////////////
