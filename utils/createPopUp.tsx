@@ -5,6 +5,8 @@ import * as turf from "@turf/turf";
 import Link from "next/link";
 import router, { useRouter } from "next/router";
 import { MouseEvent } from "react";
+import { render } from "react-dom";
+import { Node } from "typescript";
 
 export default function createPopUp(
   feature: Feature,
@@ -24,26 +26,11 @@ export default function createPopUp(
     distance = "distance: " + distance + "km";
   }
 
-  const popup: mapboxgl.Popup = new mapboxgl.Popup({ closeOnClick: false })
+  const popup: mapboxgl.Popup = new mapboxgl.Popup({ closeOnClick: false });
+  const popupNode = document.createElement("div");
+  render(<p>My Popup</p>, popupNode);
+  popup
     .setLngLat(feature.geometry.coordinates)
-    .setHTML(
-      `
-        <a onClick=${router.push({
-          pathname: "/item",
-          query: {
-            title: feature.properties.title,
-            identifier: feature.properties.id,
-            distance: distanceNo,
-            owner: feature.properties.owner,
-          },
-        })}>
-          <div>
-          <h3>${feature.properties.title}</h3>
-          <span>${distance}</span>
-          <p>${feature.properties.owner}</p>
-          </div>
-        </a>
-      `
-    )
+    .setDOMContent(popupNode)
     .addTo(map.current as mapboxgl.Map);
 }
