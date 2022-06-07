@@ -1,5 +1,4 @@
 import mapboxgl from "mapbox-gl";
-import { Coord } from "@turf/turf";
 import type { Feature, ListData } from "./types";
 import * as turf from "@turf/turf";
 import Link from "next/link";
@@ -15,7 +14,7 @@ export default function createPopUp(
 ) {
   const popUps = document.getElementsByClassName("mapboxgl-popup");
   if (popUps[0]) popUps[0].remove();
-  let distanceNo;
+  let distanceNo: string;
   let distance = turf
     .distance(userLocation, feature.geometry.coordinates)
     .toFixed(2);

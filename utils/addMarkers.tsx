@@ -1,11 +1,13 @@
 import { Coord } from "@turf/turf";
 import id from "date-fns/esm/locale/id/index.js";
 import mapboxgl, { LngLatLike, Marker } from "mapbox-gl";
+import { useRouter } from "next/router";
 
 import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";
 import createPopUp from "./createPopUp";
 import flyToStore from "./flyToStore";
+import linkGen from "./linkGen";
 import { Feature, MapData } from "./types";
 
 export default function addMarkers(
@@ -25,6 +27,7 @@ export default function addMarkers(
         ? el.setAttribute("src", "swapIcon.svg")
         : el.setAttribute("src", "giftIcon.svg");
       el.addEventListener("click", (e) => {
+        linkGen(marker);
         flyToStore(marker as Feature, map);
         createPopUp(marker as Feature, userLocation, map);
       });
