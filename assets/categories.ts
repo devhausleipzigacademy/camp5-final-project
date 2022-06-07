@@ -193,6 +193,7 @@ const detailsModelMap = {
     Age: z.string(),
     Condition: z.string(),
     Brand: z.string(),
+    Material: z.string(),
 };
 
 //@ts-ignore

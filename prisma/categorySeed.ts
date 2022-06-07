@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { DiagnosticCategory } from "typescript";
-import { mockKitchenCategories, mockSubCategories } from "../assets/data";
+import { mockKitchenCategories } from "../assets/data";
 
 const prisma = new PrismaClient();
 
