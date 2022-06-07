@@ -150,11 +150,11 @@ const UploadPage: NextPage = () => {
   }
 
   return (
-    <div className="font-medium flex-col pt-20 min-h-full flex items-center justify-center py-1 pl-4 pr-10 mx-auto lg:px-8 w-full space-y-2 scroll-smooth">
+    <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
       <form
         method="post"
         onSubmit={handleOnSubmit}
-        className="w-full space-y-2 box-border"
+        className="w-full h-full space-y-2"
       >
         {/* ---------------------- TITLE ------------------------- */}
 
@@ -187,7 +187,7 @@ const UploadPage: NextPage = () => {
         <div className="w-full">
           {errors.length ? (
             errors.map((error, index) => (
-              <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+              <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row flex-grow justify-between items-center sm:text-sm">
                 <div key={index} className="flex bg-error text-error-text">
                   <p>{error.name}</p>
                   <p>INVALID PIC</p>
@@ -289,17 +289,7 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))}
-        {/* <div className="w-full relative bottom-0 h-20">
-          <button
-            type="submit"
-            className="text-primary-text  w-full py-4 px-4 text-sm font-medium rounded-md bg-primary"
-          >
-            Create Offer
-          </button>
-        </div> */}
-        <div className="w-full min-h-screen pt-24">
-          <Button type="submit" value="Create Offer" selected={false} />
-        </div>
+        <Button type="submit" value="Create Offer" selected={false} />
       </form>
     </div>
   );
