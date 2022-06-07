@@ -21,7 +21,7 @@ model User {
   passwordSalt   String
   profilePicture String?
   rating         Float
-  item           Item[]
+  items           Item[]
   favorite       Json
   location       Location?
   conversations  Conversation[]

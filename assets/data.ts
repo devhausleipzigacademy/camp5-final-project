@@ -1,13 +1,179 @@
-import { Category, Item, Location, User, SellType } from "@prisma/client";
-import { partialUtil } from "zod/lib/helpers/partialUtil";
-import { Appliances } from "../prisma/enums/global";
+import {
+    Category,
+    Item,
+    User,
+    Location,
+    SellType,
+    Conversation,
+} from "@prisma/client";
 
-type MockData = {
-    user: Partial<User>;
-    items: Partial<Item>[];
-    location: Partial<Location>;
-    category: Partial<Category>;
-};
+// type MockData = {
+//     user: Partial<User>;
+//     items: Partial<Item>[];
+//     location: Partial<Location>;
+//     category: Partial<Category>;
+//     conversations: Partial<Conversation[]>;
+// };
+
+export const mockData = [
+    {
+        user: {
+            firstname: "Johannes",
+            lastname: "Smith",
+            email: "johannes.smith@email.de",
+            passwordHash: "effegysdgerzerz",
+            passwordSalt: "bnfhjfdjdfjgfj",
+            profilePicture:
+                "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
+            rating: 2.1,
+            favorite: [],
+        },
+    },
+    {
+        location: {
+            lat: 51.33573247467917,
+            lon: 12.408345798001886,
+            address: "Beuchaer Str. 2, 04318 Leipzig",
+        },
+    },
+    { conversations: [] },
+    {
+        items: [
+            {
+                title: "",
+                images: ["", ""],
+                description: "",
+                details: [],
+                sellType: SellType.FREE,
+                subcatId: "",
+            },
+        ],
+    },
+    {
+        user: {
+            firstname: "",
+            lastname: "",
+            passwordHash: "",
+            passwordSalt: "",
+            profilePicture: "",
+            rating: 2.1,
+            favorite: [],
+        },
+    },
+    {
+        location: {
+            lat: 51.337493607362845,
+            lon: 12.40253711886957,
+            address: "Anna-Kuhnow-Straße 16, 04317 Leipzig",
+        },
+    },
+    { conversations: [] },
+    {
+        items: [
+            {
+                title: "",
+                images: ["", ""],
+                description: "",
+                details: [],
+                sellType: SellType.FREE,
+                subcatId: "",
+            },
+        ],
+    },
+    {
+        user: {
+            firstname: "",
+            lastname: "",
+            passwordHash: "",
+            passwordSalt: "",
+            profilePicture: "",
+            rating: 2.1,
+            favorite: [],
+        },
+    },
+    {
+        location: {
+            lat: 51.337493607362845,
+            lon: 12.40253711886957,
+            address: "Anna-Kuhnow-Straße 16, 04317 Leipzig",
+        },
+    },
+    { conversations: [] },
+    {
+        items: [
+            {
+                title: "",
+                images: ["", ""],
+                description: "",
+                details: [],
+                sellType: SellType.FREE,
+                subcatId: "",
+            },
+        ],
+    },
+    {
+        user: {
+            firstname: "",
+            lastname: "",
+            passwordHash: "",
+            passwordSalt: "",
+            profilePicture: "",
+            rating: 2.1,
+            favorite: [],
+        },
+    },
+    {
+        location: {
+            lat: 51.337493607362845,
+            lon: 12.40253711886957,
+            address: "Anna-Kuhnow-Straße 16, 04317 Leipzig",
+        },
+    },
+    { conversations: [] },
+    {
+        items: [
+            {
+                title: "",
+                images: ["", ""],
+                description: "",
+                details: [],
+                sellType: SellType.FREE,
+                subcatId: "",
+            },
+        ],
+    },
+    {
+        user: {
+            firstname: "",
+            lastname: "",
+            passwordHash: "",
+            passwordSalt: "",
+            profilePicture: "",
+            rating: 2.1,
+            favorite: [],
+        },
+    },
+    {
+        location: {
+            lat: 51.337493607362845,
+            lon: 12.40253711886957,
+            address: "Anna-Kuhnow-Straße 16, 04317 Leipzig",
+        },
+    },
+    { conversations: [] },
+    {
+        items: [
+            {
+                title: "",
+                images: ["", ""],
+                description: "",
+                details: [],
+                sellType: SellType.FREE,
+                subcatId: "",
+            },
+        ],
+    },
+];
 
 export const mockKitchenCategories = {
     kitchen: [
@@ -80,7 +246,7 @@ export const mockSubCategories = [
     "Other Appliances",
 ];
 
-export const mockData = [
+export const oldData = [
     {
         user: {
             firstname: "Johannes",
