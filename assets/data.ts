@@ -40,11 +40,15 @@ export const mockData = [
     {
         items: [
             {
-                title: "",
-                images: ["", ""],
-                description: "",
+                title: "Coffee Machine",
+                images: [
+                    "https://images.unsplash.com/photo-1565452344518-47faca79dc69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
+                ],
+                description:
+                    "My old Coffee Machine. Still working. I have another one now, so if you have something to swap, just let me know!",
                 details: [],
-                sellType: SellType.FREE,
+                sellType: SellType.SWAP,
+                subcategory: "Coffee Machines",
                 subcatId: "",
             },
         ],
@@ -73,11 +77,15 @@ export const mockData = [
     {
         items: [
             {
-                title: "",
-                images: ["", ""],
-                description: "",
+                title: "Colorful Bowls",
+                images: [
+                    "https://images.unsplash.com/photo-1567763745030-bfe9c51bec27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+                ],
+                description:
+                    "I have to many bowls, so I am giving away these three colorful bowls for free. They are nice and big and will be an eyecatcher in every kitchen.",
                 details: [],
                 sellType: SellType.FREE,
+                subcategory: "Bowls",
                 subcatId: "",
             },
         ],
@@ -106,11 +114,15 @@ export const mockData = [
     {
         items: [
             {
-                title: "",
-                images: ["", ""],
-                description: "",
+                title: "Toaster",
+                images: [
+                    "https://images.unsplash.com/photo-1624209190904-aca680ededc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=793&q=80",
+                ],
+                description:
+                    "This toaster is like new. I got this for free, don't need it and so I am giving it away for free, too.",
                 details: [],
                 sellType: SellType.FREE,
+                subcategory: "Toasters",
                 subcatId: "",
             },
         ],
@@ -139,10 +151,14 @@ export const mockData = [
     {
         items: [
             {
-                title: "",
-                images: ["", ""],
-                description: "",
+                title: "Pots",
+                images: [
+                    "https://images.unsplash.com/photo-1604414499020-f9ac575bc5ec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                ],
+                description:
+                    "I need a really good pan, so I am willing to swap my good old pots for that. Feel free to contact me!",
                 details: [],
+                subcategory: "Pots",
                 sellType: SellType.FREE,
                 subcatId: "",
             },
