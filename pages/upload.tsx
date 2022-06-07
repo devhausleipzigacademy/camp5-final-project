@@ -2,7 +2,7 @@ import Header from "../components/Header/Header";
 import { NextPage } from "next";
 import Checkbox from "../components/Checkbox/Checkbox";
 import CreateButton from "../components/Inputfields/CreateOfferButton";
-import UploadImage from "../components/Header/UploadImage";
+import UploadImage from "../components/Inputfields/UploadImage";
 import InputTitle from "../components/Inputfields/TitleInput";
 import PriceInputfield from "../components/Inputfields/PriceInput";
 import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
@@ -289,7 +289,7 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))}
-        <Button type="submit" value="Create Offer" selected={false} />
+        <Button type="submit" value="Create offer" selected={false} />
       </form>
     </div>
   );
