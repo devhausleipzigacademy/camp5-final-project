@@ -41,8 +41,8 @@ model Conversation {
   identifier     String   @id @default(uuid())
   createdAt      DateTime @default(now())
   content        Json // each element represent the one message, but with prefix denote 'owner' || 'offer'
-  User           User?    @relation(fields: [userIdentifier], references: [identifier])
-  userIdentifier String?
+  User           User?    @relation(fields: [userId], references: [identifier])
+  userId String?
 }
 
 // the product owner can add as he want :)

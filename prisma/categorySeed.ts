@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { DiagnosticCategory } from "typescript";
-import { mockKitchenCategories } from "../assets/data";
+import { mockData, mockKitchenCategories } from "../assets/data";
 
 const prisma = new PrismaClient();
 
@@ -22,6 +22,23 @@ async function main() {
                     categoryId: categories.identifier,
                 },
             });
+        });
+    });
+    const prismaCallData = mockData.map(async (data) => {
+        const user = await prisma.user.create({
+            data: { ...data.user },
+        });
+        await prisma.location.create({
+            data: {
+                ...data.location,
+                userId: user.identifier,
+            },
+        });
+        await prisma.conversation.create({
+            data: {
+                ...data.conversations,
+                userId: user.identifier,
+            },
         });
     });
 
