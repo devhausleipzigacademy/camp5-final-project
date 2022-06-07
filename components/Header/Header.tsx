@@ -4,7 +4,6 @@ import BurgerMenu from "../../public/menu.svg";
 const Header = () => {
   const router = useRouter();
   let pagename = router.asPath;
-  console.log(pagename);
 
   // add logic for chat later
   if (pagename === "/#" || pagename === "/") {
