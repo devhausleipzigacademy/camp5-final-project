@@ -1,4 +1,5 @@
 import { SellType } from "@prisma/client";
+import { dissolve } from "@turf/turf";
 import Image from "next/image";
 import React from "react";
 import { Feature } from "../../utils/types";
@@ -31,17 +32,30 @@ export const UserListItem = (item: Props) => {
     <div
       className={item.itemGone ? "flex p-4 gap-3 opacity-50" : "flex p-4 gap-3"}
     >
-      <Image
-        src={item.itemImage}
-        height={50}
-        width={50}
-        objectFit="cover"
-        layout="intrinsic"
-      />
+      <div className="relative h-14 w-14">
+        <Image
+          src={item.itemImage}
+          height={50}
+          width={50}
+          objectFit="cover"
+          layout="responsive"
+        />
+      </div>
 
       <div>
-        <div className={item.itemGone ? "line-through" : "no-underline"}>
-          {item.itemTitle}
+        <div
+          className={
+            item.itemGone
+              ? "line-through text-lg font-semibold"
+              : "text-lg font-semibold"
+          }
+        >
+          <div className="flex align-text-top">
+            {item.itemTitle}
+            {item.itemRequests > 0 ? (
+              <div className="rounded-full bg-secondary w-4 h-4 ml-2" />
+            ) : null}
+          </div>
         </div>
         <div>{`Posted on ${item.itemPosted}`}</div>
         {item.itemGone && item.itemType === "SWAP" ? (

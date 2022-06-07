@@ -12,7 +12,7 @@ const UserItems = () => {
         itemType={"SWAP"}
         itemTitle={"Boots"}
         itemPosted="03.06.2022"
-        itemRequests={0}
+        itemRequests={5}
         itemGone={false}
         itemRecipient={"Jonathan"}
       />
