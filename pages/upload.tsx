@@ -6,11 +6,12 @@ import UploadImage from "../components/Inputfields/UploadImage";
 import InputTitle from "../components/Inputfields/TitleInput";
 import PriceInputfield from "../components/Inputfields/PriceInput";
 import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, useMemo, ChangeEvent } from "react";
 import { useFilePicker } from "use-file-picker";
 import Button from "../components/Button/Button";
 import { FileContent } from "use-file-picker/dist/interfaces";
 import { PlusCircleIcon } from "@heroicons/react/solid";
+import Input from "../components/Inputfields/input";
 
 type Field = {
   name: string;
@@ -158,7 +159,16 @@ const UploadPage: NextPage = () => {
       >
         {/* ---------------------- TITLE ------------------------- */}
 
-        <label htmlFor="title" className="sr-only">
+        <Input
+          name="Title"
+          value={title}
+          placeholder="Title"
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setTitle(event.target.value)
+          }
+        />
+
+        {/* <label htmlFor="title" className="sr-only">
           Title
         </label>
         <input
@@ -169,7 +179,7 @@ const UploadPage: NextPage = () => {
           className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           placeholder="Title"
           onChange={(event) => setTitle(event.target.value)}
-        />
+        /> */}
         {/* ---------------------- DESCRIPTION ------------------------- */}
 
         <label htmlFor="Description" className="sr-only text-primary">
@@ -208,7 +218,16 @@ const UploadPage: NextPage = () => {
         </div>
         {/* ---------------------- VALUE ------------------------- */}
 
-        <label htmlFor="Price" className="sr-only">
+        <Input
+          name="Price"
+          value={price}
+          placeholder="Price"
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setPrice(event.target.value)
+          }
+        />
+
+        {/* <label htmlFor="Price" className="sr-only">
           Price
         </label>
         <input
@@ -219,7 +238,7 @@ const UploadPage: NextPage = () => {
           className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           placeholder="Price / Value"
           value={price}
-        />
+        /> */}
         {/* ---------------------- CATEGORIES ------------------------- */}
 
         <select
