@@ -97,15 +97,16 @@ const Home: NextPage = () => {
 
   return (
     <div className="pt-16 space-y-2">
-      <Header />
       <Search properties={data?.features!} />
       <div className="flex gap-2 px-2">
         <Button
+          type="button"
           selected={selectedFilter === "Free"}
           onClick={filterMarkers}
           value={"Free"}
         />
         <Button
+          type="button"
           selected={selectedFilter === "Swap"}
           onClick={filterMarkers}
           value={"Swap"}
