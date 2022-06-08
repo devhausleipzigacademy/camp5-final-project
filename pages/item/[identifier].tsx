@@ -11,6 +11,7 @@ import { Item } from "../../utils/types";
 import { useRouter } from "next/router";
 import { formatDistance, subDays } from "date-fns";
 import Link from "next/link";
+import OfferDrawer from "../../components/OfferDrawer/OfferDrawer";
 
 export default function ProductPage(): JSX.Element {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function ProductPage(): JSX.Element {
 
   const [isFavorited, SetIsFavorited] = useState(favorited);
   const [productData, setProductData] = useState<Item | null>(null);
+  const [showDrawer, SetShowDrawer] = useState(false);
 
   async function getProductData(id: string) {
     const item = await getProduct(id);
@@ -61,7 +63,9 @@ export default function ProductPage(): JSX.Element {
     });
   }
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
-  const offerTradeHandler = () => {};
+  const offerTradeHandler = () => {
+    SetShowDrawer((prev) => !prev);
+  };
   const chatHandler = () => {};
   const backHandler = () => {
     const back = {
@@ -70,11 +74,12 @@ export default function ProductPage(): JSX.Element {
     return back;
   };
   const locationHandler = () => {};
-
   const back = backHandler();
+
   return (
     <div className="pt-16">
       <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
+        <OfferDrawer show={showDrawer} />
         <div className="relative block w-full">
           <Carousel imagesArray={imagesArray} />
 
@@ -126,11 +131,13 @@ export default function ProductPage(): JSX.Element {
           </div>
           {/* not sure how to make the description responsive in size */}
           <div className="overflow-y-scroll h-52">{description}</div>
-          <Button
-            onClick={offerTradeHandler}
-            selected={false}
-            value={"Offer Trade"}
-          />
+          <div className="absolute bottom-4 left-4 right-4">
+            <Button
+              onClick={offerTradeHandler}
+              selected={false}
+              value={"Offer Trade"}
+            />
+          </div>
         </div>
       </div>
     </div>
