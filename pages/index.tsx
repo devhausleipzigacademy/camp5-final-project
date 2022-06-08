@@ -99,8 +99,6 @@ const Home: NextPage = () => {
 
   return (
     <div className="pt-16 space-y-2">
-      <Header />
-
       <Search properties={data?.features!} />
       <FilterButtons clickHandler={filterMarkers} />
       {!mapData ? <Spinner /> : <Map mapData={mapData} />}
