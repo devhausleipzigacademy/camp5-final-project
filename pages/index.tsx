@@ -73,7 +73,6 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
       }
-      console.log(mapRef, location);
     } else {
       if (selectedFilter === "Swap") {
         setSelectedFilter("");
@@ -113,7 +112,13 @@ const Home: NextPage = () => {
           value={"Swap"}
         />
       </div>
-      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+      {!mapData ? (
+        <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
+          <Spinner />
+        </div>
+      ) : (
+        <Map mapData={mapData} />
+      )}
       <ItemDrawer />
     </div>
   );
