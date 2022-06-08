@@ -63,11 +63,7 @@ export default function ProductPage({
               <p className="text-xl">{title}</p>
             </div>
             <div>
-              <Button
-                bgColor={"primary"}
-                value={offerType}
-                onClick={() => {}}
-              />
+              <Button type="button" value={offerType} onClick={() => {}} />
             </div>
           </div>
           <div className="flex justify-between items-center">
@@ -85,9 +81,8 @@ export default function ProductPage({
           {/* not sure how to make the description responsive in size */}
           <div className="overflow-y-scroll h-56">{description}</div>
           <Button
-            bgColor={"secondary"}
+            type="button"
             value={"Offer Trade"}
-            py={2}
             onClick={offerTradeHandler}
           />
         </div>

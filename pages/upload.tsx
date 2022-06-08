@@ -1,17 +1,12 @@
-import Header from "../components/Header/Header";
 import { NextPage } from "next";
 import Checkbox from "../components/Checkbox/Checkbox";
-import CreateButton from "../components/Inputfields/CreateOfferButton";
 import UploadImage from "../components/Inputfields/UploadImage";
-import InputTitle from "../components/Inputfields/TitleInput";
-import PriceInputfield from "../components/Inputfields/PriceInput";
-import DescriptionInputfield from "../components/Inputfields/DescriptionInput";
 import { useState, useEffect, FormEvent, useMemo, ChangeEvent } from "react";
 import { useFilePicker } from "use-file-picker";
 import Button from "../components/Button/Button";
 import { FileContent } from "use-file-picker/dist/interfaces";
 import { PlusCircleIcon } from "@heroicons/react/solid";
-import Input from "../components/Inputfields/input";
+import Input from "../components/Inputfields/Input";
 
 type Field = {
   name: string;
@@ -96,6 +91,7 @@ const UploadPage: NextPage = () => {
 
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
+
     // UPLOAD IMAGE
     const formData = new FormData();
 
@@ -127,7 +123,7 @@ const UploadPage: NextPage = () => {
     };
 
     console.log(realData);
-    clearInput();
+    // clearInput();
   }
 
   useEffect(() => {
@@ -152,11 +148,7 @@ const UploadPage: NextPage = () => {
 
   return (
     <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-      <form
-        method="post"
-        onSubmit={handleOnSubmit}
-        className="w-full h-full space-y-2"
-      >
+      <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2">
         {/* ---------------------- TITLE ------------------------- */}
 
         <Input

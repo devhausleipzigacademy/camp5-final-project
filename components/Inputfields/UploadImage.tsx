@@ -16,8 +16,11 @@ const UploadImage = ({ errors, filesContent, openFileSelector }: Props) => {
     <div className="w-full">
       {errors.length ? (
         errors.map((error, index) => (
-          <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row flex-grow justify-between items-center sm:text-sm">
-            <div key={index} className="flex bg-error text-error-text">
+          <div
+            key={index}
+            className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row flex-grow justify-between items-center sm:text-sm"
+          >
+            <div className="flex bg-error text-error-text">
               <p>{error.name}</p>
               <p>INVALID PIC</p>
               <br />
