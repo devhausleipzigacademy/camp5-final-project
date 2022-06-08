@@ -7,6 +7,8 @@ const Header = () => {
   // add logic for chat later
   if (pagename === "/#" || pagename === "/") {
     pagename = "Dashboard";
+  } else if (pagename === "/useritems") {
+    pagename = "My Offers";
   } else {
     pagename = pagename.slice(1);
     let str = pagename.split("");
