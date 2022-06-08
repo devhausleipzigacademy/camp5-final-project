@@ -49,4 +49,5 @@ export type MockData = {
     location: Location;
     category: Category;
     conversations: Conversation[];
+    domain: string;
 };

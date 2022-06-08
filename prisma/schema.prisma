@@ -46,11 +46,11 @@ model Conversation {
 }
 
 // the product owner can add as he want :)
-model Category {
+model Domain {
   identifier    String        @id @default(uuid())
-  title         String
+  title         String @unique
   description   String?
-  subcategories Subcategory[]
+  categories Category[]
 }
 
 model Item {
@@ -64,8 +64,9 @@ model Item {
   sellType    SellType
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  subcategory Subcategory @relation(fields: [subcatId], references: [identifier])
-  subcatId    String
+  category Category @relation(fields: [categoryId], references: [identifier])
+  categoryId    String
+  subcategory String
 }
 
 enum SellType {
@@ -73,10 +74,11 @@ enum SellType {
   FREE
 }
 
-model Subcategory {
+model Category {
   identifier String   @id @default(cuid())
-  title      String
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [identifier], onDelete: Cascade, onUpdate: Cascade)
+  title      String @unique
+  description String
+  domainId String
+  domain   Domain @relation(fields: [domainId], references: [identifier], onDelete: Cascade, onUpdate: Cascade)
   items      Item[]
 }
