@@ -1,7 +1,7 @@
 import { Coord } from "@turf/turf";
 import id from "date-fns/esm/locale/id/index.js";
 import mapboxgl, { LngLatLike, Marker } from "mapbox-gl";
-import router, { useRouter } from "next/router";
+import router from "next/router";
 
 import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";

@@ -95,7 +95,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="pt-16 space-y-2">
-      <Header />
+      {/* <Header /> */}
       <SearchBar />
       <FilterButtons clickHandler={filterMarkers} />
       {!mapData ? (

@@ -10,9 +10,11 @@ import { getProduct } from "../../utils/getProduct";
 import { Item } from "../../utils/types";
 import { useRouter } from "next/router";
 import { formatDistance, subDays } from "date-fns";
+import Link from "next/link";
 
 export default function ProductPage(): JSX.Element {
   const router = useRouter();
+  console.log(router.asPath);
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
@@ -50,7 +52,6 @@ export default function ProductPage(): JSX.Element {
     return <></>;
   } else {
     title = productData.title;
-    // imagesArray = productData.images;
     description = productData.description;
     offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
     imagesArray = productData.images;
@@ -63,22 +64,31 @@ export default function ProductPage(): JSX.Element {
   const offerTradeHandler = () => {};
   const chatHandler = () => {};
   const backHandler = () => {
-    router.push({
+    const back = {
       pathname: "/",
-    });
+    };
+    return back;
   };
   const locationHandler = () => {};
+
+  const back = backHandler();
   return (
     <div className="pt-16">
       <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
         <div className="relative block w-full">
           <Carousel imagesArray={imagesArray} />
-          <button
-            onClick={backHandler}
-            className="text-BG absolute w-10 left-2 top-2"
-          >
-            <BackIcon />
-          </button>
+
+          <Link href={back.pathname}>
+            <a>
+              <button
+                className="text-BG absolute w-10 left-2 top-2"
+                onClick={() => router.push(back)}
+              >
+                <BackIcon />
+              </button>
+            </a>
+          </Link>
+
           <button
             onClick={() => SetIsFavorited((fav) => !fav)}
             className="text-BG absolute w-9 top-2 right-2"
