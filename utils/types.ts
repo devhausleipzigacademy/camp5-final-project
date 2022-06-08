@@ -1,11 +1,4 @@
-import {
-    Item,
-    User,
-    Location,
-    Category,
-    Conversation,
-    Subcategory,
-} from "@prisma/client";
+import { Item, User, Location, Category, Conversation } from "@prisma/client";
 
 export type Feature = {
     type: string;
@@ -44,10 +37,8 @@ export type ListData = {
     id: string;
 };
 export type MockData = {
-    user: User;
-    items: Item[];
-    location: Location;
-    category: Category;
-    conversations: Conversation[];
-    domain: string;
+    user: Partial<User>;
+    items: Partial<Item[]>;
+    location: Partial<Location>;
+    conversations: Partial<Conversation[]>;
 };

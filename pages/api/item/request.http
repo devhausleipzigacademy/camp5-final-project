@@ -3,7 +3,7 @@ Content-Type: application/json
 
     {
   "title": "Nespresso",
-  "userId": "b7d7b045-e207-48e7-84d4-4aa48995452b",
+  "userId": "70af069d-ae0f-43be-9511-c88bf4838427",
   "images": {},
   "description": "damn good coffee",
   "sellType": "FREE",
@@ -13,5 +13,6 @@ Content-Type: application/json
     "Condition": "*****",
     "EnergyEfficiencyClass": "A+"
     },
-  "subcatName": "Appliances"
+  "category": "Appliances",
+  "subcategory": "Coffee Machine"
 }

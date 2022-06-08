@@ -1,7 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { Item, PrismaClient, User } from "@prisma/client";
 import { sub } from "date-fns";
 import { DiagnosticCategory } from "typescript";
 import { mockData, mockKitchenCategories } from "../assets/data";
+import { MockData } from "../utils/types";
 
 const prisma = new PrismaClient();
 
@@ -15,7 +16,7 @@ async function main() {
     const domains = await prisma.domain.create({
         data: {
             title: "Kitchen",
-            description: "description",
+            description: "For all your culinary needs",
         },
     });
 
@@ -30,33 +31,35 @@ async function main() {
             });
         }
     );
-    const prismaCallData = mockData.map(async (data) => {
+    const prismaCallData = mockData.map(async (data: MockData) => {
         const user = await prisma.user.create({
             data: {
-                firstname: data.user!.firstname,
-                lastname: data.user!.lastname,
-                email: data.user!.email,
-                profilePicture: data.user!.profilePicture,
-                passwordHash: data.user!.passwordHash,
-                passwordSalt: data.user!.passwordSalt,
-                rating: data.user!.rating,
-                favorite: data.user!.favorite,
+                ...data.user,
+
+                // firstname: data.user!.firstname,
+                // lastname: data.user!.lastname,
+                // email: data.user!.email,
+                // profilePicture: data.user!.profilePicture,
+                // passwordHash: data.user!.passwordHash,
+                // passwordSalt: data.user!.passwordSalt,
+                // rating: data.user!.rating,
+                // favorite: data.user!.favorite,
             },
         });
 
         await prisma.location.create({
             data: {
-                ...data.location!,
+                ...data.location,
                 userId: user.identifier,
             },
         });
 
-        data.items?.map(async (item) => {
+        data.items.map(async (item: Item) => {
             await prisma.item.create({
                 data: {
                     ...item,
                     user: { connect: { identifier: user.identifier } },
-                    category: { connect: { title: item.category } },
+                    category: { connect: { title: item!.categoryTitle } },
                 },
             });
         });

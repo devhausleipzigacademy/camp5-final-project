@@ -8,7 +8,7 @@ import {
 } from "@prisma/client";
 import { MockData } from "../utils/types";
 
-export const mockData = [
+export const mockData: MockData[] = [
     {
         user: {
             firstname: "Johannes",
@@ -21,16 +21,12 @@ export const mockData = [
             rating: 2.1,
             favorite: [],
         },
-    },
-    {
         location: {
             lat: 51.33573247467917,
             lon: 12.408345798001886,
             address: "Beuchaer Str. 2, 04318 Leipzig",
         },
-    },
-    { conversations: [] },
-    {
+        conversations: [],
         items: [
             {
                 title: "Coffee Machine",
@@ -41,7 +37,7 @@ export const mockData = [
                     "My old Coffee Machine. Still working. I have another one now, so if you have something to swap, just let me know!",
                 details: [],
                 sellType: SellType.SWAP,
-                category: "Appliances",
+                categoryTitle: "Appliances",
                 subcategory: "Coffee Machines",
             },
         ],
@@ -58,16 +54,12 @@ export const mockData = [
             rating: 4.5,
             favorite: [],
         },
-    },
-    {
         location: {
             lat: 51.337493607362845,
             lon: 12.40253711886957,
             address: "Anna-Kuhnow-Straße 16, 04317 Leipzig",
         },
-    },
-    { conversations: [] },
-    {
+        conversations: [],
         items: [
             {
                 title: "Colorful Bowls",
@@ -78,7 +70,7 @@ export const mockData = [
                     "I have to many bowls, so I am giving away these three colorful bowls for free. They are nice and big and will be an eyecatcher in every kitchen.",
                 details: [],
                 sellType: SellType.FREE,
-                category: "Dishes",
+                categoryTitle: "Dishes",
                 subcategory: "Bowls",
             },
         ],
@@ -95,16 +87,12 @@ export const mockData = [
             rating: 4.9,
             favorite: [],
         },
-    },
-    {
         location: {
             lat: 51.324596,
             lon: 12.377161,
             address: "Körnerstraße 48, 04107 Leipzig",
         },
-    },
-    { conversations: [] },
-    {
+        conversations: [],
         items: [
             {
                 title: "Toaster",
@@ -115,7 +103,7 @@ export const mockData = [
                     "This toaster is like new. I got this for free, don't need it and so I am giving it away for free, too.",
                 details: [],
                 sellType: SellType.FREE,
-                category: "Appliances",
+                categoryTitle: "Appliances",
                 subcategory: "Toasters",
             },
         ],
@@ -132,16 +120,12 @@ export const mockData = [
             rating: 5,
             favorite: [],
         },
-    },
-    {
         location: {
             lat: 51.321001,
             lon: 12.345208,
             address: "Rochlitzstraße 58, 04229 Leipzig",
         },
-    },
-    { conversations: [] },
-    {
+        conversations: [],
         items: [
             {
                 title: "Pots",
@@ -152,7 +136,7 @@ export const mockData = [
                     "I need a really good pan, so I am willing to swap my good old pots for that. Feel free to contact me!",
                 details: [],
                 sellType: SellType.FREE,
-                category: "Cookware",
+                categoryTitle: "Cookware",
                 subcategory: "Pots",
             },
         ],
@@ -169,16 +153,12 @@ export const mockData = [
             rating: 2.1,
             favorite: [],
         },
-    },
-    {
         location: {
             lat: 51.356643,
             lon: 12.371356,
             address: "Ehrensteinstraße 21, 04105 Leipzig",
         },
-    },
-    { conversations: [] },
-    {
+        conversations: [],
         items: [
             {
                 title: "Cup Buddies",
@@ -189,7 +169,7 @@ export const mockData = [
                     "I am giving away these two buddies! Got them as a present but they don't really fit into my kitchen. I really need some spoons, so if you have too much spoons at home, I would be happy to swap",
                 details: [],
                 sellType: SellType.SWAP,
-                category: "Dishes",
+                categoryTitle: "Dishes",
                 subcategory: "Cups",
             },
         ],
