@@ -34,3 +34,13 @@ export type ListData = {
   owner?: string;
   id: string;
 };
+
+export type Item = {
+  itemImage: string;
+  itemType: string;
+  itemTitle: string;
+  itemPosted: string;
+  itemRequests: number;
+  itemGone: boolean;
+  itemRecipient?: string;
+};

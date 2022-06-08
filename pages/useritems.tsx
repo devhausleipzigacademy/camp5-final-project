@@ -6,6 +6,7 @@ import Button from "../components/Button/Button";
 const UserItems = () => {
   const [selectedFilter, setSelectedFilter] =
     useState<"" | "Free" | "Swap">("");
+
   return (
     <div className="pt-20">
       <div className="flex gap-2 px-2 pb-4">

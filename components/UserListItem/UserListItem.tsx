@@ -2,20 +2,15 @@ import { SellType } from "@prisma/client";
 import { dissolve } from "@turf/turf";
 import Image from "next/image";
 import React, { useState } from "react";
-import { Feature } from "../../utils/types";
+import { Feature, Item } from "../../utils/types";
 import Button from "../Button/Button";
 
 type Props = {
-  itemImage: string;
-  itemType: SellType;
-  itemTitle: string;
-  itemPosted: string;
-  itemRequests: number;
-  itemGone: boolean;
-  itemRecipient?: string;
+  item: Item;
+  i: number;
 };
 
-export const UserListItem = (item: Props) => {
+export const UserListItem = ({ item, i }: Props) => {
   return (
     <div
       className={
