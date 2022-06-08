@@ -50,7 +50,7 @@ const UploadPage: NextPage = () => {
   const [description, setDescription] = useState("");
   const [checkedItems, setCheckedItems] = useState("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
-  const [price, setPrice] = useState("");
+  // const [price, setPrice] = useState("");
 
   function checkHandler() {
     setIsChecked((prev) => !prev);
@@ -64,7 +64,7 @@ const UploadPage: NextPage = () => {
   function clearInput() {
     setTitle("");
     setDescription("");
-    setPrice("");
+    // setPrice("");
     setPossibleSub([]);
     setSelectedSub(() => "");
     setFields([]);
@@ -116,7 +116,7 @@ const UploadPage: NextPage = () => {
       title,
       description,
       checkedItems,
-      price,
+      // price,
       selectedCategory,
       selectedSub,
       imageFile,
@@ -210,14 +210,14 @@ const UploadPage: NextPage = () => {
         </div>
         {/* ---------------------- VALUE ------------------------- */}
 
-        <Input
+        {/* <Input
           name="Price"
           value={price}
           placeholder="Price"
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             setPrice(event.target.value)
           }
-        />
+        /> */}
 
         {/* <label htmlFor="Price" className="sr-only">
           Price
