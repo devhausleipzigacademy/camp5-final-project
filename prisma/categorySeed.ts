@@ -5,54 +5,58 @@ import { mockData, mockKitchenCategories } from "../assets/data";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.subcategory.deleteMany();
-  await prisma.category.deleteMany();
+    await prisma.subcategory.deleteMany();
+    await prisma.category.deleteMany();
+    await prisma.location.deleteMany();
+    await prisma.user.deleteMany();
+    await prisma.item.deleteMany();
 
-  const prismaCallCat = mockKitchenCategories.kitchen.map(async (cat) => {
-    const categories = await prisma.category.create({
-      data: {
-        title: cat.title,
-        description: cat.description,
-      },
-    });
-    cat.subcategories.map( async (subCat) => {
-        const subcategories = await prisma.subcategory.create({
+    const prismaCallCat = mockKitchenCategories.kitchen.map(async (cat) => {
+        const categories = await prisma.category.create({
             data: {
-                title: subCat,
-                categoryId: categories.identifier
-            }
-        })
-    })
-    const prismaCallData = mockData.map(async (data) => {
-        const user = await prisma.user.create({
-            data: { ...data.user! },
-        });
-        await prisma.location.create({
-            data: {
-                ...data.location!,
-                userId: user.identifier,
+                title: cat.title,
+                description: cat.description,
             },
         });
+        cat.subcategories.map(async (subCat) => {
+            const subcategories = await prisma.subcategory.create({
+                data: {
+                    title: subCat,
+                    categoryId: categories.identifier,
+                },
+            });
+        });
+        const prismaCallData = mockData.map(async (data) => {
+            const user = await prisma.user.create({
+                data: { ...data.user! },
+            });
+            console.log(user);
+            await prisma.location.create({
+                data: {
+                    ...data.location!,
+                    userId: user.identifier,
+                },
+            });
 
-        
-        await prisma.item.create({
-            data: {
-                ...data.items,
-                userId: user.identifier
-            }
-        })
-
+            data.items?.map(async (item) => {
+                await prisma.item.create({
+                    data: {
+                        ...item,
+                        userId: user.identifier,
+                    },
+                });
+            });
+        });
     });
 
     await Promise.all(prismaCallCat);
 }
-}
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+    .catch((e) => {
+        console.error(e);
+        process.exit(1);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
