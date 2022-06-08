@@ -101,11 +101,13 @@ const Home: NextPage = () => {
       <Search properties={data?.features!} />
       <div className="flex gap-2 px-2">
         <Button
+          type="button"
           selected={selectedFilter === "Free"}
           onClick={filterMarkers}
           value={"Free"}
         />
         <Button
+          type="submit"
           selected={selectedFilter === "Swap"}
           onClick={filterMarkers}
           value={"Swap"}
