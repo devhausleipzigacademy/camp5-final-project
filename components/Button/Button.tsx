@@ -5,9 +5,10 @@ interface ButtonProps {
   selected: boolean;
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
   value: string;
+  type: "button" | "submit";
 }
 
-const Button = ({ value, onClick, selected }: ButtonProps) => {
+const Button = ({ value, onClick, selected, type }: ButtonProps) => {
   return (
     <button
       // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
@@ -20,6 +21,7 @@ const Button = ({ value, onClick, selected }: ButtonProps) => {
       )}
       onClick={onClick}
       value={value}
+      type={type}
     >
       {value}
     </button>
