@@ -35,8 +35,15 @@ export type ListData = {
   id: string;
 };
 
-export type Filter = {
-  free: string;
-  swap: string;
-  all: string;
+export type Item = {
+  identifier: string;
+  title: string;
+  images: string[];
+  description: string;
+  user: string;
+  userId: string;
+  sellType: string;
+  createdAt: string;
+  category: string;
+  catId: string;
 };
