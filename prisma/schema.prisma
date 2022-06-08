@@ -21,7 +21,7 @@ model User {
   passwordSalt   String
   profilePicture String?
   rating         Float
-  items           Item[]
+  items          Item[]
   favorite       Json
   location       Location?
   conversations  Conversation[]
@@ -38,11 +38,11 @@ model Location {
 
 //TODO: need more work
 model Conversation {
-  identifier     String   @id @default(uuid())
-  createdAt      DateTime @default(now())
-  content        Json // each element represent the one message, but with prefix denote 'owner' || 'offer'
-  User           User?    @relation(fields: [userId], references: [identifier])
-  userId String?
+  identifier String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  content    Json // each element represent the one message, but with prefix denote 'owner' || 'offer'
+  User       User?    @relation(fields: [userId], references: [identifier])
+  userId     String?
 }
 
 // the product owner can add as he want :)
@@ -65,7 +65,7 @@ model Item {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   subcategory Subcategory @relation(fields: [subcatId], references: [identifier])
-  subcatId  String
+  subcatId    String
 }
 
 enum SellType {
@@ -75,7 +75,7 @@ enum SellType {
 
 model Subcategory {
   identifier String   @id @default(cuid())
-  title       String   
+  title      String
   categoryId String
   category   Category @relation(fields: [categoryId], references: [identifier], onDelete: Cascade, onUpdate: Cascade)
   items      Item[]

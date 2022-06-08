@@ -6,14 +6,7 @@ import {
     SellType,
     Conversation,
 } from "@prisma/client";
-
-// type MockData = {
-//     user: Partial<User>;
-//     items: Partial<Item>[];
-//     location: Partial<Location>;
-//     category: Partial<Category>;
-//     conversations: Partial<Conversation[]>;
-// };
+import { MockData } from "../utils/types";
 
 export const mockData = [
     {
@@ -188,11 +181,15 @@ export const mockData = [
     {
         items: [
             {
-                title: "",
-                images: ["", ""],
-                description: "",
+                title: "Cup Buddies",
+                images: [
+                    "https://images.unsplash.com/photo-1611274757139-03ff1736701d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80",
+                ],
+                description:
+                    "I am giving away these two buddies! Got them as a present but they don't really fit into my kitchen. I really need some spoons, so if you have too much spoons at home, I would be happy to swap",
                 details: [],
-                sellType: SellType.FREE,
+                sellType: SellType.SWAP,
+                subcategory: "Cups",
                 subcatId: "",
             },
         ],

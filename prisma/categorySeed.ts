@@ -15,25 +15,37 @@ async function main() {
         description: cat.description,
       },
     });
+    cat.subcategories.map( async (subCat) => {
+        const subcategories = await prisma.subcategory.create({
+            data: {
+                title: subCat,
+                categoryId: categories.identifier
+            }
+        })
+    })
     const prismaCallData = mockData.map(async (data) => {
         const user = await prisma.user.create({
-            data: { ...data.user },
+            data: { ...data.user! },
         });
         await prisma.location.create({
             data: {
-                ...data.location,
+                ...data.location!,
                 userId: user.identifier,
             },
         });
-        await prisma.conversation.create({
+
+        
+        await prisma.item.create({
             data: {
-                ...data.conversations,
-                userId: user.identifier,
-            },
-        });
+                ...data.items,
+                userId: user.identifier
+            }
+        })
+
     });
 
-  await Promise.all(prismaCallCat);
+    await Promise.all(prismaCallCat);
+}
 }
 
 main()
