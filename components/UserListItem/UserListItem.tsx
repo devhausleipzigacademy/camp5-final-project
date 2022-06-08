@@ -11,7 +11,7 @@ type Props = {
   itemPosted: string;
   itemRequests: number;
   itemGone: boolean;
-  itemRecipient: string;
+  itemRecipient?: string;
 };
 
 export const UserListItem = (item: Props) => {
@@ -58,10 +58,16 @@ export const UserListItem = (item: Props) => {
           </div>
         </div>
         <div>{`Posted on ${item.itemPosted}`}</div>
-        {item.itemGone && item.itemType === "SWAP" ? (
-          <div>Swapped with {item.itemRecipient}</div>
+        {item.itemGone ? (
+          item.itemGone && item.itemType === "SWAP" ? (
+            <div>Swapped with {item.itemRecipient}</div>
+          ) : (
+            <div>Gifted to {item.itemRecipient}</div>
+          )
+        ) : item.itemRequests > 0 ? (
+          <div>{item.itemRequests} pending Swap Requests</div>
         ) : (
-          <div>Gifted to {item.itemRecipient}</div>
+          <div>No Swap Requests yet</div>
         )}
       </div>
     </div>

@@ -13,8 +13,8 @@ const UserItems = () => {
         itemTitle={"Boots"}
         itemPosted="03.06.2022"
         itemRequests={5}
-        itemGone={true}
-        itemRecipient={"Jonathan"}
+        itemGone={false}
+        // itemRecipient={"Jonathan"}
       />
     </div>
   );
