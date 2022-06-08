@@ -1,3 +1,4 @@
+import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import { SellType } from "@prisma/client";
 import { dissolve } from "@turf/turf";
 import Image from "next/image";
@@ -85,6 +86,11 @@ export const UserListItem = (item: Props) => {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="fixed right-1">
+        <PencilIcon className="w-4 h-4" />
+        <TrashIcon className="w-4 h-4 absolute top-10" />
       </div>
     </div>
   );
