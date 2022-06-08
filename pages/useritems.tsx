@@ -1,6 +1,7 @@
 import { UserListItem } from "../components/UserListItem/UserListItem";
 import React from "react";
 import { NextPage } from "next";
+import CreateItemButton from "../components/Button/CreateItemButton/CreateItemButton";
 
 const UserItems = () => {
   return (
@@ -38,6 +39,9 @@ const UserItems = () => {
         itemGone={false}
         itemRecipient={"Jonathan"}
       />
+      <div>
+        <CreateItemButton />
+      </div>
     </div>
   );
 };
