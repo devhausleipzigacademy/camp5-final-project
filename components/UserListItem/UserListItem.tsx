@@ -69,7 +69,7 @@ export const UserListItem = (item: Props) => {
         </div>
         <div className="text-sm">
           <div>{`Posted on ${item.itemPosted}`}</div>
-          <div className="leading-6">
+          <div className="leading-8">
             {item.itemGone ? (
               item.itemGone && item.itemType === "SWAP" ? (
                 <div>Swapped with {item.itemRecipient}</div>
