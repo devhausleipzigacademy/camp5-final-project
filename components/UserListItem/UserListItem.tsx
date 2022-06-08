@@ -59,12 +59,7 @@ export const UserListItem = (item: Props) => {
         </div>
         <div>{`Posted on ${item.itemPosted}`}</div>
         {item.itemGone && item.itemType === "SWAP" ? (
-          requestStatus
-        ) : (
           <div>Swapped with {item.itemRecipient}</div>
-        )}
-        {item.itemGone && item.itemType === "FREE" ? (
-          requestStatus
         ) : (
           <div>Gifted to {item.itemRecipient}</div>
         )}
