@@ -36,11 +36,14 @@ export type ListData = {
 };
 
 export type Item = {
-  itemImage: string;
-  itemType: string;
-  itemTitle: string;
-  itemPosted: string;
-  itemRequests: number;
-  itemGone: boolean;
-  itemRecipient?: string;
+  identifier: string;
+  title: string;
+  images: string[];
+  description: string;
+  user: string;
+  userId: string;
+  sellType: string;
+  createdAt: string;
+  category: string;
+  catId: string;
 };
