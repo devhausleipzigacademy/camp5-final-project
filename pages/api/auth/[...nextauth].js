@@ -4,9 +4,9 @@ import CredentialProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 
 export default NextAuth({
-  // pages: {
-  //   signIn: "/signin",
-  // },
+  pages: {
+    signIn: "/signin",
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
