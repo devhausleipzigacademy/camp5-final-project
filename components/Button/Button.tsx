@@ -8,21 +8,6 @@ interface ButtonProps {
 }
 
 const Button = ({ value, onClick, selected }: ButtonProps) => {
-  const styling = {
-    activefilter: {
-      bg: "bg-secondary",
-      py: "py-0.5",
-      width: "w-full",
-      text: "text-secondary-text",
-    },
-    notactivefilter: {
-      bg: "bg-primary",
-      py: "py-0.5",
-      width: "w-full",
-      text: "text-primary-text",
-    },
-  };
-
   return (
     <button
       // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
