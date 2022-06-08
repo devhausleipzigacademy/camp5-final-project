@@ -5,16 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
-
 import { getMapData } from "../utils/getMapData";
 import { MapData, Feature } from "../utils/types";
-import FilterButtons from "../components/FilterButtons/filterButtons";
 import { Spinner } from "../components/Spinner/Spinner";
 import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
-import { isFunctionDeclaration } from "typescript";
+import Button from "../components/Button/Button";
 import Search from "../components/Search/Search";
 
 mapboxgl.accessToken =
@@ -27,7 +25,8 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedFilter, setSelectedFilter] =
+    useState<"" | "Free" | "Swap">("");
   const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
@@ -92,7 +91,6 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
       }
-      // addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     }
   };
@@ -100,9 +98,19 @@ const Home: NextPage = () => {
   return (
     <div className="pt-16 space-y-2">
       <Header />
-
       <Search properties={data?.features!} />
-      <FilterButtons clickHandler={filterMarkers} />
+      <div className="flex gap-2 px-2">
+        <Button
+          selected={selectedFilter === "Free"}
+          onClick={filterMarkers}
+          value={"Free"}
+        />
+        <Button
+          selected={selectedFilter === "Swap"}
+          onClick={filterMarkers}
+          value={"Swap"}
+        />
+      </div>
       {!mapData ? <Spinner /> : <Map mapData={mapData} />}
       <ItemDrawer />
     </div>
