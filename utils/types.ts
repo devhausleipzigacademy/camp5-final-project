@@ -37,13 +37,16 @@ export type ListData = {
 
 export type Item = {
   identifier: string;
-  title: string;
-  images: string[];
+  title: string; // itemTitle
+  images: string[]; // itemImage
   description: string;
   user: string;
   userId: string;
-  sellType: string;
-  createdAt: string;
+  sellType: string; // itemType
+  createdAt: string; //itemPosted
   category: string;
   catId: string;
+  requests: number;
+  gone: boolean;
+  recipientId: string;
 };

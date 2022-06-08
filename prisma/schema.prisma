@@ -64,6 +64,9 @@ model Item {
   createdAt   DateTime @default(now())
   category    Category @relation(fields: [catId], references: [identifier])
   catId       String
+  requests    Int?
+  gone        Boolean  @default(false)
+  recipientId String?
 }
 
 enum SellType {

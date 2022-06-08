@@ -2,30 +2,32 @@ import { UserListItem } from "../components/UserListItem/UserListItem";
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import Button from "../components/Button/Button";
-import { Feature, Item } from "../utils/types";
-import { getListData } from "../utils/getListData";
-import filterList from "../utils/filterList";
+import { Item } from "../utils/types";
+import { getUserItems } from "../utils/getUserItems";
+import { itemList } from "../utils/filterList";
 import { Spinner } from "../components/Spinner/Spinner";
 
 const UserItems = () => {
   const [listData, setListData] = useState<Item[]>([]);
-  const [initialListData, setInitialListData] = useState<Item[]>([]);
+  const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
   const [selectedFilter, setSelectedFilter] =
     useState<"" | "Free" | "Swap">("");
 
+  let userId = "41b22c76-296f-42ff-a08c-93e00a2ad402";
+
   async function getData() {
-    const listDataFetch = await getListData();
-    setInitialListData(listDataFetch);
+    const userItemFetch = await getUserItems(userId);
+    setInitialUserItem(userItemFetch);
   }
   useEffect(() => {
     getData();
   }, []);
 
   useEffect(() => {
-    if (initialListData.length) {
-      filterList(selectedFilter, initialListData, setListData);
+    if (initialUserItem.length) {
+      itemList(selectedFilter, initialUserItem, setListData);
     }
-  }, [initialListData, selectedFilter]);
+  }, [initialUserItem, selectedFilter]);
 
   return (
     <div className="pt-20">
@@ -68,40 +70,6 @@ const UserItems = () => {
           </>
         )}
       </div>
-
-      <UserListItem
-        itemImage={
-          "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687"
-        }
-        itemType={"FREE"}
-        itemTitle={"Boots"}
-        itemPosted="03.06.2022"
-        itemRequests={5}
-        itemGone={true}
-        itemRecipient={"Jonathan"}
-      />
-      <UserListItem
-        itemImage={
-          "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687"
-        }
-        itemType={"FREE"}
-        itemTitle={"Boots"}
-        itemPosted="03.06.2022"
-        itemRequests={5}
-        itemGone={false}
-        itemRecipient={"Jonathan"}
-      />
-      <UserListItem
-        itemImage={
-          "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687"
-        }
-        itemType={"FREE"}
-        itemTitle={"Boots"}
-        itemPosted="03.06.2022"
-        itemRequests={0}
-        itemGone={false}
-        itemRecipient={"Jonathan"}
-      />
     </div>
   );
 };
