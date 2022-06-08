@@ -160,18 +160,6 @@ const UploadPage: NextPage = () => {
           }
         />
 
-        {/* <label htmlFor="title" className="sr-only">
-          Title
-        </label>
-        <input
-          value={title}
-          id="Title"
-          name="Title"
-          type="Text"
-          className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          placeholder="Title"
-          onChange={(event) => setTitle(event.target.value)}
-        /> */}
         {/* ---------------------- DESCRIPTION ------------------------- */}
 
         <label htmlFor="Description" className="sr-only text-primary">
@@ -219,18 +207,6 @@ const UploadPage: NextPage = () => {
           }
         /> */}
 
-        {/* <label htmlFor="Price" className="sr-only">
-          Price
-        </label>
-        <input
-          onChange={(event) => setPrice(event.target.value)}
-          id="Price"
-          name="Price"
-          type="text"
-          className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          placeholder="Price / Value"
-          value={price}
-        /> */}
         {/* ---------------------- CATEGORIES ------------------------- */}
 
         <select
