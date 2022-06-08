@@ -15,18 +15,18 @@ type Props = {
 };
 
 export const UserListItem = (item: Props) => {
-  let requestStatus;
-  if (item.itemGone) {
-    requestStatus = <div>Item is gone</div>;
-  } else if (item.itemRequests > 0 && item.itemType === "SWAP") {
-    requestStatus = <div>{item.itemRequests} pending swap requests</div>;
-  } else if (!item.itemRequests && item.itemType === "SWAP") {
-    requestStatus = <div>No swap requests</div>;
-  } else if (item.itemRequests > 0 && item.itemType === "FREE") {
-    requestStatus = <div>{item.itemRequests} pending requests</div>;
-  } else if (!item.itemRequests && item.itemType === "FREE") {
-    requestStatus = <div>No requests</div>;
-  }
+  // let requestStatus;
+  // if (item.itemGone) {
+  //   requestStatus = <div>Item is gone</div>;
+  // } else if (item.itemRequests > 0 && item.itemType === "SWAP") {
+  //   requestStatus = <div>{item.itemRequests} pending swap requests</div>;
+  // } else if (!item.itemRequests && item.itemType === "SWAP") {
+  //   requestStatus = <div>No swap requests</div>;
+  // } else if (item.itemRequests > 0 && item.itemType === "FREE") {
+  //   requestStatus = <div>{item.itemRequests} pending requests</div>;
+  // } else if (!item.itemRequests && item.itemType === "FREE") {
+  //   requestStatus = <div>No requests</div>;
+  // }
 
   return (
     <div
@@ -71,13 +71,15 @@ export const UserListItem = (item: Props) => {
           <div>{`Posted on ${item.itemPosted}`}</div>
           <div className="leading-8">
             {item.itemGone ? (
-              item.itemGone && item.itemType === "SWAP" ? (
+              item.itemType === "SWAP" ? (
                 <div>Swapped with {item.itemRecipient}</div>
               ) : (
                 <div>Gifted to {item.itemRecipient}</div>
               )
             ) : item.itemRequests > 0 ? (
               <div>{item.itemRequests} pending Swap Requests</div>
+            ) : item.itemType === "FREE" ? (
+              <p className="italic text-xs leading-8">free</p>
             ) : (
               <div>No Swap Requests yet</div>
             )}
