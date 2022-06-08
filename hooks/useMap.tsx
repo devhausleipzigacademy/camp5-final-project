@@ -12,7 +12,6 @@ export default function useMap(
   setZoom: Dispatch<React.SetStateAction<number>>,
   mapData: MapData
 ) {
-
   const { setLocation, location } = useLocationStore();
   // const [markers, setMarkers] = useState<Feature[] | undefined>([]);
   const { setMarkerArray } = useMarkerStore();

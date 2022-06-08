@@ -42,7 +42,7 @@ const Map = ({ mapData }: MapProps) => {
   const { lng, lat } = useMap(map, setZoom, mapData);
 
   return (
-    <div className="map">
+    <div className="map z-10">
       <div ref={mapContainer} className="map-container" />
     </div>
   );

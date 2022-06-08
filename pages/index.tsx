@@ -6,18 +6,17 @@ import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
-import SearchBar from "../components/SearchBar/searchbar";
 import { getMapData } from "../utils/getMapData";
 import { MapData, Feature } from "../utils/types";
-import FilterButtons from "../components/FilterButtons/filterButtons";
 import { Spinner } from "../components/Spinner/Spinner";
 import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
 import { signOut, useSession } from "next-auth/react";
-import Button from "../components/Button/Button";
 import { useRouter } from "next/router";
+import Search from "../components/Search/Search";
+import Button from "../components/Button/Button";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -34,12 +33,15 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedFilter, setSelectedFilter] =
+    useState<"" | "Free" | "Swap">("");
+  const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
     setInitialMapData(mapDataFetch);
+    setData(mapDataFetch);
   }
 
   useEffect(() => {
@@ -97,7 +99,6 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
       }
-      // addMarkers(location, mapRef, mapData as MapData);
       console.log(mapRef, location);
     }
   };
@@ -128,8 +129,19 @@ const Home: NextPage = () => {
       {showMap && (
         <>
           <Header />
-          <SearchBar />
-          <FilterButtons clickHandler={filterMarkers} />
+          <Search properties={[]} />
+          <div className="flex gap-2 px-2">
+            <Button
+              selected={selectedFilter === "Free"}
+              onClick={filterMarkers}
+              value={"Free"}
+            />
+            <Button
+              selected={selectedFilter === "Swap"}
+              onClick={filterMarkers}
+              value={"Swap"}
+            />
+          </div>
           {!mapData ? <Spinner /> : <Map mapData={mapData} />}
           <ItemDrawer />
         </>
@@ -154,18 +166,14 @@ const Home: NextPage = () => {
             <p>{session.user.email}</p>
             <div className="flex-col space-y-2 pt-2 text-center w-full h-full">
               <Button
-                bgColor={"primary"}
                 value={"Sign Out"}
                 onClick={() => signOut()}
-                width={"1/2"}
-                py={2}
+                selected={false}
               />
               <Button
-                bgColor={"secondary"}
                 value={"Let's Swap"}
                 onClick={() => showMapHandler()}
-                width={"1/2"}
-                py={2}
+                selected={false}
               />
             </div>
           </div>
