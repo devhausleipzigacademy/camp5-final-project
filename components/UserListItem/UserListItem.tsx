@@ -30,9 +30,19 @@ export const UserListItem = (item: Props) => {
 
   return (
     <div
-      className={item.itemGone ? "flex p-4 gap-3 opacity-50" : "flex p-4 gap-3"}
+      className={
+        item.itemGone
+          ? "flex pr-4 pl-4 pt-1 gap-3 opacity-50"
+          : "flex pr-4 pl-4 pt-3 gap-3"
+      }
     >
-      <div className="relative h-14 w-14">
+      <div
+        className={
+          !item.itemGone && item.itemRequests > 0
+            ? "relative h-20 w-20 border-solid border-2 border-secondary box-border"
+            : "relative h-20 w-20"
+        }
+      >
         <Image
           src={item.itemImage}
           height={50}
@@ -46,29 +56,33 @@ export const UserListItem = (item: Props) => {
         <div
           className={
             item.itemGone
-              ? "line-through text-lg font-semibold"
-              : "text-lg font-semibold"
+              ? "line-through text-basis font-semibold"
+              : "text-basis font-semibold"
           }
         >
-          <div className="flex align-text-top">
+          <div className="flex items-center mt-2">
             {item.itemTitle}
-            {item.itemRequests > 0 ? (
-              <div className="rounded-full bg-secondary w-4 h-4 ml-2" />
+            {!item.itemGone && item.itemRequests > 0 ? (
+              <div className="rounded-full bg-secondary w-3 h-3 ml-2" />
             ) : null}
           </div>
         </div>
-        <div>{`Posted on ${item.itemPosted}`}</div>
-        {item.itemGone ? (
-          item.itemGone && item.itemType === "SWAP" ? (
-            <div>Swapped with {item.itemRecipient}</div>
-          ) : (
-            <div>Gifted to {item.itemRecipient}</div>
-          )
-        ) : item.itemRequests > 0 ? (
-          <div>{item.itemRequests} pending Swap Requests</div>
-        ) : (
-          <div>No Swap Requests yet</div>
-        )}
+        <div className="text-sm">
+          <div>{`Posted on ${item.itemPosted}`}</div>
+          <div className="leading-6">
+            {item.itemGone ? (
+              item.itemGone && item.itemType === "SWAP" ? (
+                <div>Swapped with {item.itemRecipient}</div>
+              ) : (
+                <div>Gifted to {item.itemRecipient}</div>
+              )
+            ) : item.itemRequests > 0 ? (
+              <div>{item.itemRequests} pending Swap Requests</div>
+            ) : (
+              <div>No Swap Requests yet</div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
