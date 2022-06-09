@@ -8,9 +8,11 @@ import { FileContent } from "use-file-picker/dist/interfaces";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import Input from "../components/Inputfields/Input";
 import { getCategories } from "../utils/getCategories";
-import { Category } from "@prisma/client";
+import { Category, SellType } from "@prisma/client";
 import { mockKitchenCategories } from "../assets/data";
-import { CatObject, MockKitchenCategories } from "../utils/types";
+import { CatObject, Item, MockKitchenCategories } from "../utils/types";
+import axios from "axios";
+import { randomUUID } from "crypto";
 
 type SubCat = {
   title: string;
@@ -58,7 +60,7 @@ const UploadPage: NextPage = () => {
   const [fields, setFields] = useState<Field[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [checkedItems, setCheckedItems] = useState("FREE");
+  const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
   // const [price, setPrice] = useState("");
 
@@ -134,7 +136,7 @@ const UploadPage: NextPage = () => {
 
     formData.append("upload_preset", "sharing-app-uploads");
 
-    const data = await fetch(
+    const imageData = await fetch(
       "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
       {
         method: "POST",
@@ -142,20 +144,32 @@ const UploadPage: NextPage = () => {
       }
     ).then((r) => r.json());
 
-    let imageFile = data.secure_url;
-    console.log(data);
+    let imageFile: string = imageData.secure_url;
+    console.log(imageFile);
 
-    const realData = {
+    let images = { "0": imageFile };
+    images = JSON.parse(JSON.stringify(images));
+
+    const realData: Item = {
       title,
       description,
-      checkedItems,
+      sellType: checkedItems,
       // price,
-      selectedCategory,
-      selectedSub,
-      imageFile,
+      userId: "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46",
+      categoryTitle: selectedCategory,
+      subcategory: selectedSub,
+      images,
     };
 
     console.log(realData);
+    await axios
+      .post("/api/item", realData)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   // useEffect(() => {
   //   if (selectedCategory) {
