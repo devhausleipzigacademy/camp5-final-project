@@ -8,6 +8,7 @@ import ProductUserListItem from "../ProductUserListItem/ProductUserListItem";
 interface OfferDrawerProps {
   show: boolean;
 }
+
 // hardcoded items fetch. to be replaced with user specific fetch
 const myItems = [
   {
@@ -37,11 +38,19 @@ const myItems = [
 ];
 
 const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
+  const [selected, setSelected] = useState(false);
+  const [selID, setSelID] = useState("");
+
+  function toggleSelect(id: string) {
+    setSelected((prev) => !prev);
+    setSelID(id);
+    console.log(selID);
+  }
+
   const confirmOffer = () => {
-    console.log("test");
-    let selectedItem = document.getElementById("selected");
-    console.log(selectedItem);
+    console.log(selID);
   };
+
   return (
     <>
       <div
@@ -67,6 +76,8 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
                 id={myItems.identifier}
                 title={myItems.title}
                 imgSrc={myItems.images[0]}
+                onClick={() => toggleSelect(myItems.identifier)}
+                selected={selID === myItems.identifier ? true : false}
               />
             ))}
         </div>

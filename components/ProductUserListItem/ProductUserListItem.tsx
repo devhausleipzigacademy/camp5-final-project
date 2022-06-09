@@ -7,6 +7,8 @@ interface ProductUserListItemProps {
   title: string;
   imgSrc: string;
   id: string;
+  onClick: MouseEventHandler<HTMLDivElement>;
+  selected: boolean;
 }
 
 const ProductUserListItem = ({
@@ -14,15 +16,9 @@ const ProductUserListItem = ({
   title,
   imgSrc,
   id,
+  onClick,
+  selected,
 }: ProductUserListItemProps) => {
-  const [selected, setSelected] = useState(false);
-  const [selID, setSelID] = useState("");
-
-  function toggleSelect() {
-    setSelected((prev) => !prev);
-    setSelID(id);
-    console.log(selID);
-  }
   return (
     <>
       <div
@@ -33,7 +29,7 @@ const ProductUserListItem = ({
             ? "flex space-x-2 items-center opacity-50 hover:opacity-100 cursor-pointer"
             : "flex space-x-2 items-center opacity-100 cursor-pointer"
         )}
-        onClick={() => toggleSelect}
+        onClick={onClick}
       >
         <Image alt="" src={imgSrc} width={50} height={50} />
         <div>{title}</div>
