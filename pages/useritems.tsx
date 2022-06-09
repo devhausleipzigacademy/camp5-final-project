@@ -8,26 +8,27 @@ import { itemList } from "../utils/filterList";
 import { Spinner } from "../components/Spinner/Spinner";
 
 const UserItems = () => {
-  const [listData, setListData] = useState<Item[]>([]);
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
-  const [selectedFilter, setSelectedFilter] =
-    useState<"" | "Free" | "Swap">("");
+  const [listData, setListData] = useState<Item[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
 
   let userId = "41b22c76-296f-42ff-a08c-93e00a2ad402";
 
   async function getData() {
     const userItemFetch = await getUserItems(userId);
     setInitialUserItem(userItemFetch);
+    setListData(userItemFetch);
   }
+
   useEffect(() => {
     getData();
   }, []);
 
-  useEffect(() => {
-    if (initialUserItem.length) {
-      itemList(selectedFilter, initialUserItem, setListData);
-    }
-  }, [initialUserItem, selectedFilter]);
+  // useEffect(() => {
+  //   if (initialUserItem.length) {
+  //     itemList(selectedFilter, initialUserItem, setListData);
+  //   }
+  // }, [initialUserItem, selectedFilter]);
 
   function filterButtons(event: React.MouseEvent<HTMLButtonElement>) {
     if (!initialUserItem) {
@@ -47,11 +48,15 @@ const UserItems = () => {
       if (selectedFilter === "Swap") {
         setSelectedFilter("");
         setListData(initialUserItem);
+        console.log(listData);
       } else {
+        setSelectedFilter("Swap");
+
         const filteredItemsArr: Item[] = initialUserItem.filter(
           (item) => item.sellType === "SWAP"
         );
         setListData(filteredItemsArr);
+        console.log(listData);
       }
     }
   }
