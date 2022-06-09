@@ -44,7 +44,6 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
   function toggleSelect(id: string) {
     setSelected((prev) => !prev);
     setSelID(id);
-    console.log(selID);
   }
 
   const confirmOffer = () => {

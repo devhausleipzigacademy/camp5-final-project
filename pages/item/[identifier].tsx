@@ -15,13 +15,12 @@ import OfferDrawer from "../../components/OfferDrawer/OfferDrawer";
 
 export default function ProductPage(): JSX.Element {
   const router = useRouter();
-  console.log(router.asPath);
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
   let owner = router.asPath.split("owner=")[1];
 
-  let imagesArray;
+  let imagesArray: string[];
   let description;
   let offerType;
   let createdAt;
@@ -43,20 +42,14 @@ export default function ProductPage(): JSX.Element {
     }
   }, []);
 
-  // mock data to demonstrate carousel functionality
-  // let imagesArray = [
-  //   "http://placeimg.com/640/360/tech",
-  //   "http://placeimg.com/640/360/people",
-  //   "http://placeimg.com/640/360/animals",
-  // ];
-
   if (!productData) {
     return <></>;
   } else {
     title = productData.title;
     description = productData.description;
     offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
-    imagesArray = productData.images;
+    imagesArray = Object.values(productData.images);
+
     createdAt = productData.createdAt;
     createdAgo = formatDistance(subDays(new Date(createdAt), 0), new Date(), {
       addSuffix: true,
@@ -113,13 +106,22 @@ export default function ProductPage(): JSX.Element {
               <p className="text-xl">{title}</p>
             </div>
             <div className="w-24">
-              <Button value={offerType} onClick={() => {}} selected={false} />
+              <Button
+                value={offerType}
+                onClick={() => {}}
+                selected={false}
+                type={"button"}
+              />
             </div>
           </div>
           <div className="flex justify-between items-center">
             <div>
               <p className="text-md"> {`Offered by ${owner}`} </p>
-              <p className="text-xs">{`distance ${distance} km`} </p>
+              <p className="text-xs">
+                {`distance: ${distance.split("%25")[0]} ${
+                  distance.split("%25")[1]
+                }`}
+              </p>
               <p className="text-xs">{`posted ${createdAgo}`} </p>
             </div>
             <div>
@@ -136,6 +138,7 @@ export default function ProductPage(): JSX.Element {
               onClick={offerTradeHandler}
               selected={false}
               value={"Offer Trade"}
+              type={"button"}
             />
           </div>
         </div>

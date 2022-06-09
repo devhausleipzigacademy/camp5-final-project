@@ -17,9 +17,11 @@ export default function createPopUp(
     .distance(userLocation, feature.geometry.coordinates)
     .toFixed(2);
   if (distance < "1") {
+    distanceNo = `${String(parseFloat(distance) * 1000)}%m`;
+    console.log(distanceNo);
     distance = "distance: " + String(parseFloat(distance) * 1000) + "m";
   } else {
-    distanceNo = distance;
+    distanceNo = `${distance}%km`;
     distance = "distance: " + distance + "km";
   }
 
