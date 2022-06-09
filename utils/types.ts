@@ -1,3 +1,5 @@
+import { User, Location, Category, Conversation } from "@prisma/client";
+
 export type Feature = {
   type: string;
   geometry: Geometry;
@@ -33,6 +35,12 @@ export type ListData = {
   profilePicture?: string;
   owner?: string;
   id: string;
+};
+export type MockData = {
+  user: Partial<User>;
+  items: Partial<Item[]>;
+  location: Partial<Location>;
+  conversations: Partial<Conversation[]>;
 };
 
 export type Item = {
