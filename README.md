@@ -49,3 +49,25 @@ if you need to reset:
 - start the development server (yarn dev)
 - run 'yarn db:push' to sync the database
 - run 'yarn prisma db seed' to seed the database
+
+## The next-auth issue
+
+short: u got node 17 but u need node 16
+long:
+
+- run "volta" in terminal
+- command not found?
+- Find out how you installed node.
+  also check if you installed yarn with the same tool
+  MacUsers: maybe homebrew
+  Windows: ???
+- mac: brew remove node
+- go to https://volta.sh/ and run "curl https://get.volta.sh | bash"
+- "volta install node"
+  optional: "volta install yarn"
+
+## The db:push issue
+
+- your env file needs to be .env, not .env.local
+- npx prisma generate
+- yarn db:push
