@@ -13,8 +13,11 @@ import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
 import { getListData } from "../../utils/getListData";
 import { Spinner } from "../Spinner/Spinner";
+import filterList from "../../utils/filterList";
 
-export default function Example() {
+export default function Example({
+  selectedFilter,
+}: Omit<ItemDrawerProps, "onClose">) {
   let [open, setOpen] = useState(false);
 
   return (
@@ -25,7 +28,12 @@ export default function Example() {
       ></button>
 
       <AnimatePresence>
-        {open && <ItemDrawer onClose={() => setOpen(false)} />}
+        {open && (
+          <ItemDrawer
+            onClose={() => setOpen(false)}
+            selectedFilter={selectedFilter}
+          />
+        )}
       </AnimatePresence>
     </>
   );
@@ -33,6 +41,7 @@ export default function Example() {
 
 interface ItemDrawerProps {
   onClose: () => void;
+  selectedFilter: string;
 }
 
 interface ModalProps {
@@ -43,19 +52,26 @@ interface ModalProps {
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
-export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
+export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
   const [zoom, setZoom] = useState(14);
   const [listData, setListData] = useState<Feature[]>([]);
+  const [initialListData, setInitialListData] = useState<Feature[]>([]);
 
   async function getData() {
     const listDataFetch = await getListData();
-    setListData(listDataFetch);
+    setInitialListData(listDataFetch);
   }
   useEffect(() => {
     getData();
   }, []);
-  // const { userLocation, lng, lat } = useMap(map, setZoom);
 
+  console.log(selectedFilter);
+
+  useEffect(() => {
+    if (initialListData.length) {
+      filterList(selectedFilter, initialListData, setListData);
+    }
+  }, [initialListData, selectedFilter]);
   // jsx for styling the drawer
   return (
     <Modal onClose={onClose}>
@@ -105,10 +121,14 @@ export const ItemDrawer = ({ onClose }: ItemDrawerProps) => {
 };
 
 // function to close the drawer
-function Modal({ onClose, children }: ModalProps) {
+function Modal({ children }: ModalProps) {
   return (
-    <Dialog className="fixed inset-0 z-10" onClose={onClose} open={true}>
-      <div className="flex flex-col justify-center h-full px-1 pt-4 text-center sm:block sm:p-0">
+    <Dialog
+      className="fixed top-[150px] right-0 left-0 bottom-0 z-10"
+      onClose={() => {}}
+      open={true}
+    >
+      <div className="flex flex-col justify-center h-full px-1 text-center sm:block sm:p-0">
         <Dialog.Overlay
           as={motion.div}
           initial={{ opacity: 0 }}
@@ -120,7 +140,7 @@ function Modal({ onClose, children }: ModalProps) {
             opacity: 0,
             transition: { duration: 0.3, ease: [0.36, 0.66, 0.04, 1] },
           }}
-          className="fixed inset-0 bg-black/40"
+          className="fixed top-40 right-0 left-0 bottom-0 bg-black/40"
         />
 
         <motion.div

@@ -33,15 +33,13 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  const [selectedFilter, setSelectedFilter] =
-    useState<"" | "Free" | "Swap">("");
-  const [data, setData] = useState<MapData | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
+  // const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
     setInitialMapData(mapDataFetch);
-    setData(mapDataFetch);
   }
 
   useEffect(() => {
@@ -81,7 +79,6 @@ const Home: NextPage = () => {
         setMapData(() => updatedMapData);
         resetAndSetMarkers(updatedMapData);
       }
-      console.log(mapRef, location);
     } else {
       if (selectedFilter === "Swap") {
         setSelectedFilter("");
@@ -129,21 +126,23 @@ const Home: NextPage = () => {
       {showMap && (
         <>
           <Header />
-          <Search properties={[]} />
+          <Search properties={mapData?.features!} />
           <div className="flex gap-2 px-2">
             <Button
+              type="button"
               selected={selectedFilter === "Free"}
               onClick={filterMarkers}
               value={"Free"}
             />
             <Button
+              type="button"
               selected={selectedFilter === "Swap"}
               onClick={filterMarkers}
               value={"Swap"}
             />
           </div>
           {!mapData ? <Spinner /> : <Map mapData={mapData} />}
-          <ItemDrawer />
+          <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
         </>
       )}
 

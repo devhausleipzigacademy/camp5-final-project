@@ -8,6 +8,7 @@ import useDistance from "../../utils/useDistance";
 import React from "react";
 import { useLocationStore } from "../../stores/locationStore";
 import { useMapStore } from "../../stores/mapStore";
+import { useRouter } from "next/router";
 
 interface Props {
   feature: Feature;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const ListingItem = ({ feature, i, onClose }: Props) => {
+  const router = useRouter();
   const distance = useDistance(feature);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
@@ -26,7 +28,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
       className="item"
       onClick={() => {
         onClose();
-        createPopUp(feature, location, mapRef);
+        createPopUp(feature, location, mapRef, router);
         setTimeout(() => flyToStore(feature, mapRef), 300);
         const activeItem = document.getElementsByClassName("active");
         if (activeItem[0]) {

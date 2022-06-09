@@ -6,6 +6,7 @@ interface ButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
   type?: "button" | "submit" | "reset" | undefined;
   value: string;
+  type: "button" | "submit";
 }
 
 const Button = ({ value, onClick, selected, type }: ButtonProps) => {
