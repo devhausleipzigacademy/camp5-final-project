@@ -168,11 +168,13 @@ const Home: NextPage = () => {
                 value={"Sign Out"}
                 onClick={() => signOut()}
                 selected={false}
+                type={"button"}
               />
               <Button
                 value={"Let's Swap"}
                 onClick={() => showMapHandler()}
                 selected={false}
+                type={"button"}
               />
             </div>
           </div>

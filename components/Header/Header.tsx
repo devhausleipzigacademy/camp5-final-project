@@ -1,11 +1,7 @@
 import { useRouter } from "next/router";
 import BurgerMenu from "../../public/menu.svg";
 
-interface HeaderProps {
-  title?: string;
-}
-
-const Header = (title: HeaderProps) => {
+const Header = () => {
   const router = useRouter();
   let pagename = router.asPath;
 

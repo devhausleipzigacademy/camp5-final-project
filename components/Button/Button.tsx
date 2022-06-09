@@ -4,7 +4,6 @@ import { MouseEventHandler } from "react";
 interface ButtonProps {
   selected: boolean;
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
-  type?: "button" | "submit" | "reset" | undefined;
   value: string;
   type: "button" | "submit";
 }
