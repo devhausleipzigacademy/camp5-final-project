@@ -73,14 +73,14 @@ export const UserListItem = ({ item, i }: Props) => {
                         <div>{`Posted ${posted}`}</div>
                         <div className="leading-8">
                             {item.gone ? (
-                                item.sellType === "swap" ? (
+                                item.sellType === "SWAP" ? (
                                     <div>Swapped with {item.recipientId}</div>
                                 ) : (
                                     <div>Gifted to {item.recipientId}</div>
                                 )
                             ) : item.requests > 0 ? (
                                 <div>{item.requests} pending Swap Requests</div>
-                            ) : item.sellType === "free" ? (
+                            ) : item.sellType === "FREE" ? (
                                 <p className="italic text-xs leading-8">free</p>
                             ) : (
                                 <div>No Swap Requests yet</div>
