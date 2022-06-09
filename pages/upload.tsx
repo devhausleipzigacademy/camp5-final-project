@@ -10,6 +10,7 @@ import { Category, SellType } from "@prisma/client";
 import { mockKitchenCategories } from "../assets/data";
 import { Item, MockKitchenCategories } from "../utils/types";
 import axios from "axios";
+import Link from "next/link";
 
 type SubCat = {
   title: string;
@@ -100,13 +101,13 @@ const UploadPage: NextPage = () => {
     accept: "image/*",
     multiple: true,
     limitFilesConfig: { max: 1 },
-    minFileSize: 0.1, // in megabytes
+    minFileSize: 0.001, // in megabytes
     maxFileSize: 50,
     imageSizeRestrictions: {
-      maxHeight: 900, // in pixels
-      maxWidth: 1600,
-      minHeight: 600,
-      minWidth: 768,
+      maxHeight: 2000, // in pixels
+      maxWidth: 2000,
+      minHeight: 200,
+      minWidth: 200,
     },
   });
 
@@ -302,7 +303,9 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))} */}
-        <Button type="submit" value="Create offer" selected={false} />
+        <Link href="/useritems ">
+          <Button type="submit" value="Create offer" selected={false} />
+        </Link>
       </form>
     </div>
   );

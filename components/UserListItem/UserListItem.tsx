@@ -10,6 +10,7 @@ import Button from "../Button/Button";
 type Props = {
   item: Item;
   i: number;
+  // selectedFilter: string;
 };
 
 type User = {
@@ -17,30 +18,26 @@ type User = {
   firstname: string;
   lastname: string;
 };
-type UserProps = {
-  data: User;
-};
 
 export const UserListItem = ({ item, i }: Props) => {
   // ------------- recipient logic ------------ //
+  // let recipientID = item.recipientId;
+  // const initialUser = {
+  //   identifier: "",
+  //   firstname: "",
+  //   lastname: "",
+  // };
+  // const [reciObj, setReciObj] = useState<User>(initialUser);
 
-  let recipientID = item.recipientId;
-  const initialUser = {
-    identifier: "",
-    firstname: "",
-    lastname: "",
-  };
-  const [reciObj, setReciObj] = useState<User>(initialUser);
+  // async function getRecipient() {
+  //   const userFetch = await getUser(recipientID as string);
+  //   setReciObj(userFetch);
+  // }
 
-  async function getRecipient() {
-    const userFetch = await getUser(recipientID as string);
-    setReciObj(userFetch);
-  }
-
-  useEffect(() => {
-    getRecipient();
-    console.log("effect", reciObj);
-  }, []);
+  // useEffect(() => {
+  //   getRecipient();
+  //   console.log("effect", reciObj);
+  // }, []);
 
   // ------- date logic ---------- //
   let posted = formatDistance(
@@ -108,9 +105,15 @@ export const UserListItem = ({ item, i }: Props) => {
             <div className="leading-8">
               {item.gone ? (
                 item.sellType === "SWAP" ? (
-                  <div>Swapped with {reciObj.firstname}</div>
+                  <div className="italic text-xs leading-8">
+                    Swapped
+                    {/* with {reciObj.firstname} */}
+                  </div>
                 ) : (
-                  <div>Gifted to {reciObj.firstname}</div>
+                  <div className="italic text-xs leading-8">
+                    Gifted
+                    {/* to {reciObj.firstname} */}
+                  </div>
                 )
               ) : item.requests > 0 ? (
                 <div>{item.requests} pending Swap Requests</div>

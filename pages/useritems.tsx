@@ -24,12 +24,6 @@ const UserItems = () => {
     getData();
   }, []);
 
-  // useEffect(() => {
-  //   if (initialUserItem.length) {
-  //     itemList(selectedFilter, initialUserItem, setListData);
-  //   }
-  // }, [initialUserItem, selectedFilter]);
-
   function filterButtons(event: React.MouseEvent<HTMLButtonElement>) {
     if (!initialUserItem) {
       return;
@@ -63,7 +57,7 @@ const UserItems = () => {
 
   return (
     <div className="pt-20">
-      <div className="flex gap-2 px-2 pb-4">
+      <div className="flex flex-row gap-2 px-2 pb-4">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
@@ -77,16 +71,16 @@ const UserItems = () => {
           value={"Swap"}
         />
       </div>
-      <div className="flex-1 overflow-y-scroll">
+      <div className="flex flex-col h-screen overflow-scroll">
         {!listData ? (
           <div className="flex items-center justify-center pt-12">
             <Spinner height={73} />
           </div>
         ) : (
           <>
-            <ul className="px-3 text-left">
+            <ul className="px-3 text-left overflow-scroll">
               {
-                <div id="listings" className="listings">
+                <div id="listings" className="listings overflow-scroll">
                   {listData.length === 0 && (
                     <div className="flex text-center justify-center items-center w-full h-[73.5vh] rounded-md">
                       <p>no items found</p>
