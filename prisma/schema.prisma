@@ -58,7 +58,7 @@ model Item {
   title         String   @db.VarChar(50)
   images        Json
   description   String
-  details       Json
+  details       Json?
   user          User     @relation(fields: [userId], references: [identifier])
   userId        String
   sellType      SellType

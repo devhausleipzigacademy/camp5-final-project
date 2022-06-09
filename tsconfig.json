@@ -19,6 +19,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "components/Inputfields/CategoryInputs.ts",
     "pages/api/auth/[...nextauth].js",
     "pages/api/auth/[...nextauth].js"
   ],
