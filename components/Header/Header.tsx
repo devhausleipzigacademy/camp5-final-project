@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useRouter } from "next/router";
 import BurgerMenu from "../../public/menu.svg";
 
