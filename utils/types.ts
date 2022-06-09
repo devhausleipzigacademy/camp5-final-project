@@ -42,3 +42,16 @@ export type MockData = {
     location: Partial<Location>;
     conversations: Partial<Conversation[]>;
 };
+
+export type Item = {
+  identifier: string;
+  title: string;
+  images: string[];
+  description: string;
+  user: string;
+  userId: string;
+  sellType: string;
+  createdAt: string;
+  category: string;
+  catId: string;
+};
