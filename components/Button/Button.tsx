@@ -2,28 +2,13 @@ import clsx from "clsx";
 import { MouseEventHandler } from "react";
 
 interface ButtonProps {
-  selected?: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
+  selected: boolean;
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
   value: string;
-  type: "submit" | "button";
+  type: "button" | "submit";
 }
 
 const Button = ({ value, onClick, selected, type }: ButtonProps) => {
-  const styling = {
-    activefilter: {
-      bg: "bg-secondary",
-      py: "py-0.5",
-      width: "w-full",
-      text: "text-secondary-text",
-    },
-    notactivefilter: {
-      bg: "bg-primary",
-      py: "py-0.5",
-      width: "w-full",
-      text: "text-primary-text",
-    },
-  };
-
   return (
     <button
       // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss

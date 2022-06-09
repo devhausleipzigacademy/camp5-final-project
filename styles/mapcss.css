@@ -98,7 +98,7 @@ a:hover {
   width: 180px;
   height: 60px;
   border-radius: 6px;
-  transform: translateY(-60px);
+  transform: translateY(-84px);
 }
 
 .mapboxgl-popup-content div {
