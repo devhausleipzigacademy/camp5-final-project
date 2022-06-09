@@ -13,7 +13,7 @@ import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
 import { getListData } from "../../utils/getListData";
 import { Spinner } from "../Spinner/Spinner";
-import filterList from "../../utils/filterList";
+import { filterList } from "../../utils/filterList";
 
 export default function Example({
   selectedFilter,

@@ -48,6 +48,15 @@ type Field = {
 //     ],
 //   },
 // };
+type UploadProps = {
+  title: string;
+  images: Object;
+  description: string;
+  userId?: string;
+  sellType: string;
+  categoryTitle: string;
+  subcategory: string;
+};
 
 const UploadPage: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -147,7 +156,7 @@ const UploadPage: NextPage = () => {
     let images = { "0": imageFile };
     images = JSON.parse(JSON.stringify(images));
 
-    const realData: Item = {
+    const realData: UploadProps = {
       title,
       description,
       sellType: checkedItems,
