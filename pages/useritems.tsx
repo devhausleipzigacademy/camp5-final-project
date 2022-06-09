@@ -12,7 +12,7 @@ const UserItems = () => {
   const [listData, setListData] = useState<Item[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
 
-  let userId = "41b22c76-296f-42ff-a08c-93e00a2ad402";
+  let userId = "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46";
 
   async function getData() {
     const userItemFetch = await getUserItems(userId);
