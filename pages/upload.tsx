@@ -4,15 +4,12 @@ import UploadImage from "../components/Inputfields/UploadImage";
 import { useState, useEffect, FormEvent, useMemo, ChangeEvent } from "react";
 import { useFilePicker } from "use-file-picker";
 import Button from "../components/Button/Button";
-import { FileContent } from "use-file-picker/dist/interfaces";
-import { PlusCircleIcon } from "@heroicons/react/solid";
 import Input from "../components/Inputfields/Input";
 import { getCategories } from "../utils/getCategories";
 import { Category, SellType } from "@prisma/client";
 import { mockKitchenCategories } from "../assets/data";
-import { CatObject, Item, MockKitchenCategories } from "../utils/types";
+import { Item, MockKitchenCategories } from "../utils/types";
 import axios from "axios";
-import { randomUUID } from "crypto";
 
 type SubCat = {
   title: string;
