@@ -138,21 +138,21 @@ const UploadPage: NextPage = () => {
     console.log(category);
   }, []);
 
-  useEffect(() => {
-    if (selectedCategory) {
-      setPossibleSub(Object.keys(categories[selectedCategory]));
-    } else {
-      setPossibleSub([]);
-      setSelectedSub(() => "");
-    }
-    console.log(selectedCategory, selectedSub);
-    if (selectedCategory && selectedSub) {
-      console.log("fields", categories[selectedCategory][selectedSub]);
-      setFields(() => categories[selectedCategory][selectedSub]);
-    } else if (!selectedSub || !selectedCategory) {
-      setFields([]);
-    }
-  }, [selectedCategory, selectedSub]);
+  // useEffect(() => {
+  //   if (selectedCategory) {
+  //     setPossibleSub(Object.keys(categories[selectedCategory]));
+  //   } else {
+  //     setPossibleSub([]);
+  //     setSelectedSub(() => "");
+  //   }
+  //   console.log(selectedCategory, selectedSub);
+  //   if (selectedCategory && selectedSub) {
+  //     console.log("fields", categories[selectedCategory][selectedSub]);
+  //     setFields(() => categories[selectedCategory][selectedSub]);
+  //   } else if (!selectedSub || !selectedCategory) {
+  //     setFields([]);
+  //   }
+  // }, [selectedCategory, selectedSub]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -239,7 +239,7 @@ const UploadPage: NextPage = () => {
           ))}
         </select>
 
-        {!!possibleSub.length && (
+        {/* {!!possibleSub.length && (
           <select
             name="category"
             id="category"
@@ -259,7 +259,7 @@ const UploadPage: NextPage = () => {
               name={field.name}
               placeholder={field.placeholder}
             />
-          ))}
+          ))} */}
         <Button type="submit" value="Create offer" selected={false} />
       </form>
     </div>
