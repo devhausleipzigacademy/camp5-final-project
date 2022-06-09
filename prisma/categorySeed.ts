@@ -1,7 +1,7 @@
 import { Item, PrismaClient, User } from "@prisma/client";
 import { sub } from "date-fns";
 import { DiagnosticCategory } from "typescript";
-import { mockData, mockKitchenCategories } from "../assets/data";
+import { mockKitchenCategories } from "../assets/data";
 import { MockData } from "../utils/types";
 
 const prisma = new PrismaClient();
@@ -31,39 +31,39 @@ async function main() {
             });
         }
     );
-    const prismaCallData = mockData.map(async (data: MockData) => {
-        const user = await prisma.user.create({
-            data: {
-                ...data.user,
+    // const prismaCallData = mockData.map(async (data: MockData) => {
+    //     const user = await prisma.user.create({
+    //         data: {
+    //             ...data.user,
 
-                // firstname: data.user!.firstname,
-                // lastname: data.user!.lastname,
-                // email: data.user!.email,
-                // profilePicture: data.user!.profilePicture,
-                // passwordHash: data.user!.passwordHash,
-                // passwordSalt: data.user!.passwordSalt,
-                // rating: data.user!.rating,
-                // favorite: data.user!.favorite,
-            },
-        });
+    //             // firstname: data.user!.firstname,
+    //             // lastname: data.user!.lastname,
+    //             // email: data.user!.email,
+    //             // profilePicture: data.user!.profilePicture,
+    //             // passwordHash: data.user!.passwordHash,
+    //             // passwordSalt: data.user!.passwordSalt,
+    //             // rating: data.user!.rating,
+    //             // favorite: data.user!.favorite,
+    //         },
+    //     });
 
-        await prisma.location.create({
-            data: {
-                ...data.location,
-                userId: user.identifier,
-            },
-        });
+    //     await prisma.location.create({
+    //         data: {
+    //             ...data.location,
+    //             userId: user.identifier,
+    //         },
+    //     });
 
-        data.items.map(async (item: Item) => {
-            await prisma.item.create({
-                data: {
-                    ...item,
-                    user: { connect: { identifier: user.identifier } },
-                    category: { connect: { title: item!.categoryTitle } },
-                },
-            });
-        });
-    });
+    //     data.items.map(async (item: Item) => {
+    //         await prisma.item.create({
+    //             data: {
+    //                 ...item,
+    //                 user: { connect: { identifier: user.identifier } },
+    //                 category: { connect: { title: item!.categoryTitle } },
+    //             },
+    //         });
+    //     });
+    // });
     await Promise.all(prismaCallCat);
 }
 
