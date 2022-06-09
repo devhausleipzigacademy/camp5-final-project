@@ -27,7 +27,7 @@ export default function addMarkers(
         : el.setAttribute("src", "giftIcon.svg");
       el.addEventListener("click", (e) => {
         flyToStore(marker as Feature, map);
-        createPopUp(marker as Feature, userLocation, map, router);
+        createPopUp(marker as Feature, userLocation, map);
       });
       const realMarker = new mapboxgl.Marker(el, { offset: [0, -23] })
         .setLngLat(marker.geometry.coordinates as LngLatLike)

@@ -9,7 +9,14 @@ import { PlusCircleIcon } from "@heroicons/react/solid";
 import Input from "../components/Inputfields/Input";
 import { getCategories } from "../utils/getCategories";
 import { Category } from "@prisma/client";
+import { mockKitchenCategories } from "../assets/data";
+import { CatObject, MockKitchenCategories } from "../utils/types";
 
+type SubCat = {
+  title: string;
+  description: string;
+  subcategories: string[];
+};
 type Field = {
   name: string;
   placeholder: string;
@@ -63,6 +70,13 @@ const UploadPage: NextPage = () => {
       setCheckedItems("SWAP");
     }
   }
+  const kitchenCategories: MockKitchenCategories = mockKitchenCategories;
+  // let subobjs: CatObject[] = kitchenCategories.kitchen
+  // let subobj: CatObject = subobjs.filter(
+  //   (cat) => cat.title === selectedCategory
+  // );
+
+  // let subs: string[] = subobj.subcategories;
 
   function clearInput() {
     setTitle("");
@@ -92,6 +106,22 @@ const UploadPage: NextPage = () => {
   //   console.log("");
   // }, [selectedCategory]);
 
+  async function getData() {
+    const categoryFetch = await getCategories();
+    setCategory(categoryFetch);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    for (const subobj of kitchenCategories.kitchen) {
+      subobj.title === selectedCategory
+        ? setPossibleSub(subobj.subcategories)
+        : null;
+    }
+  }, [selectedCategory]);
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -127,20 +157,9 @@ const UploadPage: NextPage = () => {
 
     console.log(realData);
   }
-
-  async function getData() {
-    const categoryFetch = await getCategories();
-    setCategory(categoryFetch);
-  }
-
-  useEffect(() => {
-    getData();
-    console.log(category);
-  }, []);
-
   // useEffect(() => {
   //   if (selectedCategory) {
-  //     setPossibleSub(Object.keys(categories[selectedCategory]));
+  //     setPossibleSub(subs);
   //   } else {
   //     setPossibleSub([]);
   //     setSelectedSub(() => "");
@@ -221,37 +240,40 @@ const UploadPage: NextPage = () => {
 
         {/* ---------------------- CATEGORIES ------------------------- */}
 
-        <select
-          name="category"
-          id="category"
-          onChange={(evt) => {
-            setSelectedSub("");
-            setSelectedCategory(evt.target.value);
-          }}
-        >
-          <option value={""} label="Categories"></option>
-          {category.map((cat) => (
-            <option
-              key={cat.identifier}
-              value={cat.title}
-              label={cat.title}
-            ></option>
-          ))}
-        </select>
-
-        {/* {!!possibleSub.length && (
+        <div className="">
           <select
+            className="w-1/2"
             name="category"
             id="category"
-            onChange={(evt) => setSelectedSub(evt.target.value)}
+            onChange={(evt) => {
+              setSelectedSub("");
+              setSelectedCategory(evt.target.value);
+            }}
           >
-            <option value={""} label="Empty"></option>
-            {possibleSub.map((cat) => (
-              <option key={cat} value={cat} label={cat}></option>
+            <option value={""} label="Categories"></option>
+            {category.map((cat) => (
+              <option
+                key={cat.identifier}
+                value={cat.title}
+                label={cat.title}
+              ></option>
             ))}
           </select>
-        )}
-        {!!fields.length &&
+          {!!possibleSub.length && (
+            <select
+              className="w-1/2"
+              name="category"
+              id="category"
+              onChange={(evt) => setSelectedSub(evt.target.value)}
+            >
+              <option value={""} label="Subcategories"></option>
+              {possibleSub.map((cat) => (
+                <option key={cat} value={cat} label={cat}></option>
+              ))}
+            </select>
+          )}
+        </div>
+        {/* {!!fields.length &&
           fields.map((field) => (
             <input
               type="text"

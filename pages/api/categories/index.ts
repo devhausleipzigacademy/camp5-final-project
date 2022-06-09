@@ -1,4 +1,4 @@
-import { Category, PrismaClient, Subcategory } from ".prisma/client";
+import { Category, PrismaClient } from ".prisma/client";
 import { SellType } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ontology } from "../../../assets/categories";
