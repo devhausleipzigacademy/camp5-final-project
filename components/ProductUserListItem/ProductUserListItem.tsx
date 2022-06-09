@@ -24,13 +24,14 @@ const ProductUserListItem = ({
         key={key}
         className={clsx(
           !selected
-            ? "flex justify-between items-center opacity-50 hover:opacity-100 cursor-pointer"
-            : "flex justify-between items-center opacity-100 cursor-pointer"
+            ? "flex space-x-2 items-center opacity-50 hover:opacity-100 cursor-pointer"
+            : "flex space-x-2 items-center opacity-100 cursor-pointer"
         )}
         onClick={() => toggleSelect}
+        id={selected ? "selected" : undefined}
       >
-        <div>{title}</div>
         <Image alt="" src={imgSrc} width={50} height={50} />
+        <div>{title}</div>
       </div>
       <div className="h-[1px] bg-BG-text rounded-md opacity-25"></div>
     </>

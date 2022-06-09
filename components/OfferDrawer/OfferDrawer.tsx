@@ -37,6 +37,11 @@ const myItems = [
 ];
 
 const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
+  const confirmOffer = () => {
+    console.log("test");
+    let selectedItem = document.getElementById("selected");
+    selectedItem && console.log(selectedItem);
+  };
   return (
     <>
       <div
@@ -64,7 +69,7 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
               />
             ))}
         </div>
-        <Button selected={false} onClick={undefined} value={"Offer"} />
+        <Button selected={false} onClick={confirmOffer} value={"Offer"} />
       </div>
     </>
   );
