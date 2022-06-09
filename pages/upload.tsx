@@ -162,7 +162,7 @@ const UploadPage: NextPage = () => {
       description,
       sellType: checkedItems,
       // price,
-      userId: "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46",
+      userId: "c82ced00-b3f9-4fc9-baf1-ef157b673f33",
       categoryTitle: selectedCategory,
       subcategory: selectedSub,
       images,

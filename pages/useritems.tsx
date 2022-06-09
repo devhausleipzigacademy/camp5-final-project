@@ -1,23 +1,35 @@
 import { UserListItem } from "../components/UserListItem/UserListItem";
 import React, { useEffect, useState } from "react";
-import { NextPage } from "next";
 import Button from "../components/Button/Button";
 import { Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
-import { itemList } from "../utils/filterList";
 import { Spinner } from "../components/Spinner/Spinner";
 
 const UserItems = () => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
   const [listData, setListData] = useState<Item[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
+  const [itemDeleted, setItemDeleted] = useState<number>(0);
 
-  let userId = "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46";
-
+  let userId = "c82ced00-b3f9-4fc9-baf1-ef157b673f33";
+  let itemId: string;
   async function getData() {
     const userItemFetch = await getUserItems(userId);
     setInitialUserItem(userItemFetch);
     setListData(userItemFetch);
+  }
+  async function deleteUserListItem(identifier: string) {
+    console.log("click");
+    fetch(`/api/item?identifier=${identifier}`, {
+      method: "DELETE",
+    }).then((response) => {
+      console.log(response.status);
+    });
+    await getData();
+  }
+
+  function useDeleteItemId(itemId: string) {
+    deleteUserListItem(itemId);
   }
 
   useEffect(() => {
@@ -50,14 +62,13 @@ const UserItems = () => {
           (item) => item.sellType === "SWAP"
         );
         setListData(filteredItemsArr);
-        console.log(listData);
       }
     }
   }
 
   return (
     <div className="pt-20">
-      <div className="flex flex-row gap-2 px-2 pb-4">
+      <div className="flex gap-2 px-2 pb-4">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
@@ -71,16 +82,16 @@ const UserItems = () => {
           value={"Swap"}
         />
       </div>
-      <div className="flex flex-col h-screen overflow-scroll">
+      <div className="flex-1 overflow-y-scroll">
         {!listData ? (
           <div className="flex items-center justify-center pt-12">
             <Spinner height={73} />
           </div>
         ) : (
           <>
-            <ul className="px-3 text-left overflow-scroll">
+            <ul className="px-3 text-left">
               {
-                <div id="listings" className="listings overflow-scroll">
+                <div id="listings" className="listings">
                   {listData.length === 0 && (
                     <div className="flex text-center justify-center items-center w-full h-[73.5vh] rounded-md">
                       <p>no items found</p>
@@ -88,7 +99,12 @@ const UserItems = () => {
                   )}
                   {listData.length > 0 &&
                     listData.map((listData, i) => (
-                      <UserListItem key={i} i={i} item={listData} />
+                      <UserListItem
+                        key={i}
+                        i={i}
+                        item={listData}
+                        useDeleteItemId={useDeleteItemId}
+                      />
                     ))}
                 </div>
               }
