@@ -89,7 +89,7 @@ const UserItems = () => {
                 <div id="listings" className="listings">
                   {listData.length === 0 && (
                     <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
-                      <Spinner />
+                      <p>no items found</p>
                     </div>
                   )}
                   {listData.length > 0 &&
