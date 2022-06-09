@@ -29,19 +29,46 @@ const UserItems = () => {
     }
   }, [initialUserItem, selectedFilter]);
 
+  function filterButtons(event: React.MouseEvent<HTMLButtonElement>) {
+    if (!initialUserItem) {
+      return;
+    } else if ((event.target as HTMLButtonElement).value === "Free") {
+      if (selectedFilter === "Free") {
+        setSelectedFilter("");
+        setListData(initialUserItem);
+      } else {
+        setSelectedFilter("Free");
+        const filteredItemsArr: Item[] = initialUserItem.filter(
+          (item) => item.sellType === "FREE"
+        );
+        setListData(filteredItemsArr);
+      }
+    } else {
+      if (selectedFilter === "Swap") {
+        setSelectedFilter("");
+        setListData(initialUserItem);
+      } else {
+        const filteredItemsArr: Item[] = initialUserItem.filter(
+          (item) => item.sellType === "SWAP"
+        );
+        setListData(filteredItemsArr);
+      }
+    }
+  }
+
   return (
     <div className="pt-20">
       <div className="flex gap-2 px-2 pb-4">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
-          onClick={() => {}}
+          onClick={filterButtons}
           value={"Free"}
         />
         <Button
           type="button"
           selected={selectedFilter === "Swap"}
-          onClick={() => {}}
+          onClick={filterButtons}
           value={"Swap"}
         />
       </div>
