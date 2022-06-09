@@ -36,7 +36,7 @@ export default async function handler(
                   coordinates: [location.lon, location.lat],
                 },
                 properties: {
-                  image: (item.images as string[])[0],
+                  image: JSON.parse(JSON.stringify(item.images)),
                   title: item.title,
                   profilePicture: `${
                     user.profilePicture ? user.profilePicture : ""

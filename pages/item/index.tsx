@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { getProduct } from "../../utils/getProduct";
 import { Item } from "../../utils/types";
 import ProductPage from "./[identifier]";
+import OfferDrawer from "../../components/OfferDrawer/offerDrawer";
 
 export interface ProductProps {
   imagesArray: string[];

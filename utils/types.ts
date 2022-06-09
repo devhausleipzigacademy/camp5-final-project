@@ -30,7 +30,7 @@ export type MapData = {
 };
 
 export type ListData = {
-  image?: string;
+  image: Object;
   title: string;
   profilePicture?: string;
   owner?: string;
@@ -69,7 +69,7 @@ export type CatObject = {
   subcategories: string[];
 };
 
-export type User = {
+export type Recipient = {
   identifier: string;
   firstname: string;
   lastname: string;
