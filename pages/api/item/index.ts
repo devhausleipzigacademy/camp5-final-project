@@ -10,17 +10,17 @@ export default async function handler(
     res: NextApiResponse
 ) {
     if (req.method === "POST") {
-        await saveData(req.body); // look up zod doc how to validate data with zod models
+        // look up zod doc how to validate data with zod models
 
         // look up http response code for incorrectly formatted data
         // --> 422
 
         // endpoint for quering items on domain and nested query to category
         try {
+            await saveData(req.body);
             let item: Item = await prisma.item.create({
                 data: {
                     ...req.body,
-                    user: { connect: { identifier: req.body.userId } },
                 },
             });
             res.status(200).json(item);
