@@ -40,7 +40,7 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
   const confirmOffer = () => {
     console.log("test");
     let selectedItem = document.getElementById("selected");
-    selectedItem && console.log(selectedItem);
+    console.log(selectedItem);
   };
   return (
     <>
@@ -64,12 +64,18 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
             myItems.map((myItems, i) => (
               <ProductUserListItem
                 key={i}
+                id={myItems.identifier}
                 title={myItems.title}
                 imgSrc={myItems.images[0]}
               />
             ))}
         </div>
-        <Button selected={false} onClick={confirmOffer} value={"Offer"} />
+        <Button
+          selected={false}
+          onClick={confirmOffer}
+          value={"Offer"}
+          type={"button"}
+        />
       </div>
     </>
   );
