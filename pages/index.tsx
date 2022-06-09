@@ -1,6 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import type { NextPage } from "next";
-import React from "react";
+import Image from "next/image";
+import React, { Component } from "react";
 import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
@@ -12,11 +13,18 @@ import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
-import Button from "../components/Button/Button";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import Search from "../components/Search/Search";
+import Button from "../components/Button/Button";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
+
+interface Session {
+  data: string;
+  status: string;
+}
 
 const Home: NextPage = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -25,15 +33,13 @@ const Home: NextPage = () => {
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  const [selectedFilter, setSelectedFilter] =
-    useState<"" | "Free" | "Swap">("");
-  const [data, setData] = useState<MapData | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
+  // const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
     setMapData(mapDataFetch);
     setInitialMapData(mapDataFetch);
-    setData(mapDataFetch);
   }
 
   useEffect(() => {
@@ -93,31 +99,87 @@ const Home: NextPage = () => {
       console.log(mapRef, location);
     }
   };
+  const [showMap, setShowMap] = useState<boolean>(false);
+  function showMapHandler() {
+    setShowMap((prev) => !prev);
+    console.log(showMap);
+  }
+
+  const { data: session, status } = useSession();
+
+  const router = useRouter();
+  useEffect(() => {
+    console.log(session, status);
+    if (status === "unauthenticated") {
+      router.push("/signin");
+    }
+  }, [status]);
+
+  const loading = status === "loading";
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
-    <div className="pt-16 space-y-2">
-      <Header />
-      <Search properties={data?.features!} />
-      <div className="flex gap-2 px-2">
-        <Button
-          selected={selectedFilter === "Free"}
-          onClick={filterMarkers}
-          value={"Free"}
-        />
-        <Button
-          selected={selectedFilter === "Swap"}
-          onClick={filterMarkers}
-          value={"Swap"}
-        />
-      </div>
-      {!mapData ? (
-        <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
-          <Spinner />
-        </div>
-      ) : (
-        <Map mapData={mapData} />
+    <div className="pt-16 space-y-2 h-[calc(100vh-64px)]">
+      {showMap && (
+        <>
+          <Header />
+          <Search properties={mapData?.features!} />
+          <div className="flex gap-2 px-2">
+            <Button
+              type="button"
+              selected={selectedFilter === "Free"}
+              onClick={filterMarkers}
+              value={"Free"}
+            />
+            <Button
+              type="button"
+              selected={selectedFilter === "Swap"}
+              onClick={filterMarkers}
+              value={"Swap"}
+            />
+          </div>
+          {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+          <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
+        </>
       )}
-      <ItemDrawer />
+
+      {session && session.user && (
+        <div className="flex w-screen h-2/3 justify-around items-center">
+          <div className="flex-col text-center space-y-2">
+            {session.user.image && (
+              <span>
+                <Image
+                  src={session.user.image}
+                  alt={session.user.name as string}
+                  width={80}
+                  height={80}
+                  className={"rounded-full"}
+                />
+              </span>
+            )}
+            <p className="font-semibold">Welcome!</p>
+            <p>{session.user.name}</p>
+            <p>{session.user.email}</p>
+            <div className="flex-col space-y-2 pt-2 text-center w-full h-full">
+              <Button
+                value={"Sign Out"}
+                onClick={() => signOut()}
+                selected={false}
+                type={"button"}
+              />
+              <Button
+                value={"Let's Swap"}
+                onClick={() => showMapHandler()}
+                selected={false}
+                type={"button"}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
