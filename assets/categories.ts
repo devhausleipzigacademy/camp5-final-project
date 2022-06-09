@@ -1,5 +1,5 @@
 import { generatePathLeafPairs } from "../utils/lazyFlatten";
-import { z } from "Zod";
+import { z } from "zod";
 
 class Leaf {
     label;
@@ -185,9 +185,9 @@ const { leafPathMap, leafDetailsMap } = [
     { leafPathMap: {}, leafDetailsMap: {} }
 );
 
-console.log("Path to 'Trays': ", leafPathMap["Trays"]); // test if it works
+// console.log("Path to 'Trays': ", leafPathMap["Trays"]); // test if it works
 
-const detailsModelMap = {
+export const detailsModelMap = {
     // add Zod models for each possible detail here
     EnergyEfficiencyClass: z.enum(
         details.EnergyEfficiencyClass as [string, ...string[]]
@@ -199,22 +199,25 @@ const detailsModelMap = {
 };
 
 //@ts-ignore
-const modelDict = Object.entries(leafDetailsMap).reduce((accum, pair) => {
-    const [label, details] = pair;
-    const model = {};
-    //@ts-ignore
-    for (const detail of details) {
+export const modelDict = Object.entries(leafDetailsMap).reduce(
+    (accum, pair) => {
+        const [label, details] = pair;
+        const model = {};
         //@ts-ignore
-        model[detail] = detailsModelMap[detail];
-    }
+        for (const detail of details) {
+            //@ts-ignore
+            model[detail] = detailsModelMap[detail];
+        }
 
-    //@ts-ignore
-    accum[label] = z.Object(model);
-    return accum;
-}, {});
+        //@ts-ignore
+        accum[label] = z.object(model);
+        return accum;
+    },
+    {}
+);
 
 //@ts-ignore
-console.log("Model for 'Trays': ", modelDict["Trays"]); // test if it works
+// console.log("Model for 'Trays': ", modelDict["Trays"]); // test if it works
 
 // To-Do List
 // - fill out details required for each leaf category in 'ontology'

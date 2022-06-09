@@ -1,7 +1,7 @@
 import { Item, PrismaClient } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-import { CoffeeMachineItem } from "../../../prisma/models";
+import { ZodError, z } from "zod";
+import { modelDict } from "../../../assets/categories";
 
 const prisma = new PrismaClient();
 
@@ -10,10 +10,17 @@ export default async function handler(
     res: NextApiResponse
 ) {
     if (req.method === "POST") {
+        await saveData(req.body); // look up zod doc how to validate data with zod models
+
+        // look up http response code for incorrectly formatted data
+        // --> 422
+
+        // endpoint for quering items on domain and nested query to category
         try {
             let item: Item = await prisma.item.create({
                 data: {
                     ...req.body,
+                    user: { connect: { identifier: req.body.userId } },
                 },
             });
             res.status(200).json(item);
@@ -42,4 +49,26 @@ export default async function handler(
             console.log(err);
         }
     }
+}
+async function saveData(
+    rawData: any
+): Promise<{ success: boolean; errors: any }> {
+    //@ts-ignore
+    const requestedSubcat = modelDict[rawData.subcategory];
+    try {
+        if (requestedSubcat === undefined) {
+            return { success: false, errors: "subcategory not found" };
+        } else {
+            //@ts-ignore
+            const { data } = requestedSubcat.parse(rawData);
+            console.log(data);
+        }
+    } catch (e) {
+        if (e instanceof ZodError) {
+            return { success: false, errors: e.flatten() };
+        } else {
+            throw e;
+        }
+    }
+    return { success: true, errors: null };
 }

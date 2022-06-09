@@ -4,7 +4,7 @@ Content-Type: application/json
 
     {
   "title": "Nespresso",
-  "userId": "70af069d-ae0f-43be-9511-c88bf4838427",
+  "userId": "c82ced00-b3f9-4fc9-baf1-ef157b673f33",
   "images": {},
   "description": "damn good coffee",
   "sellType": "FREE",
@@ -18,8 +18,8 @@ Content-Type: application/json
   "subcategory": "Coffee Machine"
 }
 
+###
 
 GET http://localhost:3000/api/item?identifier=629e6538-ce13-4b8f-9101-f46f82ea8dbd
 
-###
 
