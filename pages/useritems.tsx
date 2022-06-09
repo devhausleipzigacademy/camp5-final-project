@@ -1,23 +1,35 @@
 import { UserListItem } from "../components/UserListItem/UserListItem";
 import React, { useEffect, useState } from "react";
-
 import Button from "../components/Button/Button";
 import { Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
-
 import { Spinner } from "../components/Spinner/Spinner";
 
 const UserItems = () => {
     const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
     const [listData, setListData] = useState<Item[]>([]);
     const [selectedFilter, setSelectedFilter] = useState<string>("");
+    const [itemDeleted, setItemDeleted] = useState<number>(0);
 
-    let userId = "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46";
-
+    let userId = "c82ced00-b3f9-4fc9-baf1-ef157b673f33";
+    let itemId: string;
     async function getData() {
         const userItemFetch = await getUserItems(userId);
         setInitialUserItem(userItemFetch);
         setListData(userItemFetch);
+    }
+    async function deleteUserListItem(identifier: string) {
+        console.log("click");
+        fetch(`/api/item?identifier=${identifier}`, {
+            method: "DELETE",
+        }).then((response) => {
+            console.log(response.status);
+        });
+        await getData();
+    }
+
+    function useDeleteItemId(itemId: string) {
+        deleteUserListItem(itemId);
     }
 
     useEffect(() => {
@@ -48,7 +60,6 @@ const UserItems = () => {
             if (selectedFilter === "Swap") {
                 setSelectedFilter("");
                 setListData(initialUserItem);
-                console.log(listData);
             } else {
                 setSelectedFilter("Swap");
 
@@ -56,7 +67,6 @@ const UserItems = () => {
                     (item) => item.sellType === "SWAP"
                 );
                 setListData(filteredItemsArr);
-                console.log(listData);
             }
         }
     }
@@ -98,6 +108,9 @@ const UserItems = () => {
                                                 key={i}
                                                 i={i}
                                                 item={listData}
+                                                useDeleteItemId={
+                                                    useDeleteItemId
+                                                }
                                             />
                                         ))}
                                 </div>

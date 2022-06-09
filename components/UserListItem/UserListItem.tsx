@@ -1,14 +1,18 @@
+import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
 import React from "react";
+import reactSelect from "react-select";
 import { Item } from "../../utils/types";
 
 type Props = {
     item: Item;
     i: number;
+
+    useDeleteItemId: Function;
 };
 
-export const UserListItem = ({ item, i }: Props) => {
+export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
     let posted = formatDistance(
         subDays(new Date(item.createdAt), 0),
         new Date(),
@@ -87,6 +91,22 @@ export const UserListItem = ({ item, i }: Props) => {
                             )}
                         </div>
                     </div>
+                </div>
+                <div className="fixed right-1">
+                    {item.gone ? (
+                        <div>
+                            <PencilIcon className="w-4 h-4 opacity-0" />
+                            <TrashIcon className="w-4 h-4 absolute top-10" />
+                        </div>
+                    ) : (
+                        <div>
+                            <PencilIcon className="w-4 h-4" />
+                            <TrashIcon
+                                className="w-4 h-4 absolute top-10"
+                                onClick={() => useDeleteItemId(item.identifier)}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         );

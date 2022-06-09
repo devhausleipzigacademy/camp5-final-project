@@ -40,4 +40,23 @@ export default async function handler(
             console.log(err);
         }
     }
+    if (req.method === "DELETE") {
+        const id = req.query.identifier as string;
+        try {
+            let item: Item | null;
+            if (id) {
+                item = await prisma.item.delete({
+                    where: {
+                        identifier: id,
+                    },
+                });
+            } else {
+                throw new Error("item not found");
+            }
+            const data = res.status(200).json(item);
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
