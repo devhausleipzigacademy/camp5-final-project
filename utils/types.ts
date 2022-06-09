@@ -1,4 +1,4 @@
-import { Item, User, Location, Category, Conversation } from "@prisma/client";
+import { User, Location, Category, Conversation } from "@prisma/client";
 
 export type Feature = {
     type: string;
@@ -44,14 +44,14 @@ export type MockData = {
 };
 
 export type Item = {
-  identifier: string;
-  title: string;
-  images: string[];
-  description: string;
-  user: string;
-  userId: string;
-  sellType: string;
-  createdAt: string;
-  category: string;
-  catId: string;
+    identifier: string;
+    title: string;
+    images: string[];
+    description: string;
+    user: string;
+    userId: string;
+    sellType: string;
+    createdAt: string;
+    category: string;
+    catId: string;
 };
