@@ -2,7 +2,8 @@ import { SellType } from "@prisma/client";
 import { dissolve } from "@turf/turf";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getUser } from "../../utils/getUser";
 import { Item } from "../../utils/types";
 import Button from "../Button/Button";
 
@@ -11,7 +12,37 @@ type Props = {
   i: number;
 };
 
+type User = {
+  identifier: string;
+  firstname: string;
+  lastname: string;
+};
+type UserProps = {
+  data: User;
+};
+
 export const UserListItem = ({ item, i }: Props) => {
+  // ------------- recipient logic ------------ //
+
+  let recipientID = item.recipientId;
+  const initialUser = {
+    identifier: "",
+    firstname: "",
+    lastname: "",
+  };
+  const [reciObj, setReciObj] = useState<User>(initialUser);
+
+  async function getRecipient() {
+    const userFetch = await getUser(recipientID as string);
+    setReciObj(userFetch);
+  }
+
+  useEffect(() => {
+    getRecipient();
+    console.log("effect", reciObj);
+  }, []);
+
+  // ------- date logic ---------- //
   let posted = formatDistance(
     subDays(new Date(item.createdAt), 0),
     new Date(),
@@ -19,7 +50,7 @@ export const UserListItem = ({ item, i }: Props) => {
       addSuffix: true,
     }
   );
-
+  // -------- image logic -------- //
   let imagesrc = JSON.parse(JSON.stringify(item.images));
   let firstImage;
   for (var key in imagesrc) {
@@ -77,9 +108,9 @@ export const UserListItem = ({ item, i }: Props) => {
             <div className="leading-8">
               {item.gone ? (
                 item.sellType === "SWAP" ? (
-                  <div>Swapped with {item.recipientId}</div>
+                  <div>Swapped with {reciObj.firstname}</div>
                 ) : (
-                  <div>Gifted to {item.recipientId}</div>
+                  <div>Gifted to {reciObj.firstname}</div>
                 )
               ) : item.requests > 0 ? (
                 <div>{item.requests} pending Swap Requests</div>

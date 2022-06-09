@@ -8,14 +8,20 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const userID = req.query.userId as string;
+    const id = req.query.identifier as string;
     try {
-      const user: User | null = await prisma.user.findUnique({
-        where: {
-          identifier: userID,
-        },
-      });
-      res.status(200).json(user);
+      let user: User | null;
+      if (id) {
+        user = await prisma.user.findUnique({
+          where: {
+            identifier: id,
+          },
+        });
+      } else {
+        throw new Error("user not found");
+      }
+      const data = res.status(200).json(user);
+      return data;
     } catch (err) {
       console.log(err);
     }

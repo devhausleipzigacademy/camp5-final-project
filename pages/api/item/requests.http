@@ -18,6 +18,7 @@ Content-Type: application/json
   "subcategory": "Coffee Machine"
 }
 
+###
 
 GET http://localhost:3000/api/item?identifier=629e6538-ce13-4b8f-9101-f46f82ea8dbd
 
