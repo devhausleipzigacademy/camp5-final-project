@@ -7,42 +7,45 @@ import Button from "../components/Button/Button";
 import { FileContent } from "use-file-picker/dist/interfaces";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import Input from "../components/Inputfields/Input";
+import { getCategories } from "../utils/getCategories";
+import { Category } from "@prisma/client";
 
 type Field = {
   name: string;
   placeholder: string;
 };
 
-type SubCategory = {
-  [key: string]: Field[];
-};
+// type SubCategory = {
+//   [key: string]: Field[];
+// };
 
-type Category = {
-  [key: keyof SubCategory]: SubCategory;
-};
+// type Category = {
+//   [key: keyof SubCategory]: SubCategory;
+// };
 
-const categories: Category = {
-  catOne: {
-    subCatOne: [{ name: "type", placeholder: "Type" }],
-    subCatTwo: [
-      { name: "type", placeholder: "Type" },
-      { name: "manual", placeholder: "Manual" },
-    ],
-  },
-  catTwo: {
-    subCatThree: [
-      { name: "type", placeholder: "Type" },
-      { name: "color", placeholder: "Color" },
-    ],
-    subCatFour: [
-      { name: "type", placeholder: "Type" },
-      { name: "condition", placeholder: "Condition" },
-    ],
-  },
-};
+// const categories: Category = {
+//   catOne: {
+//     subCatOne: [{ name: "type", placeholder: "Type" }],
+//     subCatTwo: [
+//       { name: "type", placeholder: "Type" },
+//       { name: "manual", placeholder: "Manual" },
+//     ],
+//   },
+//   catTwo: {
+//     subCatThree: [
+//       { name: "type", placeholder: "Type" },
+//       { name: "color", placeholder: "Color" },
+//     ],
+//     subCatFour: [
+//       { name: "type", placeholder: "Type" },
+//       { name: "condition", placeholder: "Condition" },
+//     ],
+//   },
+// };
 
 const UploadPage: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [category, setCategory] = useState<Category[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
   const [fields, setFields] = useState<Field[]>([]);
@@ -123,8 +126,17 @@ const UploadPage: NextPage = () => {
     };
 
     console.log(realData);
-    // clearInput();
   }
+
+  async function getData() {
+    const categoryFetch = await getCategories();
+    setCategory(categoryFetch);
+  }
+
+  useEffect(() => {
+    getData();
+    console.log(category);
+  }, []);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -217,9 +229,13 @@ const UploadPage: NextPage = () => {
             setSelectedCategory(evt.target.value);
           }}
         >
-          <option value={""} label="Empty"></option>
-          {Object.keys(categories).map((cat) => (
-            <option key={cat} value={cat} label={cat}></option>
+          <option value={""} label="Categories"></option>
+          {category.map((cat) => (
+            <option
+              key={cat.identifier}
+              value={cat.title}
+              label={cat.title}
+            ></option>
           ))}
         </select>
 
