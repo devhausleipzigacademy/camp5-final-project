@@ -2,6 +2,7 @@ import { SellType } from "@prisma/client";
 import { dissolve } from "@turf/turf";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { getUser } from "../../utils/getUser";
 import { Item } from "../../utils/types";
@@ -38,6 +39,8 @@ export const UserListItem = ({ item, i }: Props) => {
   //   getRecipient();
   //   console.log("effect", reciObj);
   // }, []);
+
+  let link: string = "/item?identifier=" + item.identifier;
 
   // ------- date logic ---------- //
   let posted = formatDistance(
@@ -76,13 +79,15 @@ export const UserListItem = ({ item, i }: Props) => {
               : "relative h-20 w-20"
           }
         >
-          <Image
-            src={imageYEAH}
-            height={50}
-            width={50}
-            objectFit="cover"
-            layout="responsive"
-          />
+          <Link href={link}>
+            <Image
+              src={imageYEAH}
+              height={50}
+              width={50}
+              objectFit="cover"
+              layout="responsive"
+            />
+          </Link>
         </div>
 
         <div>
