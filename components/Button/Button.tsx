@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 
 interface ButtonProps {
   selected: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
   value: string;
   type: "button" | "submit";
 }
@@ -15,7 +15,9 @@ const Button = ({ value, onClick, selected, type }: ButtonProps) => {
       // https://github.com/lukeed/clsx/blob/master/readme.md
       className={clsx(
         "px-8 rounded-md",
-        selected
+        type === "submit"
+          ? "bg-primary text-primary-text py-2 w-11/12"
+          : selected
           ? "bg-secondary text-secondary-text py-0.5 w-full"
           : "bg-primary text-primary-text py-0.5 w-full"
       )}
