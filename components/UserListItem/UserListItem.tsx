@@ -32,7 +32,7 @@ export const UserListItem = ({ item, i }: Props) => {
   else {
     let imagesArray: string[] = Object.values(firstImage);
     let imageYEAH: string = imagesArray.join("");
-    console.log(imagesArray);
+
     return (
       <div
         className={
