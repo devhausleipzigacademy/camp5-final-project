@@ -127,24 +127,24 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
               ) : (
                 <div>No Swap Requests yet</div>
               )}
-              <div className="fixed right-1">
-                {item.gone ? (
-                  <div>
-                    <PencilIcon className="w-4 h-4 opacity-0" />
-                    <TrashIcon className="w-4 h-4 absolute top-10" />
-                  </div>
-                ) : (
-                  <div>
-                    <PencilIcon className="w-4 h-4" />
-                    <TrashIcon
-                      className="w-4 h-4 absolute top-10"
-                      onClick={() => useDeleteItemId(item.identifier)}
-                    />
-                  </div>
-                )}
-              </div>
             </div>
           </div>
+        </div>
+        <div className="fixed right-1">
+          {item.gone ? (
+            <div>
+              <PencilIcon className="w-4 h-4 opacity-0" />
+              <TrashIcon className="w-4 h-4 absolute top-10" />
+            </div>
+          ) : (
+            <div>
+              <PencilIcon className="w-4 h-4" />
+              <TrashIcon
+                className="w-4 h-4 absolute top-10"
+                onClick={() => useDeleteItemId(item.identifier)}
+              />
+            </div>
+          )}
         </div>
       </div>
     );
