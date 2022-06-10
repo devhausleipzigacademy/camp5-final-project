@@ -4,6 +4,7 @@ import Button from "../components/Button/Button";
 import { Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
 import { Spinner } from "../components/Spinner/Spinner";
+import CreateItemButton from "../components/CreateItemButton/CreateItemButton";
 
 const UserItems = () => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
@@ -112,6 +113,7 @@ const UserItems = () => {
           </>
         )}
       </div>
+      <CreateItemButton />
     </div>
   );
 };
