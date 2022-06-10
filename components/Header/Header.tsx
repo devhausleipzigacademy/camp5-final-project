@@ -25,8 +25,9 @@ const Header = () => {
   }
   return (
     <div className="fixed flex flex-row top-0 bg-primary text-primary-text w-full h-16 place-items-center justify-center">
-      <h3 className="text-lg font-poppins">{pagename}</h3>
-      {/* add burgermenu later */}
+      <Link href="/">
+        <h3 className="text-lg font-poppins">{pagename}</h3>
+      </Link>
       <button className="fixed right-4">
         <Link href="/useritems">
           <BurgerMenu className="text-primary-text" width="32" />
