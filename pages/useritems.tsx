@@ -82,17 +82,20 @@ const UserItems = () => {
           <>
             <ul className="px-3 text-left pt-6">
               {
-                <div id="listings" className="listings">
-                  {listData.length === 0 && (
-                    <div className="flex text-center justify-center items-center w-full h-[73.5vh] rounded-md">
-                      <p>no items found</p>
-                    </div>
-                  )}
-                  {listData.length > 0 &&
-                    listData.map((listData, i) => (
-                      <UserListItem key={i} i={i} item={listData} />
-                    ))}
-                </div>
+                <>
+                  <div id="listings" className="listings">
+                    {listData.length === 0 && (
+                      <div className="flex text-center justify-center items-center w-full h-[73.5vh] rounded-md">
+                        <p>no items found</p>
+                      </div>
+                    )}
+                    {listData.length > 0 &&
+                      listData.map((listData, i) => (
+                        <UserListItem key={i} i={i} item={listData} />
+                      ))}
+                  </div>
+                  <div className="w-full bg-BG h-24"></div>
+                </>
               }
             </ul>
           </>
