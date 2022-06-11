@@ -11,7 +11,6 @@ import { mockKitchenCategories } from "../assets/data";
 import { Item, MockKitchenCategories } from "../utils/types";
 import axios from "axios";
 import Link from "next/link";
-import CreateItemButton from "../components/CreateButton";
 
 type SubCat = {
   title: string;
@@ -50,6 +49,7 @@ type Field = {
 //     ],
 //   },
 // };
+
 type UploadProps = {
   title: string;
   images: Object;
@@ -139,18 +139,25 @@ const UploadPage: NextPage = () => {
     const formData = new FormData();
 
     for (const file of filesContent) {
-      formData.append("file", file.content);
+      await formData.append("file", file.content);
     }
 
-    formData.append("upload_preset", "sharing-app-uploads");
+    await formData.append("upload_preset", "sharing-app-uploads");
+    console.log(formData);
+    console.log(formData.get("file"));
 
-    const imageData = await fetch(
-      "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    ).then((r) => r.json());
+    let imageData: { secure_url: string } = { secure_url: "" };
+    try {
+      imageData = await fetch(
+        "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      ).then((r) => r.json());
+    } catch (err) {
+      console.log(err);
+    }
 
     let imageFile: string = imageData.secure_url;
     console.log(imageFile);
