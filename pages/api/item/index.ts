@@ -18,7 +18,7 @@ function itemModel(detailsModel: any) {
             sellType: SellType,
             subcategory: z.enum(allLeafs),
         })
-        .strict(); //NEEDS FIXING, should be strict, details causing error
+        .strict();
 }
 
 export default async function handler(
