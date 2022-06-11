@@ -11,6 +11,7 @@ import { mockKitchenCategories } from "../assets/data";
 import { Item, MockKitchenCategories } from "../utils/types";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type SubCat = {
   title: string;
@@ -61,6 +62,8 @@ type UploadProps = {
 };
 
 const UploadPage: NextPage = () => {
+  const router = useRouter();
+
   const [selectedCategory, setSelectedCategory] = useState("");
   const [category, setCategory] = useState<Category[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
@@ -188,14 +191,12 @@ const UploadPage: NextPage = () => {
       };
 
       console.log(realData);
-      await axios
-        .post("/api/item", realData)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      try {
+        await axios.post("/api/item", realData);
+        router.push("/useritems");
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
   // useEffect(() => {
@@ -324,14 +325,12 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))} */}
-        <Link href="/useritems ">
-          <Button
-            type="submit"
-            onClick={handleOnSubmit}
-            value="Create offer"
-            selected={false}
-          />
-        </Link>
+        <Button
+          type="submit"
+          onClick={handleOnSubmit}
+          value="Create offer"
+          selected={false}
+        />
         {/* </form> */}
       </div>
     </div>
