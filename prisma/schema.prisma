@@ -70,6 +70,7 @@ model Item {
   requests      Int?
   gone          Boolean  @default(false)
   recipientId   String?
+  // recipient     User @relation(fields: [recipientId], references: [firstname]) // IS THIS FIXABLE? 
 }
 
 enum SellType {

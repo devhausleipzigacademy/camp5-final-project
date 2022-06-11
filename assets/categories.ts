@@ -17,55 +17,55 @@ export const ontology = {
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Blenders", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Coffee Machines", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Juicers", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Popcorn Makers", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Tea Kettles", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Water Heaters", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Waffle Makers", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
             new Leaf("Other Appliances", [
                 "Age",
                 "Condition",
                 "Brand",
-                "Energy Efficiency Class",
+                "EnergyEfficiencyClass",
             ]),
         ],
         Cookware: [
@@ -170,7 +170,7 @@ export const details: Record<string, string[]> = {
     ],
 };
 
-const { leafPathMap, leafDetailsMap } = [
+export const { leafPathMap, leafDetailsMap, allLeafs } = [
     ...generatePathLeafPairs(ontology),
 ].reduce(
     //@ts-ignore
@@ -179,23 +179,24 @@ const { leafPathMap, leafDetailsMap } = [
 
         accum["leafPathMap"][leaf.label] = path;
         accum["leafDetailsMap"][leaf.label] = leaf.details;
+        accum["allLeafs"].push(leaf.label);
 
         return accum;
     },
-    { leafPathMap: {}, leafDetailsMap: {} }
+    { leafPathMap: {}, leafDetailsMap: {}, allLeafs: [] }
 );
 
 // console.log("Path to 'Trays': ", leafPathMap["Trays"]); // test if it works
 
 export const detailsModelMap = {
     // add Zod models for each possible detail here
-    EnergyEfficiencyClass: z.enum(
-        details.EnergyEfficiencyClass as [string, ...string[]]
-    ),
-    Age: z.enum(details.Age as [string, ...string[]]),
-    Condition: z.enum(details.Condition as [string, ...string[]]),
-    Brand: z.enum(details.Brand as [string, ...string[]]),
-    Material: z.enum(details.Material as [string, ...string[]]),
+    EnergyEfficiencyClass: z
+        .enum(details.EnergyEfficiencyClass as [string, ...string[]])
+        .optional(),
+    Age: z.enum(details.Age as [string, ...string[]]).optional(),
+    Condition: z.enum(details.Condition as [string, ...string[]]).optional(),
+    Brand: z.enum(details.Brand as [string, ...string[]]).optional(),
+    Material: z.enum(details.Material as [string, ...string[]]).optional(),
 };
 
 //@ts-ignore
@@ -210,7 +211,7 @@ export const modelDict = Object.entries(leafDetailsMap).reduce(
         }
 
         //@ts-ignore
-        accum[label] = z.object(model);
+        accum[label] = z.object(model).strict();
         return accum;
     },
     {}

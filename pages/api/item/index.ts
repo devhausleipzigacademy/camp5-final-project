@@ -1,9 +1,25 @@
 import { Item, PrismaClient } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { json } from "stream/consumers";
 import { ZodError, z } from "zod";
-import { modelDict } from "../../../assets/categories";
+import { modelDict, leafPathMap, allLeafs } from "../../../assets/categories";
+import { SellType } from "../../../prisma/enums/global";
 
 const prisma = new PrismaClient();
+
+function itemModel(detailsModel: any) {
+    return z
+        .object({
+            details: detailsModel,
+            title: z.string(),
+            images: z.array(z.string()),
+            description: z.string(),
+            userId: z.string(),
+            sellType: SellType,
+            subcategory: z.enum(allLeafs),
+        })
+        .strict(); //NEEDS FIXING, should be strict, details causing error
+}
 
 export default async function handler(
     req: NextApiRequest,
@@ -17,17 +33,22 @@ export default async function handler(
 
         // endpoint for quering items on domain and nested query to category
         try {
-            await saveData(req.body);
+            const result = await saveData(req.body);
+            let subcategory = req.body.subcategory;
             let item: Item = await prisma.item.create({
                 data: {
                     ...req.body,
+                    categoryTitle: leafPathMap[subcategory][1], //assuming that the path only has maximum 2 steps
                 },
             });
-            res.status(200).json(item);
+            res.status(200).json({ item, result });
             res.end();
         } catch (err) {
-            console.log(err);
-            res.status(500).end();
+            if (err instanceof Error) {
+                console.log("error: ", err);
+
+                res.status(400).send(JSON.parse(err.message));
+            }
         }
     }
     if (req.method === "GET") {
@@ -69,18 +90,26 @@ export default async function handler(
         }
     }
 }
-async function saveData(
-    rawData: any
-): Promise<{ success: boolean; errors: any }> {
+async function saveData(rawData: any) {
     //@ts-ignore
+
     const requestedSubcat = modelDict[rawData.subcategory];
+    console.log("Requested Subcategory value: ", requestedSubcat);
     try {
         if (requestedSubcat === undefined) {
-            return { success: false, errors: "subcategory not found" };
+            // console.log(modelDict);
+            // console.log("Requested Subcategory key: ", rawData.subcategory);
+            throw new Error(
+                JSON.stringify({
+                    success: false,
+                    errors: "subcategory not found",
+                })
+            );
         } else {
-            //@ts-ignore
-            const { data } = requestedSubcat.parse(rawData);
-            console.log(data);
+            console.log("raw data: ", rawData);
+            const data = itemModel(requestedSubcat).parse(rawData);
+
+            console.log("parse: ", data);
         }
     } catch (e) {
         if (e instanceof ZodError) {
