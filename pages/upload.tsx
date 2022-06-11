@@ -150,8 +150,6 @@ const UploadPage: NextPage = () => {
       formData.append("file", file.content);
     }
     formData.append("upload_preset", "sharing-app-uploads");
-    console.log(formData);
-    console.log(formData.get("file"));
 
     let imageData: { secure_url: string } = { secure_url: "" };
     try {
@@ -166,11 +164,7 @@ const UploadPage: NextPage = () => {
       console.log(err);
     }
 
-    let imageFile: string = imageData.secure_url;
-    console.log(imageFile);
-
-    setImages({ "0": imageFile });
-    // images = JSON.parse(JSON.stringify(images));
+    setImages({ "0": imageData.secure_url });
   };
 
   async function handleOnSubmit(event: FormEvent) {
