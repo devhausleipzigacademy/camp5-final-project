@@ -70,6 +70,7 @@ const UploadPage: NextPage = () => {
   const [description, setDescription] = useState("");
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
+  const [images, setImages] = useState<{ "0": string } | null>(null);
   // const [price, setPrice] = useState("");
 
   function checkHandler() {
@@ -132,17 +133,20 @@ const UploadPage: NextPage = () => {
         : null;
     }
   }, [selectedCategory]);
-  async function handleOnSubmit(event: FormEvent) {
-    event.preventDefault();
 
-    // UPLOAD IMAGE
+  useEffect(() => {
+    if (!!filesContent.length) {
+      handleFileUpload();
+    }
+  }, [filesContent]);
+
+  const handleFileUpload = async () => {
     const formData = new FormData();
 
     for (const file of filesContent) {
-      await formData.append("file", file.content);
+      formData.append("file", file.content);
     }
-
-    await formData.append("upload_preset", "sharing-app-uploads");
+    formData.append("upload_preset", "sharing-app-uploads");
     console.log(formData);
     console.log(formData.get("file"));
 
@@ -162,29 +166,37 @@ const UploadPage: NextPage = () => {
     let imageFile: string = imageData.secure_url;
     console.log(imageFile);
 
-    let images = { "0": imageFile };
-    images = JSON.parse(JSON.stringify(images));
+    setImages({ "0": imageFile });
+    // images = JSON.parse(JSON.stringify(images));
+  };
 
-    const realData: UploadProps = {
-      title,
-      description,
-      sellType: checkedItems,
-      // price,
-      userId: "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46",
-      categoryTitle: selectedCategory,
-      subcategory: selectedSub,
-      images,
-    };
+  async function handleOnSubmit(event: FormEvent) {
+    event.preventDefault();
+    console.log("submitted");
 
-    console.log(realData);
-    await axios
-      .post("/api/item", realData)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    // UPLOAD IMAGE
+    if (images) {
+      const realData: UploadProps = {
+        title,
+        description,
+        sellType: checkedItems,
+        // price,
+        userId: "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46",
+        categoryTitle: selectedCategory,
+        subcategory: selectedSub,
+        images,
+      };
+
+      console.log(realData);
+      await axios
+        .post("/api/item", realData)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
   // useEffect(() => {
   //   if (selectedCategory) {
@@ -208,7 +220,8 @@ const UploadPage: NextPage = () => {
 
   return (
     <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-      <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2">
+      {/* <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2"> */}
+      <div className="w-full h-full space-y-2">
         {/* ---------------------- TITLE ------------------------- */}
 
         <Input
@@ -312,9 +325,15 @@ const UploadPage: NextPage = () => {
             />
           ))} */}
         <Link href="/useritems ">
-          <Button type="submit" value="Create offer" selected={false} />
+          <Button
+            type="submit"
+            onClick={handleOnSubmit}
+            value="Create offer"
+            selected={false}
+          />
         </Link>
-      </form>
+        {/* </form> */}
+      </div>
     </div>
   );
 };
