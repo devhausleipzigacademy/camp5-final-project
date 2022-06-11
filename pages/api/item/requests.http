@@ -22,4 +22,8 @@ Content-Type: application/json
 
 GET http://localhost:3000/api/item?identifier=629e6538-ce13-4b8f-9101-f46f82ea8dbd
 
+###
+DELETE http://localhost:3000/api/item?identifier=965816e5-975d-4d5c-9250-af1acb65722b
+
+ 
 

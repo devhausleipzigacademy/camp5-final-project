@@ -1,4 +1,5 @@
 import { User, PrismaClient } from ".prisma/client";
+import { SellType } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
@@ -8,14 +9,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const userID = req.query.userId as string;
     try {
-      const user: User | null = await prisma.user.findUnique({
-        where: {
-          identifier: userID,
-        },
-      });
-      res.status(200).json(user);
+      let users: User[] = [];
+      users = await prisma.user.findMany();
+      res.status(200).json(users);
     } catch (err) {
       console.log(err);
     }
