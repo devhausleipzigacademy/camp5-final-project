@@ -57,7 +57,8 @@ const UserItems = () => {
   }
 
   return (
-    <div className="pt-20">
+    <div className="h-screen overflow-scroll">
+      <div className="h-20 bg-BG w-full"></div>
       <div className="flex flex-row gap-2 px-2 pb-4">
         <Button
           type="button"
@@ -72,16 +73,16 @@ const UserItems = () => {
           value={"Swap"}
         />
       </div>
-      <div className="flex flex-col h-screen overflow-scroll">
+      <div className="flex flex-col">
         {!listData ? (
           <div className="flex items-center justify-center pt-12">
             <Spinner height={73} />
           </div>
         ) : (
           <>
-            <ul className="px-3 text-left overflow-scroll">
+            <ul className="px-3 text-left">
               {
-                <div id="listings" className="listings overflow-scroll">
+                <div id="listings" className="listings">
                   {listData.length === 0 && (
                     <div className="flex text-center justify-center items-center w-full h-[73.5vh] rounded-md">
                       <p>no items found</p>
