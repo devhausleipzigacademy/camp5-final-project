@@ -4,7 +4,7 @@ import { PlusCircleIcon } from "@heroicons/react/solid";
 
 const CreateItemButton = () => {
   return (
-    <div className="fixed bottom-6 w-screen ">
+    <div className="fixed bottom-3 w-screen opacity-95">
       <div className="flex justify-around">
         <div className="flex justify-center pt-4 w-12 h-12 text-primary-text rounded-full self-center gap-2 px-2 bg-primary item-center">
           <Link href="/upload">

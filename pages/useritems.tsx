@@ -57,9 +57,9 @@ const UserItems = () => {
   }
 
   return (
-    <div className="h-screen overflow-scroll">
-      <div className="h-20 bg-BG w-full"></div>
-      <div className="flex flex-row gap-2 px-2 pb-4">
+    <div className="h-screen overflow-scroll bg-BG">
+      <div className="h-20 bg-BG w-full z-20"></div>
+      <div className="fixed pl-4 w-11/12 flex gap-2 px-2 pb-4 z-20 bg-BG">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
@@ -80,7 +80,7 @@ const UserItems = () => {
           </div>
         ) : (
           <>
-            <ul className="px-3 text-left">
+            <ul className="px-3 text-left pt-6">
               {
                 <div id="listings" className="listings">
                   {listData.length === 0 && (
@@ -98,6 +98,7 @@ const UserItems = () => {
           </>
         )}
       </div>
+      <div className="fixed w-full h-20 bg-BG opacity-50 bottom-0"></div>
       <CreateItemButton />
     </div>
   );
