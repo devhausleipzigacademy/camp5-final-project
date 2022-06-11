@@ -8,6 +8,9 @@ module.exports = {
       "placeimg.com",
       "images.unsplash.com",
       "unsplash.com",
+      "lh3.googleusercontent.com",
+      "platform-lookaside.fbsbx.com",
+      "res.cloudinary.com",
     ],
   },
   webpack(config) {

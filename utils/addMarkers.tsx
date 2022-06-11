@@ -1,5 +1,7 @@
 import { Coord } from "@turf/turf";
+import id from "date-fns/esm/locale/id/index.js";
 import mapboxgl, { LngLatLike, Marker } from "mapbox-gl";
+import router from "next/router";
 
 import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";
@@ -12,14 +14,11 @@ export default function addMarkers(
   map: MapRef,
   data: MapData
 ) {
-  console.log("addMarkers", userLocation);
   if (!data) {
     return;
   } else {
     let markerArray = [];
-    console.log("from addMarkers:", data);
     for (const marker of data.features) {
-      console.log("Marker", marker);
       const el = document.createElement("img");
       el.id = `marker-${marker.properties.id}`;
       el.className = "marker";
@@ -36,6 +35,5 @@ export default function addMarkers(
       markerArray.push(realMarker);
     }
     return markerArray;
-    // console.log(markerArray);
   }
 }

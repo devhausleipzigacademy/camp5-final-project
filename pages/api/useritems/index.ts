@@ -1,4 +1,4 @@
-import { User, PrismaClient } from ".prisma/client";
+import { Item, PrismaClient } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
@@ -8,14 +8,15 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const userID = req.query.userId as string;
+    const user = req.query.userId as string;
     try {
-      const user: User | null = await prisma.user.findUnique({
+      let userItems: Item[] = [];
+      userItems = await prisma.item.findMany({
         where: {
-          identifier: userID,
+          userId: user,
         },
       });
-      res.status(200).json(user);
+      res.status(200).json(userItems);
     } catch (err) {
       console.log(err);
     }
