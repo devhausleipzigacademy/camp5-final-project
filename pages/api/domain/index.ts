@@ -1,4 +1,4 @@
-import { Category, PrismaClient } from ".prisma/client";
+import { Domain, PrismaClient } from ".prisma/client";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -10,14 +10,14 @@ export default async function handler(
 ) {
     if (req.method === "GET") {
         try {
-            const categoryTitle = req.body.title as string;
+            const domainTitle = req.body.title as string;
 
-            let categories: Category[] = await prisma.category.findMany({
+            let domains: Domain[] = await prisma.domain.findMany({
                 where: {
-                    title: categoryTitle,
+                    title: domainTitle,
                 },
             });
-            res.status(200).json(categories);
+            res.status(200).json(domains);
         } catch (err) {
             console.log(err);
         }
