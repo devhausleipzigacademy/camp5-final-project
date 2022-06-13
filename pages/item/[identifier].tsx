@@ -51,9 +51,13 @@ export default function ProductPage(): JSX.Element {
     imagesArray = Object.values(productData.images);
 
     createdAt = productData.createdAt;
-    createdAgo = formatDistance(subDays(new Date(createdAt), 0), new Date(), {
-      addSuffix: true,
-    });
+    createdAgo = formatDistance(
+      subDays(new Date(createdAt as string), 0),
+      new Date(),
+      {
+        addSuffix: true,
+      }
+    );
   }
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
   const offerTradeHandler = () => {
