@@ -105,7 +105,7 @@ const UploadPage: NextPage = () => {
     readAs: "DataURL",
     accept: "image/*",
     multiple: true,
-    limitFilesConfig: { max: 1 },
+    limitFilesConfig: { max: 5 },
     minFileSize: 0.001, // in megabytes
     maxFileSize: 50,
     imageSizeRestrictions: {

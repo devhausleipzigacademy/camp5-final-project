@@ -32,15 +32,20 @@ const UploadImage = ({ errors, filesContent, openFileSelector }: Props) => {
         ))
       ) : filesContent.length ? (
         <div>
+          <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+            <p className="font-normal">
+              you've uploaded {filesContent.length} images
+            </p>
+            <button onClick={() => openFileSelector()}>
+              <PlusCircleIcon className="text-primary h-8" />
+            </button>
+          </div>
           {filesContent.map((file, index) => (
             <div key={index}>
-              <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
-                <p className="font-normal">{file.name}</p>
-                <button onClick={() => openFileSelector()}>
-                  <PlusCircleIcon className="text-primary h-8" />
-                </button>
-              </div>
+              <p className="font-normal">{file.name}</p>
+
               <img alt={file.name} src={file.content}></img>
+
               <br />
             </div>
           ))}
