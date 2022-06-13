@@ -44,14 +44,24 @@ export type MockData = {
 };
 
 export type Item = {
-  identifier: string;
+  identifier?: string;
   title: string;
   images: Object;
   description: string;
-  user: string;
-  userId: string;
+  user?: string;
+  userId?: string;
   sellType: string;
-  createdAt: string;
-  category: string;
-  catId: string;
+  createdAt?: string;
+  categoryTitle: string;
+  subcategory: string;
+};
+
+export type MockKitchenCategories = {
+  kitchen: CatObject[];
+};
+
+export type CatObject = {
+  title: string;
+  description: string;
+  subcategories: string[];
 };
