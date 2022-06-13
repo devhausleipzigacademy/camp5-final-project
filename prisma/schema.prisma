@@ -25,6 +25,7 @@ model User {
   favorite       Json
   location       Location?
   conversations  Conversation[]
+  // receivedItems  Item[] @default() // Is this possible?
 }
 
 model Location {

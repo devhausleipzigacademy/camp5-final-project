@@ -26,19 +26,17 @@ export default async function handler(
     res: NextApiResponse
 ) {
     if (req.method === "POST") {
-        // look up zod doc how to validate data with zod models
-
         // look up http response code for incorrectly formatted data
         // --> 422
+        // ERROR HANDLING:
 
-        // endpoint for quering items on domain and nested query to category
         try {
             const result = await saveData(req.body);
             let subcategory = req.body.subcategory;
             let item: Item = await prisma.item.create({
                 data: {
                     ...req.body,
-                    categoryTitle: leafPathMap[subcategory][1], //assuming that the path only has maximum 2 steps
+                    categoryTitle: leafPathMap[subcategory][1], //assuming that the path only has maximum 2 steps, has to be amended when new domains are added
                 },
             });
             res.status(200).json({ item, result });
@@ -47,7 +45,7 @@ export default async function handler(
             if (err instanceof Error) {
                 console.log("error: ", err);
 
-                res.status(400).send(JSON.parse(err.message));
+                res.status(422).send(JSON.parse(err.message));
             }
         }
     }
