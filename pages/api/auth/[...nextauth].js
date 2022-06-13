@@ -58,25 +58,26 @@ export default NextAuth({
   },
   secret: process.env.secret,
   callbacks: {
-    async jwt(token, account, user) {
-      if (user) {
-        token.id = account.id;
+    async jwt(token, account) {
+      if (account) {
+        token.accessToken = account.access_token;
       }
       return token;
     },
-    redirect: async (url, _baseUrl) => {
+    async session({ session, token }) {
+      // session.email = token.token.user.email;
+      // session.user.name = token.token.user.name;
+      // session.user.image = token.token.user.image;
+      if (session) {
+        session.accessToken = token.accessToken;
+      }
+      return session;
+    },
+    async redirect(url, _baseUrl) {
       if (url === "/profile") {
         return Promise.resolve("/");
       }
       return Promise.resolve("/");
-    },
-    session: async ({ session, token }) => {
-      if (token) {
-        session.user.email = token.token.user.email;
-        session.user.name = token.token.user.name;
-        session.user.image = token.token.user.image;
-      }
-      return session;
     },
   },
 });

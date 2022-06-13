@@ -11,8 +11,10 @@ import { Item } from "../../utils/types";
 import { useRouter } from "next/router";
 import { formatDistance, subDays } from "date-fns";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function ProductPage(): JSX.Element {
+  const { data: session } = useSession();
   const router = useRouter();
   console.log(router.asPath);
   let title = router.asPath.split("title=")[1].split("&")[0];
@@ -47,92 +49,93 @@ export default function ProductPage(): JSX.Element {
   //   "http://placeimg.com/640/360/people",
   //   "http://placeimg.com/640/360/animals",
   // ];
-
-  if (!productData) {
-    return <></>;
-  } else {
-    title = productData.title;
-    description = productData.description;
-    offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
-    imagesArray = productData.images;
-    createdAt = productData.createdAt;
-    createdAgo = formatDistance(subDays(new Date(createdAt), 0), new Date(), {
-      addSuffix: true,
-    });
-  }
-  // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
-  const offerTradeHandler = () => {};
-  const chatHandler = () => {};
-  const backHandler = () => {
-    const back = {
-      pathname: "/",
+  if (session) {
+    if (!productData) {
+      return <></>;
+    } else {
+      title = productData.title;
+      description = productData.description;
+      offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
+      imagesArray = productData.images;
+      createdAt = productData.createdAt;
+      createdAgo = formatDistance(subDays(new Date(createdAt), 0), new Date(), {
+        addSuffix: true,
+      });
+    }
+    // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
+    const offerTradeHandler = () => {};
+    const chatHandler = () => {};
+    const backHandler = () => {
+      const back = {
+        pathname: "/",
+      };
+      return back;
     };
-    return back;
-  };
-  const locationHandler = () => {};
+    const locationHandler = () => {};
 
-  const back = backHandler();
-  return (
-    <div className="pt-16">
-      <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
-        <div className="relative block w-full">
-          <Carousel imagesArray={imagesArray} />
+    const back = backHandler();
+    return (
+      <div className="pt-16">
+        <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
+          <div className="relative block w-full">
+            <Carousel imagesArray={imagesArray} />
 
-          <Link href={back.pathname}>
-            <a>
-              <button
-                className="text-BG absolute w-10 left-2 top-2"
-                onClick={() => router.push(back)}
-              >
-                <BackIcon />
-              </button>
-            </a>
-          </Link>
+            <Link href={back.pathname}>
+              <a>
+                <button
+                  className="text-BG absolute w-10 left-2 top-2"
+                  onClick={() => router.push(back)}
+                >
+                  <BackIcon />
+                </button>
+              </a>
+            </Link>
 
-          <button
-            onClick={() => SetIsFavorited((fav) => !fav)}
-            className="text-BG absolute w-9 top-2 right-2"
-          >
-            {isFavorited ? <StarFilledIcon /> : <StarIcon />}
-          </button>
-          <button
-            onClick={locationHandler}
-            className="text-BG absolute w-9 bottom-4 right-2"
-          >
-            <LocationIcon />
-          </button>
-        </div>
-        <div className="flex-col px-4 space-y-2">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-xl">{title}</p>
-            </div>
-            <div className="w-24">
-              <Button value={offerType} onClick={() => {}} selected={false} />
-            </div>
+            <button
+              onClick={() => SetIsFavorited((fav) => !fav)}
+              className="text-BG absolute w-9 top-2 right-2"
+            >
+              {isFavorited ? <StarFilledIcon /> : <StarIcon />}
+            </button>
+            <button
+              onClick={locationHandler}
+              className="text-BG absolute w-9 bottom-4 right-2"
+            >
+              <LocationIcon />
+            </button>
           </div>
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-md"> {`Offered by ${owner}`} </p>
-              <p className="text-xs">{`distance ${distance} km`} </p>
-              <p className="text-xs">{`posted ${createdAgo}`} </p>
+          <div className="flex-col px-4 space-y-2">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-xl">{title}</p>
+              </div>
+              <div className="w-24">
+                <Button value={offerType} onClick={() => {}} selected={false} />
+              </div>
             </div>
-            <div>
-              {/* chat to be implemented at a later version */}
-              {/* <button onClick={chatHandler} className="text-primary w-10">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-md"> {`Offered by ${owner}`} </p>
+                <p className="text-xs">{`distance ${distance} km`} </p>
+                <p className="text-xs">{`posted ${createdAgo}`} </p>
+              </div>
+              <div>
+                {/* chat to be implemented at a later version */}
+                {/* <button onClick={chatHandler} className="text-primary w-10">
                 <ChatIcon />
               </button> */}
+              </div>
             </div>
+            {/* not sure how to make the description responsive in size */}
+            <div className="overflow-y-scroll h-52">{description}</div>
+            <Button
+              onClick={offerTradeHandler}
+              selected={false}
+              value={"Offer Trade"}
+            />
           </div>
-          {/* not sure how to make the description responsive in size */}
-          <div className="overflow-y-scroll h-52">{description}</div>
-          <Button
-            onClick={offerTradeHandler}
-            selected={false}
-            value={"Offer Trade"}
-          />
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

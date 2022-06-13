@@ -10,6 +10,7 @@ import { Category, SellType } from "@prisma/client";
 import { mockKitchenCategories } from "../assets/data";
 import { Item, MockKitchenCategories } from "../utils/types";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 type SubCat = {
   title: string;
@@ -50,6 +51,7 @@ type Field = {
 // };
 
 const UploadPage: NextPage = () => {
+  const { data: session } = useSession();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [category, setCategory] = useState<Category[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
@@ -187,60 +189,60 @@ const UploadPage: NextPage = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+  if (session) {
+    return (
+      <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
+        <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2">
+          {/* ---------------------- TITLE ------------------------- */}
 
-  return (
-    <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-      <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2">
-        {/* ---------------------- TITLE ------------------------- */}
-
-        <Input
-          name="Title"
-          value={title}
-          placeholder="Title"
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            setTitle(event.target.value)
-          }
-        />
-
-        {/* ---------------------- DESCRIPTION ------------------------- */}
-
-        <label htmlFor="Description" className="sr-only text-primary">
-          Description
-        </label>
-        <textarea
-          value={description}
-          id="Description"
-          name="Description"
-          className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
-          placeholder="Description"
-          onChange={(event) => setDescription(event.target.value)}
-        />
-        {/* ---------------------- UPLOAD ------------------------- */}
-        <UploadImage
-          errors={errors}
-          filesContent={filesContent}
-          openFileSelector={openFileSelector}
-        />
-
-        {/* ---------------------- CHECKBOXES ------------------------- */}
-
-        <div className="flex flex-row py-3 ">
-          <Checkbox
-            isChecked={isChecked}
-            name="Giveaway"
-            id="giveaway"
-            checkHandler={checkHandler}
+          <Input
+            name="Title"
+            value={title}
+            placeholder="Title"
+            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              setTitle(event.target.value)
+            }
           />
-          <Checkbox
-            isChecked={!isChecked}
-            name="Swap"
-            id="swap"
-            checkHandler={checkHandler}
-          />
-        </div>
-        {/* ---------------------- VALUE ------------------------- */}
 
-        {/* <Input
+          {/* ---------------------- DESCRIPTION ------------------------- */}
+
+          <label htmlFor="Description" className="sr-only text-primary">
+            Description
+          </label>
+          <textarea
+            value={description}
+            id="Description"
+            name="Description"
+            className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
+            placeholder="Description"
+            onChange={(event) => setDescription(event.target.value)}
+          />
+          {/* ---------------------- UPLOAD ------------------------- */}
+          <UploadImage
+            errors={errors}
+            filesContent={filesContent}
+            openFileSelector={openFileSelector}
+          />
+
+          {/* ---------------------- CHECKBOXES ------------------------- */}
+
+          <div className="flex flex-row py-3 ">
+            <Checkbox
+              isChecked={isChecked}
+              name="Giveaway"
+              id="giveaway"
+              checkHandler={checkHandler}
+            />
+            <Checkbox
+              isChecked={!isChecked}
+              name="Swap"
+              id="swap"
+              checkHandler={checkHandler}
+            />
+          </div>
+          {/* ---------------------- VALUE ------------------------- */}
+
+          {/* <Input
           name="Price"
           value={price}
           placeholder="Price"
@@ -249,42 +251,42 @@ const UploadPage: NextPage = () => {
           }
         /> */}
 
-        {/* ---------------------- CATEGORIES ------------------------- */}
+          {/* ---------------------- CATEGORIES ------------------------- */}
 
-        <div className="">
-          <select
-            className="w-1/2"
-            name="category"
-            id="category"
-            onChange={(evt) => {
-              setSelectedSub("");
-              setSelectedCategory(evt.target.value);
-            }}
-          >
-            <option value={""} label="Categories"></option>
-            {category.map((cat) => (
-              <option
-                key={cat.identifier}
-                value={cat.title}
-                label={cat.title}
-              ></option>
-            ))}
-          </select>
-          {!!possibleSub.length && (
+          <div className="">
             <select
               className="w-1/2"
               name="category"
               id="category"
-              onChange={(evt) => setSelectedSub(evt.target.value)}
+              onChange={(evt) => {
+                setSelectedSub("");
+                setSelectedCategory(evt.target.value);
+              }}
             >
-              <option value={""} label="Subcategories"></option>
-              {possibleSub.map((cat) => (
-                <option key={cat} value={cat} label={cat}></option>
+              <option value={""} label="Categories"></option>
+              {category.map((cat) => (
+                <option
+                  key={cat.identifier}
+                  value={cat.title}
+                  label={cat.title}
+                ></option>
               ))}
             </select>
-          )}
-        </div>
-        {/* {!!fields.length &&
+            {!!possibleSub.length && (
+              <select
+                className="w-1/2"
+                name="category"
+                id="category"
+                onChange={(evt) => setSelectedSub(evt.target.value)}
+              >
+                <option value={""} label="Subcategories"></option>
+                {possibleSub.map((cat) => (
+                  <option key={cat} value={cat} label={cat}></option>
+                ))}
+              </select>
+            )}
+          </div>
+          {/* {!!fields.length &&
           fields.map((field) => (
             <input
               type="text"
@@ -293,10 +295,11 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))} */}
-        <Button type="submit" value="Create offer" selected={false} />
-      </form>
-    </div>
-  );
+          <Button type="submit" value="Create offer" selected={false} />
+        </form>
+      </div>
+    );
+  }
 };
 
 export default UploadPage;

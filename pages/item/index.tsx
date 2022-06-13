@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { getProduct } from "../../utils/getProduct";
 import { Item } from "../../utils/types";
 import ProductPage from "./[identifier]";
+import { useSession } from "next-auth/react";
 
 export interface ProductProps {
   imagesArray: string[];
@@ -23,9 +24,12 @@ export interface ProductProps {
 }
 
 export default function ItemIndex() {
-  return (
-    <>
-      <ProductPage />
-    </>
-  );
+  const { data: session } = useSession();
+  if (session) {
+    return (
+      <>
+        <ProductPage />
+      </>
+    );
+  }
 }
