@@ -14,8 +14,9 @@ Content-Type: application/json
     "Condition": "*****"
 
     },
+  "categoryTitle": "Other Kitchen Categories"
 
-  "subcategory": "Coffee Machines"
+
 }
 
 ###

@@ -1,11 +1,13 @@
 import { Item, PrismaClient } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { json } from "stream/consumers";
+
 import { ZodError, z } from "zod";
 import { modelDict, leafPathMap, allLeafs } from "../../../assets/categories";
 import { SellType } from "../../../prisma/enums/global";
 
 const prisma = new PrismaClient();
+
+// VALIDATION INCOMPLETE: request gets denied, when item without subcategoryTitle is posted (category "Other Kitchen Category")
 
 function itemModel(detailsModel: any) {
     return z
@@ -16,7 +18,8 @@ function itemModel(detailsModel: any) {
             description: z.string(),
             userId: z.string(),
             sellType: SellType,
-            subcategory: z.enum(allLeafs),
+            subcategory: z.enum(allLeafs).optional(),
+            categoryTitle: z.string().optional(),
         })
         .strict();
 }
@@ -31,16 +34,31 @@ export default async function handler(
         // ERROR HANDLING:
 
         try {
-            const result = await saveData(req.body);
+            let item: Item | undefined = undefined;
+            const { success, errors } = await saveData(req.body);
             let subcategory = req.body.subcategory;
-            let item: Item = await prisma.item.create({
-                data: {
-                    ...req.body,
-                    categoryTitle: leafPathMap[subcategory][1], //assuming that the path only has maximum 2 steps, has to be amended when new domains are added
-                },
-            });
-            res.status(200).json({ item, result });
-            res.end();
+            let categoryTitle = req.body.categoryTitle;
+
+            if (categoryTitle && success === false) {
+                item = await prisma.item.create({
+                    data: {
+                        ...req.body,
+                        categoryTitle: categoryTitle,
+                    },
+                });
+                res.status(200).json(item);
+                res.end();
+            }
+            if (subcategory) {
+                item = await prisma.item.create({
+                    data: {
+                        ...req.body,
+                        categoryTitle: leafPathMap[subcategory][1], //assuming that the path only has maximum 2 steps, has to be amended when new domains are added
+                    },
+                });
+                res.status(200).json({ item, success, errors });
+                res.end();
+            }
         } catch (err) {
             if (err instanceof Error) {
                 console.log("error: ", err);
@@ -90,7 +108,6 @@ export default async function handler(
 }
 async function saveData(rawData: any) {
     //@ts-ignore
-
     const requestedSubcat = modelDict[rawData.subcategory];
     console.log("Requested Subcategory value: ", requestedSubcat);
     try {

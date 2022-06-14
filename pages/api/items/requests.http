@@ -3,4 +3,7 @@ GET http://localhost:3000/api/items
 ###
 
 GET http://localhost:3000/api/items?sellType=SWAP
+###
+
+GET http://localhost:3000/api/items?categoryTitle=Cookware
 

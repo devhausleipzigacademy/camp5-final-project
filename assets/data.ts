@@ -235,7 +235,7 @@ export const mockKitchenCategories = {
     ],
 };
 
-export const Categories = [
+export const mockSubCategories = [
     "Toasters",
     "Blenders",
     "Coffee Machines",

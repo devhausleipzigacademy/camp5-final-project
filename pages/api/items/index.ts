@@ -11,8 +11,8 @@ export default async function handler(
 ) {
     if (req.method === "GET") {
         const itemtype = req.query.sellType as SellType | undefined;
-        const domainTitle = req.query.domainTitle as string | undefined;
-        const categoryTitle = req.query.categoryTitle;
+        const domainTitle = req.query.domainTitle as string;
+        const categoryTitle = req.query.categoryTitle as string;
         try {
             let items: Item[] = [];
             if (itemtype) {
