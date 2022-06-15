@@ -12,13 +12,13 @@ import { Item, MockKitchenCategories } from "../utils/types";
 import axios from "axios";
 
 type SubCat = {
-    title: string;
-    description: string;
-    subcategories: string[];
+  title: string;
+  description: string;
+  subcategories: string[];
 };
 type Field = {
-    name: string;
-    placeholder: string;
+  name: string;
+  placeholder: string;
 };
 
 // type SubCategory = {
@@ -49,209 +49,207 @@ type Field = {
 //   },
 // };
 type UploadProps = {
-    title: string;
-    images: Object;
-    description: string;
-    userId?: string;
-    sellType: string;
-    categoryTitle: string;
-    subcategory: string;
+  title: string;
+  images: Object;
+  description: string;
+  userId?: string;
+  sellType: string;
+  categoryTitle: string;
+  subcategory: string;
 };
 
 const UploadPage: NextPage = () => {
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [category, setCategory] = useState<Category[]>([]);
-    const [possibleSub, setPossibleSub] = useState<string[]>([]);
-    const [selectedSub, setSelectedSub] = useState("");
-    const [fields, setFields] = useState<Field[]>([]);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
-    const [isChecked, setIsChecked] = useState<boolean>(true);
-    // const [price, setPrice] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [category, setCategory] = useState<Category[]>([]);
+  const [possibleSub, setPossibleSub] = useState<string[]>([]);
+  const [selectedSub, setSelectedSub] = useState("");
+  const [fields, setFields] = useState<Field[]>([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+  // const [price, setPrice] = useState("");
 
-    function checkHandler() {
-        setIsChecked((prev) => !prev);
-        if (!isChecked) {
-            setCheckedItems("FREE");
-        } else {
-            setCheckedItems("SWAP");
-        }
+  function checkHandler() {
+    setIsChecked((prev) => !prev);
+    if (!isChecked) {
+      setCheckedItems("FREE");
+    } else {
+      setCheckedItems("SWAP");
     }
-    const kitchenCategories: MockKitchenCategories = mockKitchenCategories;
-    // let subobjs: CatObject[] = kitchenCategories.kitchen
-    // let subobj: CatObject = subobjs.filter(
-    //   (cat) => cat.title === selectedCategory
-    // );
+  }
+  const kitchenCategories: MockKitchenCategories = mockKitchenCategories;
+  // let subobjs: CatObject[] = kitchenCategories.kitchen
+  // let subobj: CatObject = subobjs.filter(
+  //   (cat) => cat.title === selectedCategory
+  // );
 
-    // let subs: string[] = subobj.subcategories;
+  // let subs: string[] = subobj.subcategories;
 
-    function clearInput() {
-        setTitle("");
-        setDescription("");
-        // setPrice("");
-        setPossibleSub([]);
-        setSelectedSub(() => "");
-        setFields([]);
-        setIsChecked(true);
+  function clearInput() {
+    setTitle("");
+    setDescription("");
+    // setPrice("");
+    setPossibleSub([]);
+    setSelectedSub(() => "");
+    setFields([]);
+    setIsChecked(true);
+  }
+  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: true,
+    limitFilesConfig: { max: 1 },
+    minFileSize: 0.001, // in megabytes
+    maxFileSize: 50,
+    imageSizeRestrictions: {
+      maxHeight: 2000, // in pixels
+      maxWidth: 2000,
+      minHeight: 200,
+      minWidth: 200,
+    },
+  });
+
+  // useEffect(() => {
+  //   console.log("");
+  // }, [selectedCategory]);
+
+  async function getData() {
+    const categoryFetch = await getCategories();
+    setCategory(categoryFetch);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    for (const subobj of kitchenCategories.kitchen) {
+      subobj.title === selectedCategory
+        ? setPossibleSub(subobj.subcategories)
+        : null;
     }
-    const [openFileSelector, { filesContent, loading, errors }] = useFilePicker(
-        {
-            readAs: "DataURL",
-            accept: "image/*",
-            multiple: true,
-            limitFilesConfig: { max: 1 },
-            minFileSize: 0.001, // in megabytes
-            maxFileSize: 50,
-            imageSizeRestrictions: {
-                maxHeight: 2000, // in pixels
-                maxWidth: 2000,
-                minHeight: 200,
-                minWidth: 200,
-            },
-        }
-    );
+  }, [selectedCategory]);
+  async function handleOnSubmit(event: FormEvent) {
+    event.preventDefault();
 
-    // useEffect(() => {
-    //   console.log("");
-    // }, [selectedCategory]);
+    // UPLOAD IMAGE
+    const formData = new FormData();
 
-    async function getData() {
-        const categoryFetch = await getCategories();
-        setCategory(categoryFetch);
-    }
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    useEffect(() => {
-        for (const subobj of kitchenCategories.kitchen) {
-            subobj.title === selectedCategory
-                ? setPossibleSub(subobj.subcategories)
-                : null;
-        }
-    }, [selectedCategory]);
-    async function handleOnSubmit(event: FormEvent) {
-        event.preventDefault();
-
-        // UPLOAD IMAGE
-        const formData = new FormData();
-
-        for (const file of filesContent) {
-            formData.append("file", file.content);
-        }
-
-        formData.append("upload_preset", "sharing-app-uploads");
-
-        const imageData = await fetch(
-            "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
-            {
-                method: "POST",
-                body: formData,
-            }
-        ).then((r) => r.json());
-
-        let imageFile: string = imageData.secure_url;
-        console.log(imageFile);
-
-        let images = { "0": imageFile };
-        images = JSON.parse(JSON.stringify(images));
-
-        const realData: UploadProps = {
-            title,
-            description,
-            sellType: checkedItems,
-            // price,
-            userId: "c82ced00-b3f9-4fc9-baf1-ef157b673f33",
-            categoryTitle: selectedCategory,
-            subcategory: selectedSub,
-            images,
-        };
-
-        console.log(realData);
-        await axios
-            .post("/api/item", realData)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-    // useEffect(() => {
-    //   if (selectedCategory) {
-    //     setPossibleSub(subs);
-    //   } else {
-    //     setPossibleSub([]);
-    //     setSelectedSub(() => "");
-    //   }
-    //   console.log(selectedCategory, selectedSub);
-    //   if (selectedCategory && selectedSub) {
-    //     console.log("fields", categories[selectedCategory][selectedSub]);
-    //     setFields(() => categories[selectedCategory][selectedSub]);
-    //   } else if (!selectedSub || !selectedCategory) {
-    //     setFields([]);
-    //   }
-    // }, [selectedCategory, selectedSub]);
-
-    if (loading) {
-        return <div>Loading...</div>;
+    for (const file of filesContent) {
+      formData.append("file", file.content);
     }
 
-    return (
-        <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-            <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2">
-                {/* ---------------------- TITLE ------------------------- */}
+    formData.append("upload_preset", "sharing-app-uploads");
 
-                <Input
-                    name="Title"
-                    value={title}
-                    placeholder="Title"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setTitle(event.target.value)
-                    }
-                />
+    const imageData = await fetch(
+      "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    ).then((r) => r.json());
 
-                {/* ---------------------- DESCRIPTION ------------------------- */}
+    let imageFile: string = imageData.secure_url;
+    console.log(imageFile);
 
-                <label htmlFor="Description" className="sr-only text-primary">
-                    Description
-                </label>
-                <textarea
-                    value={description}
-                    id="Description"
-                    name="Description"
-                    className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
-                    placeholder="Description"
-                    onChange={(event) => setDescription(event.target.value)}
-                />
-                {/* ---------------------- UPLOAD ------------------------- */}
-                <UploadImage
-                    errors={errors}
-                    filesContent={filesContent}
-                    openFileSelector={openFileSelector}
-                />
+    let images = { "0": imageFile };
+    images = JSON.parse(JSON.stringify(images));
 
-                {/* ---------------------- CHECKBOXES ------------------------- */}
+    const realData: UploadProps = {
+      title,
+      description,
+      sellType: checkedItems,
+      // price,
+      userId: "c82ced00-b3f9-4fc9-baf1-ef157b673f33",
+      categoryTitle: selectedCategory,
+      subcategory: selectedSub,
+      images,
+    };
 
-                <div className="flex flex-row py-3 ">
-                    <Checkbox
-                        isChecked={isChecked}
-                        name="Giveaway"
-                        id="giveaway"
-                        checkHandler={checkHandler}
-                    />
-                    <Checkbox
-                        isChecked={!isChecked}
-                        name="Swap"
-                        id="swap"
-                        checkHandler={checkHandler}
-                    />
-                </div>
-                {/* ---------------------- VALUE ------------------------- */}
+    console.log(realData);
+    await axios
+      .post("/api/item", realData)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  // useEffect(() => {
+  //   if (selectedCategory) {
+  //     setPossibleSub(subs);
+  //   } else {
+  //     setPossibleSub([]);
+  //     setSelectedSub(() => "");
+  //   }
+  //   console.log(selectedCategory, selectedSub);
+  //   if (selectedCategory && selectedSub) {
+  //     console.log("fields", categories[selectedCategory][selectedSub]);
+  //     setFields(() => categories[selectedCategory][selectedSub]);
+  //   } else if (!selectedSub || !selectedCategory) {
+  //     setFields([]);
+  //   }
+  // }, [selectedCategory, selectedSub]);
 
-                {/* <Input
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
+      <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2">
+        {/* ---------------------- TITLE ------------------------- */}
+
+        <Input
+          name="Title"
+          value={title}
+          placeholder="Title"
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setTitle(event.target.value)
+          }
+        />
+
+        {/* ---------------------- DESCRIPTION ------------------------- */}
+
+        <label htmlFor="Description" className="sr-only text-primary">
+          Description
+        </label>
+        <textarea
+          value={description}
+          id="Description"
+          name="Description"
+          className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
+          placeholder="Description"
+          onChange={(event) => setDescription(event.target.value)}
+        />
+        {/* ---------------------- UPLOAD ------------------------- */}
+        <UploadImage
+          errors={errors}
+          filesContent={filesContent}
+          openFileSelector={openFileSelector}
+        />
+
+        {/* ---------------------- CHECKBOXES ------------------------- */}
+
+        <div className="flex flex-row py-3 ">
+          <Checkbox
+            isChecked={isChecked}
+            name="Giveaway"
+            id="giveaway"
+            checkHandler={checkHandler}
+          />
+          <Checkbox
+            isChecked={!isChecked}
+            name="Swap"
+            id="swap"
+            checkHandler={checkHandler}
+          />
+        </div>
+        {/* ---------------------- VALUE ------------------------- */}
+
+        {/* <Input
           name="Price"
           value={price}
           placeholder="Price"
@@ -260,46 +258,42 @@ const UploadPage: NextPage = () => {
           }
         /> */}
 
-                {/* ---------------------- CATEGORIES ------------------------- */}
+        {/* ---------------------- CATEGORIES ------------------------- */}
 
-                <div className="">
-                    <select
-                        className="w-1/2"
-                        name="category"
-                        id="category"
-                        onChange={(evt) => {
-                            setSelectedSub("");
-                            setSelectedCategory(evt.target.value);
-                        }}
-                    >
-                        <option value={""} label="Categories"></option>
-                        {category.map((cat) => (
-                            <option
-                                key={cat.identifier}
-                                value={cat.title}
-                                label={cat.title}
-                            ></option>
-                        ))}
-                    </select>
-                    {!!possibleSub.length && (
-                        <select
-                            className="w-1/2"
-                            name="category"
-                            id="category"
-                            onChange={(evt) => setSelectedSub(evt.target.value)}
-                        >
-                            <option value={""} label="Subcategories"></option>
-                            {possibleSub.map((cat) => (
-                                <option
-                                    key={cat}
-                                    value={cat}
-                                    label={cat}
-                                ></option>
-                            ))}
-                        </select>
-                    )}
-                </div>
-                {/* {!!fields.length &&
+        <div className="">
+          <select
+            className="w-1/2"
+            name="category"
+            id="category"
+            onChange={(evt) => {
+              setSelectedSub("");
+              setSelectedCategory(evt.target.value);
+            }}
+          >
+            <option value={""} label="Categories"></option>
+            {category.map((cat) => (
+              <option
+                key={cat.identifier}
+                value={cat.title}
+                label={cat.title}
+              ></option>
+            ))}
+          </select>
+          {!!possibleSub.length && (
+            <select
+              className="w-1/2"
+              name="category"
+              id="category"
+              onChange={(evt) => setSelectedSub(evt.target.value)}
+            >
+              <option value={""} label="Subcategories"></option>
+              {possibleSub.map((cat) => (
+                <option key={cat} value={cat} label={cat}></option>
+              ))}
+            </select>
+          )}
+        </div>
+        {/* {!!fields.length &&
           fields.map((field) => (
             <input
               type="text"
@@ -308,10 +302,10 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))} */}
-                <Button type="submit" value="Create offer" selected={false} />
-            </form>
-        </div>
-    );
+        <Button type="submit" value="Create offer" selected={false} />
+      </form>
+    </div>
+  );
 };
 
 export default UploadPage;
