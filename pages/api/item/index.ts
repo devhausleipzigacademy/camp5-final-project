@@ -2,7 +2,11 @@ import { Item, PrismaClient } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { ZodError, z } from "zod";
-import { modelDict, leafPathMap, allLeafs } from "../../../assets/categories";
+import {
+  modelDict,
+  leafPathMap,
+  leaves,
+} from "../../../assets/class-models-paths";
 import { SellType } from "../../../prisma/enums/global";
 
 const prisma = new PrismaClient();
@@ -18,10 +22,26 @@ function itemModel(detailsModel: any) {
       description: z.string(),
       userId: z.string(),
       sellType: SellType,
-      subcategory: z.enum(allLeafs).optional(),
-      categoryTitle: z.string().optional(),
+      class: z.enum(leaves as [string, ...string[]]).optional(),
     })
     .strict();
+}
+
+function recursiveConnectOrCreate(path: Array<string>, query = {}, depth = 1) {
+  const createObj = { title: path.at(-depth) };
+  //@ts-ignore
+  query.parent = {
+    connectOrCreate: {
+      where: { title: path.at(-depth) },
+      create: createObj,
+    },
+  };
+
+  if (depth < path.length) {
+    recursiveConnectOrCreate(path, createObj, depth + 1);
+  }
+
+  return query;
 }
 
 export default async function handler(
@@ -29,15 +49,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    // look up http response code for incorrectly formatted data
-    // --> 422
-    // ERROR HANDLING:
+    //////////////
+    /// fix this endpoint
+    /// add query param that takes path
+    /// and uses it together with 'recursiveConnectOrCreate' function
+    /// to properly insert items into 'Item' table
+    /////////////
 
     try {
       let item: Item | undefined = undefined;
       const { success, errors } = await saveData(req.body);
-      let subcategory = req.body.subcategory;
-      let categoryTitle = req.body.categoryTitle;
+      let itemClass = req.body.class;
 
       if (categoryTitle && success === false) {
         item = await prisma.item.create({

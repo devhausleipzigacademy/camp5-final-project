@@ -1,8 +1,7 @@
 import { Item, PrismaClient } from ".prisma/client";
 import { SellType } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ontology } from "../../../assets/categories";
-import { MockKitchenCategories } from "../../../utils/types";
+import { ontology } from "../../../assets/metadata";
 
 const prisma = new PrismaClient();
 

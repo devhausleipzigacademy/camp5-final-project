@@ -1,7 +1,7 @@
 import { Item, PrismaClient, User } from "@prisma/client";
 import { sub } from "date-fns";
 import { DiagnosticCategory } from "typescript";
-import { leafPathMap, leaves } from "../assets/categories";
+import { leafPathMap, leaves } from "../assets/class-models-paths";
 
 const prisma = new PrismaClient();
 

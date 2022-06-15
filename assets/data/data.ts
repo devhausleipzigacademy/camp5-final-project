@@ -8,7 +8,7 @@ import {
 } from "@prisma/client";
 
 // these are unused, should be updated or removed
-import { MockData, MockKitchenCategories } from "../utils/types";
+import { MockData, MockKitchenCategories } from "../../utils/types";
 
 // export const mockData: MockData[] = [
 //     {

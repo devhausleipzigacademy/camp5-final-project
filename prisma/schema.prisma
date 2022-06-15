@@ -10,29 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Ontology {
+model User {
   identifier     String         @id @default(uuid())
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  data Json
-}
-
-model User {
-  identifier     String         @id @default(uuid())
   firstname      String
   lastname       String
   email          String
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
   passwordHash   String
   passwordSalt   String
   profilePicture String?
   rating         Float
-  items          Item[] @relation("user_item")
+  items          Item[]         @relation("user_item")
   favorite       Json
   location       Location?
   conversations  Conversation[]
-  receivedItems  Item[] @relation("recipient_item")
+  receivedItems  Item[]         @relation("recipient_item")
 }
 
 model Location {
@@ -54,13 +47,13 @@ model Conversation {
 }
 
 model Node {
-  identifier  String    @id @default(uuid())
-  title       String    @unique // remove unique constraint here eventually
-  description String?  
+  identifier  String  @id @default(uuid())
+  title       String  @unique // remove unique constraint here eventually
+  description String?
   parentId    String?
-  parent      Node?     @relation("ontology", fields: [parentId], references: [identifier], onDelete: Cascade)
-  children    Node[]    @relation("ontology")
-  leaves      Item[]    @relation("leaves")
+  parent      Node?   @relation("ontology", fields: [parentId], references: [identifier], onDelete: Cascade)
+  children    Node[]  @relation("ontology")
+  leaves      Item[]  @relation("leaves")
 
   // to avoid making titles globally unique, use compound constraint commented out below
   // will be a bit tricky to get working right with queries though
@@ -73,21 +66,21 @@ enum SellType {
 }
 
 model Item {
-  identifier    String   @id @default(uuid())
-  title         String  
-  images        Json
-  description   String
-  details       Json?
-  user          User     @relation("user_item", fields: [userId], references: [identifier], onDelete: Cascade)
-  userId        String
-  sellType      SellType
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  parent        Node @relation("leaves", fields: [parentId], references: [identifier], onDelete: Cascade)
-  parentId      String
-  class         String
-  requests      Int?
-  gone          Boolean  @default(false)
-  recipientId   String?
-  recipient     User? @relation("recipient_item", fields: [recipientId], references: [identifier])
+  identifier  String   @id @default(uuid())
+  title       String
+  images      Json
+  description String
+  details     Json?
+  user        User     @relation("user_item", fields: [userId], references: [identifier], onDelete: Cascade)
+  userId      String
+  sellType    SellType
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  parent      Node     @relation("leaves", fields: [parentId], references: [identifier], onDelete: Cascade)
+  parentId    String
+  class       String
+  requests    Int?
+  gone        Boolean  @default(false)
+  recipientId String?
+  recipient   User?    @relation("recipient_item", fields: [recipientId], references: [identifier])
 }
