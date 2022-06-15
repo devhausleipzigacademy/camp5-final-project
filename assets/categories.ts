@@ -141,7 +141,7 @@ export const details: Record<Details, string[]> = {
 };
 
 type Leaves = Array<string>;
-type LeafDetailsMap = Record<Leaves[number], Array<keyof typeof details>>;
+type LeafDetailsMap = Record<Leaves[number], Array<Details>>;
 type LeafPathMap = Record<Leaves[number], Array<string>>;
 
 const output: {
@@ -149,7 +149,6 @@ const output: {
   leafDetailsMap: LeafDetailsMap;
   leaves: Leaves;
 } = [...generatePathLeafPairs(ontology)].reduce(
-  //@ts-ignore
   (accum, pair) => {
     const [path, leaf] = pair;
     const [label, details] = leaf;
@@ -177,7 +176,7 @@ export const detailsModelMap = {
   Material: z.enum(details.Material as ZodIsDumb).optional(),
 };
 
-export const modelDict: Record<string, ZodObjectDef> = Object.entries(
+export const modelDict: Record<Leaves[number], ZodObjectDef> = Object.entries(
   leafDetailsMap
 ).reduce((accum, pair) => {
   const [label, details]: [string, Array<Details>] = pair;
