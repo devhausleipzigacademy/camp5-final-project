@@ -115,7 +115,7 @@ signin.getInitialProps = async (context: NextPageContext) => {
 
   if (session && res && session.accessToken) {
     res.writeHead(302, {
-      Location: "/upload",
+      Location: "/welcome",
     });
     res.end();
     return;
