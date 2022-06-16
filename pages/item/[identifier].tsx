@@ -11,16 +11,16 @@ import { Item } from "../../utils/types";
 import { useRouter } from "next/router";
 import { formatDistance, subDays } from "date-fns";
 import Link from "next/link";
+import OfferDrawer from "../../components/OfferDrawer/OfferDrawer";
 
 export default function ProductPage(): JSX.Element {
   const router = useRouter();
-  console.log(router.asPath);
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
   let owner = router.asPath.split("owner=")[1];
 
-  let imagesArray;
+  let imagesArray: string[];
   let description;
   let offerType;
   let createdAt;
@@ -29,6 +29,7 @@ export default function ProductPage(): JSX.Element {
 
   const [isFavorited, SetIsFavorited] = useState(favorited);
   const [productData, setProductData] = useState<Item | null>(null);
+  const [showDrawer, SetShowDrawer] = useState(false);
 
   async function getProductData(id: string) {
     const item = await getProduct(id);
@@ -41,27 +42,27 @@ export default function ProductPage(): JSX.Element {
     }
   }, []);
 
-  // mock data to demonstrate carousel functionality
-  // let imagesArray = [
-  //   "http://placeimg.com/640/360/tech",
-  //   "http://placeimg.com/640/360/people",
-  //   "http://placeimg.com/640/360/animals",
-  // ];
-
   if (!productData) {
     return <></>;
   } else {
     title = productData.title;
     description = productData.description;
     offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
-    imagesArray = productData.images;
+    imagesArray = Object.values(productData.images);
+
     createdAt = productData.createdAt;
-    createdAgo = formatDistance(subDays(new Date(createdAt), 0), new Date(), {
-      addSuffix: true,
-    });
+    createdAgo = formatDistance(
+      subDays(new Date(createdAt as string), 0),
+      new Date(),
+      {
+        addSuffix: true,
+      }
+    );
   }
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
-  const offerTradeHandler = () => {};
+  const offerTradeHandler = () => {
+    SetShowDrawer((prev) => !prev);
+  };
   const chatHandler = () => {};
   const backHandler = () => {
     const back = {
@@ -70,11 +71,12 @@ export default function ProductPage(): JSX.Element {
     return back;
   };
   const locationHandler = () => {};
-
   const back = backHandler();
+
   return (
     <div className="pt-16">
       <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
+        <OfferDrawer show={showDrawer} />
         <div className="relative block w-full">
           {/* <Carousel imagesArray={imagesArray} /> */}
 
@@ -119,7 +121,11 @@ export default function ProductPage(): JSX.Element {
           <div className="flex justify-between items-center">
             <div>
               <p className="text-md"> {`Offered by ${owner}`} </p>
-              <p className="text-xs">{`distance ${distance} km`} </p>
+              <p className="text-xs">
+                {`distance: ${distance.split("%25")[0]} ${
+                  distance.split("%25")[1]
+                }`}
+              </p>
               <p className="text-xs">{`posted ${createdAgo}`} </p>
             </div>
             <div>
@@ -131,12 +137,14 @@ export default function ProductPage(): JSX.Element {
           </div>
           {/* not sure how to make the description responsive in size */}
           <div className="overflow-y-scroll h-52">{description}</div>
-          <Button
-            type="button"
-            onClick={offerTradeHandler}
-            selected={false}
-            value={"Offer Trade"}
-          />
+          <div className="absolute bottom-4 left-4 right-4">
+            <Button
+              onClick={offerTradeHandler}
+              selected={false}
+              value={"Offer Trade"}
+              type={"button"}
+            />
+          </div>
         </div>
       </div>
     </div>

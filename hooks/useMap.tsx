@@ -27,40 +27,40 @@ export default function useMap(
     if (!map.current) {
       return;
     }
-    navigator.geolocation.getCurrentPosition((position) => {
-      const userCoordinates = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
-
-      //feed user location infomation to the map
-      (map.current as mapboxgl.Map).addSource("user-coordinates", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: userCoordinates,
-          },
-        } as any,
-      });
-
-      //display user location  on map
-      (map.current as mapboxgl.Map).addLayer({
-        id: "user-coordinates",
-        source: "user-coordinates",
-        type: "circle",
-      });
-
-      //center map on user location
-      (map.current as mapboxgl.Map).flyTo({
-        center: userCoordinates as LngLatLike,
-        zoom: 14,
-      });
-
-      //store user location
-    });
     map.current.on("load", () => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userCoordinates = [
+          position.coords.longitude,
+          position.coords.latitude,
+        ];
+
+        //feed user location infomation to the map
+        (map.current as mapboxgl.Map).addSource("user-coordinates", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: userCoordinates,
+            },
+          } as any,
+        });
+
+        //display user location  on map
+        (map.current as mapboxgl.Map).addLayer({
+          id: "user-coordinates",
+          source: "user-coordinates",
+          type: "circle",
+        });
+
+        //center map on user location
+        (map.current as mapboxgl.Map).flyTo({
+          center: userCoordinates as LngLatLike,
+          zoom: 14,
+        });
+
+        //store user location
+      });
       // create button for centering the map manually on user
       const geolocate = new mapboxgl.GeolocateControl({
         positionOptions: {
