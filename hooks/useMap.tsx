@@ -1,5 +1,6 @@
 import { Coord } from "@turf/turf";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
+import { useRouter } from "next/router";
 import { Dispatch, useEffect, useState } from "react";
 import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";
@@ -19,45 +20,47 @@ export default function useMap(
   const [lng, setLng] = useState(12.37);
   const [lat, setLat] = useState(51.34);
 
+  const router = useRouter();
+
   useEffect(() => {
     //check, if map actually exists
     if (!map.current) {
       return;
     }
-    navigator.geolocation.getCurrentPosition((position) => {
-      const userCoordinates = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
-
-      //feed user location infomation to the map
-      (map.current as mapboxgl.Map).addSource("user-coordinates", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: userCoordinates,
-          },
-        } as any,
-      });
-
-      //display user location  on map
-      (map.current as mapboxgl.Map).addLayer({
-        id: "user-coordinates",
-        source: "user-coordinates",
-        type: "circle",
-      });
-
-      //center map on user location
-      (map.current as mapboxgl.Map).flyTo({
-        center: userCoordinates as LngLatLike,
-        zoom: 14,
-      });
-
-      //store user location
-    });
     map.current.on("load", () => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userCoordinates = [
+          position.coords.longitude,
+          position.coords.latitude,
+        ];
+
+        //feed user location infomation to the map
+        (map.current as mapboxgl.Map).addSource("user-coordinates", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: userCoordinates,
+            },
+          } as any,
+        });
+
+        //display user location  on map
+        (map.current as mapboxgl.Map).addLayer({
+          id: "user-coordinates",
+          source: "user-coordinates",
+          type: "circle",
+        });
+
+        //center map on user location
+        (map.current as mapboxgl.Map).flyTo({
+          center: userCoordinates as LngLatLike,
+          zoom: 14,
+        });
+
+        //store user location
+      });
       // create button for centering the map manually on user
       const geolocate = new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -78,7 +81,7 @@ export default function useMap(
 
     // place all markers other than user on map
 
-    const markerArray = addMarkers(location, map, mapData as MapData);
+    const markerArray = addMarkers(location, map, mapData as MapData, router);
     // setMarkers(markerArray);
     if (markerArray?.length) {
       setMarkerArray(markerArray);

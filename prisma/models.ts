@@ -7,7 +7,6 @@ import {
   Dishes,
   EnergyEfficiencyClass,
   SellType,
-  subcategories,
 } from "./enums/global";
 
 // one table for every top level category

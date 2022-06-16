@@ -2,8 +2,9 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import reactSelect from "react-select";
+import { getUser } from "../../utils/getUser";
 import { Item } from "../../utils/types";
 import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog/ConfirmDeleteDialog";
 

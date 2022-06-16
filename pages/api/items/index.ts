@@ -1,6 +1,7 @@
 import { Item, PrismaClient } from ".prisma/client";
 import { SellType } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { ontology } from "../../../assets/metadata";
 
 const prisma = new PrismaClient();
 
@@ -9,17 +10,18 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const itemtype = req.query.sellType as SellType | undefined;
+    const path = req.query.path as string;
+    const splitPath = path ? path.split(",") : [""];
     try {
-      let items: Item[] = [];
-      if (itemtype) {
+      let items;
+      if (path) {
         items = await prisma.item.findMany({
           where: {
-            sellType: itemtype,
+            parent: { title: splitPath.at(-1) },
           },
         });
       } else {
-        items = await prisma.item.findMany();
+        items = await prisma.item.findMany({});
       }
       res.status(200).json(items);
     } catch (err) {
