@@ -14,7 +14,7 @@ import { useMapStore } from "../stores/mapStore";
 import { useLocationStore } from "../stores/locationStore";
 import { useMarkerStore } from "../stores/markerStore";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import Search from "../components/Search/Search";
 import Button from "../components/Button/Button";
 
@@ -48,7 +48,7 @@ const Home: NextPage = () => {
 
   const { marker } = useMarkerStore();
 
-  function resetAndSetMarkers(updatedMapData: MapData) {
+  function resetAndSetMarkers(updatedMapData: MapData, router: NextRouter) {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
     if (popUps[0]) popUps[0].remove();
     marker?.forEach((m) => m.remove());
@@ -59,14 +59,17 @@ const Home: NextPage = () => {
     addMarkers(location, mapRef, updatedMapData as MapData);
   }
 
-  const filterMarkers = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const filterMarkers = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    router: NextRouter
+  ) => {
     if (!initialMapData) {
       return;
     } else if ((event.target as HTMLButtonElement).value === "Free") {
       if (selectedFilter === "Free") {
         setSelectedFilter("");
         setMapData(initialMapData);
-        resetAndSetMarkers(initialMapData);
+        resetAndSetMarkers(initialMapData, router);
       } else {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "FREE"
@@ -77,13 +80,13 @@ const Home: NextPage = () => {
           features: filteredMarkersArr,
         };
         setMapData(() => updatedMapData);
-        resetAndSetMarkers(updatedMapData);
+        resetAndSetMarkers(updatedMapData, router);
       }
     } else {
       if (selectedFilter === "Swap") {
         setSelectedFilter("");
         setMapData(initialMapData);
-        resetAndSetMarkers(initialMapData);
+        resetAndSetMarkers(initialMapData, router);
       } else {
         const filteredMarkersArr: Feature[] = initialMapData?.features.filter(
           (feature) => feature.type === "SWAP"
@@ -94,7 +97,7 @@ const Home: NextPage = () => {
           features: filteredMarkersArr,
         };
         setMapData(() => updatedMapData);
-        resetAndSetMarkers(updatedMapData);
+        resetAndSetMarkers(updatedMapData, router);
       }
       console.log(mapRef, location);
     }
@@ -123,26 +126,23 @@ const Home: NextPage = () => {
 
   return (
     <div className="pt-16 space-y-2 h-[calc(100vh-64px)]">
-      {/* {showMap && ( */}
-      <>
-        <Search properties={mapData?.features!} />
-        <div className="flex gap-2 px-2">
-          <Button
-            type="button"
-            selected={selectedFilter === "Free"}
-            onClick={filterMarkers}
-            value={"Free"}
-          />
-          <Button
-            type="button"
-            selected={selectedFilter === "Swap"}
-            onClick={filterMarkers}
-            value={"Swap"}
-          />
-        </div>
-        {!mapData ? <Spinner /> : <Map mapData={mapData} />}
-        <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
-      </>
+      <Search properties={mapData?.features!} />
+      <div className="flex gap-2 px-2">
+        <Button
+          type="button"
+          selected={selectedFilter === "Free"}
+          onClick={(evt) => filterMarkers(evt, router)}
+          value={"Free"}
+        />
+        <Button
+          type="button"
+          selected={selectedFilter === "Swap"}
+          onClick={(evt) => filterMarkers(evt, router)}
+          value={"Swap"}
+        />
+      </div>
+      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+      <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
     </div>
   );
 };

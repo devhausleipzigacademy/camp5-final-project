@@ -41,12 +41,12 @@ export const Dishes = z.enum([
   "Tea Pots",
   "Other Dishes",
 ]);
-export const subcategories = z.object({
-  dishes: Dishes,
-  cutlery: Cutlery,
-  appliances: Appliances,
-  cookware: Cookware,
-});
+// export const subcategories = z.object({
+//   dishes: Dishes,
+//   cutlery: Cutlery,
+//   appliances: Appliances,
+//   cookware: Cookware,
+// });
 
 export const AllSubCategories = z.union([
   Dishes,

@@ -80,7 +80,7 @@ export default function ProductPage(): JSX.Element {
       <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
         <OfferDrawer show={showDrawer} />
         <div className="relative block w-full">
-          <Carousel imagesArray={imagesArray} />
+          {/* <Carousel imagesArray={imagesArray} /> */}
 
           <Link href={back.pathname}>
             <a>
