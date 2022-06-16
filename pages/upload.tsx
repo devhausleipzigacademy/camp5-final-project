@@ -101,20 +101,21 @@ const UploadPage: NextPage = () => {
     setFields([]);
     setIsChecked(true);
   }
-  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
-    readAs: "DataURL",
-    accept: "image/*",
-    multiple: true,
-    limitFilesConfig: { max: 1 },
-    minFileSize: 0.001, // in megabytes
-    maxFileSize: 50,
-    imageSizeRestrictions: {
-      maxHeight: 2000, // in pixels
-      maxWidth: 2000,
-      minHeight: 200,
-      minWidth: 200,
-    },
-  });
+  const [openFileSelector, { filesContent, loading, errors, clear }] =
+    useFilePicker({
+      readAs: "DataURL",
+      accept: "image/*",
+      multiple: true,
+      limitFilesConfig: { min: 1, max: 5 },
+      minFileSize: 0.001, // in megabytes
+      maxFileSize: 50,
+      imageSizeRestrictions: {
+        maxHeight: 2000, // in pixels
+        maxWidth: 2000,
+        minHeight: 200,
+        minWidth: 200,
+      },
+    });
 
   // useEffect(() => {
   //   console.log("");
@@ -246,6 +247,7 @@ const UploadPage: NextPage = () => {
           errors={errors}
           filesContent={filesContent}
           openFileSelector={openFileSelector}
+          clear={clear}
         />
 
         {/* ---------------------- CHECKBOXES ------------------------- */}
