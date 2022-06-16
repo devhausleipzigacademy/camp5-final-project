@@ -1,5 +1,5 @@
 
-POST http://localhost:3000/api/item
+POST http://localhost:3000/api/item/kitchen/appliances
 Content-Type: application/json
 
 {
