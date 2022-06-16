@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import "../styles/mapcss.css";
+// import "../styles/mapcss.css";
 import type { AppProps } from "next/app";
 import Header from "../components/Header/Header";
 import { useLocationStore } from "../stores/locationStore";
@@ -21,8 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <SessionProvider session={pageProps.session}>
-      <Header />
-      <Component {...pageProps} />
+      <div className="max-w-full">
+        <Header />
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 }
