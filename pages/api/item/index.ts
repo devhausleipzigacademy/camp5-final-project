@@ -57,7 +57,7 @@ export default async function handler(
         /////////////
 
         const queryPath = req.query.path as string;
-        console.log("queryPath: ", queryPath);
+        // console.log("queryPath: ", queryPath);
         const path = queryPath.split(",");
 
         try {
@@ -67,6 +67,7 @@ export default async function handler(
 
             const x = recursiveConnectOrCreate(path, req.body);
             console.log(x);
+            await prisma.item.create();
 
             res.status(200).json(item);
             res.end();
@@ -120,7 +121,7 @@ export default async function handler(
 async function saveData(rawData: any) {
     //@ts-ignore
     const requestedSubcat = modelDict[rawData.class];
-    console.log("Requested Subcategory value: ", requestedSubcat);
+    // console.log("Requested Subcategory value: ", requestedSubcat);
     try {
         if (requestedSubcat === undefined) {
             // console.log(modelDict);
@@ -132,10 +133,10 @@ async function saveData(rawData: any) {
                 })
             );
         } else {
-            console.log("raw data: ", rawData);
+            // console.log("raw data: ", rawData);
             const data = itemModel(requestedSubcat).parse(rawData);
 
-            console.log("parse: ", data);
+            // console.log("parse: ", data);
         }
     } catch (e) {
         if (e instanceof ZodError) {
