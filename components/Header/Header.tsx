@@ -11,6 +11,8 @@ const Header = () => {
     pagename = "Dashboard";
   } else if (pagename === "/useritems") {
     pagename = "My Offers";
+  } else if (pagename === "/editproduct") {
+    pagename = "Edit Your Item";
   } else if (pagename === "/upload") {
     pagename = "Create offer";
   } else {

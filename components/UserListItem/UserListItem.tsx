@@ -2,6 +2,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import reactSelect from "react-select";
 import { getUser } from "../../utils/getUser";
@@ -11,7 +12,7 @@ import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog/ConfirmDeleteDialog"
 type Props = {
   item: Item;
   i: number;
-  deleteItemId: Function;
+  // deleteItemId: Function;
   useDeleteItemId: Function;
 };
 
@@ -19,8 +20,8 @@ export const UserListItem = ({
   item,
   i,
   useDeleteItemId,
-  deleteItemId,
-}: Props) => {
+}: // deleteItemId,
+Props) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   let posted = formatDistance(
@@ -106,7 +107,10 @@ export const UserListItem = ({
             </>
           ) : (
             <>
-              <PencilIcon className="w-5 h-5" />
+              <Link href={"/editproduct"} itemID={item.identifier}>
+                <PencilIcon className="w-5 h-5" />
+              </Link>
+
               <TrashIcon
                 className="w-5 h-5"
                 onClick={() => setShowDeleteDialog(true)}

@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ontology } from "../assets/metadata";
 import { leafDetailsMap } from "../assets/class-models-paths";
+import { getItem } from "../utils/getItem";
 
 type SubCat = {
   title: string;
@@ -63,7 +64,7 @@ type UploadProps = {
   subcategory: string;
 };
 
-const UploadPage: NextPage = () => {
+const EditProductPage: NextPage = () => {
   const router = useRouter();
   console.log(ontology);
 
@@ -80,6 +81,8 @@ const UploadPage: NextPage = () => {
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const [images, setImages] = useState<{ "0": string } | null>(null);
   // const [price, setPrice] = useState("");
+
+  // const item = getItem({item.identifier})
 
   function checkHandler() {
     setIsChecked((prev) => !prev);
@@ -249,7 +252,7 @@ const UploadPage: NextPage = () => {
             setTitle(event.target.value)
           }
         />
-
+        {getItem}
         {/* ---------------------- DESCRIPTION ------------------------- */}
 
         <label htmlFor="Description" className="sr-only text-primary">
@@ -380,7 +383,7 @@ const UploadPage: NextPage = () => {
         <Button
           type="submit"
           onClick={handleOnSubmit}
-          value="Create offer"
+          value="Submit changes"
           selected={false}
         />
         {/* </form> */}
@@ -389,4 +392,4 @@ const UploadPage: NextPage = () => {
   );
 };
 
-export default UploadPage;
+export default EditProductPage;

@@ -17,6 +17,7 @@ export default async function handler(
       if (path) {
         items = await prisma.item.findMany({
           where: {
+            // identifier: id,
             parent: { title: splitPath.at(-1) },
           },
         });
