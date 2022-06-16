@@ -1,6 +1,6 @@
 import { Item, PrismaClient } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
+import { recursiveConnectOrCreate } from "../../../prisma/seed";
 import { ZodError, z } from "zod";
 import {
     modelDict,
@@ -25,24 +25,6 @@ function itemModel(detailsModel: any) {
             class: z.enum(leaves as [string, ...string[]]).optional(),
         })
         .strict();
-}
-
-function recursiveConnectOrCreate(path: Array<string>, query = {}, depth = 1) {
-    console.log(path);
-    const createObj = { title: path.at(-depth) };
-    //@ts-ignore
-    query.parent = {
-        connectOrCreate: {
-            where: { title: path.at(-depth) },
-            create: createObj,
-        },
-    };
-
-    if (depth < path.length) {
-        recursiveConnectOrCreate(path, createObj, depth + 1);
-    }
-
-    return query;
 }
 
 export default async function handler(
