@@ -20,7 +20,7 @@ function itemModel(detailsModel: any) {
             title: z.string(),
             images: z.array(z.string()),
             description: z.string(),
-            userId: z.string(),
+
             sellType: SellType,
             class: z.enum(leaves as [string, ...string[]]).optional(),
         })
@@ -28,6 +28,7 @@ function itemModel(detailsModel: any) {
 }
 
 function recursiveConnectOrCreate(path: Array<string>, query = {}, depth = 1) {
+    console.log(path);
     const createObj = { title: path.at(-depth) };
     //@ts-ignore
     query.parent = {
@@ -59,15 +60,19 @@ export default async function handler(
         const queryPath = req.query.path as string;
         // console.log("queryPath: ", queryPath);
         const path = queryPath.split(",");
+        const userId = req.query.user as string;
 
         try {
-            let item: Item | undefined = undefined;
-            const { success, errors } = await saveData(req.body);
-            let itemClass = req.body.class;
-
-            const x = recursiveConnectOrCreate(path, req.body);
-            console.log(x);
-            await prisma.item.create();
+            const itemData = await saveData(req.body);
+            recursiveConnectOrCreate(path, itemData);
+            console.log(itemData);
+            let item = await prisma.item.create({
+                //@ts-ignore
+                data: {
+                    ...itemData,
+                    user: { connect: { identifier: userId } },
+                },
+            });
 
             res.status(200).json(item);
             res.end();
@@ -122,28 +127,15 @@ async function saveData(rawData: any) {
     //@ts-ignore
     const requestedSubcat = modelDict[rawData.class];
     // console.log("Requested Subcategory value: ", requestedSubcat);
-    try {
-        if (requestedSubcat === undefined) {
-            // console.log(modelDict);
-            // console.log("Requested Subcategory key: ", rawData.subcategory);
-            throw new Error(
-                JSON.stringify({
-                    success: false,
-                    errors: "subcategory not found",
-                })
-            );
-        } else {
-            // console.log("raw data: ", rawData);
-            const data = itemModel(requestedSubcat).parse(rawData);
 
-            // console.log("parse: ", data);
-        }
-    } catch (e) {
-        if (e instanceof ZodError) {
-            return { success: false, errors: e.flatten() };
-        } else {
-            throw e;
-        }
+    if (requestedSubcat === undefined) {
+        // console.log(modelDict);
+        // console.log("Requested Subcategory key: ", rawData.subcategory);
+        throw new Error("subcategory not found");
     }
-    return { success: true, errors: null };
+
+    // console.log("raw data: ", rawData);
+    const data = itemModel(requestedSubcat).parse(rawData);
+    return data;
+    // console.log("parse: ", data);
 }
