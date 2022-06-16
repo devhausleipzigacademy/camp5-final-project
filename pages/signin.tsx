@@ -98,13 +98,15 @@ export default function signin({ providers, csrfToken }: ProvidersList) {
         })}
       </div>
       <p className="py-2">or</p>
-      {Object.values(providers).map((provider) => {
-        return (
-          <div key={provider.name}>
-            {provider.name === "credentials" ? Credentials(provider) : null}
-          </div>
-        );
-      })}
+      <form>
+        {Object.values(providers).map((provider) => {
+          return (
+            <div key={provider.name}>
+              {provider.name === "credentials" ? Credentials(provider) : null}
+            </div>
+          );
+        })}
+      </form>
     </div>
   );
 }
