@@ -129,28 +129,11 @@ export default function ProductPage(): JSX.Element {
                 }`}
               </p>
               <p className="text-xs">{`posted ${createdAgo}`} </p>
-            </div>
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="text-md"> {`Offered by ${owner}`} </p>
-                <p className="text-xs">{`distance ${distance} km`} </p>
-                <p className="text-xs">{`posted ${createdAgo}`} </p>
-              </div>
-              <div>
-                {/* chat to be implemented at a later version */}
-                {/* <button onClick={chatHandler} className="text-primary w-10">
+              {/* chat to be implemented at a later version */}
+              {/* <button onClick={chatHandler} className="text-primary w-10">
                 <ChatIcon />
               </button> */}
-              </div>
             </div>
-            {/* not sure how to make the description responsive in size */}
-            <div className="overflow-y-scroll h-52">{description}</div>
-            <Button
-              onClick={offerTradeHandler}
-              selected={false}
-              value={"Offer Trade"}
-              type={"button"}
-            />
           </div>
           {/* not sure how to make the description responsive in size */}
           <div className="overflow-y-scroll h-52">{description}</div>
