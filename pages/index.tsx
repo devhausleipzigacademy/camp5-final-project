@@ -99,7 +99,7 @@ const Home: NextPage = () => {
       console.log(mapRef, location);
     }
   };
-  const [showMap, setShowMap] = useState<boolean>(false);
+  const [showMap, setShowMap] = useState<boolean>(true);
   function showMapHandler() {
     setShowMap((prev) => !prev);
     console.log(showMap);
@@ -123,29 +123,28 @@ const Home: NextPage = () => {
 
   return (
     <div className="pt-16 space-y-2 h-[calc(100vh-64px)]">
-      {showMap && (
-        <>
-          <Search properties={mapData?.features!} />
-          <div className="flex gap-2 px-2">
-            <Button
-              type="button"
-              selected={selectedFilter === "Free"}
-              onClick={filterMarkers}
-              value={"Free"}
-            />
-            <Button
-              type="button"
-              selected={selectedFilter === "Swap"}
-              onClick={filterMarkers}
-              value={"Swap"}
-            />
-          </div>
-          {!mapData ? <Spinner /> : <Map mapData={mapData} />}
-          <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
-        </>
-      )}
-
-      {session && session.user && (
+      {/* {showMap && ( */}
+      <>
+        <Search properties={mapData?.features!} />
+        <div className="flex gap-2 px-2">
+          <Button
+            type="button"
+            selected={selectedFilter === "Free"}
+            onClick={filterMarkers}
+            value={"Free"}
+          />
+          <Button
+            type="button"
+            selected={selectedFilter === "Swap"}
+            onClick={filterMarkers}
+            value={"Swap"}
+          />
+        </div>
+        {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+        <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
+      </>
+      {/* )} */}
+      {/* {!showMap && session && session.user && (
         <div className="flex w-screen h-2/3 justify-around items-center">
           <div className="flex-col text-center space-y-2">
             {session.user.image && (
@@ -178,7 +177,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
