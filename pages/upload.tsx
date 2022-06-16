@@ -88,15 +88,6 @@ const UploadPage: NextPage = () => {
   }
   const kitchenCategories: MockKitchenCategories = mockKitchenCategories;
 
-  function clearInput() {
-    setTitle("");
-    setDescription("");
-    // setPrice("");
-    setPossibleSub([]);
-    setSelectedSub(() => "");
-    // setFields([]);
-    setIsChecked(true);
-  }
   const [openFileSelector, { filesContent, loading, errors, clear }] =
     useFilePicker({
       readAs: "DataURL",
