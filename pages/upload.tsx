@@ -8,7 +8,7 @@ import Input from "../components/Inputfields/Input";
 import { getCategories } from "../utils/getCategories";
 import { Category, SellType } from "@prisma/client";
 import { mockKitchenCategories } from "../assets/data";
-import { Item, MockKitchenCategories } from "../utils/types";
+import { MockKitchenCategories } from "../utils/types";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -68,7 +68,9 @@ const UploadPage: NextPage = () => {
   const [category, setCategory] = useState<Category[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
-  const [fields, setFields] = useState<Field[]>([]);
+  const [details, setDetails] = useState<string[]>([]);
+  const [selectedDetail, setSelectedDetail] = useState("");
+  // const [fields, setFields] = useState<Field[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
@@ -85,12 +87,6 @@ const UploadPage: NextPage = () => {
     }
   }
   const kitchenCategories: MockKitchenCategories = mockKitchenCategories;
-  // let subobjs: CatObject[] = kitchenCategories.kitchen
-  // let subobj: CatObject = subobjs.filter(
-  //   (cat) => cat.title === selectedCategory
-  // );
-
-  // let subs: string[] = subobj.subcategories;
 
   function clearInput() {
     setTitle("");
@@ -98,7 +94,7 @@ const UploadPage: NextPage = () => {
     // setPrice("");
     setPossibleSub([]);
     setSelectedSub(() => "");
-    setFields([]);
+    // setFields([]);
     setIsChecked(true);
   }
   const [openFileSelector, { filesContent, loading, errors, clear }] =
@@ -178,7 +174,6 @@ const UploadPage: NextPage = () => {
         title,
         description,
         sellType: checkedItems,
-        // price,
         userId: "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46",
         categoryTitle: selectedCategory,
         subcategory: selectedSub,
@@ -266,22 +261,12 @@ const UploadPage: NextPage = () => {
             checkHandler={checkHandler}
           />
         </div>
-        {/* ---------------------- VALUE ------------------------- */}
-
-        {/* <Input
-          name="Price"
-          value={price}
-          placeholder="Price"
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            setPrice(event.target.value)
-          }
-        /> */}
 
         {/* ---------------------- CATEGORIES ------------------------- */}
 
-        <div className="">
+        <div className="space-y-4">
           <select
-            className="w-1/2"
+            className="text-primary text-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             name="category"
             id="category"
             onChange={(evt) => {
@@ -300,14 +285,27 @@ const UploadPage: NextPage = () => {
           </select>
           {!!possibleSub.length && (
             <select
-              className="w-1/2"
-              name="category"
-              id="category"
+              className="text-primary text-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              name="subcategory"
+              id="subcategory"
               onChange={(evt) => setSelectedSub(evt.target.value)}
             >
               <option value={""} label="Subcategories"></option>
               {possibleSub.map((cat) => (
                 <option key={cat} value={cat} label={cat}></option>
+              ))}
+            </select>
+          )}
+          {!!details.length && (
+            <select
+              className="text-primary text-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              name="details"
+              id="details"
+              onChange={(evt) => setSelectedDetail(evt.target.value)}
+            >
+              <option label="Details"></option>
+              {details.map((detail) => (
+                <option key={detail} value={detail} label={detail}></option>
               ))}
             </select>
           )}
