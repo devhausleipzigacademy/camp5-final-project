@@ -56,16 +56,17 @@ export default async function handler(
         /// to properly insert items into 'Item' table
         /////////////
 
-        const queryPath = req.query.param as string;
+        const queryPath = req.query.path as string;
         console.log("queryPath: ", queryPath);
-        const path = queryPath.split("/");
+        const path = queryPath.split(",");
 
         try {
             let item: Item | undefined = undefined;
             const { success, errors } = await saveData(req.body);
             let itemClass = req.body.class;
 
-            recursiveConnectOrCreate(path, req.body);
+            const x = recursiveConnectOrCreate(path, req.body);
+            console.log(x);
 
             res.status(200).json(item);
             res.end();
@@ -118,7 +119,7 @@ export default async function handler(
 }
 async function saveData(rawData: any) {
     //@ts-ignore
-    const requestedSubcat = modelDict[rawData.subcategory];
+    const requestedSubcat = modelDict[rawData.class];
     console.log("Requested Subcategory value: ", requestedSubcat);
     try {
         if (requestedSubcat === undefined) {
