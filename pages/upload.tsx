@@ -6,21 +6,21 @@ import { useFilePicker } from "use-file-picker";
 import Button from "../components/Button/Button";
 import Input from "../components/Inputfields/Input";
 import { getCategories } from "../utils/getCategories";
-import { Category, SellType } from "@prisma/client";
-import { mockKitchenCategories } from "../assets/data";
+import { SellType } from "@prisma/client";
+// import { mockKitchenCategories } from "../assets/data";
 import { MockKitchenCategories } from "../utils/types";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 type SubCat = {
-  title: string;
-  description: string;
-  subcategories: string[];
+    title: string;
+    description: string;
+    subcategories: string[];
 };
 type Field = {
-  name: string;
-  placeholder: string;
+    name: string;
+    placeholder: string;
 };
 
 // type SubCategory = {
@@ -52,13 +52,13 @@ type Field = {
 // };
 
 type UploadProps = {
-  title: string;
-  images: Object;
-  description: string;
-  userId?: string;
-  sellType: string;
-  categoryTitle: string;
-  subcategory: string;
+    title: string;
+    images: Object;
+    description: string;
+    userId?: string;
+    sellType: string;
+    categoryTitle: string;
+    subcategory: string;
 };
 
 const UploadPage: NextPage = () => {
@@ -123,34 +123,42 @@ const UploadPage: NextPage = () => {
         ? setPossibleSub(subobj.subcategories)
         : null;
     }
-  }, [selectedCategory]);
+    const [openFileSelector, { filesContent, loading, errors, clear }] =
+        useFilePicker({
+            readAs: "DataURL",
+            accept: "image/*",
+            multiple: true,
+            limitFilesConfig: { min: 1, max: 5 },
+            minFileSize: 0.001, // in megabytes
+            maxFileSize: 50,
+            imageSizeRestrictions: {
+                maxHeight: 2000, // in pixels
+                maxWidth: 2000,
+                minHeight: 200,
+                minWidth: 200,
+            },
+        });
 
-  useEffect(() => {
-    if (!!filesContent.length) {
-      handleFileUpload();
+    // useEffect(() => {
+    //   console.log("");
+    // }, [selectedCategory]);
+
+    async function getData() {
+        const categoryFetch = await getCategories();
+        setCategory(categoryFetch);
     }
-  }, [filesContent]);
 
-  const handleFileUpload = async () => {
-    const formData = new FormData();
+    useEffect(() => {
+        getData();
+    }, []);
 
-    for (const file of filesContent) {
-      formData.append("file", file.content);
-    }
-    formData.append("upload_preset", "sharing-app-uploads");
-
-    let imageData: { secure_url: string } = { secure_url: "" };
-    try {
-      imageData = await fetch(
-        "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
-        {
-          method: "POST",
-          body: formData,
+    useEffect(() => {
+        for (const subobj of kitchenCategories.kitchen) {
+            subobj.title === selectedCategory
+                ? setPossibleSub(subobj.subcategories)
+                : null;
         }
-      ).then((r) => r.json());
-    } catch (err) {
-      console.log(err);
-    }
+    }, [selectedCategory]);
 
     setImages({ "0": imageData.secure_url });
   };
@@ -310,16 +318,16 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))} */}
-        <Button
-          type="submit"
-          onClick={handleOnSubmit}
-          value="Create offer"
-          selected={false}
-        />
-        {/* </form> */}
-      </div>
-    </div>
-  );
+                <Button
+                    type="submit"
+                    onClick={handleOnSubmit}
+                    value="Create offer"
+                    selected={false}
+                />
+                {/* </form> */}
+            </div>
+        </div>
+    );
 };
 
 export default UploadPage;

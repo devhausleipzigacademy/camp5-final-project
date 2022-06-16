@@ -1,21 +1,20 @@
 
-POST http://localhost:3000/api/item
+POST http://localhost:3000/api/item/kitchen/appliances
 Content-Type: application/json
 
-    {
+{
   "title": "Nespresso",
-  "userId": "70af069d-ae0f-43be-9511-c88bf4838427",
-  "images": {},
+  "userId": "c82ced00-b3f9-4fc9-baf1-ef157b673f33",
+  "images": ["x"],
   "description": "damn good coffee",
   "sellType": "FREE",
+  "class": "Coffee Machines",
   "details": {
     "Brand": "Melitta",
     "Age": "Less than a month",
     "Condition": "*****",
-    "EnergyEfficiencyClass": "A+"
-    },
-  "category": "Appliances",
-  "subcategory": "Coffee Machine"
+    "EnergyEfficiencyClass": "C"
+  }
 }
 
 ###
@@ -23,4 +22,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/item?identifier=629e6538-ce13-4b8f-9101-f46f82ea8dbd
 
 ###
+DELETE http://localhost:3000/api/item?identifier=965816e5-975d-4d5c-9250-af1acb65722b
+
+ 
 

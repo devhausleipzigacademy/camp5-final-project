@@ -13,11 +13,13 @@ import { feature } from "@turf/turf";
 import flyToStore from "../../utils/flyToStore";
 import { useMapStore } from "../../stores/mapStore";
 import { useLocationStore } from "../../stores/locationStore";
+import { useRouter } from "next/router";
 type SearchProps = {
   properties: Feature[];
 };
 
 export default function Search({ properties }: SearchProps) {
+  const router = useRouter();
   const [selected, setSelected] = useState();
   const [query, setQuery] = useState("");
   const { mapRef } = useMapStore();
@@ -76,7 +78,7 @@ export default function Search({ properties }: SearchProps) {
                     }
                     value={element.properties.title}
                     onClick={() => {
-                      createPopUp(element, location, mapRef);
+                      createPopUp(element, location, mapRef, router);
                       setTimeout(() => flyToStore(element, mapRef), 300);
                     }}
                   >
