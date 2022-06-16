@@ -22,17 +22,17 @@ export default async function handler(
     } catch (err) {
       console.log(err);
     }
-    try {
-      const subcategoryTitle = req.body.title as string;
+    // try {
+    //   const subcategoryTitle = req.body.title as string;
 
-      let subcategories: Subcategory[] = await prisma.subcategory.findMany({
-        where: {
-          title: subcategoryTitle,
-        },
-      });
-      res.status(200).json(subcategories);
-    } catch (err) {
-      console.log(err);
-    }
+    //   let subcategories: Subcategory[] = await prisma.subcategory.findMany({
+    //     where: {
+    //       title: subcategoryTitle,
+    //     },
+    //   });
+    //   res.status(200).json(subcategories);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 }

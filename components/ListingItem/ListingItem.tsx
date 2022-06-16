@@ -21,7 +21,14 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
   const distance = useDistance(feature);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
-  // console.log(listData.image, listData.profilePicture);
+  let firstImage;
+  for (var key in feature.properties.image) {
+    if (feature.properties.image.hasOwnProperty(key)) {
+      firstImage = Object(feature.properties.image)[key];
+      break;
+    }
+  }
+
   return (
     <div
       id={`listing-${i}`}
@@ -41,7 +48,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
     >
       <div className="flex gap-2 items-center">
         <Image
-          src={feature.properties.image as string}
+          src={firstImage}
           alt=""
           layout="intrinsic"
           // sizes="100vw"
