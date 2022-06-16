@@ -84,7 +84,7 @@ const UploadPage: NextPage = () => {
   const [description, setDescription] = useState("");
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
-  const [images, setImages] = useState<{ "0": string } | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   const detailsArr: string[] = [];
 
   let detailsObj = {};
@@ -146,14 +146,14 @@ const UploadPage: NextPage = () => {
       console.log(err);
     }
 
-    setImages({ "0": imageData.secure_url });
+    setImages([imageData.secure_url]);
   };
 
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
     console.log("submitted");
 
-    const userId = "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46";
+    const userId = "00129883-f8d0-4b70-a39e-820accec3b29";
 
     // UPLOAD IMAGE
     if (images) {
