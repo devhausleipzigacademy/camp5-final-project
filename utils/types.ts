@@ -30,7 +30,7 @@ export type MapData = {
 };
 
 export type ListData = {
-  image?: string;
+  image: Object;
   title: string;
   profilePicture?: string;
   owner?: string;
