@@ -12,14 +12,11 @@ function isObject(obj) {
 }
 
 export function* generatePathLeafPairs(collection, path = []) {
-  console.log(collection);
   if (isObject(collection)) {
-    console.log("object", collection);
     for (const [key, value] of Object.entries(collection)) {
       yield* generatePathLeafPairs(value, [...path, key]);
     }
   } else if (Array.isArray(collection)) {
-    console.log("array", collection);
     yield* collection.map((element) => {
       return [path, element];
     });
