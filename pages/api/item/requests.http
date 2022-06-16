@@ -1,5 +1,5 @@
 
-POST http://localhost:3000/api/item?user=0e48788c-c88e-4a03-897c-f7f3f5edf59c&path=Kitchen,Appliances
+POST http://localhost:3000/api/item?path=Kitchen,Appliances&user=01df4dcb-38b4-4437-a62a-f8e3c1003ff2
 Content-Type: application/json
 
 {
@@ -18,10 +18,10 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/item?identifier=629e6538-ce13-4b8f-9101-f46f82ea8dbd
+GET http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052
 
 ###
-DELETE http://localhost:3000/api/item?identifier=965816e5-975d-4d5c-9250-af1acb65722b
+DELETE http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052
 
 
 
