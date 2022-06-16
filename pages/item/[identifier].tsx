@@ -76,7 +76,7 @@ export default function ProductPage(): JSX.Element {
     <div className="pt-16">
       <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
         <div className="relative block w-full">
-          <Carousel imagesArray={imagesArray} />
+          {/* <Carousel imagesArray={imagesArray} /> */}
 
           <Link href={back.pathname}>
             <a>

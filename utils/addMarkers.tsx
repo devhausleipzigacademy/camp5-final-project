@@ -1,7 +1,7 @@
 import { Coord } from "@turf/turf";
 import id from "date-fns/esm/locale/id/index.js";
 import mapboxgl, { LngLatLike, Marker } from "mapbox-gl";
-import router from "next/router";
+import router, { NextRouter } from "next/router";
 
 import { useLocationStore } from "../stores/locationStore";
 import { MapRef } from "../stores/mapStore";
@@ -12,7 +12,8 @@ import { Feature, MapData } from "./types";
 export default function addMarkers(
   userLocation: number[],
   map: MapRef,
-  data: MapData
+  data: MapData,
+  router: NextRouter
 ) {
   if (!data) {
     return;
@@ -27,7 +28,7 @@ export default function addMarkers(
         : el.setAttribute("src", "giftIcon.svg");
       el.addEventListener("click", (e) => {
         flyToStore(marker as Feature, map);
-        createPopUp(marker as Feature, userLocation, map);
+        createPopUp(marker as Feature, userLocation, map, router);
       });
       const realMarker = new mapboxgl.Marker(el, { offset: [0, -23] })
         .setLngLat(marker.geometry.coordinates as LngLatLike)

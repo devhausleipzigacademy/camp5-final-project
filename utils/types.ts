@@ -1,4 +1,4 @@
-import { User, Location, Category, Conversation } from "@prisma/client";
+import { User, Location, Conversation } from "@prisma/client";
 
 export type Feature = {
   type: string;

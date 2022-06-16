@@ -6,9 +6,9 @@ import { useFilePicker } from "use-file-picker";
 import Button from "../components/Button/Button";
 import Input from "../components/Inputfields/Input";
 import { getCategories } from "../utils/getCategories";
-import { Category, SellType } from "@prisma/client";
-import { mockKitchenCategories } from "../assets/data";
-import { Item, MockKitchenCategories } from "../utils/types";
+import { SellType } from "@prisma/client";
+// import { mockKitchenCategories } from "../assets/data";
+import { MockKitchenCategories } from "../utils/types";
 import axios from "axios";
 
 type SubCat = {

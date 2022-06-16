@@ -1,14 +1,6 @@
-import {
-  Category,
-  Item,
-  User,
-  Location,
-  SellType,
-  Conversation,
-} from "@prisma/client";
+import { SellType } from "@prisma/client";
 
 // these are unused, should be updated or removed
-import { MockData, MockKitchenCategories } from "../../utils/types";
 
 // export const mockData: MockData[] = [
 //     {
