@@ -9,6 +9,7 @@ import { NextPageContext } from "next";
 import GoogleIcon from "../public/google.svg";
 import FacebookIcon from "../public/facebook.svg";
 import Button from "../components/Button/Button";
+import { useLocationStore } from "../stores/locationStore";
 
 interface ProvidersList {
   providers: Providers;
@@ -24,22 +25,59 @@ interface Providers {
 }
 
 export function Google(provider: Providers) {
-  return <GoogleIcon type={"button"} onClick={() => signIn(provider.id)} />;
+  const { location } = useLocationStore();
+  return (
+    <GoogleIcon
+      type={"button"}
+      onClick={() =>
+        signIn(
+          provider.id,
+          { callbackUrl: "/welcome" },
+          { state: location.join() }
+        )
+      }
+    />
+  );
 }
 
 export function Facebook(provider: Providers) {
-  return <FacebookIcon type={"button"} onClick={() => signIn(provider.id)} />;
+  const { location } = useLocationStore();
+  return (
+    <FacebookIcon
+      type={"button"}
+      onClick={() =>
+        signIn(
+          provider.id,
+          { callbackUrl: "/welcome" },
+          { state: location.join() }
+        )
+      }
+    />
+  );
 }
 
 export function Credentials(provider: Providers) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { location } = useLocationStore();
 
   const signInHandler = (provider: Providers) => {
     if (provider.id === "credentials") {
-      signIn(provider.id, { userid: "admin@admin.com", password: "admin" });
+      signIn(
+        provider.id,
+        {
+          userid: "admin@admin.com",
+          password: "admin",
+          callbackUrl: "/welcome",
+        },
+        { state: location.join() }
+      );
     } else {
-      signIn(provider.id);
+      signIn(
+        provider.id,
+        { callbackUrl: "/signin" },
+        { state: location.join() }
+      );
     }
   };
 
@@ -64,9 +102,7 @@ export function Credentials(provider: Providers) {
         ></input>
         <Button
           value={"Sign In"}
-          onClick={() =>
-            signIn(provider.id, { username: email, password: password })
-          }
+          onClick={() => signInHandler(provider)}
           type={"submit"}
           selected={false}
         />

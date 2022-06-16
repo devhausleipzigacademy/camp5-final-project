@@ -42,9 +42,12 @@ async function main() {
 
     let itemData = {
       title: `Test Item ${path} + ${leaf}`,
-      images: ["example.url"],
+      images: {
+        "1": "https://images.unsplash.com/photo-1592156328757-ae2941276b2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+        "2": "https://images.unsplash.com/photo-1592156328697-079f6ee0cfa5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
+      },
       description: "Test description",
-      sellType: "FREE",
+      sellType: `${Math.floor(Math.random() * 10) < 5 ? "FREE" : "SWAP"}`,
       class: leaf,
       user: {
         create: {
@@ -57,6 +60,13 @@ async function main() {
             "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
           rating: 2.1,
           favorite: [],
+          location: {
+            create: {
+              lat: Math.random() * 2 + 50,
+              lon: Math.random() * 2 + 11,
+              address: "Kippenbergstraße 28, 04317 Leipzig",
+            },
+          },
         },
       },
     };

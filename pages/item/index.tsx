@@ -26,6 +26,7 @@ export interface ProductProps {
 export default function ItemIndex() {
   const { data: session } = useSession();
   if (session) {
+    console.log(session.user);
     return (
       <>
         <ProductPage />

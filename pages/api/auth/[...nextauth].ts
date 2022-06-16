@@ -3,10 +3,12 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 import { redirect } from "next/dist/server/api-utils";
+import { signIn } from "next-auth/react";
 
 export default NextAuth({
   pages: {
     signIn: "/signin",
+    signOut: "/signin",
   },
   providers: [
     GoogleProvider({
@@ -18,6 +20,7 @@ export default NextAuth({
           access_type: "offline",
           response_type: "code",
           scope: "openid email profile",
+          state: "",
         },
       },
     }),
@@ -72,12 +75,12 @@ export default NextAuth({
       session.accessToken = token.accessToken;
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      if (url === "profile") {
-        return "/";
-      }
-      return "/welcome";
-    },
+    // async redirect({ url, baseUrl }) {
+    //   if (url === "profile") {
+    //     return "/";
+    //   }
+    //   return "/welcome";
+    // },
     // async redirect({url, _baseUrl}) => {
     //   if (url === "/profile") {
     //     return Promise.resolve("/");

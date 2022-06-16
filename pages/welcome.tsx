@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Image from "next/image";
 import Button from "../components/Button/Button";
+import Link from "next/link";
 
 export default function Welcome() {
   const { data: session, status } = useSession();
@@ -17,6 +18,11 @@ export default function Welcome() {
 
   function goHome() {
     router.push("/");
+  }
+
+  function signout() {
+    router.push("/signin");
+    signOut();
   }
 
   const loading = status === "loading";
@@ -44,12 +50,16 @@ export default function Welcome() {
           <p>{session!.user!.name}</p>
           <p>{session!.user!.email}</p>
           <div className="flex-col space-y-2 pt-2 text-center w-full h-full">
+            {/* <Link href="/">
+              <a> */}
             <Button
               value={"Sign Out"}
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: "/signin" })}
               selected={false}
               type={"button"}
             />
+            {/* </a>
+            </Link> */}
             <Button
               value={"Let's Swap"}
               onClick={() => goHome()}
