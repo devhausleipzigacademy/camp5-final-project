@@ -108,7 +108,12 @@ export default function ProductPage(): JSX.Element {
               <p className="text-xl">{title}</p>
             </div>
             <div className="w-24">
-              <Button value={offerType} onClick={() => {}} selected={false} />
+              <Button
+                type="button"
+                value={offerType}
+                onClick={() => {}}
+                selected={false}
+              />
             </div>
           </div>
           <div className="flex justify-between items-center">
@@ -127,6 +132,7 @@ export default function ProductPage(): JSX.Element {
           {/* not sure how to make the description responsive in size */}
           <div className="overflow-y-scroll h-52">{description}</div>
           <Button
+            type="button"
             onClick={offerTradeHandler}
             selected={false}
             value={"Offer Trade"}
