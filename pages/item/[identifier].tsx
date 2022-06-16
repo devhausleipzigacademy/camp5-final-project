@@ -11,9 +11,11 @@ import { Item } from "../../utils/types";
 import { useRouter } from "next/router";
 import { formatDistance, subDays } from "date-fns";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import OfferDrawer from "../../components/OfferDrawer/OfferDrawer";
 
 export default function ProductPage(): JSX.Element {
+  const { data: session } = useSession();
   const router = useRouter();
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
@@ -127,8 +129,6 @@ export default function ProductPage(): JSX.Element {
                 }`}
               </p>
               <p className="text-xs">{`posted ${createdAgo}`} </p>
-            </div>
-            <div>
               {/* chat to be implemented at a later version */}
               {/* <button onClick={chatHandler} className="text-primary w-10">
                 <ChatIcon />
