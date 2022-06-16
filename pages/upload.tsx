@@ -10,6 +10,8 @@ import { Category, SellType } from "@prisma/client";
 import { mockKitchenCategories } from "../assets/data";
 import { Item, MockKitchenCategories } from "../utils/types";
 import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 type SubCat = {
   title: string;
@@ -49,7 +51,19 @@ type Field = {
 //   },
 // };
 
+type UploadProps = {
+  title: string;
+  images: Object;
+  description: string;
+  userId?: string;
+  sellType: string;
+  categoryTitle: string;
+  subcategory: string;
+};
+
 const UploadPage: NextPage = () => {
+  const router = useRouter();
+
   const [selectedCategory, setSelectedCategory] = useState("");
   const [category, setCategory] = useState<Category[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
@@ -59,6 +73,7 @@ const UploadPage: NextPage = () => {
   const [description, setDescription] = useState("");
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
+  const [images, setImages] = useState<{ "0": string } | null>(null);
   // const [price, setPrice] = useState("");
 
   function checkHandler() {
@@ -86,20 +101,21 @@ const UploadPage: NextPage = () => {
     setFields([]);
     setIsChecked(true);
   }
-  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
-    readAs: "DataURL",
-    accept: "image/*",
-    multiple: true,
-    limitFilesConfig: { max: 1 },
-    minFileSize: 0.1, // in megabytes
-    maxFileSize: 50,
-    imageSizeRestrictions: {
-      maxHeight: 900, // in pixels
-      maxWidth: 1600,
-      minHeight: 600,
-      minWidth: 768,
-    },
-  });
+  const [openFileSelector, { filesContent, loading, errors, clear }] =
+    useFilePicker({
+      readAs: "DataURL",
+      accept: "image/*",
+      multiple: true,
+      limitFilesConfig: { min: 1, max: 5 },
+      minFileSize: 0.001, // in megabytes
+      maxFileSize: 50,
+      imageSizeRestrictions: {
+        maxHeight: 2000, // in pixels
+        maxWidth: 2000,
+        minHeight: 200,
+        minWidth: 200,
+      },
+    });
 
   // useEffect(() => {
   //   console.log("");
@@ -121,52 +137,62 @@ const UploadPage: NextPage = () => {
         : null;
     }
   }, [selectedCategory]);
-  async function handleOnSubmit(event: FormEvent) {
-    event.preventDefault();
 
-    // UPLOAD IMAGE
+  useEffect(() => {
+    if (!!filesContent.length) {
+      handleFileUpload();
+    }
+  }, [filesContent]);
+
+  const handleFileUpload = async () => {
     const formData = new FormData();
 
     for (const file of filesContent) {
       formData.append("file", file.content);
     }
-
     formData.append("upload_preset", "sharing-app-uploads");
 
-    const imageData = await fetch(
-      "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
-      {
-        method: "POST",
-        body: formData,
+    let imageData: { secure_url: string } = { secure_url: "" };
+    try {
+      imageData = await fetch(
+        "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      ).then((r) => r.json());
+    } catch (err) {
+      console.log(err);
+    }
+
+    setImages({ "0": imageData.secure_url });
+  };
+
+  async function handleOnSubmit(event: FormEvent) {
+    event.preventDefault();
+    console.log("submitted");
+
+    // UPLOAD IMAGE
+    if (images) {
+      const realData: UploadProps = {
+        title,
+        description,
+        sellType: checkedItems,
+        // price,
+        userId: "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46",
+        categoryTitle: selectedCategory,
+        subcategory: selectedSub,
+        images,
+      };
+
+      console.log(realData);
+      try {
+        await axios.post("/api/item", realData);
+        router.push("/useritems");
+      } catch (err) {
+        console.error(err);
       }
-    ).then((r) => r.json());
-
-    let imageFile: string = imageData.secure_url;
-    console.log(imageFile);
-
-    let images = { "0": imageFile };
-    images = JSON.parse(JSON.stringify(images));
-
-    const realData: Item = {
-      title,
-      description,
-      sellType: checkedItems,
-      // price,
-      userId: "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46",
-      categoryTitle: selectedCategory,
-      subcategory: selectedSub,
-      images,
-    };
-
-    console.log(realData);
-    await axios
-      .post("/api/item", realData)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    }
   }
   // useEffect(() => {
   //   if (selectedCategory) {
@@ -190,7 +216,8 @@ const UploadPage: NextPage = () => {
 
   return (
     <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-      <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2">
+      {/* <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2"> */}
+      <div className="w-full h-full space-y-2">
         {/* ---------------------- TITLE ------------------------- */}
 
         <Input
@@ -220,6 +247,7 @@ const UploadPage: NextPage = () => {
           errors={errors}
           filesContent={filesContent}
           openFileSelector={openFileSelector}
+          clear={clear}
         />
 
         {/* ---------------------- CHECKBOXES ------------------------- */}
@@ -293,8 +321,14 @@ const UploadPage: NextPage = () => {
               placeholder={field.placeholder}
             />
           ))} */}
-        <Button type="submit" value="Create offer" selected={false} />
-      </form>
+        <Button
+          type="submit"
+          onClick={handleOnSubmit}
+          value="Create offer"
+          selected={false}
+        />
+        {/* </form> */}
+      </div>
     </div>
   );
 };

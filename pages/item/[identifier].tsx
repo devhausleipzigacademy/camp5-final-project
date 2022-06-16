@@ -111,10 +111,10 @@ export default function ProductPage(): JSX.Element {
             </div>
             <div className="w-24">
               <Button
+                type="button"
                 value={offerType}
                 onClick={() => {}}
                 selected={false}
-                type={"button"}
               />
             </div>
           </div>

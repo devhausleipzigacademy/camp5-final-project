@@ -67,6 +67,9 @@ model Item {
   category      Category @relation(fields: [categoryTitle], references: [title])
   categoryTitle String
   subcategory   String
+  requests      Int?
+  gone          Boolean  @default(false)
+  recipientId   String?
 }
 
 enum SellType {
