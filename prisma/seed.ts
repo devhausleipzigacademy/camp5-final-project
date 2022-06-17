@@ -2,6 +2,7 @@ import { Item, PrismaClient, User } from "@prisma/client";
 import { sub } from "date-fns";
 import { DiagnosticCategory } from "typescript";
 import { leafPathMap, leaves } from "../assets/class-models-paths";
+import { recursiveConnectOrCreate } from "../utils/recursiveConnectOrCreate";
 
 const prisma = new PrismaClient();
 
@@ -17,23 +18,6 @@ function cleanupDatabase(prisma: PrismaClient) {
   return Promise.all(modelNames.map((model) => prisma[model].deleteMany()));
 }
 
-function recursiveConnectOrCreate(path: Array<string>, query = {}, depth = 1) {
-  const createObj = { title: path.at(-depth) };
-  //@ts-ignore
-  query.parent = {
-    connectOrCreate: {
-      where: { title: path.at(-depth) },
-      create: createObj,
-    },
-  };
-
-  if (depth < path.length) {
-    recursiveConnectOrCreate(path, createObj, depth + 1);
-  }
-
-  return query;
-}
-
 async function main() {
   await cleanupDatabase(prisma);
 
@@ -42,11 +26,11 @@ async function main() {
 
     let itemData = {
       title: `Test Item ${path} + ${leaf}`,
-      images: {
-        "1": "https://images.unsplash.com/photo-1592156328757-ae2941276b2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-        "2": "https://images.unsplash.com/photo-1592156328697-079f6ee0cfa5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-      },
+      images: ["https://unsplash.com/photos/6HYqdm0CniQ"],
       description: "Test description",
+      details: {
+        condition: "***",
+      },
       sellType: `${Math.floor(Math.random() * 10) < 5 ? "FREE" : "SWAP"}`,
       class: leaf,
       user: {

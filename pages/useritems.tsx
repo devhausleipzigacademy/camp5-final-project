@@ -17,6 +17,7 @@ const UserItems = () => {
   let isUser = false;
   const { data: session, status } = useSession();
 
+<<<<<<< HEAD
   // if (session === undefined) {
   //   console.log("session is undefined");
   // } else {
@@ -32,6 +33,24 @@ const UserItems = () => {
     });
     await getData();
   }
+=======
+    let userId = "026b9e58-e314-4b6f-92ff-15edbb8b5ab0";
+    let itemId: string;
+    async function getData() {
+        const userItemFetch = await getUserItems(userId);
+        setInitialUserItem(userItemFetch);
+        setListData(userItemFetch);
+    }
+    async function deleteUserListItem(identifier: string) {
+        console.log("click");
+        fetch(`/api/item?identifier=${identifier}`, {
+            method: "DELETE",
+        }).then((response) => {
+            console.log(response.status);
+        });
+        await getData();
+    }
+>>>>>>> dev
 
   async function GetUserEmail(
     session: Session | null
