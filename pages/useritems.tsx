@@ -12,7 +12,7 @@ const UserItems = () => {
     const [selectedFilter, setSelectedFilter] = useState<string>("");
     const [itemDeleted, setItemDeleted] = useState<number>(0);
 
-    let userId = "c82ced00-b3f9-4fc9-baf1-ef157b673f33";
+    let userId = "026b9e58-e314-4b6f-92ff-15edbb8b5ab0";
     let itemId: string;
     async function getData() {
         const userItemFetch = await getUserItems(userId);

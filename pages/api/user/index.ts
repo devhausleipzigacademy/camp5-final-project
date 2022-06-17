@@ -10,7 +10,7 @@ export default async function handler(
   if (req.method === "GET") {
     const id = req.query.identifier as string;
     try {
-      let user: User | null;
+      let user: User | null = null;
       if (id) {
         user = await prisma.user.findUnique({
           where: {
@@ -18,12 +18,17 @@ export default async function handler(
           },
         });
       } else {
-        throw new Error("user not found");
+        res.status(500).send("User ID is required");
       }
-      const data = res.status(200).json(user);
-      return data;
+
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).send("user not found");
+      }
     } catch (err) {
       console.log(err);
+      res.status(500).end();
     }
   }
 }
