@@ -26,7 +26,7 @@ async function main() {
 
 		let itemData = {
 			title: `Test Item ${path} + ${leaf}`,
-			images: ["example.url"],
+			images: ["https://unsplash.com/photos/6HYqdm0CniQ"],
 			description: "Test description",
 			details: {
 				condition: "***",
