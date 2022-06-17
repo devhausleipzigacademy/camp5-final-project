@@ -3,12 +3,12 @@ import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 
 export const GetUserEmail = async (
-  session: Session
+  email: string
 ): Promise<string | undefined> => {
-  if (!session) {
-    return;
+  if (!email) {
+    return "undefined";
   } else {
-    const userEmail = session!.user!.email;
+    const userEmail = email;
     let dbUserEmail: string;
     try {
       dbUserEmail = await fetch(

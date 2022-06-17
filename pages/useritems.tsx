@@ -16,15 +16,13 @@ const UserItems = () => {
   const [itemDeleted, setItemDeleted] = useState<number>(0);
   let isUser = false;
   const { data: session, status } = useSession();
-  const userEmail = GetUserEmail(session as Session);
 
-  let userId = "0cd6887e-3950-4dac-821d-2b2c9d6b1bda";
-  let itemId: string;
-  async function getData() {
-    const userItemFetch = await getUserItems(userId);
-    setInitialUserItem(userItemFetch);
-    setListData(userItemFetch);
-  }
+  // if (session === undefined) {
+  //   console.log("session is undefined");
+  // } else {
+  //   const userEmail = GetUserEmail(session!.user!.email as string);
+  //   console.log("email: ", userEmail);
+  // }
   async function deleteUserListItem(identifier: string) {
     console.log("click");
     fetch(`/api/item?identifier=${identifier}`, {
@@ -35,13 +33,41 @@ const UserItems = () => {
     await getData();
   }
 
+  async function GetUserEmail(
+    session: Session | null
+  ): Promise<string | undefined> {
+    if (session === null || session === undefined) {
+      return userEmail;
+    } else {
+      const userEmail = session!.user!.email;
+      let dbUserEmail: string;
+      try {
+        dbUserEmail = await fetch(
+          `http://localhost:3000/api/user_email?email=${userEmail}`,
+          {
+            method: "GET",
+          }
+        ).then((r) => r.json());
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+  let userEmail = GetUserEmail(session);
+  let userId = "0cd6887e-3950-4dac-821d-2b2c9d6b1bda";
+  let itemId: string;
+  async function getData() {
+    const userItemFetch = await getUserItems(userId);
+    setInitialUserItem(userItemFetch);
+    setListData(userItemFetch);
+  }
+
   function useDeleteItemId(itemId: string) {
     deleteUserListItem(itemId);
   }
 
   useEffect(() => {
     getData();
-    console.log(userEmail);
   }, [session]);
 
   // useEffect(() => {
