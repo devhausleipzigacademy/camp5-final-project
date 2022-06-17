@@ -1,4 +1,5 @@
-import { PlusCircleIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon, TrashIcon } from "@heroicons/react/solid";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { FileContent, FileError } from "use-file-picker/dist/interfaces";
 
 {
@@ -9,9 +10,17 @@ interface Props {
   errors: FileError[];
   filesContent: FileContent[];
   openFileSelector: () => void;
+  clear: () => void;
 }
 
-const UploadImage = ({ errors, filesContent, openFileSelector }: Props) => {
+const UploadImage = ({
+  errors,
+  filesContent,
+  openFileSelector,
+  clear,
+}: Props) => {
+  // const [images, setImages] = useState()
+
   return (
     <div className="w-full">
       {errors.length ? (
@@ -32,15 +41,18 @@ const UploadImage = ({ errors, filesContent, openFileSelector }: Props) => {
         ))
       ) : filesContent.length ? (
         <div>
+          <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+            <p className="font-normal">
+              you have uploaded {filesContent.length} image/s
+            </p>
+            <button onClick={clear}>
+              <TrashIcon className="text-primary h-6" />
+            </button>
+          </div>
           {filesContent.map((file, index) => (
             <div key={index}>
-              <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
-                <p className="font-normal">{file.name}</p>
-                <button onClick={() => openFileSelector()}>
-                  <PlusCircleIcon className="text-primary h-8" />
-                </button>
-              </div>
-              <img alt={file.name} src={file.content}></img>
+              <p className="font-normal text-BG-text opacity-80">{file.name}</p>
+              <img id={file.name} alt={file.name} src={file.content}></img>
               <br />
             </div>
           ))}

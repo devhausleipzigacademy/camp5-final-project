@@ -1,12 +1,6 @@
-import {
-  Category,
-  Item,
-  User,
-  Location,
-  SellType,
-  Conversation,
-} from "@prisma/client";
-import { MockData, MockKitchenCategories } from "../utils/types";
+import { SellType } from "@prisma/client";
+
+// these are unused, should be updated or removed
 
 // export const mockData: MockData[] = [
 //     {
@@ -176,76 +170,76 @@ import { MockData, MockKitchenCategories } from "../utils/types";
 //     },
 // ];
 
-export const mockKitchenCategories = {
-  kitchen: [
-    {
-      title: "Appliances",
-      description: "",
-      subcategories: [
-        "Toasters",
-        "Blenders",
-        "Coffee Machines",
-        "Juicers",
-        "Popcorn Makers",
-        "Tea Kattles",
-        "Water Heaters",
-        "Waffle Makers",
-        "Other Appliances",
-      ],
-    },
+// export const mockKitchenCategories = {
+// 	kitchen: [
+// 		{
+// 			title: "Appliances",
+// 			description: "",
+// 			subcategories: [
+// 				"Toasters",
+// 				"Blenders",
+// 				"Coffee Machines",
+// 				"Juicers",
+// 				"Popcorn Makers",
+// 				"Tea Kattles",
+// 				"Water Heaters",
+// 				"Waffle Makers",
+// 				"Other Appliances",
+// 			],
+// 		},
 
-    {
-      title: "Cookware",
-      description: "",
-      subcategories: ["Pots", "Pans", "Forms", "Other Cookware"],
-    },
+// 		{
+// 			title: "Cookware",
+// 			description: "",
+// 			subcategories: ["Pots", "Pans", "Forms", "Other Cookware"],
+// 		},
 
-    {
-      title: "Cutlery",
-      description: "",
-      subcategories: [
-        "Knives",
-        "Forks",
-        "Tea Spoons",
-        "Soup Spoons",
-        "Chop Sticks",
-        "Other Cutlery",
-      ],
-    },
+// 		{
+// 			title: "Cutlery",
+// 			description: "",
+// 			subcategories: [
+// 				"Knives",
+// 				"Forks",
+// 				"Tea Spoons",
+// 				"Soup Spoons",
+// 				"Chop Sticks",
+// 				"Other Cutlery",
+// 			],
+// 		},
 
-    {
-      title: "Dishes",
-      description: "",
-      subcategories: [
-        "Plates",
-        "Mugs",
-        "Bowls",
-        "Cups",
-        "Platters",
-        "Trays",
-        "Tea Pots",
-        "Other Dishes",
-      ],
-    },
-    {
-      title: "Other Kitchen Categories",
-      description: "",
-      subcategories: [],
-    },
-  ],
-};
+// 		{
+// 			title: "Dishes",
+// 			description: "",
+// 			subcategories: [
+// 				"Plates",
+// 				"Mugs",
+// 				"Bowls",
+// 				"Cups",
+// 				"Platters",
+// 				"Trays",
+// 				"Tea Pots",
+// 				"Other Dishes",
+// 			],
+// 		},
+// 		{
+// 			title: "Other Kitchen Categories",
+// 			description: "",
+// 			subcategories: [],
+// 		},
+// 	],
+// };
 
-export const mockSubCategories = [
-  "Toasters",
-  "Blenders",
-  "Coffee Machines",
-  "Juicers",
-  "Popcorn Makers",
-  "Tea Kattles",
-  "Water Heaters",
-  "Waffle Makers",
-  "Other Appliances",
-];
+// export const mockSubCategories = [
+// 	"Toasters",
+// 	"Blenders",
+// 	"Coffee Machines",
+// 	"Juicers",
+// 	"Popcorn Makers",
+// 	"Tea Kattles",
+// 	"Water Heaters",
+// 	"Waffle Makers",
+// 	"Other Appliances",
+// ];
 
 export const oldData = [
   {

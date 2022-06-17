@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
+import { redirect } from "next/dist/server/api-utils";
 
 export default NextAuth({
   pages: {
@@ -9,8 +10,8 @@ export default NextAuth({
   },
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_SECRET as string,
       authorization: {
         params: {
           prompt: "consent",
@@ -21,8 +22,8 @@ export default NextAuth({
       },
     }),
     FacebookProvider({
-      clientId: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET,
+      clientId: process.env.FACEBOOK_ID as string,
+      clientSecret: process.env.FACEBOOK_SECRET as string,
     }),
     CredentialProvider({
       name: "credentials",
@@ -36,8 +37,9 @@ export default NextAuth({
       },
       authorize: (credentials) => {
         // database look up to see if username and password match
+        console.log("authenticated");
         if (
-          credentials.username === "admin@admin.com" &&
+          credentials?.username === "admin@admin.com" &&
           credentials.password === "admin"
         ) {
           return {
@@ -52,31 +54,43 @@ export default NextAuth({
       },
     }),
   ],
-  jwt: {
-    encryption: true,
-    secret: "test",
+  session: {
+    strategy: "jwt",
   },
-  secret: process.env.secret,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
+  secret: process.env.JWT_SECRET,
   callbacks: {
-    async jwt(token, account, user) {
-      if (user) {
-        token.id = account.id;
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
       }
       return token;
     },
-    redirect: async (url, _baseUrl) => {
-      if (url === "/profile") {
-        return Promise.resolve("/");
-      }
-      return Promise.resolve("/");
-    },
-    session: async ({ session, token }) => {
-      if (token) {
-        session.user.email = token.token.user.email;
-        session.user.name = token.token.user.name;
-        session.user.image = token.token.user.image;
-      }
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken;
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      if (url === "profile") {
+        return "/";
+      }
+      return "/welcome";
+    },
+    // async redirect({url, _baseUrl}) => {
+    //   if (url === "/profile") {
+    //     return Promise.resolve("/");
+    //   }
+    //   return Promise.resolve("/");
+    // }
+    // session: async ({ session, token }) => {
+    //   if (token) {
+    //     session.user.email = token.token.user.email;
+    //     session.user.name = token.token.user.name;
+    //     session.user.image = token.token.user.image;
+    //   }
+    //   return session;
+    // },
   },
 });

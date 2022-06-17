@@ -4,6 +4,7 @@ import Button from "../components/Button/Button";
 import { Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
 import { Spinner } from "../components/Spinner/Spinner";
+import CreateItemButton from "../components/CreateButton";
 
 const UserItems = () => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
@@ -28,7 +29,7 @@ const UserItems = () => {
     await getData();
   }
 
-  function useDeleteItemId(itemId: string) {
+  function deleteItemId(itemId: string) {
     deleteUserListItem(itemId);
   }
 
@@ -72,8 +73,9 @@ const UserItems = () => {
   }
 
   return (
-    <div className="pt-20">
-      <div className="flex gap-2 px-2 pb-4">
+    <div className="h-screen overflow-scroll bg-BG">
+      <div className="h-20 bg-BG w-full z-20"></div>
+      <div className="fixed pl-4 w-11/12 flex gap-2 px-2 pb-4 z-20 bg-BG">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
@@ -87,14 +89,14 @@ const UserItems = () => {
           value={"Swap"}
         />
       </div>
-      <div className="flex-1 overflow-y-scroll">
+      <div className="flex flex-col">
         {!listData ? (
           <div className="flex items-center justify-center pt-12">
             <Spinner height={73} />
           </div>
         ) : (
           <>
-            <ul className="px-3 text-left">
+            <ul className="px-3 text-left pt-6">
               {
                 <div id="listings" className="listings">
                   {listData.length === 0 && (
@@ -117,6 +119,8 @@ const UserItems = () => {
           </>
         )}
       </div>
+      <div className="fixed w-full h-20 bg-BG opacity-50 bottom-0"></div>
+      <CreateItemButton />
     </div>
   );
 };

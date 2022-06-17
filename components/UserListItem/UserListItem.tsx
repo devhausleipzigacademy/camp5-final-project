@@ -2,8 +2,9 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import reactSelect from "react-select";
+import { getUser } from "../../utils/getUser";
 import { Item } from "../../utils/types";
 import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog/ConfirmDeleteDialog";
 
@@ -11,17 +12,37 @@ type Props = {
   item: Item;
   i: number;
   deleteItemId: Function;
-  useDeleteItemId: Function;
 };
 
-export const UserListItem = ({
-  item,
-  i,
-  useDeleteItemId,
-  deleteItemId,
-}: Props) => {
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+// selectedFilter: string
+type User = {
+  identifier: string;
+  firstname: string;
+  lastname: string;
+};
 
+export const UserListItem = ({ item, i, deleteItemId }: Props) => {
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  // ------------- recipient logic ------------ //
+  // let recipientID = item.recipientId;
+  // const initialUser = {
+  //   identifier: "",
+  //   firstname: "",
+  //   lastname: "",
+  // };
+  // const [reciObj, setReciObj] = useState<User>(initialUser);
+
+  // async function getRecipient() {
+  //   const userFetch = await getUser(recipientID as string);
+  //   setReciObj(userFetch);
+  // }
+
+  // useEffect(() => {
+  //   getRecipient();
+  //   console.log("effect", reciObj);
+  // }, []);
+
+  // ------- date logic ---------- //
   let posted = formatDistance(
     subDays(new Date(item.createdAt), 0),
     new Date(),
@@ -29,7 +50,7 @@ export const UserListItem = ({
       addSuffix: true,
     }
   );
-
+  // -------- image logic -------- //
   let imagesrc = JSON.parse(JSON.stringify(item.images));
   let firstImage;
   for (var key in imagesrc) {
@@ -38,6 +59,7 @@ export const UserListItem = ({
       break;
     }
   }
+
   if (!item) return <></>;
   else {
     let imagesArray: string[] = Object.values(firstImage);
@@ -116,7 +138,7 @@ export const UserListItem = ({
         {showDeleteDialog && (
           <ConfirmDeleteDialog
             itemId={item.identifier}
-            useDeleteItemId={useDeleteItemId}
+            useDeleteItemId={deleteItemId}
             open={showDeleteDialog}
             setOpen={setShowDeleteDialog}
           />
