@@ -22,7 +22,7 @@ function itemModel(detailsModel: any) {
       description: z.string(),
 
       sellType: SellType,
-      class: z.enum(leaves as [string, ...string[]]).optional(),
+      class: z.enum(leaves as [string, ...string[]]),
     })
     .strict();
 }
@@ -47,9 +47,8 @@ export default async function handler(
     try {
       const itemData = await saveData(req.body);
       recursiveConnectOrCreate(path, itemData);
-      console.log(itemData);
+      // console.log(itemData);
       let item = await prisma.item.create({
-        //@ts-ignore
         data: {
           ...itemData,
           user: { connect: { identifier: userId } },
@@ -63,6 +62,7 @@ export default async function handler(
 
         res.status(422).send(err.message);
       } else {
+        console.log(err);
         res.status(500).end();
       }
     }

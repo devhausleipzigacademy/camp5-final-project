@@ -16,7 +16,7 @@ model User {
   updatedAt      DateTime       @updatedAt
   firstname      String
   lastname       String
-  email          String
+  email          String         @unique
   passwordHash   String
   passwordSalt   String
   profilePicture String?
