@@ -8,6 +8,7 @@ import CreateItemButton from "../components/CreateButton";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import { NextRouter, useRouter } from "next/router";
+import { Url } from "node:url";
 
 const UserItems = (feature: Feature) => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
@@ -70,7 +71,28 @@ const UserItems = (feature: Feature) => {
     }
   }
 
-  const router = useRouter();
+  function linkGen(listData: Item) {
+    const pathname: Url = {
+      pathname: "/item",
+      query: {
+        title: listData.title,
+        identifier: listData.identifier,
+        distance: "0%m",
+        owner: "Dan",
+      },
+      auth: null,
+      hash: null,
+      host: null,
+      hostname: null,
+      href: "",
+      path: null,
+      protocol: null,
+      search: null,
+      slashes: null,
+      port: null,
+    };
+    return pathname;
+  }
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] px-2 overflow-scroll bg-BG">
       <div className="pt-2 flex gap-2 bg-BG">
@@ -104,27 +126,15 @@ const UserItems = (feature: Feature) => {
                   )}
                   {listData.length > 0 &&
                     listData.map((listData, i) => (
-                      <a
-                        key={i}
-                        onClick={() =>
-                          router.push({
-                            pathname: "/item",
-                            query: {
-                              title: listData.title,
-                              identifier: listData.identifier,
-                              distance: "0%m",
-                              owner: "Dan",
-                            },
-                          })
-                        }
-                        // onClick={() => console.log(listData)}
-                      >
-                        <UserListItem
-                          i={i}
-                          item={listData}
-                          useDeleteItemId={useDeleteItemId}
-                        />
-                      </a>
+                      <Link key={i} href={linkGen(listData)}>
+                        <a>
+                          <UserListItem
+                            i={i}
+                            item={listData}
+                            useDeleteItemId={useDeleteItemId}
+                          />
+                        </a>
+                      </Link>
                     ))}
                 </div>
               }
