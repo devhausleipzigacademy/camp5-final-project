@@ -213,7 +213,7 @@ const UploadPage: NextPage = () => {
   }
 
   return (
-    <div className="font-medium flex flex-col space-y-2 overflow-scroll px-2">
+    <div className="font-medium flex flex-col space-y-2 px-2">
       {/* ---------------------- TITLE ------------------------- */}
 
       <Input
@@ -327,7 +327,7 @@ const UploadPage: NextPage = () => {
             </select>
           ))}
       </div>
-      <div className="pr-16">
+      <div className="pr-16 pb-2">
         <Button
           type="submit"
           onClick={handleOnSubmit}

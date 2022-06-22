@@ -17,6 +17,9 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost:3000/api/item?updateitem=862c5226-26b0-48d7-9d69-6b9fb402194f
+
+###
 
 GET http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052
 

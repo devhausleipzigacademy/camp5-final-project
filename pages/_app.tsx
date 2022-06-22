@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <SessionProvider session={pageProps.session}>
-      <div className="w-screen h-screen bg-BG">
+      <div className="w-screen h-screen overflow-y-scroll bg-BG">
         <Header />
         <Component {...pageProps} />
       </div>
