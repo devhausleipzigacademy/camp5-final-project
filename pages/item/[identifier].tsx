@@ -13,6 +13,7 @@ import { formatDistance, subDays } from "date-fns";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import OfferDrawer from "../../components/OfferDrawer/OfferDrawer";
+import axios from "axios";
 
 export default function ProductPage(): JSX.Element {
   const { data: session } = useSession();
@@ -65,11 +66,17 @@ export default function ProductPage(): JSX.Element {
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
   const offerTradeHandler = () => {
     SetShowDrawer((prev) => !prev);
+    router.push("/useritems");
   };
 
-  const claimHandler = () => {
-    router.push();
-  };
+  async function claimHandler() {
+    try {
+      await axios.put(`api/item?updateitem=${id}`);
+    } catch (err) {
+      console.error(err);
+    }
+    router.push("/");
+  }
 
   const chatHandler = () => {};
   const backHandler = () => {
