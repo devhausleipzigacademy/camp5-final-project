@@ -36,6 +36,8 @@ export type ListData = {
     owner?: string;
     id: string;
     class: string;
+    description?: string;
+    details?: Record<string, string>;
 };
 export type MockData = {
     user: Partial<User>;
