@@ -13,10 +13,13 @@ import { formatDistance, subDays } from "date-fns";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import OfferDrawer from "../../components/OfferDrawer/OfferDrawer";
+import axios from "axios";
+import ConfirmDialog from "../../components/ConfirmDialog.tsx/ConfirmDialog";
 
 export default function ProductPage(): JSX.Element {
   const { data: session } = useSession();
   const router = useRouter();
+  const [showDialog, setShowDialog] = useState<boolean>(false);
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
@@ -65,7 +68,25 @@ export default function ProductPage(): JSX.Element {
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
   const offerTradeHandler = () => {
     SetShowDrawer((prev) => !prev);
+    router.push("/useritems");
   };
+
+  async function claimHandler() {
+    // try {
+    //   await axios.put(`api/item?updateitem=${id}`);
+    //   console.log("SUCCESS");
+    // } catch (err) {
+    //   console.error(err);
+    // }
+    router.push({
+      pathname: "/trade",
+      query: {
+        identifier: id,
+        owner: owner,
+      },
+    });
+  }
+
   const chatHandler = () => {};
   const backHandler = () => {
     const back = {
@@ -137,13 +158,30 @@ export default function ProductPage(): JSX.Element {
         <div className="overflow-y-scroll h-56">{description}</div>
         <div className="flex flex-grow"></div>
         <div className="flex justify-center">
-          <Button
-            onClick={offerTradeHandler}
-            selected={false}
-            value={"Offer Trade"}
-            type={"submit"}
-          />
+          {offerType === "Free" ? (
+            <Button
+              onClick={() => setShowDialog(true)}
+              selected={false}
+              value={"Claim"}
+              type={"submit"}
+            />
+          ) : (
+            <Button
+              onClick={offerTradeHandler}
+              selected={false}
+              value={"Offer Trade"}
+              type={"submit"}
+            />
+          )}
         </div>
+        <ConfirmDialog
+          itemId={id}
+          handleItem={claimHandler}
+          open={showDialog}
+          setOpen={setShowDialog}
+          message="Are you sure you want to claim this item?"
+          label="YES"
+        />
       </div>
     </div>
   );
