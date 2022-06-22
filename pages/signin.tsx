@@ -79,8 +79,6 @@ export function Credentials(provider: Providers) {
 }
 
 export default function signin({ providers, csrfToken }: ProvidersList) {
-  console.log(Object.values(providers));
-
   return (
     <div className="h-[calc(73.5vh)] pt-16 flex flex-col justify-center px-4 items-center text-BG-text">
       <p className="py-2">Sign In With</p>

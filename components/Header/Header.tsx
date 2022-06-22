@@ -15,7 +15,10 @@ const Header = () => {
     pagename = "Create offer";
   } else {
     if (pagename.includes("item")) {
-      pagename = router.asPath.split("title=")[1].split("&")[0];
+      pagename = router.asPath
+        .split("title=")[1]
+        .split("&")[0]
+        .replace("+", " ");
     } else {
       pagename = pagename.slice(1);
       let str = pagename.split("");
