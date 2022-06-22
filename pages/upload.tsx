@@ -1,58 +1,17 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import Checkbox from "../components/Checkbox/Checkbox";
 import UploadImage from "../components/Inputfields/UploadImage";
-import { useState, useEffect, FormEvent, useMemo, ChangeEvent } from "react";
+import { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { useFilePicker } from "use-file-picker";
 import Button from "../components/Button/Button";
 import Input from "../components/Inputfields/Input";
-import { getCategories } from "../utils/getCategories";
 import { SellType } from "@prisma/client";
 // import { mockKitchenCategories } from "../assets/data";
-import { MockKitchenCategories } from "../utils/types";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { ontology, details } from "../assets/metadata";
-import { leafDetailsMap, leaves } from "../assets/class-models-paths";
+import { leafDetailsMap } from "../assets/class-models-paths";
 import { useSession } from "next-auth/react";
-
-type SubCat = {
-  title: string;
-  description: string;
-  subcategories: string[];
-};
-type Field = {
-  name: string;
-  placeholder: string;
-};
-
-// type SubCategory = {
-//   [key: string]: Field[];
-// };
-
-// type Category = {
-//   [key: keyof SubCategory]: SubCategory;
-// };
-
-// const categories: Category = {
-//   catOne: {
-//     subCatOne: [{ name: "type", placeholder: "Type" }],
-//     subCatTwo: [
-//       { name: "type", placeholder: "Type" },
-//       { name: "manual", placeholder: "Manual" },
-//     ],
-//   },
-//   catTwo: {
-//     subCatThree: [
-//       { name: "type", placeholder: "Type" },
-//       { name: "color", placeholder: "Color" },
-//     ],
-//     subCatFour: [
-//       { name: "type", placeholder: "Type" },
-//       { name: "condition", placeholder: "Condition" },
-//     ],
-//   },
-// };
 
 type UploadProps = {
   title: string;
@@ -63,16 +22,11 @@ type UploadProps = {
   details: Object;
 };
 
-type detailsOptions = {
-  [key: string]: string;
-};
-
 const UploadPage: NextPage = () => {
   const router = useRouter();
   console.log(ontology);
 
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [category, setCategory] = useState<Node[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
   const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
@@ -86,9 +40,6 @@ const UploadPage: NextPage = () => {
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const [images, setImages] = useState<string[]>([]);
-  const detailsArr: string[] = [];
-
-  let detailsObj = {};
 
   function checkHandler() {
     setIsChecked((prev) => !prev);
@@ -303,7 +254,7 @@ const UploadPage: NextPage = () => {
               id="category"
               onChange={(evt) => setSelectedSubSub(evt.target.value)}
             >
-              <option value={""} label="Select SubSubcategory"></option>
+              <option value={""} label="Select Subcategory"></option>
               {possibleSubSub.map((cat) => (
                 <option key={cat} value={cat} label={cat}></option>
               ))}
