@@ -1,24 +1,38 @@
 import { UserListItem } from "../components/UserListItem/UserListItem";
 import React, { useEffect, useState } from "react";
-import { NextPage } from "next";
 import Button from "../components/Button/Button";
 import { Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
-import { itemList } from "../utils/filterList";
 import { Spinner } from "../components/Spinner/Spinner";
 import CreateItemButton from "../components/CreateButton";
+import { useSession } from "next-auth/react";
 
 const UserItems = () => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
   const [listData, setListData] = useState<Item[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
+  const [itemDeleted, setItemDeleted] = useState<number>(0);
+  const session = useSession();
 
-  let userId = "15259b7b-cfec-4e57-ae0d-d5b6c1bb3a46";
-
+  let userId = session.data.user.id;
+  let itemId: string;
   async function getData() {
     const userItemFetch = await getUserItems(userId);
     setInitialUserItem(userItemFetch);
     setListData(userItemFetch);
+  }
+  async function deleteUserListItem(identifier: string) {
+    console.log("click");
+    fetch(`/api/item?identifier=${identifier}`, {
+      method: "DELETE",
+    }).then((response) => {
+      console.log(response.status);
+    });
+    await getData();
+  }
+
+  function useDeleteItemId(itemId: string) {
+    deleteUserListItem(itemId);
   }
 
   useEffect(() => {
@@ -43,7 +57,6 @@ const UserItems = () => {
       if (selectedFilter === "Swap") {
         setSelectedFilter("");
         setListData(initialUserItem);
-        console.log(listData);
       } else {
         setSelectedFilter("Swap");
 
@@ -51,7 +64,6 @@ const UserItems = () => {
           (item) => item.sellType === "SWAP"
         );
         setListData(filteredItemsArr);
-        console.log(listData);
       }
     }
   }
@@ -82,20 +94,22 @@ const UserItems = () => {
           <>
             <ul className="px-3 text-left pt-6">
               {
-                <>
-                  <div id="listings" className="listings">
-                    {listData.length === 0 && (
-                      <div className="flex text-center justify-center items-center w-full h-[73.5vh] rounded-md">
-                        <p>no items found</p>
-                      </div>
-                    )}
-                    {listData.length > 0 &&
-                      listData.map((listData, i) => (
-                        <UserListItem key={i} i={i} item={listData} />
-                      ))}
-                  </div>
-                  <div className="w-full bg-BG h-24"></div>
-                </>
+                <div id="listings" className="listings">
+                  {listData.length === 0 && (
+                    <div className="flex text-center justify-center items-center w-full h-[73.5vh] rounded-md">
+                      <p>no items found</p>
+                    </div>
+                  )}
+                  {listData.length > 0 &&
+                    listData.map((listData, i) => (
+                      <UserListItem
+                        key={i}
+                        i={i}
+                        item={listData}
+                        useDeleteItemId={useDeleteItemId}
+                      />
+                    ))}
+                </div>
               }
             </ul>
           </>

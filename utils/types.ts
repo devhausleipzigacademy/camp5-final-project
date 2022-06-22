@@ -1,4 +1,4 @@
-import { User, Location, Category, Conversation } from "@prisma/client";
+import { User, Location, Conversation } from "@prisma/client";
 
 export type Feature = {
   type: string;
@@ -30,7 +30,7 @@ export type MapData = {
 };
 
 export type ListData = {
-  image?: string;
+  image: Object;
   title: string;
   profilePicture?: string;
   owner?: string;
