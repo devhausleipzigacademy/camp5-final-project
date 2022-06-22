@@ -69,8 +69,8 @@ export type CatObject = {
   subcategories: string[];
 };
 
-export type User = {
-  identifier: string;
-  firstname: string;
-  lastname: string;
-};
+// export type User = {
+//   identifier: string;
+//   firstname: string;
+//   lastname: string;
+// };

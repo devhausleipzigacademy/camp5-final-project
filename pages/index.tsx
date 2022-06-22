@@ -125,7 +125,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="pt-16 space-y-2 h-[calc(100vh-64px)]">
+    <div className="space-y-2 h-[calc(100vh-64px)]">
       <Search properties={mapData?.features!} />
       <div className="flex gap-2 px-2">
         <Button

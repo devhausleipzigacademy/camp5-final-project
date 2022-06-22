@@ -50,7 +50,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
         <Image
           src={firstImage}
           alt=""
-          layout="intrinsic"
+          layout="fixed"
           // sizes="100vw"
           height={50}
           width={50}

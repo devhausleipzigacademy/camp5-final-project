@@ -16,7 +16,7 @@ const Button = ({ value, onClick, selected, type }: ButtonProps) => {
       className={clsx(
         "px-8 rounded-md",
         type === "submit"
-          ? "bg-primary text-primary-text py-2 w-11/12"
+          ? "bg-primary text-primary-text py-2 w-full"
           : selected
           ? "bg-secondary text-secondary-text py-0.5 w-full"
           : "bg-primary text-primary-text py-0.5 w-full"

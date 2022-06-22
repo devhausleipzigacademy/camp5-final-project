@@ -18,7 +18,7 @@ const Input = ({ name, value, placeholder, onChange }: Props) => {
         id={name}
         name={name}
         type="Text"
-        className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+        className="placeholder-primary placeholder-opacity-40 rounded-md px-3 py-3 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
         placeholder={placeholder}
         onChange={onChange}
       />
