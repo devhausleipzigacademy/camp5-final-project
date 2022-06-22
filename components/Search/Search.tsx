@@ -69,9 +69,7 @@ export default function Search({ properties }: SearchProps) {
             <Combobox.Option
                 key={index}
                 className={({ active }) =>
-                    `flex space-x-3 relative cursor-default select-none ${
-                        active ? "bg-BG text-primary" : "bg-BG"
-                    }`
+                    "flex space-x-3 relative cursor-default select-none"
                 }
                 value={element.properties.title}
                 onClick={() => {
@@ -185,3 +183,11 @@ export default function Search({ properties }: SearchProps) {
         </div>
     );
 }
+
+// create search modal component
+// state management: tags for details
+// fuzzy text search (titles, maybe description) FRANZ
+// filtering by lowest level of categories FRANZ
+// filtering by details
+// postgs to deal with location based fetches; is it usable with prisma
+//
