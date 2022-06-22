@@ -5,14 +5,16 @@ import { Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
 import { Spinner } from "../components/Spinner/Spinner";
 import CreateItemButton from "../components/CreateButton";
+import { useSession } from "next-auth/react";
 
 const UserItems = () => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
   const [listData, setListData] = useState<Item[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [itemDeleted, setItemDeleted] = useState<number>(0);
+  const session = useSession();
 
-  let userId = "0cd6887e-3950-4dac-821d-2b2c9d6b1bda";
+  let userId = session.data.user.id;
   let itemId: string;
   async function getData() {
     const userItemFetch = await getUserItems(userId);
@@ -36,12 +38,6 @@ const UserItems = () => {
   useEffect(() => {
     getData();
   }, []);
-
-  // useEffect(() => {
-  //   if (initialUserItem.length) {
-  //     itemList(selectedFilter, initialUserItem, setListData);
-  //   }
-  // }, [initialUserItem, selectedFilter]);
 
   function filterButtons(event: React.MouseEvent<HTMLButtonElement>) {
     if (!initialUserItem) {
@@ -73,8 +69,9 @@ const UserItems = () => {
   }
 
   return (
-    <div className="pt-20">
-      <div className="flex gap-2 px-2 pb-4">
+    <div className="h-screen overflow-scroll bg-BG">
+      <div className="h-20 bg-BG w-full z-20"></div>
+      <div className="fixed pl-4 w-11/12 flex gap-2 px-2 pb-4 z-20 bg-BG">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
@@ -88,14 +85,14 @@ const UserItems = () => {
           value={"Swap"}
         />
       </div>
-      <div className="flex-1 overflow-y-scroll">
+      <div className="flex flex-col">
         {!listData ? (
           <div className="flex items-center justify-center pt-12">
             <Spinner height={73} />
           </div>
         ) : (
           <>
-            <ul className="px-3 text-left">
+            <ul className="px-3 text-left pt-6">
               {
                 <div id="listings" className="listings">
                   {listData.length === 0 && (
@@ -110,7 +107,6 @@ const UserItems = () => {
                         i={i}
                         item={listData}
                         useDeleteItemId={useDeleteItemId}
-                        // deleteItemId={deleteItemId}
                       />
                     ))}
                 </div>
@@ -119,6 +115,8 @@ const UserItems = () => {
           </>
         )}
       </div>
+      <div className="fixed w-full h-20 bg-BG opacity-50 bottom-0"></div>
+      <CreateItemButton />
     </div>
   );
 };

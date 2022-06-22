@@ -2,6 +2,7 @@ import { Item, PrismaClient, User } from "@prisma/client";
 import { sub } from "date-fns";
 import { DiagnosticCategory } from "typescript";
 import { leafPathMap, leaves } from "../assets/class-models-paths";
+import { recursiveConnectOrCreate } from "../utils/recursiveConnectOrCreate";
 
 const prisma = new PrismaClient();
 
@@ -17,46 +18,61 @@ function cleanupDatabase(prisma: PrismaClient) {
   return Promise.all(modelNames.map((model) => prisma[model].deleteMany()));
 }
 
-function recursiveConnectOrCreate(path: Array<string>, query = {}, depth = 1) {
-  const createObj = { title: path.at(-depth) };
-  //@ts-ignore
-  query.parent = {
-    connectOrCreate: {
-      where: { title: path.at(-depth) },
-      create: createObj,
-    },
-  };
-
-  if (depth < path.length) {
-    recursiveConnectOrCreate(path, createObj, depth + 1);
-  }
-
-  return query;
-}
-
 async function main() {
+  await prisma.user.deleteMany();
   await cleanupDatabase(prisma);
 
-  for (const leaf of leaves) {
+  await prisma.user.create({
+    data: {
+      firstname: "Dan",
+      lastname: "McAtee",
+      email: "danielmcatee@me.com",
+      passwordHash: "test123",
+      passwordSalt: "bnfhjfdjdfjgfj",
+      profilePicture:
+        "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
+      rating: 2.1,
+      favorite: [],
+      location: {
+        create: {
+          lat: Math.random() * 2 + 50,
+          lon: Math.random() * 2 + 11,
+          address: "Kippenbergstraße 28, 04317 Leipzig",
+        },
+      },
+    },
+  });
+
+  for (const [i, leaf] of leaves.entries()) {
     const path = leafPathMap[leaf];
 
     let itemData = {
       title: `Test Item ${path} + ${leaf}`,
-      images: ["example.url"],
+      images: ["https://unsplash.com/photos/6HYqdm0CniQ"],
       description: "Test description",
+      details: {
+        condition: "***",
+      },
       sellType: "FREE",
       class: leaf,
       user: {
         create: {
           firstname: "Johannes",
           lastname: "Smith",
-          email: "johannes.smith@email.de",
+          email: `johannes.smith@email.de${i}`,
           passwordHash: "effegysdgerzerz",
           passwordSalt: "bnfhjfdjdfjgfj",
           profilePicture:
             "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
           rating: 2.1,
           favorite: [],
+          location: {
+            create: {
+              lat: Math.random() * 2 + 50,
+              lon: Math.random() * 2 + 11,
+              address: "Kippenbergstraße 28, 04317 Leipzig",
+            },
+          },
         },
       },
     };

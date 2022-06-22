@@ -1,6 +1,5 @@
 import { Item, PrismaClient } from ".prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
 import { ZodError, z } from "zod";
 import {
   modelDict,
@@ -8,6 +7,7 @@ import {
   leaves,
 } from "../../../assets/class-models-paths";
 import { SellType } from "../../../prisma/enums/global";
+import { recursiveConnectOrCreate } from "../../../utils/recursiveConnectOrCreate";
 
 const prisma = new PrismaClient();
 
@@ -20,28 +20,11 @@ function itemModel(detailsModel: any) {
       title: z.string(),
       images: z.array(z.string()),
       description: z.string(),
-      userId: z.string(),
+
       sellType: SellType,
-      class: z.enum(leaves as [string, ...string[]]).optional(),
+      class: z.enum(leaves as [string, ...string[]]),
     })
     .strict();
-}
-
-function recursiveConnectOrCreate(path: Array<string>, query = {}, depth = 1) {
-  const createObj = { title: path.at(-depth) };
-  //@ts-ignore
-  query.parent = {
-    connectOrCreate: {
-      where: { title: path.at(-depth) },
-      create: createObj,
-    },
-  };
-
-  if (depth < path.length) {
-    recursiveConnectOrCreate(path, createObj, depth + 1);
-  }
-
-  return query;
 }
 
 export default async function handler(
@@ -56,28 +39,34 @@ export default async function handler(
     /// to properly insert items into 'Item' table
     /////////////
 
-    const queryPath = req.query.param as string;
-    console.log("queryPath: ", queryPath);
-    const path = queryPath.split("/");
+    const queryPath = req.query.path as string;
+    // console.log("queryPath: ", queryPath);
+    const path = queryPath.split(",");
+    const userId = req.query.user as string;
 
     try {
-      let item: Item | undefined = undefined;
-      const { success, errors } = await saveData(req.body);
-      let itemClass = req.body.class;
-
-      recursiveConnectOrCreate(path, req.body);
+      const itemData = await saveData(req.body);
+      recursiveConnectOrCreate(path, itemData);
+      // console.log(itemData);
+      let item = await prisma.item.create({
+        data: {
+          ...itemData,
+          user: { connect: { identifier: userId } },
+        },
+      });
 
       res.status(200).json(item);
-      res.end();
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof ZodError) {
         console.log("error: ", err);
 
-        res.status(422).send(JSON.parse(err.message));
+        res.status(422).send(err.message);
+      } else {
+        console.log(err);
+        res.status(500).end();
       }
     }
   }
-
   if (req.method === "GET") {
     const id = req.query.identifier as string;
     try {
@@ -89,12 +78,12 @@ export default async function handler(
           },
         });
       } else {
-        throw new Error("item not found");
+        res.status(500).send("item not found");
       }
-      const data = res.status(200).json(item);
-      return data;
+      res.status(200).json(item);
     } catch (err) {
       console.log(err);
+      res.status(500).end();
     }
   }
   if (req.method === "DELETE") {
@@ -108,41 +97,28 @@ export default async function handler(
           },
         });
       } else {
-        throw new Error("item not found");
+        res.status(500).send("item not found");
       }
-      const data = res.status(200).json(item);
-      return data;
+      res.status(204).end();
     } catch (err) {
       console.log(err);
+      res.status(500).end();
     }
   }
 }
 async function saveData(rawData: any) {
   //@ts-ignore
-  const requestedSubcat = modelDict[rawData.subcategory];
-  console.log("Requested Subcategory value: ", requestedSubcat);
-  try {
-    if (requestedSubcat === undefined) {
-      // console.log(modelDict);
-      // console.log("Requested Subcategory key: ", rawData.subcategory);
-      throw new Error(
-        JSON.stringify({
-          success: false,
-          errors: "subcategory not found",
-        })
-      );
-    } else {
-      console.log("raw data: ", rawData);
-      const data = itemModel(requestedSubcat).parse(rawData);
+  const requestedSubcat = modelDict[rawData.class];
+  // console.log("Requested Subcategory value: ", requestedSubcat);
 
-      console.log("parse: ", data);
-    }
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return { success: false, errors: e.flatten() };
-    } else {
-      throw e;
-    }
+  if (requestedSubcat === undefined) {
+    // console.log(modelDict);
+    // console.log("Requested Subcategory key: ", rawData.subcategory);
+    throw new Error("subcategory not found");
   }
-  return { success: true, errors: null };
+
+  // console.log("raw data: ", rawData);
+  const data = itemModel(requestedSubcat).parse(rawData);
+  return data;
+  // console.log("parse: ", data);
 }

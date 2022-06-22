@@ -16,7 +16,7 @@ model User {
   updatedAt      DateTime       @updatedAt
   firstname      String
   lastname       String
-  email          String
+  email          String         @unique
   passwordHash   String
   passwordSalt   String
   profilePicture String?
@@ -70,7 +70,7 @@ model Item {
   title       String
   images      Json
   description String
-  details     Json?
+  details     Json
   user        User     @relation("user_item", fields: [userId], references: [identifier], onDelete: Cascade)
   userId      String
   sellType    SellType

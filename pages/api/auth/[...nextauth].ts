@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 import { redirect } from "next/dist/server/api-utils";
+import { PrismaClient } from "@prisma/client";
 
 export default NextAuth({
   pages: {
@@ -35,18 +36,22 @@ export default NextAuth({
         },
         password: { label: "Password", type: "password" },
       },
-      authorize: (credentials) => {
+      async authorize(credentials) {
+        const prisma = new PrismaClient();
         // database look up to see if username and password match
         console.log("authenticated");
-        if (
-          credentials?.username === "admin@admin.com" &&
-          credentials.password === "admin"
-        ) {
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials?.username,
+          },
+        });
+        console.log("prism user", user);
+        if (user && credentials?.password === user.passwordHash) {
           return {
-            id: 1,
-            name: "admin",
-            email: "admin@admin.com",
-            image: "http://placeimg.com/150/150/tech",
+            id: user.identifier,
+            name: user.firstname,
+            email: user.email,
+            image: user.profilePicture,
           };
         }
         // login failed
@@ -62,7 +67,7 @@ export default NextAuth({
   },
   secret: process.env.JWT_SECRET,
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;
       }
@@ -70,6 +75,7 @@ export default NextAuth({
     },
     async session({ session, token, user }) {
       session.accessToken = token.accessToken;
+      session.user.id = token.sub;
       return session;
     },
     async redirect({ url, baseUrl }) {

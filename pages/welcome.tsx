@@ -24,6 +24,7 @@ export default function Welcome() {
   if (loading) {
     return <p>Loading...</p>;
   }
+  console.log(session?.user);
 
   return (
     <>

@@ -12,8 +12,9 @@ import { MockKitchenCategories } from "../utils/types";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ontology } from "../assets/metadata";
-import { leafDetailsMap } from "../assets/class-models-paths";
+import { ontology, details } from "../assets/metadata";
+import { leafDetailsMap, leaves } from "../assets/class-models-paths";
+import { useSession } from "next-auth/react";
 
 type SubCat = {
   title: string;
@@ -57,10 +58,13 @@ type UploadProps = {
   title: string;
   images: Object;
   description: string;
-  userId?: string;
+  class: string;
   sellType: string;
-  categoryTitle: string;
-  subcategory: string;
+  details: Object;
+};
+
+type detailsOptions = {
+  [key: string]: string;
 };
 
 const UploadPage: NextPage = () => {
@@ -74,12 +78,17 @@ const UploadPage: NextPage = () => {
   const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
   const [selectedSubSub, setSelectedSubSub] = useState("");
   const [fields, setFields] = useState<string[]>([]);
+  const [selectedDetails, setSelectedDetails] = useState<
+    Record<string, string>
+  >({});
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
-  const [images, setImages] = useState<{ "0": string } | null>(null);
-  // const [price, setPrice] = useState("");
+  const [images, setImages] = useState<string[]>([]);
+  const detailsArr: string[] = [];
+
+  let detailsObj = {};
 
   function checkHandler() {
     setIsChecked((prev) => !prev);
@@ -89,23 +98,9 @@ const UploadPage: NextPage = () => {
       setCheckedItems("SWAP");
     }
   }
-  //   const kitchenCategories: MockKitchenCategories = mockKitchenCategories;
-  // let subobjs: CatObject[] = kitchenCategories.kitchen
-  // let subobj: CatObject = subobjs.filter(
-  //   (cat) => cat.title === selectedCategory
-  // );
 
-  // let subs: string[] = subobj.subcategories;
+  const session = useSession();
 
-  function clearInput() {
-    setTitle("");
-    setDescription("");
-    // setPrice("");
-    setPossibleSub([]);
-    setSelectedSub(() => "");
-    setFields([]);
-    setIsChecked(true);
-  }
   const [openFileSelector, { filesContent, loading, errors, clear }] =
     useFilePicker({
       readAs: "DataURL",
@@ -122,60 +117,41 @@ const UploadPage: NextPage = () => {
       },
     });
 
-  // useEffect(() => {
-  //   console.log("");
-  // }, [selectedCategory]);
-
-  async function getData() {
-    const categoryFetch = await getCategories();
-    setCategory(categoryFetch);
-  }
-
   useEffect(() => {
-    getData();
-  }, []);
+    const handleFileUpload = async () => {
+      const formData = new FormData();
 
-  //   useEffect(() => {
-  //     for (const subobj of kitchenCategories.kitchen) {
-  //       subobj.title === selectedCategory
-  //         ? setPossibleSub(subobj.subcategories)
-  //         : null;
-  //     }
-  //   }, [selectedCategory]);
+      for (const file of filesContent) {
+        formData.append("file", file.content);
+      }
+      formData.append("upload_preset", "sharing-app-uploads");
 
-  useEffect(() => {
+      let imageData: { secure_url: string } = { secure_url: "" };
+      try {
+        imageData = await fetch(
+          "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        ).then((r) => r.json());
+      } catch (err) {
+        console.log(err);
+      }
+
+      setImages([imageData.secure_url]);
+    };
     if (!!filesContent.length) {
       handleFileUpload();
     }
   }, [filesContent]);
-
-  const handleFileUpload = async () => {
-    const formData = new FormData();
-
-    for (const file of filesContent) {
-      formData.append("file", file.content);
-    }
-    formData.append("upload_preset", "sharing-app-uploads");
-
-    let imageData: { secure_url: string } = { secure_url: "" };
-    try {
-      imageData = await fetch(
-        "https://api.cloudinary.com/v1_1/dadz3vdyw/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      ).then((r) => r.json());
-    } catch (err) {
-      console.log(err);
-    }
-
-    setImages({ "0": imageData.secure_url });
-  };
+  console.log(session.data);
 
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
     console.log("submitted");
+
+    const userId = session.data?.user.id;
 
     // UPLOAD IMAGE
     if (images) {
@@ -183,53 +159,54 @@ const UploadPage: NextPage = () => {
         title,
         description,
         sellType: checkedItems,
-        // price,
-        userId: "0cd6887e-3950-4dac-821d-2b2c9d6b1bda",
-        categoryTitle: selectedCategory,
-        subcategory: selectedSub,
+        details: selectedDetails,
+        class: selectedSubSub,
         images,
       };
 
       console.log(realData);
       try {
-        await axios.post("/api/item", realData);
+        await axios.post(
+          `/api/item?path=Kitchen,${selectedSub}&user=${userId}`,
+          realData
+        );
         router.push("/useritems");
       } catch (err) {
         console.error(err);
       }
     }
   }
+
   useEffect(() => {
     if (selectedCategory) {
       setPossibleSub(Object.keys(ontology[selectedCategory]));
     } else {
-      setPossibleSub([]);
+      setPossibleSub(() => []);
       setSelectedSub(() => "");
     }
     if (selectedSub && selectedCategory) {
       setPossibleSubSub(
+        //@ts-ignore
         ontology[selectedCategory][selectedSub].map((cat) => cat[0])
       );
     } else {
-      setPossibleSubSub([]);
+      setSelectedSub(() => "");
+      setPossibleSubSub(() => []);
       setSelectedSubSub(() => "");
     }
-
     console.log(selectedCategory, selectedSub);
     console.log(selectedCategory && selectedSub && selectedSubSub);
     if (selectedCategory && selectedSub && selectedSubSub) {
       console.log("fields", leafDetailsMap[selectedSubSub]);
       setFields(() => leafDetailsMap[selectedSubSub]);
+    } else {
+      setFields(() => []);
     }
   }, [selectedCategory, selectedSub, selectedSubSub]);
 
   useEffect(() => {
-    console.log("deselect", selectedSub, selectedCategory, selectedSubSub);
-    if (!selectedSub || !selectedCategory || !selectedSubSub) {
-      console.log("somethihng deselected");
-      setFields(() => []);
-    }
-  }, [selectedCategory, selectedSub, selectedSubSub]);
+    setFields(() => []);
+  }, [selectedCategory, selectedSub]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -237,7 +214,6 @@ const UploadPage: NextPage = () => {
 
   return (
     <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-      {/* <form onSubmit={handleOnSubmit} className="w-full h-full space-y-2"> */}
       <div className="w-full h-full space-y-2">
         {/* ---------------------- TITLE ------------------------- */}
 
@@ -287,22 +263,12 @@ const UploadPage: NextPage = () => {
             checkHandler={checkHandler}
           />
         </div>
-        {/* ---------------------- VALUE ------------------------- */}
-
-        {/* <Input
-          name="Price"
-          value={price}
-          placeholder="Price"
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            setPrice(event.target.value)
-          }
-        /> */}
 
         {/* ---------------------- CATEGORIES ------------------------- */}
 
         <div className="flex flex-col space-y-3">
           <select
-            className="w-1/2"
+            className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             name="category"
             id="category"
             onChange={(evt) => {
@@ -316,28 +282,10 @@ const UploadPage: NextPage = () => {
                 {cat}
               </option>
             ))}
-            {/* <option value={""} label="Categories"></option> */}
-            {/* {category.map((cat) => (
-              <option
-                key={cat.identifier}
-                value={cat.title}
-                label={cat.title}
-              ></option>
-            ))} */}
           </select>
-          {/* {selectedCategory && (
-            <select>
-              {selectedCategory &&
-                Object.keys(ontology[selectedCategory]).map((sub) => (
-                  <option key={sub} value={sub}>
-                    {sub}
-                  </option>
-                ))}
-            </select>
-          )} */}
           {!!possibleSub.length && (
             <select
-              className="w-1/2"
+              className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               name="category"
               id="category"
               onChange={(evt) => setSelectedSub(evt.target.value)}
@@ -350,7 +298,7 @@ const UploadPage: NextPage = () => {
           )}
           {!!possibleSubSub.length && (
             <select
-              className="w-1/2"
+              className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               name="category"
               id="category"
               onChange={(evt) => setSelectedSubSub(evt.target.value)}
@@ -363,27 +311,29 @@ const UploadPage: NextPage = () => {
           )}
           {!!fields.length &&
             fields.map((field) => (
-              <select key={field} className="w-1/2">
+              <select
+                key={field}
+                className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                onChange={(evt) => {
+                  let newDetails = { ...selectedDetails };
+                  newDetails[field] = evt.target.value;
+                  setSelectedDetails(newDetails);
+                }}
+              >
                 <option value="" label={`Select ${field}`}></option>
+                {/* @ts-ignore */}
+                {details[field].map((detail) => (
+                  <option key={detail} value={detail} label={detail}></option>
+                ))}
               </select>
             ))}
         </div>
-        {/* {!!fields.length &&
-          fields.map((field) => (
-            <input
-              type="text"
-              key={field.name}
-              name={field.name}
-              placeholder={field.placeholder}
-            />
-          ))} */}
         <Button
           type="submit"
           onClick={handleOnSubmit}
           value="Create offer"
           selected={false}
         />
-        {/* </form> */}
       </div>
     </div>
   );
