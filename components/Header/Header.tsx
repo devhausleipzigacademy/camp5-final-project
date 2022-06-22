@@ -27,7 +27,7 @@ const Header = () => {
     }
   }
   return (
-    <div className="flex bg-primary text-primary-text w-screen h-16 place-items-center justify-center z-50">
+    <div className="flex sticky top-0 bg-primary text-primary-text w-screen h-16 place-items-center justify-center z-50">
       <h3 className="text-lg font-poppins">{pagename}</h3>
       {/* add burgermenu later */}
       <button className="fixed right-4">
