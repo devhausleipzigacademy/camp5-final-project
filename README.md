@@ -50,6 +50,8 @@ if you need to reset:
 - run 'yarn db:push' to sync the database
 - run 'yarn prisma db seed' to seed the database
 
+- npx prisma generate
+
 ## The next-auth issue
 
 short: u got node 17 but u need node 16

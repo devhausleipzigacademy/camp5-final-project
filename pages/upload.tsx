@@ -213,7 +213,7 @@ const UploadPage: NextPage = () => {
   }
 
   return (
-    <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
+    <div className="font-medium flex-col h-screen flex items-center justify-center w-full overflow-scroll">
       <div className="w-full h-full space-y-2">
         {/* ---------------------- TITLE ------------------------- */}
 
