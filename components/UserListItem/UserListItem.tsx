@@ -138,7 +138,7 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
         ) : (
           <div className="flex flex-col justify-around">
             <Link
-              href={`/editproduct?identifier=${item.identifier}`}
+              href={`/editproduct/${item.identifier}`}
               itemID={item.identifier}
             >
               <PencilIcon className="w-5 h-5" />

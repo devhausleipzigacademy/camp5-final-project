@@ -31,41 +31,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
-    //////////////
-    /// fix this endpoint
-    /// add query param that takes path
-    /// and uses it together with 'recursiveConnectOrCreate' function
-    /// to properly insert items into 'Item' table
-    /////////////
-
-    const queryPath = req.query.path as string;
-    // console.log("queryPath: ", queryPath);
-    const path = queryPath.split(",");
-    const userId = req.query.user as string;
-
-    try {
-      const itemData = await saveData(req.body);
-      recursiveConnectOrCreate(path, itemData);
-      // console.log(itemData);
-      let item = await prisma.item.create({
-        data: {
-          user: { connect: { identifier: userId } },
-        },
-      });
-
-      res.status(200).json(item);
-    } catch (err) {
-      if (err instanceof ZodError) {
-        console.log("error: ", err);
-
-        res.status(422).send(err.message);
-      } else {
-        console.log(err);
-        res.status(500).end();
-      }
-    }
-  }
   if (req.method === "PUT") {
     const id = req.query.updateitem as string;
     try {
@@ -90,29 +55,10 @@ export default async function handler(
   }
   if (req.method === "GET") {
     const id = req.query.identifier as string;
-    console.log(id);
-    try {
-      if (id) {
-        const item = await prisma.item.findUnique({
-          where: {
-            identifier: id,
-          },
-        });
-        res.status(200).json(item);
-      } else {
-        res.status(500).send("item not found");
-      }
-    } catch (err) {
-      console.log(err);
-      res.status(500).end();
-    }
-  }
-  if (req.method === "DELETE") {
-    const id = req.query.identifier as string;
     try {
       let item: Item | null;
       if (id) {
-        item = await prisma.item.delete({
+        item = await prisma.item.findUnique({
           where: {
             identifier: id,
           },
@@ -120,7 +66,7 @@ export default async function handler(
       } else {
         res.status(500).send("item not found");
       }
-      res.status(204).end();
+      res.status(200).json(item);
     } catch (err) {
       console.log(err);
       res.status(500).end();

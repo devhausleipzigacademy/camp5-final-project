@@ -90,7 +90,7 @@ export default async function handler(
   }
   if (req.method === "GET") {
     const id = req.query.identifier as string;
-    console.log(id);
+    console.log("get", req.query);
     try {
       if (id) {
         const item = await prisma.item.findUnique({
