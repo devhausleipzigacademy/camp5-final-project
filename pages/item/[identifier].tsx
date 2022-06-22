@@ -51,6 +51,7 @@ export default function ProductPage(): JSX.Element {
     description = productData.description;
     offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
     imagesArray = Object.values(productData.images);
+    console.log(imagesArray);
 
     createdAt = productData.createdAt;
     createdAgo = formatDistance(
@@ -76,11 +77,11 @@ export default function ProductPage(): JSX.Element {
   const back = backHandler();
 
   return (
-    <div className="pt-16">
+    <div>
       <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
         <OfferDrawer show={showDrawer} />
         <div className="relative block w-full">
-          {/* <Carousel imagesArray={imagesArray} /> */}
+          <Carousel imagesArray={imagesArray} />
 
           <Link href={back.pathname}>
             <a>

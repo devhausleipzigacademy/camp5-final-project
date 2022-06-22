@@ -47,13 +47,16 @@ async function main() {
     const path = leafPathMap[leaf];
 
     let itemData = {
-      title: `Test Item ${path} + ${leaf}`,
-      images: ["https://unsplash.com/photos/6HYqdm0CniQ"],
+      title: `Test Item`,
+      images: {
+        "1": "https://images.unsplash.com/photo-1529136490842-e2da7a4c7b74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3342&q=80",
+        "2": "https://images.unsplash.com/photo-1529139760315-66f8562cb1c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80",
+      },
       description: "Test description",
       details: {
         condition: "***",
       },
-      sellType: "FREE",
+      sellType: Math.floor(Math.random() * 10) > 5 ? "FREE" : "SWAP",
       class: leaf,
       user: {
         create: {

@@ -69,9 +69,8 @@ const UserItems = () => {
   }
 
   return (
-    <div className="h-screen overflow-scroll bg-BG">
-      <div className="h-20 bg-BG w-full z-20"></div>
-      <div className="fixed pl-4 w-11/12 flex gap-2 px-2 pb-4 z-20 bg-BG">
+    <div className="h-screen px-4 overflow-scroll bg-BG">
+      <div className="pt-2 flex gap-2 bg-BG">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
@@ -87,12 +86,12 @@ const UserItems = () => {
       </div>
       <div className="flex flex-col">
         {!listData ? (
-          <div className="flex items-center justify-center pt-12">
+          <div className="flex items-center justify-between">
             <Spinner height={73} />
           </div>
         ) : (
           <>
-            <ul className="px-3 text-left pt-6">
+            <ul className="text-left">
               {
                 <div id="listings" className="listings">
                   {listData.length === 0 && (

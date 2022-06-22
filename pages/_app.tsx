@@ -21,8 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <SessionProvider session={pageProps.session}>
-      <Header />
-      <Component {...pageProps} />
+      <div className="w-full h-full">
+        <Header />
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 }
