@@ -9,14 +9,16 @@ interface DialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   message: string;
+  label: string;
 }
 
-export function ConfirmDeleteDialog({
+export default function ConfirmDialog({
   itemId,
   handleItem,
   open,
   setOpen,
   message,
+  label,
 }: DialogProps) {
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -74,7 +76,7 @@ export function ConfirmDeleteDialog({
                     className="w-auto mt-3 inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-error text-base font-medium text-error-text hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={() => handleItem(itemId)}
                   >
-                    Delete
+                    {label}
                   </button>
                 </div>
               </Dialog.Panel>

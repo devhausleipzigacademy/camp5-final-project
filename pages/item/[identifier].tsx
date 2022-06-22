@@ -14,10 +14,12 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import OfferDrawer from "../../components/OfferDrawer/OfferDrawer";
 import axios from "axios";
+import ConfirmDialog from "../../components/ConfirmDialog.tsx/ConfirmDialog";
 
 export default function ProductPage(): JSX.Element {
   const { data: session } = useSession();
   const router = useRouter();
+  const [showDialog, setShowDialog] = useState<boolean>(false);
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
@@ -72,6 +74,7 @@ export default function ProductPage(): JSX.Element {
   async function claimHandler() {
     try {
       await axios.put(`api/item?updateitem=${id}`);
+      console.log("SUCCESS");
     } catch (err) {
       console.error(err);
     }
@@ -151,7 +154,7 @@ export default function ProductPage(): JSX.Element {
         <div className="flex justify-center">
           {offerType === "Free" ? (
             <Button
-              onClick={claimHandler}
+              onClick={() => setShowDialog(true)}
               selected={false}
               value={"Claim"}
               type={"submit"}
@@ -165,6 +168,14 @@ export default function ProductPage(): JSX.Element {
             />
           )}
         </div>
+        <ConfirmDialog
+          itemId={id}
+          handleItem={claimHandler}
+          open={showDialog}
+          setOpen={setShowDialog}
+          message="Are you sure you want to claim this item?"
+          label="YES"
+        />
       </div>
     </div>
   );
