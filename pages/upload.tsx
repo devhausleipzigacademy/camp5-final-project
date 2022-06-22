@@ -72,7 +72,6 @@ const UploadPage: NextPage = () => {
   console.log(ontology);
 
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [category, setCategory] = useState<Node[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
   const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
@@ -86,9 +85,6 @@ const UploadPage: NextPage = () => {
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const [images, setImages] = useState<string[]>([]);
-  const detailsArr: string[] = [];
-
-  let detailsObj = {};
 
   function checkHandler() {
     setIsChecked((prev) => !prev);
