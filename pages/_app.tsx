@@ -21,8 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <SessionProvider session={pageProps.session}>
-      <Header />
-      <Component {...pageProps} />
+      <div className="w-screen h-screen overflow-y-scroll bg-BG">
+        <Header />
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 }

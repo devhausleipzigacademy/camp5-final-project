@@ -50,7 +50,6 @@ export default async function handler(
       // console.log(itemData);
       let item = await prisma.item.create({
         data: {
-          ...itemData,
           user: { connect: { identifier: userId } },
         },
       });
@@ -65,6 +64,28 @@ export default async function handler(
         console.log(err);
         res.status(500).end();
       }
+    }
+  }
+  if (req.method === "PUT") {
+    const id = req.query.updateitem as string;
+    try {
+      let item: Item | null;
+      if (id) {
+        item = await prisma.item.update({
+          where: {
+            identifier: id,
+          },
+          data: {
+            gone: true,
+          },
+        });
+      } else {
+        res.status(500).send("item not found");
+      }
+      res.status(200).json(item);
+    } catch (err) {
+      console.log(err);
+      res.status(500).end();
     }
   }
   if (req.method === "GET") {

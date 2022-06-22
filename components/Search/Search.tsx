@@ -41,7 +41,7 @@ export default function Search({ properties }: SearchProps) {
         <Combobox value={selected} onChange={setSelected}>
           <div className="relative w-full cursor-default overflow-hidden bg-white text-left">
             <Combobox.Input
-              className="pl-2 w-10/12 focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
+              className="pl-2 w-10/12 bg-BG focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-2 flex items-center opacity-100">

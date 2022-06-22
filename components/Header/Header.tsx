@@ -17,7 +17,10 @@ const Header = () => {
     pagename = "Create offer";
   } else {
     if (pagename.includes("item")) {
-      pagename = router.asPath.split("title=")[1].split("&")[0];
+      pagename = router.asPath
+        .split("title=")[1]
+        .split("&")[0]
+        .replace("+", " ");
     } else {
       pagename = pagename.slice(1);
       let str = pagename.split("");
@@ -26,7 +29,7 @@ const Header = () => {
     }
   }
   return (
-    <div className="fixed flex flex-row top-0 bg-primary text-primary-text w-full h-16 place-items-center justify-center z-50">
+    <div className="flex sticky top-0 bg-primary text-primary-text w-screen h-16 place-items-center justify-center z-50">
       <h3 className="text-lg font-poppins">{pagename}</h3>
       {/* add burgermenu later */}
       <button className="fixed right-4">

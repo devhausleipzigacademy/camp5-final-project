@@ -67,8 +67,8 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
       <div
         className={
           item.gone
-            ? "flex pr-4 pl-4 pt-1 gap-3 opacity-50"
-            : "flex pr-4 pl-4 pt-3 gap-3"
+            ? "flex gap-2 pt-2 opacity-50 justify-between"
+            : "flex gap-2 pt-2"
         }
       >
         <div
@@ -79,11 +79,13 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
           }
         >
           <Image
+            className="rounded-md"
             src={imageYEAH}
             height={50}
             width={50}
             objectFit="cover"
             layout="responsive"
+            alt=""
           />
         </div>
 
@@ -127,25 +129,26 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
             </div>
           </div>
         </div>
-        <div className="fixed right-1">
-          {item.gone ? (
-            <div>
-              <PencilIcon className="w-4 h-4 opacity-0" />
-              <TrashIcon className="w-4 h-4 absolute top-10" />
-            </div>
-          ) : (
-            <div>
-              <Link href={"/editproduct"} itemID={item.identifier}>
-                <PencilIcon className="w-5 h-5" />
-              </Link>
-
-              <TrashIcon
-                className="w-4 h-4 absolute top-10"
-                onClick={() => useDeleteItemId(item.identifier)}
-              />
-            </div>
-          )}
-        </div>
+        <div className="flex flex-grow"></div>
+        {item.gone ? (
+          <div className="flex flex-col justify-between">
+            <PencilIcon className="w-6 h-6 opacity-0 text-primary" />
+            <TrashIcon className="w-6 h-6 text-error" />
+          </div>
+        ) : (
+          <div className="flex flex-col justify-around">
+            <Link
+              href={`/editproduct?identifier=${item.identifier}`}
+              itemID={item.identifier}
+            >
+              <PencilIcon className="w-5 h-5" />
+            </Link>
+            <TrashIcon
+              className="w-6 h-6 text-error"
+              onClick={() => useDeleteItemId(item.identifier)}
+            />
+          </div>
+        )}
       </div>
     );
   }
