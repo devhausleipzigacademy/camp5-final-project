@@ -1,13 +1,15 @@
 import { UserListItem } from "../components/UserListItem/UserListItem";
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button/Button";
-import { Item } from "../utils/types";
+import { Feature, Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
 import { Spinner } from "../components/Spinner/Spinner";
 import CreateItemButton from "../components/CreateButton";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import Link from "next/link";
+import { NextRouter, useRouter } from "next/router";
 
-const UserItems = () => {
+const UserItems = (feature: Feature) => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
   const [listData, setListData] = useState<Item[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
@@ -68,6 +70,7 @@ const UserItems = () => {
     }
   }
 
+  const router = useRouter();
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] px-2 overflow-scroll bg-BG">
       <div className="pt-2 flex gap-2 bg-BG">
@@ -101,12 +104,27 @@ const UserItems = () => {
                   )}
                   {listData.length > 0 &&
                     listData.map((listData, i) => (
-                      <UserListItem
+                      <a
                         key={i}
-                        i={i}
-                        item={listData}
-                        useDeleteItemId={useDeleteItemId}
-                      />
+                        onClick={() =>
+                          router.push({
+                            pathname: "/item",
+                            query: {
+                              title: listData.title,
+                              identifier: listData.identifier,
+                              distance: "0%m",
+                              owner: "Dan",
+                            },
+                          })
+                        }
+                        // onClick={() => console.log(listData)}
+                      >
+                        <UserListItem
+                          i={i}
+                          item={listData}
+                          useDeleteItemId={useDeleteItemId}
+                        />
+                      </a>
                     ))}
                 </div>
               }
