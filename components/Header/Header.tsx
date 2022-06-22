@@ -13,6 +13,8 @@ const Header = () => {
     pagename = "My Offers";
   } else if (pagename === "/upload") {
     pagename = "Create offer";
+  } else if (pagename.includes("trade")) {
+    pagename = "Trade";
   } else {
     if (pagename.includes("item")) {
       pagename = router.asPath

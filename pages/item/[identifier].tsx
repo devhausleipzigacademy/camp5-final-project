@@ -72,13 +72,19 @@ export default function ProductPage(): JSX.Element {
   };
 
   async function claimHandler() {
-    try {
-      await axios.put(`api/item?updateitem=${id}`);
-      console.log("SUCCESS");
-    } catch (err) {
-      console.error(err);
-    }
-    router.push("/");
+    // try {
+    //   await axios.put(`api/item?updateitem=${id}`);
+    //   console.log("SUCCESS");
+    // } catch (err) {
+    //   console.error(err);
+    // }
+    router.push({
+      pathname: "/trade",
+      query: {
+        identifier: id,
+        owner: owner,
+      },
+    });
   }
 
   const chatHandler = () => {};
