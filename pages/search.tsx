@@ -2,11 +2,10 @@ import { SellType } from "@prisma/client";
 import { NextPage } from "next";
 import { ChangeEvent, useEffect, useState } from "react";
 import { leafDetailsMap } from "../assets/class-models-paths";
-import { ontology } from "../assets/metadata";
+import { ontology, details } from "../assets/metadata";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Input from "../components/Inputfields/Input";
-import { getCategories } from "../utils/getCategories";
 
 const Searchpage: NextPage = () => {
   const [title, setTitle] = useState("");
@@ -62,14 +61,14 @@ const Searchpage: NextPage = () => {
     setFields(() => []);
   }, [selectedCategory, selectedSub]);
 
-  function submitHandler() {}
+  function searchHandler() {}
   return (
     <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
       <div className="w-full h-full flex flex-col justify-between">
-        <div className="space-y-2">
+        <div className="mt-4 space-y-2">
           <Input
             name="Title"
-            value="title"
+            value={title}
             placeholder="Title"
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               setTitle(event.target.value)
@@ -126,25 +125,50 @@ const Searchpage: NextPage = () => {
               </select>
             )}
             {/* ----------------- FILTERS ----------------- */}
-            <p className="font-normal">Filters</p>
-            {/* {!!possibleSubSub.length && (
-          <select
-            className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            name="category"
-            id="category"
-            onChange={(evt) => setSelectedSubSub(evt.target.value)}
-          >
-            <option value={""} label="Select SubSubcategory"></option>
-            {possibleSubSub.map((cat) => (
-              <option key={cat} value={cat} label={cat}></option>
-            ))}
-          </select>
-        )} */}
+
+            {!!possibleSubSub.length && (
+              <>
+                <p className="font-normal">Filters</p>
+                <select
+                  className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  name="category"
+                  id="category"
+                  onChange={(evt) => setSelectedSubSub(evt.target.value)}
+                >
+                  <option
+                    value={""}
+                    label="Select Filters"
+                    className="text-primary text-opacity-40"
+                  ></option>
+                  {possibleSubSub.map((cat) => (
+                    <option key={cat} value={cat} label={cat}></option>
+                  ))}
+                </select>
+              </>
+            )}
+            {!!fields.length &&
+              fields.map((field) => (
+                <select
+                  key={field}
+                  className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  onChange={(evt) => {
+                    let newDetails = { ...selectedDetails };
+                    newDetails[field] = evt.target.value;
+                    setSelectedDetails(newDetails);
+                  }}
+                >
+                  <option value="" label={`Select ${field}`}></option>
+                  {/* @ts-ignore */}
+                  {details[field].map((detail) => (
+                    <option key={detail} value={detail} label={detail}></option>
+                  ))}
+                </select>
+              ))}
           </div>
         </div>
         <Button
           type="submit"
-          onClick={submitHandler}
+          onClick={searchHandler}
           value="Search"
           selected={false}
         />
