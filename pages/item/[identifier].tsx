@@ -66,6 +66,11 @@ export default function ProductPage(): JSX.Element {
   const offerTradeHandler = () => {
     SetShowDrawer((prev) => !prev);
   };
+
+  const claimHandler = () => {
+    router.push();
+  };
+
   const chatHandler = () => {};
   const backHandler = () => {
     const back = {
@@ -139,7 +144,7 @@ export default function ProductPage(): JSX.Element {
         <div className="flex justify-center">
           {offerType === "Free" ? (
             <Button
-              onClick={offerTradeHandler}
+              onClick={claimHandler}
               selected={false}
               value={"Claim"}
               type={"submit"}
