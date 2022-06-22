@@ -77,75 +77,72 @@ export default function ProductPage(): JSX.Element {
   const back = backHandler();
 
   return (
-    <div>
-      <div className="flex-col h-[calc(100vh-64px)] overflow-hidden">
-        <OfferDrawer show={showDrawer} />
-        <div className="relative block w-full">
-          <Carousel imagesArray={imagesArray} />
+    <div className="flex-col h-[calc(100vh-64px)] overflow-hidden bg-BG">
+      <OfferDrawer show={showDrawer} />
+      <div className="relative block w-full">
+        <Carousel imagesArray={imagesArray} />
 
-          <Link href={back.pathname}>
-            <a>
-              <button
-                className="text-BG absolute w-10 left-2 top-2"
-                onClick={() => router.push(back)}
-              >
-                <BackIcon />
-              </button>
-            </a>
-          </Link>
+        <Link href={back.pathname}>
+          <a>
+            <button
+              className="text-BG absolute w-10 left-2 top-2"
+              onClick={() => router.push(back)}
+            >
+              <BackIcon />
+            </button>
+          </a>
+        </Link>
 
-          <button
-            onClick={() => SetIsFavorited((fav) => !fav)}
-            className="text-BG absolute w-9 top-2 right-2"
-          >
-            {isFavorited ? <StarFilledIcon /> : <StarIcon />}
-          </button>
-          <button
-            onClick={locationHandler}
-            className="text-BG absolute w-9 bottom-4 right-2"
-          >
-            <LocationIcon />
-          </button>
-        </div>
-        <div className="flex-col px-4 space-y-2">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-xl">{title}</p>
-            </div>
-            <div className="w-24">
-              <Button
-                type="button"
-                value={offerType}
-                onClick={() => {}}
-                selected={false}
-              />
-            </div>
-          </div>
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-md"> {`Offered by ${owner}`} </p>
-              <p className="text-xs">
-                {`distance: ${distance.split("%25")[0]} ${
-                  distance.split("%25")[1]
-                }`}
-              </p>
-              <p className="text-xs">{`posted ${createdAgo}`} </p>
-              {/* chat to be implemented at a later version */}
-              {/* <button onClick={chatHandler} className="text-primary w-10">
-                <ChatIcon />
-              </button> */}
-            </div>
-          </div>
-          {/* not sure how to make the description responsive in size */}
-          <div className="overflow-y-scroll h-52">{description}</div>
-          <div className="absolute bottom-4 left-4 right-4">
+        <button
+          onClick={() => SetIsFavorited((fav) => !fav)}
+          className="text-BG absolute w-9 top-2 right-2"
+        >
+          {isFavorited ? <StarFilledIcon /> : <StarIcon />}
+        </button>
+        <button
+          onClick={locationHandler}
+          className="text-BG absolute w-9 bottom-4 right-2"
+        >
+          <LocationIcon />
+        </button>
+      </div>
+      <div className="flex-col h-full px-2 space-y-2">
+        <div className="flex justify-between items-center">
+          <p className="text-xl">{title}</p>
+          <div className="flex pl-16">
             <Button
-              onClick={offerTradeHandler}
+              type="button"
+              value={offerType}
+              onClick={() => {}}
               selected={false}
-              value={"Offer Trade"}
-              type={"button"}
             />
           </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-md"> {`Offered by ${owner}`} </p>
+            <p className="text-xs">
+              {`distance: ${distance.split("%25")[0]} ${
+                distance.split("%25")[1]
+              }`}
+            </p>
+            <p className="text-xs">{`posted ${createdAgo}`} </p>
+            {/* chat to be implemented at a later version */}
+            {/* <button onClick={chatHandler} className="text-primary w-10">
+                <ChatIcon />
+              </button> */}
+          </div>
+        </div>
+        {/* not sure how to make the description responsive in size */}
+        <div className="overflow-y-scroll h-56">{description}</div>
+        <div className="flex flex-grow"></div>
+        <div className="flex justify-center">
+          <Button
+            onClick={offerTradeHandler}
+            selected={false}
+            value={"Offer Trade"}
+            type={"submit"}
+          />
         </div>
       </div>
     </div>

@@ -69,7 +69,7 @@ const UserItems = () => {
   }
 
   return (
-    <div className="h-screen px-4 overflow-scroll bg-BG">
+    <div className="flex flex-col h-[calc(100vh-64px)] px-2 overflow-scroll bg-BG">
       <div className="pt-2 flex gap-2 bg-BG">
         <Button
           type="button"
@@ -114,8 +114,10 @@ const UserItems = () => {
           </>
         )}
       </div>
-      <div className="fixed w-full h-20 bg-BG opacity-50 bottom-0"></div>
-      <CreateItemButton />
+      <div className="flex flex-grow"></div>
+      <div className="flex pb-4 justify-center text-primary">
+        <CreateItemButton />
+      </div>
     </div>
   );
 };
