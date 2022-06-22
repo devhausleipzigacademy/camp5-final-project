@@ -62,6 +62,7 @@ const Searchpage: NextPage = () => {
   }, [selectedCategory, selectedSub]);
 
   function searchHandler() {}
+
   return (
     <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
       <div className="w-full h-full flex flex-col justify-between">
@@ -98,7 +99,7 @@ const Searchpage: NextPage = () => {
             <select
               name="Category"
               id="category"
-              className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
               onChange={(evt) => {
                 setSelectedSub("");
                 setSelectedCategory(evt.target.value);
@@ -113,7 +114,7 @@ const Searchpage: NextPage = () => {
             </select>
             {!!possibleSub.length && (
               <select
-                className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
                 name="category"
                 id="category"
                 onChange={(evt) => setSelectedSub(evt.target.value)}
@@ -128,9 +129,9 @@ const Searchpage: NextPage = () => {
 
             {!!possibleSubSub.length && (
               <>
-                <p className="font-normal">Filters</p>
+                <p className="font-normal text-primary">Filters</p>
                 <select
-                  className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
                   name="category"
                   id="category"
                   onChange={(evt) => setSelectedSubSub(evt.target.value)}
@@ -150,7 +151,7 @@ const Searchpage: NextPage = () => {
               fields.map((field) => (
                 <select
                   key={field}
-                  className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
                   onChange={(evt) => {
                     let newDetails = { ...selectedDetails };
                     newDetails[field] = evt.target.value;
