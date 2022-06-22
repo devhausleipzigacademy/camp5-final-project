@@ -137,12 +137,21 @@ export default function ProductPage(): JSX.Element {
         <div className="overflow-y-scroll h-56">{description}</div>
         <div className="flex flex-grow"></div>
         <div className="flex justify-center">
-          <Button
-            onClick={offerTradeHandler}
-            selected={false}
-            value={"Offer Trade"}
-            type={"submit"}
-          />
+          {offerType === "Free" ? (
+            <Button
+              onClick={offerTradeHandler}
+              selected={false}
+              value={"Claim"}
+              type={"submit"}
+            />
+          ) : (
+            <Button
+              onClick={offerTradeHandler}
+              selected={false}
+              value={"Offer Trade"}
+              type={"submit"}
+            />
+          )}
         </div>
       </div>
     </div>
