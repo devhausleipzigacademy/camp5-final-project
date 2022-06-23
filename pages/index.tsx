@@ -43,7 +43,7 @@ const Home: NextPage = () => {
   const { data: session, status } = useSession();
 
   // const [data, setData] = useState<MapData | null>(null);
-  let userId = session.data.user.id;
+  let userId = session.user.id;
 
   let sum = 0;
 
