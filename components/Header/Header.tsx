@@ -9,29 +9,25 @@ import { useEffect, useState } from "react";
 const Header = () => {
   const router = useRouter();
   let pagename = router.asPath;
-  let showBack = true;
 
   // add logic for chat later
   if (pagename === "/#" || pagename === "/" || pagename === "") {
-    showBack = false;
     pagename = "Dashboard";
+  } else if (pagename === "/signin") {
+    pagename = "Sign In";
   } else if (pagename === "/useritems") {
-    showBack = true;
     pagename = "My Offers";
   } else if (pagename === "/upload") {
-    showBack = true;
     pagename = "Create offer";
   } else if (pagename.includes("trade")) {
     pagename = "Trade";
   } else {
-    showBack = true;
     if (pagename.includes("item")) {
       pagename = router.asPath
         .split("title=")[1]
         .split("&")[0]
         .replace("+", " ");
     } else {
-      showBack = true;
       pagename = pagename.slice(1);
       let str = pagename.split("");
       str[0] = str[0].toUpperCase();
