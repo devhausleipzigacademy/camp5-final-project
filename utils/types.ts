@@ -39,12 +39,12 @@ export type ListData = {
     description?: string;
     details?: Record<string, string>;
 };
-export type MockData = {
-    user: Partial<User>;
-    items: Partial<Item[]>;
-    location: Partial<Location>;
-    conversations: Partial<Conversation[]>;
-};
+// export type MockData = {
+//     user: Partial<User>;
+//     items: Partial<Item[]>;
+//     location: Partial<Location>;
+//     conversations: Partial<Conversation[]>;
+// };
 
 export type Item = {
     identifier: string;

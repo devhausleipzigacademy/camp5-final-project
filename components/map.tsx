@@ -24,7 +24,7 @@ const Map = ({ mapData }: MapProps) => {
     const mapContainer = useRef<HTMLDivElement>(null);
     const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
     const [zoom, setZoom] = useState(14);
-
+    console.log("mapData :", mapData);
     // -----creates Map ----- //
     useEffect(() => {
         if (map.current) return;

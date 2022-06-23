@@ -184,10 +184,10 @@ export default function Search({ properties }: SearchProps) {
     );
 }
 
-// create search modal component
+// create search page
 // state management: tags for details
 // fuzzy text search (titles, maybe description) FRANZ
 // filtering by lowest level of categories FRANZ
-// filtering by details
+// filtering by details: prolly ot of scope
 // postgs to deal with location based fetches; is it usable with prisma
 //
