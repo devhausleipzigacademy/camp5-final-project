@@ -29,15 +29,17 @@ const UserItems = () => {
       console.log(response.status);
     });
     await getData();
+    setItemDeleted((prev) => prev + 1);
   }
 
-  function useDeleteItemId(itemId: string) {
-    deleteUserListItem(itemId);
-  }
+  // function useDeleteItemId(itemId: string) {
+  //   deleteUserListItem(itemId);
+
+  // }
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [itemDeleted]);
 
   function filterButtons(event: React.MouseEvent<HTMLButtonElement>) {
     if (!initialUserItem) {
@@ -105,7 +107,7 @@ const UserItems = () => {
                         key={i}
                         i={i}
                         item={listData}
-                        useDeleteItemId={useDeleteItemId}
+                        deleteItemId={deleteUserListItem}
                       />
                     ))}
                 </div>
