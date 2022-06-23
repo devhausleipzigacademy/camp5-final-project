@@ -140,15 +140,15 @@ export default function Search({ properties }: SearchProps) {
     ));
   }
   return (
-    <div className="flex px-2">
+    <div className="flex px-2 mt-2">
       <div className="w-full h-full rounded-md border-primary border-2 text-center">
         <Combobox value={selected} onChange={setSelected}>
-          <div className="relative w-full cursor-default overflow-hidden bg-BG text-left">
+          <div className="relative w-full cursor-default overflow-hidden bg-white text-left">
             <Combobox.Input
-              className="pl-2 w-10/12 focus:outline-none border-none focus:border-none rounded-md py-2 text-sm bg-BG text-BG-text"
+              className="pl-2 w-10/12 focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
               onChange={(event) => setQuery(event.target.value)}
             />
-            <Combobox.Button className="absolute inset-y-0 right-2 flex items-center bg-BG opacity-100">
+            <Combobox.Button className="absolute inset-y-0 right-2 flex items-center opacity-100">
               <SearchIcon className="h-5 w-5 text-BG-text" aria-hidden="true" />
             </Combobox.Button>
           </div>
@@ -159,7 +159,7 @@ export default function Search({ properties }: SearchProps) {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute bg-BG z-50 mt-1 max-h-60 w-[calc(100vw-16px)] overflow-auto rounded-md bg-white text-base shadow-lg sm:text-sm">
+            <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-[calc(100vw-16px)] overflow-auto rounded-md bg-white text-base shadow-lg sm:text-sm">
               {noItems}
               {mappedCategories}
               {mappedItems}
