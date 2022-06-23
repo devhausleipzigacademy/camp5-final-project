@@ -1,5 +1,3 @@
-import { Location, Conversation } from "@prisma/client";
-
 export type Feature = {
   type: string;
   geometry: Geometry;
