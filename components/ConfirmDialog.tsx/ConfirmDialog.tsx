@@ -25,7 +25,7 @@ export default function ConfirmDialog({
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="absolute bottom-0"
+          className="absolute bottom-0 z-50"
           onClose={() => setOpen(false)}
         >
           <Transition.Child
