@@ -21,6 +21,7 @@ export default async function handler(
                 items = await prisma.item.findMany({
                     where: {
                         sellType: itemtype,
+                        gone: false,
                     },
                 });
                 locations = await prisma.location.findMany();
