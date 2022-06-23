@@ -244,6 +244,7 @@ const UploadPage: NextPage = () => {
         filesContent={filesContent}
         openFileSelector={openFileSelector}
         clear={clear}
+        images={[]}
       />
 
       {/* ---------------------- CHECKBOXES ------------------------- */}

@@ -207,142 +207,137 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
     return <> Hello</>;
   } else {
     return (
-      <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-        <div className="w-full h-full space-y-2">
-          {/* ---------------------- TITLE ------------------------- */}
-          <Input
-            name="Title"
-            value={item.title}
-            placeholder="Title"
-            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              setTitle(event.target.value)
-            }
+      <div className="font-medium flex flex-col space-y-2 px-2">
+        {/* ---------------------- TITLE ------------------------- */}
+        <Input
+          name="Title"
+          value={item.title}
+          placeholder="Title"
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setTitle(event.target.value)
+          }
+        />
+        {/* ---------------------- DESCRIPTION ------------------------- */}
+        <label htmlFor="Description" className="sr-only text-primary">
+          Description
+        </label>
+        <textarea
+          value={item.description}
+          id="Description"
+          name="Description"
+          className="placeholder-primary placeholder-opacity-40 rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
+          placeholder="Description"
+          onChange={(event) => setDescription(event.target.value)}
+        />
+        {/* ---------------------- UPLOAD ------------------------- */}
+        <UploadImage
+          errors={errors}
+          filesContent={filesContent}
+          openFileSelector={openFileSelector}
+          clear={clear}
+          images={[]} // images={...images}
+        />
+        <div className="h-auto w-full flex justify-center">
+          <Image
+            src={Object.values(item.images)[0]}
+            height={200}
+            width={200}
+            layout="intrinsic"
+            onClick={clear}
+            alt=""
           />
-          {/* ---------------------- DESCRIPTION ------------------------- */}
-          <label htmlFor="Description" className="sr-only text-primary">
-            Description
-          </label>
-          <textarea
-            value={item.description}
-            id="Description"
-            name="Description"
-            className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
-            placeholder="Description"
-            onChange={(event) => setDescription(event.target.value)}
+        </div>
+        {/* ---------------------- CHECKBOXES ------------------------- */}
+        <div className="flex flex-row py-3 ">
+          <Checkbox
+            isChecked={item.sellType === "FREE" ? isChecked : !isChecked}
+            name="Giveaway"
+            id="giveaway"
+            checkHandler={checkHandler}
           />
-          {/* ---------------------- UPLOAD ------------------------- */}
-          <UploadImage
-            errors={errors}
-            filesContent={filesContent}
-            openFileSelector={openFileSelector}
-            clear={clear}
-            images={[]} // images={...images}
+          <Checkbox
+            isChecked={item.sellType === "SWAP" ? isChecked : !isChecked}
+            name="Swap"
+            id="swap"
+            checkHandler={checkHandler}
           />
-          <div>
-            <img src="`${data.images}`" alt="" />
-          </div>
-          <div className="h-20 w-20 border-8 border-error ">
-            <Image
-              src={Object.values(item.images)[0]}
-              height={200}
-              width={200}
-              layout="intrinsic"
-              onClick={clear}
-            />
-          </div>
-          {/* ---------------------- CHECKBOXES ------------------------- */}
-          <div className="flex flex-row py-3 ">
-            <Checkbox
-              isChecked={item.sellType === "FREE" ? isChecked : !isChecked}
-              name="Giveaway"
-              id="giveaway"
-              checkHandler={checkHandler}
-            />
-            <Checkbox
-              isChecked={item.sellType === "SWAP" ? isChecked : !isChecked}
-              name="Swap"
-              id="swap"
-              checkHandler={checkHandler}
-            />
-          </div>
-          {/* ---------------------- CATEGORIES ------------------------- */}
-          <div className="flex flex-col space-y-3">
+        </div>
+        {/* ---------------------- CATEGORIES ------------------------- */}
+        <div className="flex flex-col space-y-3">
+          <select
+            className="rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            name="category"
+            id="category"
+            onChange={(evt) => {
+              setSelectedSub("");
+              setSelectedCategory(evt.target.value);
+            }}
+          >
+            <option value={itemCat} label={itemCat} />
+            {Object.keys(ontology).map((cat) =>
+              cat === itemCat ? null : <option value={cat}>{cat}</option>
+            )}
+          </select>
+          {!!possibleSub.length && (
             <select
-              className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              className="rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               name="category"
               id="category"
-              onChange={(evt) => {
-                setSelectedSub("");
-                setSelectedCategory(evt.target.value);
-              }}
+              onChange={(evt) => setSelectedSub(evt.target.value)}
             >
-              <option value={itemCat} label={itemCat} />
-              {Object.keys(ontology).map((cat) =>
-                cat === itemCat ? null : <option value={cat}>{cat}</option>
+              <option value={itemSubcat} label={itemSubcat}></option>
+              {possibleSub.map((cat) =>
+                cat === itemSubcat ? null : (
+                  <option key={cat} value={cat} label={cat}></option>
+                )
               )}
             </select>
-            {!!possibleSub.length && (
+          )}
+          {!!possibleSubSub.length && (
+            <select
+              className="rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              name="category"
+              id="category"
+              onChange={(evt) => setSelectedSubSub(evt.target.value)}
+            >
+              <option value={item.class} label={item.class as string}></option>
+              {possibleSubSub.map((cat) =>
+                cat === item.class ? null : (
+                  <option key={cat} value={cat} label={cat}></option>
+                )
+              )}
+            </select>
+          )}
+
+          {!!fields.length &&
+            fields.map((field) => (
               <select
-                className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                name="category"
-                id="category"
-                onChange={(evt) => setSelectedSub(evt.target.value)}
-              >
-                <option value={itemSubcat} label={itemSubcat}></option>
-                {possibleSub.map((cat) =>
-                  cat === itemSubcat ? null : (
-                    <option key={cat} value={cat} label={cat}></option>
-                  )
-                )}
-              </select>
-            )}
-            {!!possibleSubSub.length && (
-              <select
-                className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                name="category"
-                id="category"
-                onChange={(evt) => setSelectedSubSub(evt.target.value)}
+                key={field}
+                className="rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                onChange={(evt) => {
+                  let newDetails = { ...selectedDetails };
+                  newDetails[field] = evt.target.value;
+                  setSelectedDetails(newDetails);
+                }}
               >
                 <option
-                  value={item.class}
-                  label={item.class as string}
+                  value={""}
+                  label={
+                    Object(item.details)[field] === undefined
+                      ? `Select ${field}`
+                      : Object(item.details)[field]
+                  }
                 ></option>
-                {possibleSubSub.map((cat) =>
-                  cat === item.class ? null : (
-                    <option key={cat} value={cat} label={cat}></option>
-                  )
-                )}
+                {/* @ts-ignore */}
+                {details[field].map((detail) => (
+                  <option key={detail} value={detail} label={detail}></option>
+                ))}
               </select>
-            )}
+            ))}
+        </div>
 
-            {!!fields.length &&
-              fields.map((field) => (
-                <select
-                  key={field}
-                  className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  onChange={(evt) => {
-                    let newDetails = { ...selectedDetails };
-                    newDetails[field] = evt.target.value;
-                    setSelectedDetails(newDetails);
-                  }}
-                >
-                  <option
-                    value={""}
-                    label={
-                      Object(item.details)[field] === undefined
-                        ? `Select ${field}`
-                        : Object(item.details)[field]
-                    }
-                  ></option>
-                  {/* @ts-ignore */}
-                  {details[field].map((detail) => (
-                    <option key={detail} value={detail} label={detail}></option>
-                  ))}
-                </select>
-              ))}
-          </div>
-
-          {/* ---------------------- SUBMIT ------------------------- */}
+        {/* ---------------------- SUBMIT ------------------------- */}
+        <div className="flex pb-2">
           <Button
             type="submit"
             onClick={handleOnSubmit}
