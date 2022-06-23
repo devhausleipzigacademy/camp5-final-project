@@ -1,1 +1,1 @@
-GET http://localhost:3000/api/useritems?userId=00f44bc7-5ebe-48b0-9ba4-e41a797f6d0f
+GET http://localhost:3000/api/useritems?userId=0b709553-bee7-4edd-9ba7-4704d8939568
