@@ -16,14 +16,15 @@ const UserItems = (feature: Feature) => {
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [itemDeleted, setItemDeleted] = useState<number>(0);
   const session = useSession();
-
   let userId = session.data.user.id;
   let itemId: string;
+
   async function getData() {
     const userItemFetch = await getUserItems(userId);
     setInitialUserItem(userItemFetch);
     setListData(userItemFetch);
   }
+
   async function deleteUserListItem(identifier: string) {
     console.log("click");
     fetch(`/api/item?identifier=${identifier}`, {
@@ -34,11 +35,6 @@ const UserItems = (feature: Feature) => {
     await getData();
     setItemDeleted((prev) => prev + 1);
   }
-
-  // function useDeleteItemId(itemId: string) {
-  //   deleteUserListItem(itemId);
-
-  // }
 
   useEffect(() => {
     getData();
