@@ -124,7 +124,11 @@ const Home: NextPage = () => {
   const loading = status === "loading";
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex text-center items-center w-full h-full rounded-md">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
