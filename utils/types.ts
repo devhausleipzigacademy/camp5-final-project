@@ -1,5 +1,3 @@
-import { User, Location, Conversation } from "@prisma/client";
-
 export type Feature = {
   type: string;
   geometry: Geometry;
@@ -30,18 +28,21 @@ export type MapData = {
 };
 
 export type ListData = {
-  image: Object;
+  image?: Object;
   title: string;
   profilePicture?: string;
   owner?: string;
   id: string;
+  class: string;
+  description?: string;
+  details?: Record<string, string>;
 };
-export type MockData = {
-  user: Partial<User>;
-  items: Partial<Item[]>;
-  location: Partial<Location>;
-  conversations: Partial<Conversation[]>;
-};
+// export type MockData = {
+//     user: Partial<User>;
+//     items: Partial<Item[]>;
+//     location: Partial<Location>;
+//     conversations: Partial<Conversation[]>;
+// };
 
 export type Item = {
   identifier: string;
@@ -55,7 +56,7 @@ export type Item = {
   categoryTitle: string;
   subcategory: string;
   gone: boolean;
-  requests: number;
+  requests: string[];
   recipientId?: string | undefined;
 };
 
@@ -69,8 +70,8 @@ export type CatObject = {
   subcategories: string[];
 };
 
-// export type User = {
-//   identifier: string;
-//   firstname: string;
-//   lastname: string;
-// };
+export type User = {
+  identifier: string;
+  firstname: string;
+  lastname: string;
+};
