@@ -5,11 +5,13 @@ import React, { useEffect, useState } from "react";
 import reactSelect from "react-select";
 import { getUser } from "../../utils/getUser";
 import { Item } from "../../utils/types";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog/ConfirmDeleteDialog";
+import ConfirmDialog from "../ConfirmDialog.tsx/ConfirmDialog";
 
 type Props = {
   item: Item;
   i: number;
-  useDeleteItemId: Function;
+  deleteItemId: Function;
 };
 
 // selectedFilter: string;
@@ -20,7 +22,8 @@ type User = {
   lastname: string;
 };
 
-export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
+export const UserListItem = ({ item, i, deleteItemId }: Props) => {
+  const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
   // ------------- recipient logic ------------ //
   // let recipientID = item.recipientId;
   // const initialUser = {
@@ -130,7 +133,7 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
         </div>
         <div className="flex flex-grow"></div>
         {item.gone ? (
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-around">
             <PencilIcon className="w-6 h-6 opacity-0 text-primary" />
             <TrashIcon className="w-6 h-6 text-error" />
           </div>
@@ -139,9 +142,19 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
             <PencilIcon className="w-6 h-6 text-primary" />
             <TrashIcon
               className="w-6 h-6 text-error"
-              onClick={() => useDeleteItemId(item.identifier)}
+              onClick={() => setShowDeleteDialog(true)}
             />
           </div>
+        )}
+        {showDeleteDialog && (
+          <ConfirmDialog
+            itemId={item.identifier}
+            handleItem={deleteItemId}
+            open={showDeleteDialog}
+            setOpen={setShowDeleteDialog}
+            message="Are you sure you want to delete this item?"
+            label="YES"
+          />
         )}
       </div>
     );

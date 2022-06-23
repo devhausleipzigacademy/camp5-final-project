@@ -93,133 +93,117 @@ const Searchpage: NextPage = () => {
     }
 
     return (
-        <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
-            <div className="w-full h-full flex flex-col justify-between">
-                <div className="mt-4 space-y-2">
-                    <Input
-                        name="Title"
-                        value={title}
-                        placeholder="Title"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setTitle(event.target.value)
-                        }
-                    ></Input>
+        <div className="font-medium flex flex-col h-[calc(100vh-64px)] items-center overflow-scroll px-2">
+            <div className="flex flex-col w-full px-2 space-y-2 pt-2 justify-between">
+                <Input
+                    name="Title"
+                    value={title}
+                    placeholder="Title"
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                        setTitle(event.target.value)
+                    }
+                ></Input>
 
-                    {/* ---------------------- CHECKBOXES ------------------------- */}
+                {/* ---------------------- CHECKBOXES ------------------------- */}
 
-                    <div className="flex flex-row py-3 ">
-                        <Checkbox
-                            isChecked={isChecked}
-                            name="Giveaway"
-                            id="giveaway"
-                            checkHandler={checkHandler}
-                        />
-                        <Checkbox
-                            isChecked={!isChecked}
-                            name="Swap"
-                            id="swap"
-                            checkHandler={checkHandler}
-                        />
-                    </div>
+                <div className="flex self-start w-full">
+                    <Checkbox
+                        isChecked={isChecked}
+                        name="Giveaway"
+                        id="giveaway"
+                        checkHandler={checkHandler}
+                    />
+                    <Checkbox
+                        isChecked={!isChecked}
+                        name="Swap"
+                        id="swap"
+                        checkHandler={checkHandler}
+                    />
+                </div>
 
-                    {/* ---------------------- CATEGORIES ------------------------- */}
+                {/* ---------------------- CATEGORIES ------------------------- */}
 
-                    <div className="flex flex-col space-y-3">
+                <select
+                    name="Category"
+                    id="category"
+                    className="rounded-md px-2 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
+                    onChange={(evt) => {
+                        setSelectedSub("");
+                        setSelectedCategory(evt.target.value);
+                    }}
+                >
+                    <option value="" label="Select Category" />
+                    {Object.keys(ontology).map((cat) => (
+                        <option key={cat} value={cat}>
+                            {cat}
+                        </option>
+                    ))}
+                </select>
+                {!!possibleSub.length && (
+                    <select
+                        className="rounded-md px-2 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
+                        name="category"
+                        id="category"
+                        onChange={(evt) => setSelectedSub(evt.target.value)}
+                    >
+                        <option value={""} label="Select Subcategory"></option>
+                        {possibleSub.map((cat) => (
+                            <option key={cat} value={cat} label={cat}></option>
+                        ))}
+                    </select>
+                )}
+                {/* ----------------- FILTERS ----------------- */}
+                {!!possibleSubSub.length && (
+                    <>
+                        <p className="font-normal text-primary">Filters</p>
                         <select
-                            name="Category"
+                            className="rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
+                            name="category"
                             id="category"
-                            className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
-                            onChange={(evt) => {
-                                setSelectedSub("");
-                                setSelectedCategory(evt.target.value);
-                            }}
+                            onChange={(evt) =>
+                                setSelectedSubSub(evt.target.value)
+                            }
                         >
-                            <option value="" label="Select Category" />
-                            {Object.keys(ontology).map((cat) => (
-                                <option key={cat} value={cat}>
-                                    {cat}
-                                </option>
+                            <option
+                                value={""}
+                                label="Select Filters"
+                                className="text-primary text-opacity-40"
+                            ></option>
+                            {possibleSubSub.map((cat) => (
+                                <option
+                                    key={cat}
+                                    value={cat}
+                                    label={cat}
+                                ></option>
                             ))}
                         </select>
-                        {!!possibleSub.length && (
-                            <select
-                                className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
-                                name="category"
-                                id="category"
-                                onChange={(evt) =>
-                                    setSelectedSub(evt.target.value)
-                                }
-                            >
+                    </>
+                )}
+                {!!fields.length &&
+                    fields.map((field) => (
+                        <select
+                            key={field}
+                            className="rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
+                            onChange={(evt) => {
+                                let newDetails = { ...selectedDetails };
+                                newDetails[field] = evt.target.value;
+                                setSelectedDetails(newDetails);
+                            }}
+                        >
+                            <option value="" label={`Select ${field}`}></option>
+                            {/* @ts-ignore */}
+                            {details[field].map((detail) => (
                                 <option
-                                    value={""}
-                                    label="Select Subcategory"
+                                    key={detail}
+                                    value={detail}
+                                    label={detail}
                                 ></option>
-                                {possibleSub.map((cat) => (
-                                    <option
-                                        key={cat}
-                                        value={cat}
-                                        label={cat}
-                                    ></option>
-                                ))}
-                            </select>
-                        )}
-                        {/* ----------------- FILTERS ----------------- */}
-
-                        {!!possibleSubSub.length && (
-                            <>
-                                <p className="font-normal text-primary">
-                                    Filters
-                                </p>
-                                <select
-                                    className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
-                                    name="category"
-                                    id="category"
-                                    onChange={(evt) =>
-                                        setSelectedSubSub(evt.target.value)
-                                    }
-                                >
-                                    <option
-                                        value={""}
-                                        label="Select Filters"
-                                        className="text-primary text-opacity-40"
-                                    ></option>
-                                    {possibleSubSub.map((cat) => (
-                                        <option
-                                            key={cat}
-                                            value={cat}
-                                            label={cat}
-                                        ></option>
-                                    ))}
-                                </select>
-                            </>
-                        )}
-                        {!!fields.length &&
-                            fields.map((field) => (
-                                <select
-                                    key={field}
-                                    className="rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
-                                    onChange={(evt) => {
-                                        let newDetails = { ...selectedDetails };
-                                        newDetails[field] = evt.target.value;
-                                        setSelectedDetails(newDetails);
-                                    }}
-                                >
-                                    <option
-                                        value=""
-                                        label={`Select ${field}`}
-                                    ></option>
-                                    {/* @ts-ignore */}
-                                    {details[field].map((detail) => (
-                                        <option
-                                            key={detail}
-                                            value={detail}
-                                            label={detail}
-                                        ></option>
-                                    ))}
-                                </select>
                             ))}
-                    </div>
-                </div>
+                        </select>
+                    ))}
+            </div>
+            <div className="flex flex-grow"></div>
+            <div className="flex w-full pb-2">
                 <Button
                     type="submit"
                     onClick={searchHandler}

@@ -79,7 +79,7 @@ model Item {
   parent      Node     @relation("leaves", fields: [parentId], references: [identifier], onDelete: Cascade)
   parentId    String
   class       String
-  requests    Int?
+  requests    String[]
   gone        Boolean  @default(false)
   recipientId String?
   recipient   User?    @relation("recipient_item", fields: [recipientId], references: [identifier])

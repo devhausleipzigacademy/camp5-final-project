@@ -32,15 +32,17 @@ const UserItems = (feature: Feature) => {
       console.log(response.status);
     });
     await getData();
+    setItemDeleted((prev) => prev + 1);
   }
 
-  function useDeleteItemId(itemId: string) {
-    deleteUserListItem(itemId);
-  }
+  // function useDeleteItemId(itemId: string) {
+  //   deleteUserListItem(itemId);
+
+  // }
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [itemDeleted]);
 
   function filterButtons(event: React.MouseEvent<HTMLButtonElement>) {
     if (!initialUserItem) {
@@ -126,15 +128,12 @@ const UserItems = (feature: Feature) => {
                   )}
                   {listData.length > 0 &&
                     listData.map((listData, i) => (
-                      <Link key={i} href={linkGen(listData)}>
-                        <a>
-                          <UserListItem
-                            i={i}
-                            item={listData}
-                            useDeleteItemId={useDeleteItemId}
-                          />
-                        </a>
-                      </Link>
+                      <UserListItem
+                        key={i}
+                        i={i}
+                        item={listData}
+                        deleteItemId={deleteUserListItem}
+                      />
                     ))}
                 </div>
               }
