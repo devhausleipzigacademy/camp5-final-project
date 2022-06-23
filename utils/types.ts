@@ -1,4 +1,5 @@
 import { User, Location, Conversation } from "@prisma/client";
+import { ZodArrayDef } from "zod";
 
 export type Feature = {
   type: string;
@@ -55,7 +56,7 @@ export type Item = {
   categoryTitle: string;
   subcategory: string;
   gone: boolean;
-  requests: number;
+  requests: string[];
   recipientId?: string | undefined;
 };
 

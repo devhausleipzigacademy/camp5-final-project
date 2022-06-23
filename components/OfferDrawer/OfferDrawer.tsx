@@ -1,4 +1,10 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+import {
+  Dispatch,
+  MouseEventHandler,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { Spinner } from "../Spinner/Spinner";
 import Image from "next/image";
 import clsx from "clsx";
@@ -7,40 +13,24 @@ import ProductUserListItem from "../ProductUserListItem/ProductUserListItem";
 import { Item } from "../../utils/types";
 import { getUserItems } from "../../utils/getUserItems";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+import router from "next/router";
 
 interface OfferDrawerProps {
   show: boolean;
+  offersArray: string[];
+  setShowDrawer: Dispatch<SetStateAction<boolean>>;
+  productId: string;
+  owner: string;
 }
 
-// hardcoded items fetch. to be replaced with user specific fetch
-// const myItems = [
-//   {
-//     identifier: "629e6538-ce13-4b8f-9101-f46f82ea8dbd",
-//     title: "Tie",
-//     images: [
-//       "https://images.unsplash.com/photo-1589756823695-278bc923f962?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
-//     ],
-//     description: "nice animals, only used at wedding",
-//     userId: "aa5277db-32a5-4355-8835-5896dfac5a1d",
-//     sellType: "SWAP",
-//     createdAt: "2022-05-25T07:45:38.564Z",
-//     catId: "d199b4ee-6f22-45d3-afae-93dea622c79f",
-//   },
-//   {
-//     identifier: "20c9117d-231d-4fd1-b070-e08bceec8827",
-//     title: "Shoe",
-//     images: [
-//       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170",
-//     ],
-//     description: "mint condition, unused",
-//     userId: "35ac3939-f9fe-4900-b6eb-5639834b6fd2",
-//     sellType: "FREE",
-//     createdAt: "2022-05-25T07:45:38.555Z",
-//     catId: "0b83b53b-5d10-4b22-9b3f-c748136b54e0",
-//   },
-// ];
-
-const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
+const OfferDrawer = ({
+  show = false,
+  offersArray,
+  setShowDrawer,
+  productId,
+  owner,
+}: OfferDrawerProps) => {
   const [selected, setSelected] = useState(false);
   const [selID, setSelID] = useState("");
   const [userItems, setUserItems] = useState<Item[]>([]);
@@ -62,8 +52,27 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
   }
 
   const confirmOffer = () => {
-    console.log(selID);
+    offersArray.push(selID);
+    console.log(offersArray);
+    offerHandler();
+    setShowDrawer(false);
   };
+
+  async function offerHandler() {
+    try {
+      await axios.put(`api/item?updateitem=${productId}`, offersArray);
+      console.log("offersArr", offersArray);
+    } catch (err) {
+      console.error(err);
+    }
+    router.push({
+      pathname: "/trade",
+      query: {
+        identifier: productId,
+        owner: owner,
+      },
+    });
+  }
 
   if (!userItems) {
     return <>you need to upload items</>;

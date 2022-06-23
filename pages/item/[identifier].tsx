@@ -32,6 +32,7 @@ export default function ProductPage(): JSX.Element {
   let createdAt;
   let createdAgo;
   let favorited = false;
+  let offersArray: string[] = [];
 
   const [isFavorited, SetIsFavorited] = useState(favorited);
   const [productData, setProductData] = useState<Item | null>(null);
@@ -55,7 +56,8 @@ export default function ProductPage(): JSX.Element {
     description = productData.description;
     offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
     imagesArray = Object.values(productData.images);
-    console.log(imagesArray);
+    offersArray = productData.requests;
+    console.log(`offers: ${offersArray}`);
 
     createdAt = productData.createdAt;
     createdAgo = formatDistance(
@@ -99,7 +101,13 @@ export default function ProductPage(): JSX.Element {
 
   return (
     <div className="flex-col h-[calc(100vh-64px)] overflow-hidden bg-BG">
-      <OfferDrawer show={showDrawer} />
+      <OfferDrawer
+        show={showDrawer}
+        offersArray={offersArray}
+        setShowDrawer={SetShowDrawer}
+        productId={id}
+        owner={owner}
+      />
       <div className="relative block w-full">
         <Carousel imagesArray={imagesArray} />
 
