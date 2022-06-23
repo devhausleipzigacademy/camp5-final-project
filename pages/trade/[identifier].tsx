@@ -3,11 +3,15 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import { getProduct } from "../../utils/getProduct";
+import getUser from "../../utils/getUser";
 import { Item } from "../../utils/types";
 
 export default function TradeItem(): JSX.Element {
   const [productData, setProductData] = useState<Item | null>(null);
-  const { data: session } = useSession();
+  const [ownerData, setOwnerData] = useState({});
+  const [userData, setUserData] = useState({});
+  const session = useSession();
+  const userId = session.data.user.id;
   const router = useRouter();
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let owner = router.asPath.split("owner=")[1].split("&")[0];
@@ -25,12 +29,59 @@ export default function TradeItem(): JSX.Element {
     }
   }, []);
 
+  // ---------- SEND EMAIL ---------- //
+  const ownerId = productData?.userId;
+
+  async function getOwner() {
+    const ownerfetch = await getUser(ownerId!);
+    setOwnerData(ownerfetch);
+  }
+
+  async function getMe() {
+    const fetchMe = await getUser(userId);
+    setUserData(fetchMe);
+  }
+
+  useEffect(() => {
+    getOwner();
+    getMe();
+    console.log("The owner:", ownerData);
+    console.log("Me:", userData);
+  }, []);
+
+  // const ownerMail = ownerData.
+
+  // const nodemailer = require("nodemailer");
+  // let transporter = nodemailer.createTransport({
+  //   host: "smtp.mailtrap.io",
+  //   port: 2525,
+  //   auth: {
+  //     user: "5ac06abdb532d9",
+  //     pass: "3a86b1e35ca69e",
+  //   },
+  // });
+
+  // const message = {
+  //   from: "noreply@swapple.com",
+  //   to: "to-example@email.com",
+  //   subject: "Subject",
+  //   text: `Hey ${owner}, `,
+  // };
+  // transporter.sendMail(message, function (err, info) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log(info);
+  //   }
+  // });
+
   if (!productData) {
     return <></>;
   } else {
     title = productData.title;
     imagesArray = Object.values(productData.images);
   }
+
   return (
     <div className="flex justify-center">
       {productData.sellType === "FREE" ? (
