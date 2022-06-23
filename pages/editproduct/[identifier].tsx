@@ -19,6 +19,7 @@ import { getProduct } from "../../utils/getProduct";
 import { useSession } from "next-auth/react";
 import { setISOWeek } from "date-fns/esm";
 import { getUser } from "../../utils/getUser";
+import Image from "next/image";
 
 type SubCat = {
   title: string;
@@ -230,6 +231,16 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
             <img src="`${data.images}`" alt="" />
           </div>
 
+          <div className="h-20 w-20 border-8 border-error ">
+            <Image
+              src={Object.values(item.images)[0]}
+              height={200}
+              width={200}
+              layout="intrinsic"
+              onClick={clear}
+            />
+          </div>
+
           {/* ---------------------- CHECKBOXES ------------------------- */}
 
           <div className="flex flex-row py-3 ">
@@ -292,6 +303,7 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
                 ))}
               </select>
             )}
+
             {!!fields.length &&
               fields.map((field) => (
                 <select

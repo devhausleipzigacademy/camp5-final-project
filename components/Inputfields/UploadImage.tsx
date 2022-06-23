@@ -54,7 +54,6 @@ const UploadImage = ({
           {filesContent.map((file, index) => (
             <div key={index}>
               <p className="font-normal text-BG-text opacity-80">{file.name}</p>
-
               <img id={file.name} alt={file.name} src={file.content}></img>
               <br />
             </div>
