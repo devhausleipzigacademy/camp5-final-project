@@ -21,7 +21,7 @@ PUT http://localhost:3000/api/item?updateitem=9d449540-6dc7-47e9-9d07-37c8c87e56
 
 ###
 
-GET http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052
+GET http://localhost:3000/api/item?identifier=98514b63-88f2-4e0a-a61f-9522cbbb158f
 
 ###
 DELETE http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052
