@@ -167,7 +167,7 @@ export default function ProductPage(): JSX.Element {
         <div className="flex flex-grow"></div>
         <div className="flex justify-center">
           {offerType === "Free" ? (
-            <div>
+            <div className="flex w-full">
               <Button
                 onClick={() => setShowDialog(true)}
                 selected={false}
@@ -184,12 +184,14 @@ export default function ProductPage(): JSX.Element {
               />
             </div>
           ) : (
-            <Button
-              onClick={offerTradeHandler}
-              selected={false}
-              value={"Offer Trade"}
-              type={"submit"}
-            />
+            <div className="flex w-full">
+              <Button
+                onClick={offerTradeHandler}
+                selected={false}
+                value={"Offer Trade"}
+                type={"submit"}
+              />
+            </div>
           )}
         </div>
       </div>
