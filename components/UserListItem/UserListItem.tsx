@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import reactSelect from "react-select";
 import { getUser } from "../../utils/getUser";
 import { Item } from "../../utils/types";
+import Link from "next/link";
 
 type Props = {
   item: Item;
@@ -136,7 +137,12 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
           </div>
         ) : (
           <div className="flex flex-col justify-around">
-            <PencilIcon className="w-6 h-6 text-primary" />
+            <Link
+              href={`/editproduct/${item.identifier}`}
+              itemID={item.identifier}
+            >
+              <PencilIcon className="w-5 h-5" />
+            </Link>
             <TrashIcon
               className="w-6 h-6 text-error"
               onClick={() => useDeleteItemId(item.identifier)}

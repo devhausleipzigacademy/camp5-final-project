@@ -1,0 +1,1 @@
+GET http://localhost:3000/api/editproduct?identifier=2caa255a-8e94-420c-8bd4-4bcb39545332
