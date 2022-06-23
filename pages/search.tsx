@@ -73,12 +73,13 @@ const Searchpage: NextPage = () => {
         }
         console.log(selectedCategory, selectedSub);
         console.log(selectedCategory && selectedSub && selectedSubSub);
-        if (selectedCategory && selectedSub && selectedSubSub) {
-            console.log("fields", leafDetailsMap[selectedSubSub]);
-            setFields(() => leafDetailsMap[selectedSubSub]);
-        } else {
-            setFields(() => []);
-        }
+        //-----------------DEACTIVATED DETAILS FEATURE-------------------
+        // if (selectedCategory && selectedSub && selectedSubSub) {
+        //     console.log("fields", leafDetailsMap[selectedSubSub]);
+        //     setFields(() => leafDetailsMap[selectedSubSub]);
+        // } else {
+        //     setFields(() => []);
+        // }
     }, [selectedCategory, selectedSub, selectedSubSub]);
 
     useEffect(() => {
