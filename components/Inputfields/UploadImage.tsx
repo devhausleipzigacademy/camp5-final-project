@@ -11,6 +11,7 @@ interface Props {
   filesContent: FileContent[];
   openFileSelector: () => void;
   clear: () => void;
+  images: string[];
 }
 
 const UploadImage = ({
@@ -18,6 +19,7 @@ const UploadImage = ({
   filesContent,
   openFileSelector,
   clear,
+  images,
 }: Props) => {
   // const [images, setImages] = useState()
 
@@ -52,6 +54,7 @@ const UploadImage = ({
           {filesContent.map((file, index) => (
             <div key={index}>
               <p className="font-normal text-BG-text opacity-80">{file.name}</p>
+
               <img id={file.name} alt={file.name} src={file.content}></img>
               <br />
             </div>

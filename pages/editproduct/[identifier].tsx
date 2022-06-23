@@ -38,35 +38,15 @@ type UploadProps = {
   sellType: string;
   categoryTitle: string;
   subcategory: string;
-};
-
-type Props = {
   item: Item;
 };
 
-export default function EditProductPage({ item }: Props): JSX.Element {
+type Props = {
+  // item: Item;
+};
+
+export default function EditProductPage({ item }: UploadProps): JSX.Element {
   const router = useRouter();
-
-  // console.log("edit", identifier);
-
-  // async function getData(id: string) {
-  //   const productDataFetch = await getItem(id);
-  //   setInitialProductData(productDataFetch);
-  // }
-  // useEffect(() => {
-  //   getData(identifier as string);
-  // }, [identifier]);
-
-  // async function getItem(id: string) {
-  //   try {
-  //     const uniqueItem = await axios.get(
-  //       `http://localhost:3000/api/item/${id}`
-  //     );
-  //     return uniqueItem.data;
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
 
   const [productData, setProductData] = useState<Item | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -86,22 +66,6 @@ export default function EditProductPage({ item }: Props): JSX.Element {
   >({});
   const [initialProductData, setInitialProductData] = useState<Feature[]>([]);
 
-  // async function getProductData(id: string) {
-  //   const item = await getProduct(id);
-  //   console.log("item", item);
-  //   // setProductData(item);
-  //   // setTitle(item.title);
-  //   // setDescription(item.description);
-  //   // setImages(item.images);
-  //   // setIsChecked(item.isChecked);
-  //   // setCategory(item.category);
-  //   // setSelectedSub;
-  // }
-
-  // useEffect(() => {
-  //   getProductData(identifier as string);
-  // }, []);
-
   function checkHandler() {
     setIsChecked((prev) => !prev);
     if (!isChecked) {
@@ -110,10 +74,6 @@ export default function EditProductPage({ item }: Props): JSX.Element {
       setCheckedItems("SWAP");
     }
   }
-
-  // useEffect(() => {
-  //   console.log("initialproduct", initialProductData);
-  // }, [initialProductData]);
 
   const session = useSession();
 
@@ -133,9 +93,9 @@ export default function EditProductPage({ item }: Props): JSX.Element {
       },
     });
 
-  useEffect(() => {
-    console.log(item);
-  }, [item]);
+  // useEffect(() => {
+  //   console.log(item);
+  // }, [item]);
 
   useEffect(() => {
     const handleFileUpload = async () => {
@@ -228,7 +188,7 @@ export default function EditProductPage({ item }: Props): JSX.Element {
   if (loading) {
     return <div>Loading...</div>;
   }
-  if (!productData) {
+  if (!item) {
     return <> Hello</>;
   } else {
     return (
@@ -238,7 +198,7 @@ export default function EditProductPage({ item }: Props): JSX.Element {
 
           <Input
             name="Title"
-            value={title}
+            value={item.title}
             placeholder="Title"
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               setTitle(event.target.value)
@@ -251,7 +211,7 @@ export default function EditProductPage({ item }: Props): JSX.Element {
             Description
           </label>
           <textarea
-            value={description}
+            value={item.description}
             id="Description"
             name="Description"
             className="placeholder-primary placeholder-opacity-40 rounded-md w-full px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
@@ -264,7 +224,11 @@ export default function EditProductPage({ item }: Props): JSX.Element {
             filesContent={filesContent}
             openFileSelector={openFileSelector}
             clear={clear}
+            images={[]} // images={...images}
           />
+          <div>
+            <img src="`${data.images}`" alt="" />
+          </div>
 
           {/* ---------------------- CHECKBOXES ------------------------- */}
 
@@ -367,6 +331,20 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     },
     select: {
       identifier: true,
+      title: true,
+      images: true,
+      description: true,
+      details: true,
+      // user: true,
+      userId: true,
+      sellType: true,
+      parent: true,
+      parentId: true,
+      class: true,
+      requests: true,
+      gone: true,
+      recipientId: true,
+      recipient: true,
     },
   });
   console.log("serverside", item);
