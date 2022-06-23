@@ -72,8 +72,8 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
       >
         <div
           className={
-            !item.gone && item.requests > 0
-              ? "relative h-20 w-20 border-solid border-2 border-secondary box-border"
+            !item.gone && item.requests.length > 0
+              ? "relative h-20 w-20 border-solid border-2 border-secondary rounded-lg box-border"
               : "relative h-20 w-20"
           }
         >
@@ -98,7 +98,7 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
           >
             <div className="flex items-center mt-2">
               {item.title}
-              {!item.gone && item.requests > 0 ? (
+              {!item.gone && item.requests.length > 0 ? (
                 <div className="rounded-full bg-secondary w-3 h-3 ml-2" />
               ) : null}
             </div>
@@ -118,8 +118,8 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
                     {/* to {reciObj.firstname} */}
                   </div>
                 )
-              ) : item.requests > 0 ? (
-                <div>{item.requests} pending Swap Requests</div>
+              ) : item.requests.length > 0 ? (
+                <div>{item.requests.length} pending Swap Requests</div>
               ) : item.sellType === "FREE" ? (
                 <p className="italic text-xs leading-8">free</p>
               ) : (
