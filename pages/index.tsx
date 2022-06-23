@@ -40,7 +40,8 @@ const Home: NextPage = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const { setItems } = useItemStore();
   const { setRequests } = useRequestStore();
-  const session = useSession();
+  const { data: session, status } = useSession();
+
   // const [data, setData] = useState<MapData | null>(null);
   let userId = session.data.user.id;
 
@@ -82,7 +83,7 @@ const Home: NextPage = () => {
     while (markerElements.length > 0) {
       markerElements[0].remove();
     }
-    addMarkers(location, mapRef, updatedMapData as MapData);
+    addMarkers(location, mapRef, updatedMapData as MapData, router);
   }
 
   const filterMarkers = (
@@ -133,8 +134,6 @@ const Home: NextPage = () => {
     setShowMap((prev) => !prev);
     console.log(showMap);
   }
-
-  const { data: session, status } = useSession();
 
   const router = useRouter();
   useEffect(() => {
