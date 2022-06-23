@@ -7,7 +7,7 @@ import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
 import { getMapData } from "../utils/getMapData";
-import { MapData, Feature } from "../utils/types";
+import { MapData, Feature, Item } from "../utils/types";
 import { Spinner } from "../components/Spinner/Spinner";
 import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
@@ -18,6 +18,8 @@ import { NextRouter, useRouter } from "next/router";
 import Search from "../components/Search/Search";
 import Button from "../components/Button/Button";
 import { useItemStore } from "../stores/itemStore";
+import { getUserItems } from "../utils/getUserItems";
+import { useRequestStore } from "../stores/requestStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -59,7 +61,7 @@ const Home: NextPage = () => {
     while (markerElements.length > 0) {
       markerElements[0].remove();
     }
-    addMarkers(location, mapRef, updatedMapData as MapData);
+    addMarkers(location, mapRef, updatedMapData as MapData, router);
   }
 
   const filterMarkers = (
