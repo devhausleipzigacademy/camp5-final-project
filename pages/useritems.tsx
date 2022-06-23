@@ -9,6 +9,7 @@ import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import { NextRouter, useRouter } from "next/router";
 import { Url } from "node:url";
+import { useRequestStore } from "../stores/requestStore";
 
 const UserItems = (feature: Feature) => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
@@ -16,6 +17,16 @@ const UserItems = (feature: Feature) => {
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [itemDeleted, setItemDeleted] = useState<number>(0);
   const session = useSession();
+  const { setRequests } = useRequestStore();
+  let pendingReq: number;
+  let sum = 0;
+
+  function getRequests() {
+    for (let i = 0; i < listData.length; i++) {
+      sum = sum + listData[i].requests.length;
+    }
+    return sum;
+  }
 
   let userId = session.data.user.id;
   let itemId: string;
@@ -23,7 +34,10 @@ const UserItems = (feature: Feature) => {
     const userItemFetch = await getUserItems(userId);
     setInitialUserItem(userItemFetch);
     setListData(userItemFetch);
+    getRequests();
+    console.log(sum);
   }
+
   async function deleteUserListItem(identifier: string) {
     console.log("click");
     fetch(`/api/item?identifier=${identifier}`, {
