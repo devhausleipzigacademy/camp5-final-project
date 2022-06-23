@@ -1,6 +1,7 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import reactSelect from "react-select";
 import { getUser } from "../../utils/getUser";
