@@ -12,25 +12,20 @@ const Header = () => {
 
   // add logic for chat later
   if (pagename === "/#" || pagename === "/" || pagename === "") {
-    showBack = false;
     pagename = "Dashboard";
   } else if (pagename === "/useritems") {
-    showBack = true;
     pagename = "My Offers";
   } else if (pagename === "/upload") {
-    showBack = true;
     pagename = "Create offer";
   } else if (pagename.includes("trade")) {
     pagename = "Trade";
   } else {
-    showBack = true;
     if (pagename.includes("item")) {
       pagename = router.asPath
         .split("title=")[1]
         .split("&")[0]
         .replace("+", " ");
     } else {
-      showBack = true;
       pagename = pagename.slice(1);
       let str = pagename.split("");
       str[0] = str[0].toUpperCase();
@@ -50,7 +45,10 @@ const Header = () => {
       <h3 className="text-lg font-poppins">{pagename}</h3>
       <div className="px-4">
         <Link href="/useritems">
-          <BurgerMenu className="text-primary-text" width="32" />
+          <div className="flex">
+            <BurgerMenu className="text-primary-text" width="32" />
+            <div className="h-3 w-3 absolute top-4 right-4 rounded-full bg-error"></div>
+          </div>
         </Link>
       </div>
     </div>
