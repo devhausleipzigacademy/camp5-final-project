@@ -4,11 +4,12 @@ import BurgerMenu from "../../public/menu.svg";
 import HomeIcon from "../../public/home.svg";
 import { NextPageContext } from "next";
 import { useEffect, useState } from "react";
+import { useRequestStore } from "../../stores/requestStore";
 
 const Header = () => {
   const router = useRouter();
   let pagename = router.asPath;
-  let showBack = true;
+  const { requests } = useRequestStore();
 
   // add logic for chat later
   if (pagename === "/#" || pagename === "/" || pagename === "") {
@@ -47,7 +48,13 @@ const Header = () => {
         <Link href="/useritems">
           <div className="flex">
             <BurgerMenu className="text-primary-text" width="32" />
-            <div className="h-3 w-3 absolute top-4 right-4 rounded-full bg-error"></div>
+            {requests > 0 ? (
+              <div className="h-3 w-3 absolute top-4 right-4 rounded-full bg-error">
+                <p className="text-[3px] text-BG">{requests}</p>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </Link>
       </div>

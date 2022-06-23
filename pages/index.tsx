@@ -57,6 +57,7 @@ const Home: NextPage = () => {
     setListData(userItemFetch);
     getRequests();
     console.log(sum);
+    setRequests(sum);
   }
 
   async function getAllMapData() {
