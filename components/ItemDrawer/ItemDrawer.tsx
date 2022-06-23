@@ -57,14 +57,10 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
     const [zoom, setZoom] = useState(14);
     const [listData, setListData] = useState<Feature[]>([]);
     const [initialListData, setInitialListData] = useState<Feature[]>([]);
-    const { items, setItems } = useItemStore();
+    const { items } = useItemStore();
 
-    async function getData() {
-        const listDataFetch = await getListData();
-        setInitialListData(items.features);
-    }
     useEffect(() => {
-        getData();
+        setInitialListData(items.features);
     }, []);
 
     console.log(selectedFilter);
