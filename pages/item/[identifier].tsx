@@ -17,13 +17,14 @@ import axios from "axios";
 import ConfirmDialog from "../../components/ConfirmDialog.tsx/ConfirmDialog";
 
 export default function ProductPage(): JSX.Element {
-  const { data: session } = useSession();
+  const session = useSession();
   const router = useRouter();
   const [showDialog, setShowDialog] = useState<boolean>(false);
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
   let owner = router.asPath.split("owner=")[1];
+  let userId = session.data.user.id;
 
   let imagesArray: string[];
   let description;
@@ -31,6 +32,7 @@ export default function ProductPage(): JSX.Element {
   let createdAt;
   let createdAgo;
   let favorited = false;
+  let offersArray: string[] = [];
 
   const [isFavorited, SetIsFavorited] = useState(favorited);
   const [productData, setProductData] = useState<Item | null>(null);
@@ -54,7 +56,8 @@ export default function ProductPage(): JSX.Element {
     description = productData.description;
     offerType = productData.sellType === "SWAP" ? "Swap" : "Free";
     imagesArray = Object.values(productData.images);
-    console.log(imagesArray);
+    offersArray = productData.requests;
+    console.log(`offers: ${offersArray}`);
 
     createdAt = productData.createdAt;
     createdAgo = formatDistance(
@@ -68,16 +71,15 @@ export default function ProductPage(): JSX.Element {
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
   const offerTradeHandler = () => {
     SetShowDrawer((prev) => !prev);
-    router.push("/useritems");
   };
 
   async function claimHandler() {
-    // try {
-    //   await axios.put(`api/item?updateitem=${id}`);
-    //   console.log("SUCCESS");
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    try {
+      await axios.put(`api/item?updateitem=${id}&recipient=${userId}`);
+      console.log("SUCCESS", userId);
+    } catch (err) {
+      console.error(err);
+    }
     router.push({
       pathname: "/trade",
       query: {
@@ -99,7 +101,13 @@ export default function ProductPage(): JSX.Element {
 
   return (
     <div className="flex-col h-[calc(100vh-64px)] overflow-hidden bg-BG">
-      <OfferDrawer show={showDrawer} />
+      <OfferDrawer
+        show={showDrawer}
+        offersArray={offersArray}
+        setShowDrawer={SetShowDrawer}
+        productId={id}
+        owner={owner}
+      />
       <div className="relative block w-full">
         <Carousel imagesArray={imagesArray} />
 
@@ -159,29 +167,33 @@ export default function ProductPage(): JSX.Element {
         <div className="flex flex-grow"></div>
         <div className="flex justify-center">
           {offerType === "Free" ? (
-            <Button
-              onClick={() => setShowDialog(true)}
-              selected={false}
-              value={"Claim"}
-              type={"submit"}
-            />
+            <div className="flex w-full">
+              <Button
+                onClick={() => setShowDialog(true)}
+                selected={false}
+                value={"Claim"}
+                type={"submit"}
+              />
+              <ConfirmDialog
+                itemId={id}
+                handleItem={claimHandler}
+                open={showDialog}
+                setOpen={setShowDialog}
+                message="Are you sure you want to claim this item?"
+                label="YES"
+              />
+            </div>
           ) : (
-            <Button
-              onClick={offerTradeHandler}
-              selected={false}
-              value={"Offer Trade"}
-              type={"submit"}
-            />
+            <div className="flex w-full">
+              <Button
+                onClick={offerTradeHandler}
+                selected={false}
+                value={"Offer Trade"}
+                type={"submit"}
+              />
+            </div>
           )}
         </div>
-        <ConfirmDialog
-          itemId={id}
-          handleItem={claimHandler}
-          open={showDialog}
-          setOpen={setShowDialog}
-          message="Are you sure you want to claim this item?"
-          label="YES"
-        />
       </div>
     </div>
   );

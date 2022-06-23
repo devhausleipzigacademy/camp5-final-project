@@ -1,6 +1,6 @@
 import { Item, Location, PrismaClient, User } from ".prisma/client";
 import { SellType } from "@prisma/client";
-import { el } from "date-fns/locale";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Feature, MapData } from "../../../utils/types";
 
@@ -21,12 +21,17 @@ export default async function handler(
         items = await prisma.item.findMany({
           where: {
             sellType: itemtype,
+            gone: false,
           },
         });
         locations = await prisma.location.findMany();
         users = await prisma.user.findMany();
       } else {
-        items = await prisma.item.findMany();
+        items = await prisma.item.findMany({
+          where: {
+            gone: false,
+          },
+        });
         locations = await prisma.location.findMany();
         users = await prisma.user.findMany();
       }
@@ -53,6 +58,7 @@ export default async function handler(
                   title: item.title,
                   id: item.identifier,
                   owner: user.firstname,
+                  class: item.class,
                 },
               };
               data.features.push(featureObject);

@@ -43,6 +43,7 @@ export default async function handler(
                   }`,
                   owner: user.firstname,
                   id: item.identifier,
+                  class: item.class,
                 },
                 // image: (item.images as string[])[0],
                 // title: item.title,

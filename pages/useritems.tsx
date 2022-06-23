@@ -1,26 +1,31 @@
 import { UserListItem } from "../components/UserListItem/UserListItem";
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button/Button";
-import { Item } from "../utils/types";
+import { Feature, Item } from "../utils/types";
 import { getUserItems } from "../utils/getUserItems";
 import { Spinner } from "../components/Spinner/Spinner";
 import CreateItemButton from "../components/CreateButton";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import Link from "next/link";
+import { NextRouter, useRouter } from "next/router";
+import { Url } from "node:url";
+import { useRequestStore } from "../stores/requestStore";
 
-const UserItems = () => {
+const UserItems = (feature: Feature) => {
   const [initialUserItem, setInitialUserItem] = useState<Item[]>([]);
   const [listData, setListData] = useState<Item[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [itemDeleted, setItemDeleted] = useState<number>(0);
   const session = useSession();
-
   let userId = session.data.user.id;
   let itemId: string;
+
   async function getData() {
     const userItemFetch = await getUserItems(userId);
     setInitialUserItem(userItemFetch);
     setListData(userItemFetch);
   }
+
   async function deleteUserListItem(identifier: string) {
     console.log("click");
     fetch(`/api/item?identifier=${identifier}`, {
@@ -29,15 +34,12 @@ const UserItems = () => {
       console.log(response.status);
     });
     await getData();
-  }
-
-  function useDeleteItemId(itemId: string) {
-    deleteUserListItem(itemId);
+    setItemDeleted((prev) => prev + 1);
   }
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [itemDeleted]);
 
   function filterButtons(event: React.MouseEvent<HTMLButtonElement>) {
     if (!initialUserItem) {
@@ -67,7 +69,29 @@ const UserItems = () => {
       }
     }
   }
-
+  // Generate pathname after clicking on a user item:
+  function linkGen(listData: Item) {
+    const pathname: Url = {
+      pathname: "/item",
+      query: {
+        title: listData.title,
+        identifier: listData.identifier,
+        distance: "0%m",
+        owner: "Dan",
+      },
+      auth: null,
+      hash: null,
+      host: null,
+      hostname: null,
+      href: "",
+      path: null,
+      protocol: null,
+      search: null,
+      slashes: null,
+      port: null,
+    };
+    return pathname;
+  }
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] px-2 overflow-scroll bg-BG">
       <div className="pt-2 flex gap-2 bg-BG">
@@ -105,7 +129,7 @@ const UserItems = () => {
                         key={i}
                         i={i}
                         item={listData}
-                        useDeleteItemId={useDeleteItemId}
+                        deleteItemId={deleteUserListItem}
                       />
                     ))}
                 </div>
