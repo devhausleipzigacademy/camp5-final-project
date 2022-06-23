@@ -167,12 +167,22 @@ export default function ProductPage(): JSX.Element {
         <div className="flex flex-grow"></div>
         <div className="flex justify-center">
           {offerType === "Free" ? (
-            <Button
-              onClick={() => setShowDialog(true)}
-              selected={false}
-              value={"Claim"}
-              type={"submit"}
-            />
+            <div>
+              <Button
+                onClick={() => setShowDialog(true)}
+                selected={false}
+                value={"Claim"}
+                type={"submit"}
+              />
+              <ConfirmDialog
+                itemId={id}
+                handleItem={claimHandler}
+                open={showDialog}
+                setOpen={setShowDialog}
+                message="Are you sure you want to claim this item?"
+                label="YES"
+              />
+            </div>
           ) : (
             <Button
               onClick={offerTradeHandler}
@@ -182,14 +192,6 @@ export default function ProductPage(): JSX.Element {
             />
           )}
         </div>
-        <ConfirmDialog
-          itemId={id}
-          handleItem={claimHandler}
-          open={showDialog}
-          setOpen={setShowDialog}
-          message="Are you sure you want to claim this item?"
-          label="YES"
-        />
       </div>
     </div>
   );

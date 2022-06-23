@@ -15,6 +15,7 @@ import { getUserItems } from "../../utils/getUserItems";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import router from "next/router";
+import ConfirmDialog from "../ConfirmDialog.tsx/ConfirmDialog";
 
 interface OfferDrawerProps {
   show: boolean;
@@ -34,6 +35,7 @@ const OfferDrawer = ({
   const [selected, setSelected] = useState(false);
   const [selID, setSelID] = useState("");
   const [userItems, setUserItems] = useState<Item[]>([]);
+  const [showDialog, setShowDialog] = useState<boolean>(false);
   const session = useSession();
   let userId = session.data.user.id;
 
@@ -79,11 +81,19 @@ const OfferDrawer = ({
   } else {
     return (
       <>
+        <ConfirmDialog
+          itemId={productId}
+          handleItem={confirmOffer}
+          open={showDialog}
+          setOpen={setShowDialog}
+          message="Are you sure you want to swap this item?"
+          label="YES"
+        />
         <div
           className={clsx(
             show
               ? "absolute h-[calc(100vh-92px)] w-1/3 top-[64px] bg-BG shadow-md rounded-r-md z-10 flex flex-col justify-between px-2 py-4 transition-transform duration-150 ease-out translate-x-0"
-              : "absolute h-[calc(100vh-92px)] w-1/3 top-[64px] bg-BG shadow-md z-10 flex flex-col justify-between px-2 py-4 transition-transform duration-150 ease-out -translate-x-full"
+              : "absolute h-[calc(100vh-92px)] w-1/3 top-[64px] bg-BG shadow-md flex flex-col z-10 justify-between px-2 py-4 transition-transform duration-150 ease-out -translate-x-full"
           )}
         >
           <div className="flex flex-col space-y-2 justify-between text-secondary-text">
@@ -110,7 +120,7 @@ const OfferDrawer = ({
           <div className="pr-16">
             <Button
               selected={false}
-              onClick={confirmOffer}
+              onClick={() => setShowDialog(true)}
               value={"Offer"}
               type={"submit"}
             />
