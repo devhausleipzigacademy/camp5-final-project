@@ -37,11 +37,6 @@ const UserItems = (feature: Feature) => {
     setItemDeleted((prev) => prev + 1);
   }
 
-  // function useDeleteItemId(itemId: string) {
-  //   deleteUserListItem(itemId);
-
-  // }
-
   useEffect(() => {
     getData();
   }, [itemDeleted]);

@@ -27,11 +27,6 @@ const Header = () => {
     setListData(userItemFetch);
   }
 
-  useEffect(() => {
-    getUserData();
-    getRequests();
-  }, [router]);
-
   let pagename = router.asPath;
 
   // add logic for chat later
@@ -59,6 +54,12 @@ const Header = () => {
     }
   }
 
+  useEffect(() => {
+    getUserData();
+    getRequests();
+    console.log(reqNum);
+  }, [router]);
+
   return (
     <div className="flex sticky top-0 font-medium tracking-wide bg-primary text-primary-text w-screen h-16 place-items-center justify-between z-50">
       <div className="px-4">
@@ -74,8 +75,8 @@ const Header = () => {
           <div className="flex">
             <ProfileIcon className="text-primary-text" width="34" />
             {reqNum > 0 ? (
-              <div className="h-4 w-4 absolute top-4 right-4 rounded-full bg-error">
-                <p className="absolute text-xs top-0 left-1 bottom-4 text-BG">
+              <div className="h-4 w-4 absolute top-4 right-2 rounded-full bg-error">
+                <p className="absolute text-xs top-0 left-[0.3rem] bottom-4 text-BG">
                   {reqNum}
                 </p>
               </div>
