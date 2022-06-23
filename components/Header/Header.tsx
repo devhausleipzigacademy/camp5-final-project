@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BurgerMenu from "../../public/menu.svg";
-import BackIcon from "../../public/back2.svg";
+import HomeIcon from "../../public/home.svg";
 import { NextPageContext } from "next";
 import { useEffect, useState } from "react";
 
@@ -38,28 +38,12 @@ const Header = () => {
     }
   }
 
-  const [prevPathname, setPrevPathname] = useState("/");
-  const [currPathname, setCurrPathname] = useState("");
-
-  useEffect(() => {
-    const storage = globalThis?.sessionStorage;
-    const prevPath = storage.getItem("currentPath");
-    storage.setItem("prevPath", prevPath as string);
-    setPrevPathname(prevPath as string);
-    storage.setItem("currentPath", globalThis.location.pathname);
-    const currPath = storage.getItem("currentPath");
-    setCurrPathname(currPath as string);
-  }, [router.asPath]);
-
   return (
-    <div className="flex sticky top-0 bg-primary text-primary-text w-screen h-16 place-items-center justify-between z-50">
+    <div className="flex sticky top-0 font-medium tracking-wide bg-primary text-primary-text w-screen h-16 place-items-center justify-between z-50">
       <div className="px-4">
-        <Link href={prevPathname}>
+        <Link href="/">
           <a>
-            <BackIcon
-              className={showBack ? "text-primary-text" : "invisible"}
-              width="32"
-            />
+            <HomeIcon className="text-primary-text" width="28" />
           </a>
         </Link>
       </div>

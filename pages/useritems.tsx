@@ -70,7 +70,7 @@ const UserItems = (feature: Feature) => {
       }
     }
   }
-
+  // Generate pathname after clicking on a user item:
   function linkGen(listData: Item) {
     const pathname: Url = {
       pathname: "/item",
