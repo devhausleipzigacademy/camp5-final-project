@@ -59,6 +59,14 @@ export default async function handler(
                                     id: item.identifier,
                                     owner: user.firstname,
                                     class: item.class,
+                                    profilePicture: `${
+                                        user.profilePicture
+                                            ? user.profilePicture
+                                            : ""
+                                    }`,
+                                    image: JSON.parse(
+                                        JSON.stringify(item.images)
+                                    ),
                                 },
                             };
                             data.features.push(featureObject);

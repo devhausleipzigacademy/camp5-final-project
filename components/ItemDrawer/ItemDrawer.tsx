@@ -14,6 +14,7 @@ import React from "react";
 import { getListData } from "../../utils/getListData";
 import { Spinner } from "../Spinner/Spinner";
 import { filterList } from "../../utils/filterList";
+import { useItemStore } from "../../stores/itemStore";
 
 export default function Example({
     selectedFilter,
@@ -56,10 +57,11 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
     const [zoom, setZoom] = useState(14);
     const [listData, setListData] = useState<Feature[]>([]);
     const [initialListData, setInitialListData] = useState<Feature[]>([]);
+    const { items, setItems } = useItemStore();
 
     async function getData() {
         const listDataFetch = await getListData();
-        setInitialListData(listDataFetch);
+        setInitialListData(items.features);
     }
     useEffect(() => {
         getData();
