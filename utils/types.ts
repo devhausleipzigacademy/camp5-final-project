@@ -44,6 +44,7 @@ export type MockData = {
 };
 
 export type Item = {
+  class: string | number | readonly string[] | undefined;
   identifier: string;
   title: string;
   images: Object;

@@ -12,7 +12,11 @@ import axios from "axios";
 import Link from "next/link";
 import router, { useRouter } from "next/router";
 import { ontology, details } from "../../assets/metadata";
-import { leafDetailsMap, leaves } from "../../assets/class-models-paths";
+import {
+  leafDetailsMap,
+  leafPathMap,
+  leaves,
+} from "../../assets/class-models-paths";
 import { getItem } from "../../utils/getItem";
 import UserItems from "../useritems";
 import { getProduct } from "../../utils/getProduct";
@@ -20,6 +24,7 @@ import { useSession } from "next-auth/react";
 import { setISOWeek } from "date-fns/esm";
 import { getUser } from "../../utils/getUser";
 import Image from "next/image";
+import { itemList } from "../../utils/filterList";
 
 type SubCat = {
   title: string;
@@ -49,13 +54,14 @@ type Props = {
 export default function EditProductPage({ item }: UploadProps): JSX.Element {
   const router = useRouter();
 
+  const [itemCat, itemSubcat] = leafPathMap[item.class as string];
   const [productData, setProductData] = useState<Item | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(itemCat);
   const [category, setCategory] = useState<Node[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
-  const [selectedSub, setSelectedSub] = useState("");
+  const [selectedSub, setSelectedSub] = useState(itemSubcat);
   const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
-  const [selectedSubSub, setSelectedSubSub] = useState("");
+  const [selectedSubSub, setSelectedSubSub] = useState(item.class);
   const [fields, setFields] = useState<string[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -66,6 +72,11 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
     Record<string, string>
   >({});
   const [initialProductData, setInitialProductData] = useState<Feature[]>([]);
+  console.log("item: ", item);
+  console.log("cat and subcat: ", itemCat, itemSubcat);
+
+  // setSelectedCategory(itemCat);
+  // setSelectedSub(itemSubcat);
 
   function checkHandler() {
     setIsChecked((prev) => !prev);
@@ -175,8 +186,8 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
     console.log(selectedCategory, selectedSub);
     console.log(selectedCategory && selectedSub && selectedSubSub);
     if (selectedCategory && selectedSub && selectedSubSub) {
-      console.log("fields", leafDetailsMap[selectedSubSub]);
-      setFields(() => leafDetailsMap[selectedSubSub]);
+      console.log("fields", leafDetailsMap[selectedSubSub as string]);
+      setFields(() => leafDetailsMap[selectedSubSub as string]);
     } else {
       setFields(() => []);
     }
@@ -270,7 +281,7 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
                 setSelectedCategory(evt.target.value);
               }}
             >
-              <option value="" label="Select Category" />
+              <option value={itemCat} label={itemCat} />
               {Object.keys(ontology).map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
@@ -284,7 +295,7 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
                 id="category"
                 onChange={(evt) => setSelectedSub(evt.target.value)}
               >
-                <option value={""} label="Select Subcategory"></option>
+                <option value={itemSubcat} label={itemSubcat}></option>
                 {possibleSub.map((cat) => (
                   <option key={cat} value={cat} label={cat}></option>
                 ))}
@@ -297,7 +308,10 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
                 id="category"
                 onChange={(evt) => setSelectedSubSub(evt.target.value)}
               >
-                <option value={""} label="Select SubSubcategory"></option>
+                <option
+                  value={item.class}
+                  label={item.class as string}
+                ></option>
                 {possibleSubSub.map((cat) => (
                   <option key={cat} value={cat} label={cat}></option>
                 ))}
@@ -323,6 +337,8 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
                 </select>
               ))}
           </div>
+
+          {/* ---------------------- SUBMIT ------------------------- */}
           <Button
             type="submit"
             onClick={handleOnSubmit}
