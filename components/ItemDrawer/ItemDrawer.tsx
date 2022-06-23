@@ -8,10 +8,10 @@ import {
     useState,
 } from "react";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
-import { Feature, ListData } from "../../utils/types";
+import { Feature } from "../../utils/types";
 import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
-import { getListData } from "../../utils/getListData";
+
 import { Spinner } from "../Spinner/Spinner";
 import { filterList } from "../../utils/filterList";
 import { useItemStore } from "../../stores/itemStore";

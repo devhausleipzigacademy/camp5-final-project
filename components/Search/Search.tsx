@@ -35,23 +35,20 @@ export default function Search({ properties }: SearchProps) {
                       .replace(/\s+/g, "")
                       .includes(query.toLowerCase().replace(/\s+/g, ""))
               );
-    const filteredCategories =
-        query === ""
-            ? null
-            : properties.filter((element) =>
-                  element.properties.class
-                      .toLowerCase()
-                      .replace(/\s+/g, "")
-                      .includes(query.toLowerCase().replace(/\s+/g, ""))
-              );
+    // ------------------DEACTIVATED CATEGORY FILTERING--------------------------
+    // const filteredCategories =
+    //     query === ""
+    //         ? null
+    //         : properties.filter((element) =>
+    //               element.properties.class
+    //                   .toLowerCase()
+    //                   .replace(/\s+/g, "")
+    //                   .includes(query.toLowerCase().replace(/\s+/g, ""))
+    //           );
     let mappedCategories;
     let mappedItems;
     let noItems;
-    if (
-        filteredItems?.length === 0 &&
-        filteredCategories?.length === 0 &&
-        query.length > 0
-    ) {
+    if (filteredItems?.length === 0 && query.length > 0) {
         noItems = (
             <Combobox.Option
                 value=""
@@ -69,7 +66,7 @@ export default function Search({ properties }: SearchProps) {
             <Combobox.Option
                 key={index}
                 className={({ active }) =>
-                    "flex space-x-3 relative cursor-default select-none"
+                    "flex space-x-3 relative cursor-default select-none bg-primary-text"
                 }
                 value={element.properties.title}
                 onClick={() => {
@@ -103,42 +100,43 @@ export default function Search({ properties }: SearchProps) {
             </Combobox.Option>
         ));
     }
-    if (!!filteredCategories?.length) {
-        mappedCategories = filteredCategories.map((element, index) => (
-            <Combobox.Option
-                key={index}
-                className={({ active }) =>
-                    `flex space-x-3 relative cursor-default select-none ${
-                        active ? "bg-BG text-primary" : "bg-BG"
-                    }`
-                }
-                value={element.properties.class}
-                onClick={() => {
-                    createPopUp(element, location, mapRef, router);
-                    setTimeout(() => flyToStore(element, mapRef), 300);
-                }}
-            >
-                {({ selected, active }) => (
-                    <>
-                        <span
-                            className={`block truncate pl-2 ${
-                                selected ? "font-medium" : "font-normal"
-                            }`}
-                        >
-                            {`Category: ${element.properties.class}`}
-                        </span>
-                        {selected ? (
-                            <span
-                                className={`absolute inset-y-0 left-0 flex items-start pl-3 ${
-                                    active ? "text-white" : "text-BG-text"
-                                }`}
-                            ></span>
-                        ) : null}
-                    </>
-                )}
-            </Combobox.Option>
-        ));
-    }
+    // ------------------DEACTIVATED CATEGORY FILTERING--------------------------
+    // if (!!filteredCategories?.length) {
+    //     mappedCategories = filteredCategories.map((element, index) => (
+    //         <Combobox.Option
+    //             key={index}
+    //             className={({ active }) =>
+    //                 `flex space-x-3 relative cursor-default select-none ${
+    //                     active ? "bg-BG text-primary" : "bg-BG"
+    //                 }`
+    //             }
+    //             value={element.properties.class}
+    //             onClick={() => {
+    //                 createPopUp(element, location, mapRef, router);
+    //                 setTimeout(() => flyToStore(element, mapRef), 300);
+    //             }}
+    //         >
+    //             {({ selected, active }) => (
+    //                 <>
+    //                     <span
+    //                         className={`block truncate pl-2 ${
+    //                             selected ? "font-medium" : "font-normal"
+    //                         }`}
+    //                     >
+    //                         {`Category: ${element.properties.class}`}
+    //                     </span>
+    //                     {selected ? (
+    //                         <span
+    //                             className={`absolute inset-y-0 left-0 flex items-start pl-3 ${
+    //                                 active ? "text-white" : "text-BG-text"
+    //                             }`}
+    //                         ></span>
+    //                     ) : null}
+    //                 </>
+    //             )}
+    //         </Combobox.Option>
+    //     ));
+    // }
     return (
         <div className="flex px-2 mt-2">
             <div className="w-full h-full rounded-md border-primary border-2 text-center">
@@ -164,7 +162,7 @@ export default function Search({ properties }: SearchProps) {
                     >
                         <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-[calc(100vw-16px)] overflow-auto rounded-md bg-white text-base shadow-lg sm:text-sm">
                             {noItems}
-                            {mappedCategories}
+                            {/* {mappedCategories} */}
                             {mappedItems}
                             {query && (
                                 <Combobox.Option
