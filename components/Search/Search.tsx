@@ -141,7 +141,7 @@ export default function Search({ properties }: SearchProps) {
         <div className="flex px-2 mt-2">
             <div className="w-full h-full rounded-md border-primary border-2 text-center">
                 <Combobox value={selected} onChange={setSelected}>
-                    <div className="relative w-full cursor-default overflow-hidden bg-white text-left">
+                    <div className="relative w-full cursor-default overflow-hidden bg-white text-left rounded-md">
                         <Combobox.Input
                             className="pl-2 w-10/12 focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
                             onChange={(event) => setQuery(event.target.value)}

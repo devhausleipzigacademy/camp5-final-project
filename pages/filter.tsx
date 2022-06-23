@@ -3,7 +3,7 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { SellType } from "@prisma/client";
 import { NextPage } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { leafDetailsMap, leaves } from "../assets/class-models-paths";
 import { ontology, details } from "../assets/metadata";
@@ -12,6 +12,7 @@ import Checkbox from "../components/Checkbox/Checkbox";
 import Input from "../components/Inputfields/Input";
 import { useItemStore } from "../stores/itemStore";
 import { getMapData } from "../utils/getMapData";
+import { Feature } from "../utils/types";
 
 const Searchpage: NextPage = () => {
     const [title, setTitle] = useState("");
@@ -21,7 +22,7 @@ const Searchpage: NextPage = () => {
     const [possibleSub, setPossibleSub] = useState<string[]>([]);
     const [selectedSub, setSelectedSub] = useState("");
     const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
-    const [selectedSubSub, setSelectedSubSub] = useState<string>("undefined");
+    const [selectedSubSub, setSelectedSubSub] = useState<string>("");
     const [fields, setFields] = useState<string[]>([]);
     const [selectedDetails, setSelectedDetails] = useState<
         Record<string, string>
@@ -30,6 +31,7 @@ const Searchpage: NextPage = () => {
     const [query, setQuery] = useState("");
     const router = useRouter();
     const { items, setItems } = useItemStore();
+    const [selectedFilter, setSelectedFilter] = useState<string>("");
 
     async function mapDataCheckAndFetch() {
         if (items.features.length === 0) {
@@ -40,7 +42,7 @@ const Searchpage: NextPage = () => {
     mapDataCheckAndFetch();
     console.log("itemstate: ", items);
 
-    const filteredItems = items.features.filter((item) =>
+    const filteredItems: Feature[] = items.features.filter((item) =>
         item.properties.class.includes(selectedSubSub)
     );
     const filteredMapData = {
@@ -49,15 +51,6 @@ const Searchpage: NextPage = () => {
     };
     console.log("filteredMapData: ", filteredMapData);
     // setItems(filteredMapData);
-
-    function checkHandler() {
-        setIsChecked((prev) => !prev);
-        if (!isChecked) {
-            setCheckedItems("FREE");
-        } else {
-            setCheckedItems("SWAP");
-        }
-    }
 
     useEffect(() => {
         if (selectedCategory) {
@@ -78,7 +71,7 @@ const Searchpage: NextPage = () => {
         }
         console.log(selectedCategory, selectedSub);
         console.log(selectedCategory && selectedSub && selectedSubSub);
-        //-----------------DEACTIVATED DETAILS FEATURE-------------------
+        //-----------------DETAILS FILTERING-------------------
         // if (selectedCategory && selectedSub && selectedSubSub) {
         //     console.log("fields", leafDetailsMap[selectedSubSub]);
         //     setFields(() => leafDetailsMap[selectedSubSub]);
@@ -91,29 +84,70 @@ const Searchpage: NextPage = () => {
         setFields(() => []);
     }, [selectedCategory, selectedSub]);
 
-    function searchHandler() {
+    function filterCategoryHandler() {
         setItems(filteredMapData);
         console.log("searched items: ", items);
         router.push("/");
     }
+    // function filterTypeHandler(
+    //     event: React.MouseEvent<HTMLButtonElement>,
+    //     router: NextRouter
+    // ) {
+    //     if (!items) {
+    //         return;
+    //     } else if ((event.target as HTMLButtonElement).value === "Free") {
+    //         if (selectedFilter === "Free") {
+    //             setSelectedFilter("");
+    //         } else {
+    //             const filteredItemsByType: Feature[] = items?.features.filter(
+    //                 (feature) => feature.type === "FREE"
+    //             );
+    //             setSelectedFilter("Free");
+    //             const updatedMapData: MapData = {
+    //                 ...initialMapData,
+    //                 features: filteredMarkersArr,
+    //             };
+    //             setMapData(() => updatedMapData);
+    //             resetAndSetMarkers(updatedMapData, router);
+    //         }
+    //     } else {
+    //         if (selectedFilter === "Swap") {
+    //             setSelectedFilter("");
+    //             setMapData(initialMapData);
+    //             resetAndSetMarkers(initialMapData, router);
+    //         } else {
+    //             const filteredMarkersArr: Feature[] =
+    //                 initialMapData?.features.filter(
+    //                     (feature) => feature.type === "SWAP"
+    //                 );
+    //             setSelectedFilter("Swap");
+    //             const updatedMapData: MapData = {
+    //                 ...initialMapData,
+    //                 features: filteredMarkersArr,
+    //             };
+    //             setMapData(() => updatedMapData);
+    //             resetAndSetMarkers(updatedMapData, router);
+    //         }
+    //     }
+    // }
 
     return (
         <div className="font-medium flex flex-col h-[calc(100vh-64px)] items-center overflow-scroll px-2">
             <div className="flex flex-col w-full px-2 space-y-2 pt-2 justify-between">
                 {/* ---------------------- CHECKBOXES ------------------------- */}
 
-                <div className="flex self-start w-full">
-                    <Checkbox
-                        isChecked={isChecked}
-                        name="Giveaway"
-                        id="giveaway"
-                        checkHandler={checkHandler}
+                <div className="flex gap-2 px-2">
+                    <Button
+                        type="button"
+                        selected={selectedFilter === "Free"}
+                        // onClick={(evt) => filterTypeHandler(evt)}
+                        value={"Free"}
                     />
-                    <Checkbox
-                        isChecked={!isChecked}
-                        name="Swap"
-                        id="swap"
-                        checkHandler={checkHandler}
+                    <Button
+                        type="button"
+                        selected={selectedFilter === "Swap"}
+                        // onClick={(evt) => filterTypeHandler(evt)}
+                        value={"Swap"}
                     />
                 </div>
 
@@ -151,7 +185,7 @@ const Searchpage: NextPage = () => {
                 {/* ----------------- FILTERS ----------------- */}
                 {!!possibleSubSub.length && (
                     <>
-                        <p className="font-normal text-primary">Filters</p>
+                        <p className="font-normal text-primary">Filter</p>
                         <select
                             className="rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-primary"
                             name="category"
@@ -175,7 +209,8 @@ const Searchpage: NextPage = () => {
                         </select>
                     </>
                 )}
-                {!!fields.length &&
+                {/* ------------------ DETAILS FILTER --------------- */}
+                {/* {!!fields.length &&
                     fields.map((field) => (
                         <select
                             key={field}
@@ -187,7 +222,7 @@ const Searchpage: NextPage = () => {
                             }}
                         >
                             <option value="" label={`Select ${field}`}></option>
-                            {/* @ts-ignore */}
+
                             {details[field].map((detail) => (
                                 <option
                                     key={detail}
@@ -196,26 +231,21 @@ const Searchpage: NextPage = () => {
                                 ></option>
                             ))}
                         </select>
-                    ))}
+                    ))} */}
             </div>
             <div className="flex flex-grow"></div>
             <div className="flex w-full pb-2">
-                {selectedSubSub === "undefined" ? (
+                {selectedSubSub !== "" ? (
                     <button
-                        // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
-                        // https://github.com/lukeed/clsx/blob/master/readme.md
                         className="px-8 rounded-md bg-primary text-primary-text py-2 w-full"
-                        onClick={searchHandler}
+                        onClick={filterCategoryHandler}
                         type="submit"
                     >
                         filter
                     </button>
                 ) : (
                     <button
-                        // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
-                        // https://github.com/lukeed/clsx/blob/master/readme.md
                         className="px-8 rounded-md bg-primary opacity-80 text-primary-text py-2 w-full"
-                        onClick={searchHandler}
                         type="submit"
                         disabled
                     >
