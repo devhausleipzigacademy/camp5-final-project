@@ -74,7 +74,7 @@ export default function ProductPage(): JSX.Element {
   async function claimHandler() {
     try {
       await axios.put(`api/item?updateitem=${id}&recipient=${userId}`);
-      console.log("SUCCESS");
+      console.log("SUCCESS", userId);
     } catch (err) {
       console.error(err);
     }
