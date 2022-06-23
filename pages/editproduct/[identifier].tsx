@@ -5,7 +5,7 @@ import { useState, useEffect, FormEvent, useMemo, ChangeEvent } from "react";
 import { useFilePicker } from "use-file-picker";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Inputfields/Input";
-import { SellType } from "@prisma/client";
+import { PrismaClient, SellType } from "@prisma/client";
 // import { mockKitchenCategories } from "../assets/data";
 import { Feature, Item, MockKitchenCategories } from "../../utils/types";
 import axios from "axios";
@@ -40,32 +40,32 @@ type UploadProps = {
   subcategory: string;
 };
 
-export default function EditProductPage(): JSX.Element {
+type Props = {
+  item: Item;
+};
+
+export default function EditProductPage({ item }: Props): JSX.Element {
   const router = useRouter();
-  console.log(router);
-  const { identifier } = router.query;
-  console.log("edit", identifier);
+  // console.log("edit", identifier);
 
-  async function getData(id: string) {
-    const productDataFetch = await getItem(id);
-    setInitialProductData(productDataFetch);
-  }
-  useEffect(() => {
-    getData(identifier as string);
-  }, [identifier]);
+  // async function getData(id: string) {
+  //   const productDataFetch = await getItem(id);
+  //   setInitialProductData(productDataFetch);
+  // }
+  // useEffect(() => {
+  //   getData(identifier as string);
+  // }, [identifier]);
 
-  async function getItem(id: string) {
-    console.log("getitem", id);
-    try {
-      const uniqueItem = await axios.get(
-        `http://localhost:3000/api/item/${id}`
-      );
-      console.log("Item:", uniqueItem);
-      return uniqueItem.data;
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  // async function getItem(id: string) {
+  //   try {
+  //     const uniqueItem = await axios.get(
+  //       `http://localhost:3000/api/item/${id}`
+  //     );
+  //     return uniqueItem.data;
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 
   const [productData, setProductData] = useState<Item | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -110,9 +110,9 @@ export default function EditProductPage(): JSX.Element {
     }
   }
 
-  useEffect(() => {
-    console.log(initialProductData);
-  }, [initialProductData]);
+  // useEffect(() => {
+  //   console.log("initialproduct", initialProductData);
+  // }, [initialProductData]);
 
   const session = useSession();
 
@@ -131,6 +131,10 @@ export default function EditProductPage(): JSX.Element {
         minWidth: 200,
       },
     });
+
+  useEffect(() => {
+    console.log(item);
+  }, [item]);
 
   useEffect(() => {
     const handleFileUpload = async () => {
@@ -160,11 +164,9 @@ export default function EditProductPage(): JSX.Element {
       handleFileUpload();
     }
   }, [filesContent]);
-  console.log(session.data);
 
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log("submitted");
 
     const userId = session.data?.user.id;
 
@@ -179,7 +181,6 @@ export default function EditProductPage(): JSX.Element {
         images,
       };
 
-      console.log(realData);
       try {
         await axios.post(
           `/api/item?path=Kitchen,${selectedSub}&user=${userId}`,
@@ -356,3 +357,21 @@ export default function EditProductPage(): JSX.Element {
     );
   }
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const prisma = new PrismaClient();
+  const item = await prisma.item.findUnique({
+    where: {
+      identifier: query.identifier as string,
+    },
+    select: {
+      identifier: true,
+    },
+  });
+  console.log("serverside", item);
+  return {
+    props: {
+      item,
+    },
+  };
+};
