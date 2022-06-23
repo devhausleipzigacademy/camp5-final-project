@@ -10,27 +10,27 @@ import { getUserItems } from "../../utils/getUserItems";
 const Header = () => {
   const router = useRouter();
   const [listData, setListData] = useState<Item[]>([]);
+  const [reqNum, setReqNum] = useState<number>(0);
   const session = useSession();
   const userId = session.data?.user.id;
   let sum = 0;
 
   function getRequests() {
     for (let i = 0; i < listData.length; i++) {
-      sum = sum + listData[i].requests.length;
+      setReqNum(sum + listData[i].requests.length);
     }
-    return sum;
   }
 
   async function getUserData() {
     const userItemFetch = await getUserItems(userId);
     setListData(userItemFetch);
-    getRequests();
-    console.log(sum);
   }
 
   useEffect(() => {
     getUserData();
-  }, []);
+    getRequests();
+    console.log(reqNum);
+  }, [router]);
 
   let pagename = router.asPath;
 
@@ -71,12 +71,14 @@ const Header = () => {
         <Link href="/useritems">
           <div className="flex">
             <BurgerMenu className="text-primary-text" width="32" />
-            {sum > 0 ? (
-              <div className="h-3 w-3 absolute top-4 right-4 rounded-full bg-error">
-                <p className="text-[3px] text-BG">{sum}</p>
+            {reqNum > 0 ? (
+              <div className="h-4 w-4 absolute top-4 right-4 rounded-full bg-error">
+                <p className="absolute text-xs top-0 left-1 bottom-4 text-BG">
+                  {reqNum}
+                </p>
               </div>
             ) : (
-              <></>
+              <div className="h3 w-3">{reqNum}</div>
             )}
           </div>
         </Link>
