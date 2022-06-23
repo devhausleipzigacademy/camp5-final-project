@@ -16,7 +16,7 @@ model User {
   updatedAt      DateTime       @updatedAt
   firstname      String
   lastname       String
-  email          String
+  email          String         @unique
   passwordHash   String
   passwordSalt   String
   profilePicture String?
@@ -79,7 +79,7 @@ model Item {
   parent      Node     @relation("leaves", fields: [parentId], references: [identifier], onDelete: Cascade)
   parentId    String
   class       String
-  requests    Int?
+  requests    String[]
   gone        Boolean  @default(false)
   recipientId String?
   recipient   User?    @relation("recipient_item", fields: [recipientId], references: [identifier])
