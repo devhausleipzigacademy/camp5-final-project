@@ -209,14 +209,16 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
     return (
       <div className="font-medium flex flex-col space-y-2 px-2">
         {/* ---------------------- TITLE ------------------------- */}
-        <Input
-          name="Title"
-          value={item.title}
-          placeholder="Title"
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            setTitle(event.target.value)
-          }
-        />
+        <div className="pt-2">
+          <Input
+            name="Title"
+            value={item.title}
+            placeholder="Title"
+            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              setTitle(event.target.value)
+            }
+          />
+        </div>
         {/* ---------------------- DESCRIPTION ------------------------- */}
         <label htmlFor="Description" className="sr-only text-primary">
           Description
