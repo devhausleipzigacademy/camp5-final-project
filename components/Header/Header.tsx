@@ -73,9 +73,9 @@ const Header = () => {
         <Link href="/useritems">
           <div className="flex">
             <BurgerMenu className="text-primary-text" width="32" />
-            {requests > 0 ? (
+            {sum > 0 ? (
               <div className="h-3 w-3 absolute top-4 right-4 rounded-full bg-error">
-                <p className="text-[3px] text-BG">{requests}</p>
+                <p className="text-[3px] text-BG">{sum}</p>
               </div>
             ) : (
               <></>

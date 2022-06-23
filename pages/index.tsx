@@ -33,7 +33,6 @@ const Home: NextPage = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(14);
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [listData, setListData] = useState<Item[]>([]);
   const [initialMapData, setInitialMapData] = useState<MapData | null>(null);
   const { location } = useLocationStore();
   const { mapRef } = useMapStore();
@@ -41,23 +40,6 @@ const Home: NextPage = () => {
   const { setItems } = useItemStore();
 
   // const [data, setData] = useState<MapData | null>(null);
-  let userId = sezzion.data?.user.id;
-
-  let sum = 0;
-
-  function getRequests() {
-    for (let i = 0; i < listData.length; i++) {
-      sum = sum + listData[i].requests.length;
-    }
-    return sum;
-  }
-  async function getUserData() {
-    const userItemFetch = await getUserItems(userId);
-    setListData(userItemFetch);
-    getRequests();
-    console.log(sum);
-    setRequests(sum);
-  }
 
   async function getAllMapData() {
     const mapDataFetch = await getMapData();
@@ -67,7 +49,6 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    getUserData();
     getAllMapData();
   }, []);
 
