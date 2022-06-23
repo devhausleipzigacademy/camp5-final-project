@@ -58,7 +58,7 @@ export default function Search({ properties }: SearchProps) {
         key=""
         className="flex space-x-3 relative cursor-default select-none bg-BG"
       >
-        <span className="relative py-2 px-4 text-BG-text overflow-auto">
+        <span className="relative py-2 px-4 text-BG-text bg-BG overflow-auto">
           Nothing found.
         </span>
       </Combobox.Option>
@@ -94,7 +94,7 @@ export default function Search({ properties }: SearchProps) {
             {selected ? (
               <span
                 className={`absolute inset-y-0 left-0 flex items-start pl-3 ${
-                  active ? "text-white" : "text-BG-text"
+                  active ? "text-white" : "text-BG-text bg-BG"
                 }`}
               ></span>
             ) : null}
@@ -140,12 +140,12 @@ export default function Search({ properties }: SearchProps) {
     ));
   }
   return (
-    <div className="flex px-2 mt-2">
+    <div className="flex px-2">
       <div className="w-full h-full rounded-md border-primary border-2 text-center">
         <Combobox value={selected} onChange={setSelected}>
-          <div className="relative w-full cursor-default overflow-hidden bg-white text-left">
+          <div className="relative w-full cursor-default overflow-hidden bg-BG text-left">
             <Combobox.Input
-              className="pl-2 w-10/12 focus:outline-none border-none focus:border-none rounded-md py-2 text-sm text-BG-text"
+              className="pl-2 w-10/12 focus:outline-none border-none focus:border-none rounded-md py-2 text-sm bg-BG text-BG-text"
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-2 flex items-center opacity-100">
@@ -159,7 +159,7 @@ export default function Search({ properties }: SearchProps) {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-[calc(100vw-16px)] overflow-auto rounded-md bg-white text-base shadow-lg sm:text-sm">
+            <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-[calc(100vw-16px)] overflow-auto rounded-md bg-BG text-base shadow-lg sm:text-sm">
               {noItems}
               {mappedCategories}
               {mappedItems}
