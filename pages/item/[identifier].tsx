@@ -17,13 +17,14 @@ import axios from "axios";
 import ConfirmDialog from "../../components/ConfirmDialog.tsx/ConfirmDialog";
 
 export default function ProductPage(): JSX.Element {
-  const { data: session } = useSession();
+  const session = useSession();
   const router = useRouter();
   const [showDialog, setShowDialog] = useState<boolean>(false);
   let title = router.asPath.split("title=")[1].split("&")[0];
   let id = router.asPath.split("identifier=")[1].split("&")[0];
   let distance = router.asPath.split("distance=")[1].split("&")[0];
   let owner = router.asPath.split("owner=")[1];
+  let userId = session.data.user.id;
 
   let imagesArray: string[];
   let description;
@@ -68,16 +69,15 @@ export default function ProductPage(): JSX.Element {
   // These Handlers are placeholder functions for clicking on the Button onClick functionalities.
   const offerTradeHandler = () => {
     SetShowDrawer((prev) => !prev);
-    router.push("/useritems");
   };
 
   async function claimHandler() {
-    // try {
-    //   await axios.put(`api/item?updateitem=${id}`);
-    //   console.log("SUCCESS");
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    try {
+      await axios.put(`api/item?updateitem=${id}&recipient=${userId}`);
+      console.log("SUCCESS");
+    } catch (err) {
+      console.error(err);
+    }
     router.push({
       pathname: "/trade",
       query: {
