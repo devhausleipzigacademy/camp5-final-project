@@ -51,8 +51,8 @@ export default function TradeItem(): JSX.Element {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-6">
-          <h1 className="text-3xl pt-10">Request sent</h1>
+        <div className="flex flex-col gap-6 items-center">
+          <h1 className="text-3xl pt-6">Request sent</h1>
           {/* <div className="h-64 w-64 overflow-clip bg-cover"> */}
           <img
             src={imagesArray[0]}
@@ -60,7 +60,9 @@ export default function TradeItem(): JSX.Element {
             className="h-80 w-64"
           />
           {/* </div> */}
-          <h3 className="text-xl pl-4">requested {owner} to swap with you</h3>
+          <h3 className="text-xl text-center">
+            requested {owner} to swap with you
+          </h3>
           <p className="self-center">{title}</p>
           <div className="flex px-2">
             <Button
