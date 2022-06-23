@@ -22,7 +22,11 @@ export default async function handler(
                     },
                 });
             } else {
-                items = await prisma.item.findMany({});
+                items = await prisma.item.findMany({
+                    where: {
+                        gone: false,
+                    },
+                });
             }
             res.status(200).json(items);
         } catch (err) {

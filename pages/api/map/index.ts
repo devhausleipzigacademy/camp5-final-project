@@ -27,7 +27,11 @@ export default async function handler(
                 locations = await prisma.location.findMany();
                 users = await prisma.user.findMany();
             } else {
-                items = await prisma.item.findMany();
+                items = await prisma.item.findMany({
+                    where: {
+                        gone: false,
+                    },
+                });
                 locations = await prisma.location.findMany();
                 users = await prisma.user.findMany();
             }
