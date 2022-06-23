@@ -1,8 +1,11 @@
+import { Combobox, Transition } from "@headlessui/react";
+import { SearchIcon } from "@heroicons/react/solid";
 import { SellType } from "@prisma/client";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useState } from "react";
-import { leafDetailsMap } from "../assets/class-models-paths";
+import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { leafDetailsMap, leaves } from "../assets/class-models-paths";
 import { ontology, details } from "../assets/metadata";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
@@ -18,16 +21,18 @@ const Searchpage: NextPage = () => {
     const [possibleSub, setPossibleSub] = useState<string[]>([]);
     const [selectedSub, setSelectedSub] = useState("");
     const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
-    const [selectedSubSub, setSelectedSubSub] = useState("undefined");
+    const [selectedSubSub, setSelectedSubSub] = useState<string>("undefined");
     const [fields, setFields] = useState<string[]>([]);
     const [selectedDetails, setSelectedDetails] = useState<
         Record<string, string>
     >({});
+    const [selected, setSelected] = useState();
+    const [query, setQuery] = useState("");
     const router = useRouter();
     const { items, setItems } = useItemStore();
 
     async function mapDataCheckAndFetch() {
-        if (items.type === "") {
+        if (items.features.length === 0) {
             const initialMapData = await getMapData();
             setItems(initialMapData);
         }
@@ -95,15 +100,6 @@ const Searchpage: NextPage = () => {
     return (
         <div className="font-medium flex flex-col h-[calc(100vh-64px)] items-center overflow-scroll px-2">
             <div className="flex flex-col w-full px-2 space-y-2 pt-2 justify-between">
-                <Input
-                    name="Title"
-                    value={title}
-                    placeholder="Title"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setTitle(event.target.value)
-                    }
-                ></Input>
-
                 {/* ---------------------- CHECKBOXES ------------------------- */}
 
                 <div className="flex self-start w-full">
@@ -204,12 +200,28 @@ const Searchpage: NextPage = () => {
             </div>
             <div className="flex flex-grow"></div>
             <div className="flex w-full pb-2">
-                <Button
-                    type="submit"
-                    onClick={searchHandler}
-                    value="Search"
-                    selected={false}
-                />
+                {selectedSubSub === "undefined" ? (
+                    <button
+                        // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
+                        // https://github.com/lukeed/clsx/blob/master/readme.md
+                        className="px-8 rounded-md bg-primary text-primary-text py-2 w-full"
+                        onClick={searchHandler}
+                        type="submit"
+                    >
+                        filter
+                    </button>
+                ) : (
+                    <button
+                        // clsx generates strings from expressions to avoid bugs with string interpolation and tailwindcss
+                        // https://github.com/lukeed/clsx/blob/master/readme.md
+                        className="px-8 rounded-md bg-primary opacity-80 text-primary-text py-2 w-full"
+                        onClick={searchHandler}
+                        type="submit"
+                        disabled
+                    >
+                        filter
+                    </button>
+                )}
             </div>
         </div>
     );

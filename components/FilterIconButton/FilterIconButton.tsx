@@ -16,7 +16,7 @@ export const FilterIconButton = ({ onClick }: FilterIconButtonProps) => {
             className="w-12 h-12 z-20 absolute bottom-0 justify-end flex"
             onClick={() => setShow(false)}
         >
-            <Link href="/search">
+            <Link href="/filter">
                 <AdjustmentsIcon
                     className={
                         show
