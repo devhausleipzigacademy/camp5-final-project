@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BurgerMenu from "../../public/menu.svg";
+import ProfileIcon from "../../public/profile.svg";
 import HomeIcon from "../../public/home.svg";
 import { useEffect, useState } from "react";
 import { Item } from "../../utils/types";
@@ -36,6 +37,8 @@ const Header = () => {
   // add logic for chat later
   if (pagename === "/#" || pagename === "/" || pagename === "") {
     pagename = "Dashboard";
+  } else if (pagename === "/signin") {
+    pagename = "Sign In";
   } else if (pagename === "/useritems") {
     pagename = "My Offers";
   } else if (pagename === "/upload") {
@@ -69,7 +72,7 @@ const Header = () => {
       <div className="px-4">
         <Link href="/useritems">
           <div className="flex">
-            <BurgerMenu className="text-primary-text" width="32" />
+            <ProfileIcon className="text-primary-text" width="34" />
             {reqNum > 0 ? (
               <div className="h-4 w-4 absolute top-4 right-4 rounded-full bg-error">
                 <p className="absolute text-xs top-0 left-1 bottom-4 text-BG">

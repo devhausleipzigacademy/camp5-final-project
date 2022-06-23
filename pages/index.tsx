@@ -38,7 +38,6 @@ const Home: NextPage = () => {
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const { setItems } = useItemStore();
-
   // const [data, setData] = useState<MapData | null>(null);
 
   async function getAllMapData() {
@@ -113,7 +112,9 @@ const Home: NextPage = () => {
     setShowMap((prev) => !prev);
     console.log(showMap);
   }
+
   const { data: session, status } = useSession();
+
   const router = useRouter();
   useEffect(() => {
     console.log(session, status);
@@ -145,7 +146,13 @@ const Home: NextPage = () => {
           value={"Swap"}
         />
       </div>
-      {!mapData ? <Spinner /> : <Map mapData={mapData} />}
+      {!mapData ? (
+        <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
+          <Spinner />
+        </div>
+      ) : (
+        <Map mapData={mapData} />
+      )}
       <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
     </div>
   );

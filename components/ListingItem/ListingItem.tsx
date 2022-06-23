@@ -46,30 +46,31 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
         (thisElement as HTMLElement).classList.add("active");
       }}
     >
-      <div className="flex gap-2 items-center">
+      <div className="flex w-full gap-2 items-center">
         <Image
           src={firstImage}
           alt=""
-          layout="fixed"
+          layout="intrinsic"
           // sizes="100vw"
-          height={50}
-          width={50}
+          height={80}
+          width={80}
           objectFit="cover"
         />
-        <div className="flex w-full justify-between">
+        <div className="flex w-full justify-between items-center">
           <a href="#" className="title" id={`link-${i}`}>
             <div className="flex-col">
               <div>{feature.properties.title}</div>
               <div>{distance}</div>
+              <p>{feature.type.toLowerCase()}</p>
             </div>
           </a>
           <Image
             src={feature.properties.profilePicture as string}
             alt=""
-            layout="intrinsic"
+            layout="fixed"
             // sizes="100vw"
-            height={50}
-            width={50}
+            height={60}
+            width={60}
             objectFit="cover"
             className="rounded-full"
           />
