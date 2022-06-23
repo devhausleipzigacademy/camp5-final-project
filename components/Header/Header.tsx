@@ -5,11 +5,36 @@ import HomeIcon from "../../public/home.svg";
 import { NextPageContext } from "next";
 import { useEffect, useState } from "react";
 import { useRequestStore } from "../../stores/requestStore";
+import { Item } from "../../utils/types";
+import { useSession } from "next-auth/react";
+import { getUserItems } from "../../utils/getUserItems";
 
 const Header = () => {
   const router = useRouter();
+  const [listData, setListData] = useState<Item[]>([]);
+  const session = useSession();
+  const userId = session.data?.user.id;
+  let sum = 0;
+
+  function getRequests() {
+    for (let i = 0; i < listData.length; i++) {
+      sum = sum + listData[i].requests.length;
+    }
+    return sum;
+  }
+
+  async function getUserData() {
+    const userItemFetch = await getUserItems(userId);
+    setListData(userItemFetch);
+    getRequests();
+    console.log(sum);
+  }
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   let pagename = router.asPath;
-  const { requests } = useRequestStore();
 
   // add logic for chat later
   if (pagename === "/#" || pagename === "/" || pagename === "") {

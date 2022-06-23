@@ -39,11 +39,9 @@ const Home: NextPage = () => {
   const { mapRef } = useMapStore();
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const { setItems } = useItemStore();
-  const { setRequests } = useRequestStore();
-  const { data: session, status } = useSession();
 
   // const [data, setData] = useState<MapData | null>(null);
-  let userId = session.user.id;
+  let userId = sezzion.data?.user.id;
 
   let sum = 0;
 
@@ -134,7 +132,7 @@ const Home: NextPage = () => {
     setShowMap((prev) => !prev);
     console.log(showMap);
   }
-
+  const { data: session, status } = useSession();
   const router = useRouter();
   useEffect(() => {
     console.log(session, status);
