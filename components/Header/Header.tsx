@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BurgerMenu from "../../public/menu.svg";
+import ProfileIcon from "../../public/profile.svg";
 import HomeIcon from "../../public/home.svg";
 import { NextPageContext } from "next";
 import { useEffect, useState } from "react";
@@ -50,7 +51,7 @@ const Header = () => {
       <h3 className="text-lg font-poppins">{pagename}</h3>
       <div className="px-4">
         <Link href="/useritems">
-          <BurgerMenu className="text-primary-text" width="32" />
+          <ProfileIcon className="text-primary-text" width="34" />
         </Link>
       </div>
     </div>
