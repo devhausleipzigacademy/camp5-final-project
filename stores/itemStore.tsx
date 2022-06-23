@@ -3,7 +3,7 @@ import create from "zustand";
 import { getMapData } from "../utils/getMapData";
 import { Geometry, MapData } from "../utils/types";
 
-const initialItems: MapData = { type: "featureCollection", features: [] };
+const initialItems: MapData = { type: "", features: [] };
 
 interface ItemState {
     items: MapData;

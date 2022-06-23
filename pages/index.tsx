@@ -35,14 +35,19 @@ const Home: NextPage = () => {
     const { location } = useLocationStore();
     const { mapRef } = useMapStore();
     const [selectedFilter, setSelectedFilter] = useState<string>("");
-    const { setItems } = useItemStore();
+    const { items, setItems } = useItemStore();
     // const [data, setData] = useState<MapData | null>(null);
 
     async function getAllMapData() {
-        const mapDataFetch = await getMapData();
-        setMapData(mapDataFetch);
-        setInitialMapData(mapDataFetch);
-        setItems(mapDataFetch);
+        if (items.features.length !== 0) {
+            setMapData(items);
+            setInitialMapData(items);
+        } else {
+            const mapDataFetch = await getMapData();
+            setMapData(mapDataFetch);
+            setInitialMapData(mapDataFetch);
+            setItems(mapDataFetch);
+        }
     }
 
     useEffect(() => {
@@ -59,7 +64,7 @@ const Home: NextPage = () => {
         while (markerElements.length > 0) {
             markerElements[0].remove();
         }
-        addMarkers(location, mapRef, updatedMapData as MapData);
+        addMarkers(location, mapRef, updatedMapData as MapData, router);
     }
 
     const filterMarkers = (

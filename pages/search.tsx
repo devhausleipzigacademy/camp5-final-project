@@ -1,5 +1,6 @@
 import { SellType } from "@prisma/client";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { leafDetailsMap } from "../assets/class-models-paths";
 import { ontology, details } from "../assets/metadata";
@@ -7,6 +8,7 @@ import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Input from "../components/Inputfields/Input";
 import { useItemStore } from "../stores/itemStore";
+import { getMapData } from "../utils/getMapData";
 
 const Searchpage: NextPage = () => {
     const [title, setTitle] = useState("");
@@ -16,13 +18,32 @@ const Searchpage: NextPage = () => {
     const [possibleSub, setPossibleSub] = useState<string[]>([]);
     const [selectedSub, setSelectedSub] = useState("");
     const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
-    const [selectedSubSub, setSelectedSubSub] = useState("");
+    const [selectedSubSub, setSelectedSubSub] = useState("undefined");
     const [fields, setFields] = useState<string[]>([]);
     const [selectedDetails, setSelectedDetails] = useState<
         Record<string, string>
     >({});
-    const { items } = useItemStore();
+    const router = useRouter();
+    const { items, setItems } = useItemStore();
+
+    async function mapDataCheckAndFetch() {
+        if (items.type === "") {
+            const initialMapData = await getMapData();
+            setItems(initialMapData);
+        }
+    }
+    mapDataCheckAndFetch();
     console.log("itemstate: ", items);
+
+    const filteredItems = items.features.filter((item) =>
+        item.properties.class.includes(selectedSubSub)
+    );
+    const filteredMapData = {
+        type: "featureCollection",
+        features: [...filteredItems],
+    };
+    console.log("filteredMapData: ", filteredMapData);
+    // setItems(filteredMapData);
 
     function checkHandler() {
         setIsChecked((prev) => !prev);
@@ -64,7 +85,11 @@ const Searchpage: NextPage = () => {
         setFields(() => []);
     }, [selectedCategory, selectedSub]);
 
-    function searchHandler() {}
+    function searchHandler() {
+        setItems(filteredMapData);
+        console.log("searched items: ", items);
+        router.push("/");
+    }
 
     return (
         <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
