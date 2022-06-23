@@ -56,7 +56,6 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
     const [zoom, setZoom] = useState(14);
     const [listData, setListData] = useState<Feature[]>([]);
     const [initialListData, setInitialListData] = useState<Feature[]>([]);
-    const { items } = useItemStore();
 
     async function getData() {
         const listDataFetch = await getListData();
@@ -76,8 +75,8 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
     // jsx for styling the drawer
     return (
         <Modal onClose={onClose}>
-            <div className="flex flex-col h-full pt-4">
-                <div className="px-3 pb-4 shadow-sm">
+            <div className="flex flex-col h-[calc(100vh-160px)] pt-4">
+                <div className="pb-4 shadow-sm">
                     <div className="fixed top-3 left-1/4">
                         <button
                             onClick={onClose}
@@ -88,12 +87,12 @@ export const ItemDrawer = ({ onClose, selectedFilter }: ItemDrawerProps) => {
 
                 <div className="flex-1 overflow-y-scroll">
                     {!listData ? (
-                        <div className="flex items-center justify-center pt-12">
+                        <div className="flex items-center justify-center">
                             <Spinner height={73} />
                         </div>
                     ) : (
                         <>
-                            <ul className="px-3 text-left">
+                            <ul className="text-left">
                                 {
                                     <div id="listings" className="listings">
                                         {listData.length === 0 && (
