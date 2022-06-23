@@ -78,6 +78,7 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
           }
         >
           <Image
+            className="rounded-md"
             src={imageYEAH}
             height={50}
             width={50}
@@ -130,14 +131,14 @@ export const UserListItem = ({ item, i, useDeleteItemId }: Props) => {
         <div className="flex flex-grow"></div>
         {item.gone ? (
           <div className="flex flex-col justify-between">
-            <PencilIcon className="w-6 h-6 opacity-0" />
-            <TrashIcon className="w-6 h-6" />
+            <PencilIcon className="w-6 h-6 opacity-0 text-primary" />
+            <TrashIcon className="w-6 h-6 text-error" />
           </div>
         ) : (
           <div className="flex flex-col justify-around">
-            <PencilIcon className="w-6 h-6" />
+            <PencilIcon className="w-6 h-6 text-primary" />
             <TrashIcon
-              className="w-6 h-6"
+              className="w-6 h-6 text-error"
               onClick={() => useDeleteItemId(item.identifier)}
             />
           </div>

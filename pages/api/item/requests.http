@@ -17,8 +17,11 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost:3000/api/item?updateitem=9d449540-6dc7-47e9-9d07-37c8c87e5613&recipient=3c98648e-50f5-4143-96e5-12153e415808
 
-GET http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052
+###
+
+GET http://localhost:3000/api/item?identifier=5144ee99-359d-4a47-8c7b-4cac705ccc72
 
 ###
 DELETE http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052

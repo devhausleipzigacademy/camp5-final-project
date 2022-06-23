@@ -22,12 +22,12 @@ const UploadImage = ({
   // const [images, setImages] = useState()
 
   return (
-    <div className="w-full">
+    <div>
       {errors.length ? (
         errors.map((error, index) => (
           <div
             key={index}
-            className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row flex-grow justify-between items-center sm:text-sm"
+            className="rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row flex-grow justify-between items-center sm:text-sm"
           >
             <div className="flex bg-error text-error-text">
               <p>{error.name}</p>
@@ -41,9 +41,9 @@ const UploadImage = ({
         ))
       ) : filesContent.length ? (
         <div>
-          <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+          <div className="rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
             <p className="font-normal">
-              you've uploaded {filesContent.length} image/s
+              you have uploaded {filesContent.length} image/s
             </p>
             <button onClick={clear}>
               <TrashIcon className="text-primary h-6" />
@@ -58,7 +58,7 @@ const UploadImage = ({
           ))}
         </div>
       ) : (
-        <div className="w-full rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
+        <div className="rounded-md bg-primary bg-opacity-20 text-primary text-opacity-40 px-3 py-2 flex flex-row justify-between items-center sm:text-sm">
           <p className="font-normal">Photo </p>
           <button onClick={() => openFileSelector()}>
             <PlusCircleIcon className="text-primary h-8" />

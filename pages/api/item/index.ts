@@ -67,6 +67,30 @@ export default async function handler(
       }
     }
   }
+  if (req.method === "PUT") {
+    const id = req.query.updateitem as string;
+    const recId = req.query.recipient as string;
+    try {
+      let item: Item | null;
+      if (id && recId) {
+        item = await prisma.item.update({
+          where: {
+            identifier: id,
+          },
+          data: {
+            gone: true,
+            recipientId: recId,
+          },
+        });
+      } else {
+        res.status(500).send("item not found");
+      }
+      res.status(200).json(item);
+    } catch (err) {
+      console.log(err);
+      res.status(500).end();
+    }
+  }
   if (req.method === "GET") {
     const id = req.query.identifier as string;
     try {

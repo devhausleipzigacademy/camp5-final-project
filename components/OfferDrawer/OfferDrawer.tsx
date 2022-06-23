@@ -55,8 +55,8 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
       <div
         className={clsx(
           show
-            ? "absolute h-[calc(100vh-64px)] w-1/3 bottom-0 bg-BG shadow-md rounded-r-md z-10 flex flex-col justify-between px-2 py-4 transition-transform duration-150 ease-out translate-x-0"
-            : "absolute h-[calc(100vh-64px)] w-1/3 bottom-0 bg-BG shadow-md z-10 flex flex-col justify-between px-2 py-4 transition-transform duration-150 ease-out -translate-x-full"
+            ? "absolute h-[calc(100vh-92px)] w-1/3 top-[64px] bg-BG shadow-md rounded-r-md z-10 flex flex-col justify-between px-2 py-4 transition-transform duration-150 ease-out translate-x-0"
+            : "absolute h-[calc(100vh-92px)] w-1/3 top-[64px] bg-BG shadow-md z-10 flex flex-col justify-between px-2 py-4 transition-transform duration-150 ease-out -translate-x-full"
         )}
       >
         <div className="flex flex-col space-y-2 justify-between text-secondary-text">
@@ -80,12 +80,14 @@ const OfferDrawer = ({ show = false }: OfferDrawerProps) => {
               />
             ))}
         </div>
-        <Button
-          selected={false}
-          onClick={confirmOffer}
-          value={"Offer"}
-          type={"button"}
-        />
+        <div className="pr-16">
+          <Button
+            selected={false}
+            onClick={confirmOffer}
+            value={"Offer"}
+            type={"submit"}
+          />
+        </div>
       </div>
     </>
   );

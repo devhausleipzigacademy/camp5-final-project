@@ -45,7 +45,7 @@ export function Credentials(provider: Providers) {
 
   return (
     <>
-      <div className="flex-col space-y-3 text-center w-full">
+      <div className="flex-col space-y-3 text-center">
         <input
           className="w-full py-3 indent-4 bg-BG rounded-md"
           placeholder="E-mail"
@@ -62,14 +62,16 @@ export function Credentials(provider: Providers) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
-        <Button
-          value={"Sign In"}
-          onClick={() =>
-            signIn(provider.id, { username: email, password: password })
-          }
-          type={"submit"}
-          selected={false}
-        />
+        <div className="flex">
+          <Button
+            value={"Sign In"}
+            onClick={() =>
+              signIn(provider.id, { username: email, password: password })
+            }
+            type={"submit"}
+            selected={false}
+          />
+        </div>
       </div>
       {/* <pre>
         email: {email}, password: {password}
@@ -80,9 +82,9 @@ export function Credentials(provider: Providers) {
 
 export default function signin({ providers, csrfToken }: ProvidersList) {
   return (
-    <div className="h-[calc(73.5vh)] flex flex-col justify-center px-4 items-center text-BG-text">
+    <div className="h-[calc(73.5vh)] w-full flex flex-col justify-center items-center text-BG-text">
       <p className="py-2">Sign In With</p>
-      <div className="flex justify-center space-x-4 w-screen pl-4">
+      <div className="flex justify-center space-x-4">
         {Object.values(providers).map((provider) => {
           return (
             <div key={provider.name}>
