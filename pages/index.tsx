@@ -135,8 +135,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="space-y-2 h-[calc(100vh-64px)]">
-      <Search properties={mapData?.features!} />
-      <div className="flex gap-2 px-2">
+      <div className="flex gap-2 px-2 pt-2">
         <Button
           type="button"
           selected={selectedFilter === "Free"}
@@ -150,6 +149,8 @@ const Home: NextPage = () => {
           value={"Swap"}
         />
       </div>
+      <Search properties={mapData?.features!} />
+
       {!mapData ? (
         <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
           <Spinner />
