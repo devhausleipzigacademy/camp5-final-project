@@ -29,7 +29,6 @@ const Header = () => {
   useEffect(() => {
     getUserData();
     getRequests();
-    console.log(reqNum);
   }, [router]);
 
   let pagename = router.asPath;
@@ -78,7 +77,7 @@ const Header = () => {
                 </p>
               </div>
             ) : (
-              <div className="h3 w-3">{reqNum}</div>
+              <></>
             )}
           </div>
         </Link>
