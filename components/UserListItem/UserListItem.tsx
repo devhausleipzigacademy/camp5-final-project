@@ -1,11 +1,11 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import { formatDistance, subDays } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import reactSelect from "react-select";
 import { getUser } from "../../utils/getUser";
 import { Item } from "../../utils/types";
-import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog/ConfirmDeleteDialog";
 import ConfirmDialog from "../ConfirmDialog.tsx/ConfirmDialog";
 
 type Props = {
@@ -139,7 +139,12 @@ export const UserListItem = ({ item, i, deleteItemId }: Props) => {
           </div>
         ) : (
           <div className="flex flex-col justify-around">
-            <PencilIcon className="w-6 h-6 text-primary" />
+            <Link
+              href={`/editproduct/${item.identifier}`}
+              itemID={item.identifier}
+            >
+              <PencilIcon className="w-5 h-5" />
+            </Link>
             <TrashIcon
               className="w-6 h-6 text-error"
               onClick={() => setShowDeleteDialog(true)}

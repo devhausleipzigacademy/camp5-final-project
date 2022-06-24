@@ -40,6 +40,8 @@ const Header = () => {
     pagename = "Create offer";
   } else if (pagename.includes("trade")) {
     pagename = "Trade";
+  } else if (pagename.includes("editproduct")) {
+    pagename = "Edit Item";
   } else {
     if (pagename.includes("item")) {
       pagename = router.asPath

@@ -11,6 +11,7 @@ interface Props {
   filesContent: FileContent[];
   openFileSelector: () => void;
   clear: () => void;
+  images: string[];
 }
 
 const UploadImage = ({
@@ -18,6 +19,7 @@ const UploadImage = ({
   filesContent,
   openFileSelector,
   clear,
+  images,
 }: Props) => {
   // const [images, setImages] = useState()
 
