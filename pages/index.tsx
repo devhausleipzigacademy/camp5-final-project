@@ -7,7 +7,7 @@ import Header from "../components/Header/Header";
 import ItemDrawer from "../components/ItemDrawer/ItemDrawer";
 import Map from "../components/map";
 import { getMapData } from "../utils/getMapData";
-import { MapData, Feature } from "../utils/types";
+import { MapData, Feature, Item } from "../utils/types";
 import { Spinner } from "../components/Spinner/Spinner";
 import addMarkers from "../utils/addMarkers";
 import { useMapStore } from "../stores/mapStore";
@@ -18,6 +18,7 @@ import { NextRouter, useRouter } from "next/router";
 import Search from "../components/Search/Search";
 import Button from "../components/Button/Button";
 import { useItemStore } from "../stores/itemStore";
+import { getUserItems } from "../utils/getUserItems";
 
 mapboxgl.accessToken =
     "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -131,13 +132,16 @@ const Home: NextPage = () => {
     const loading = status === "loading";
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <div className="flex text-center items-center w-full h-full rounded-md">
+                <Spinner />
+            </div>
+        );
     }
 
     return (
         <div className="space-y-2 h-[calc(100vh-64px)]">
-            <Search properties={mapData?.features!} />
-            <div className="flex gap-2 px-2">
+            <div className="flex gap-2 px-2 pt-2">
                 <Button
                     type="button"
                     selected={selectedFilter === "Free"}
@@ -151,6 +155,7 @@ const Home: NextPage = () => {
                     value={"Swap"}
                 />
             </div>
+            <Search properties={mapData?.features!} />
             {!mapData ? (
                 <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
                     <Spinner />
@@ -158,6 +163,7 @@ const Home: NextPage = () => {
             ) : (
                 <Map mapData={mapData} />
             )}
+
             <ItemDrawer selectedFilter={selectedFilter}></ItemDrawer>
         </div>
     );

@@ -13,46 +13,46 @@ import { AdjustmentsIcon } from "@heroicons/react/solid";
 import { FilterIconButton } from "./FilterIconButton/FilterIconButton";
 
 mapboxgl.accessToken =
-    "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
+  "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
 type MapProps = {
-    mapData: MapData;
+  mapData: MapData;
 };
 const Map = ({ mapData }: MapProps) => {
-    const { mapRef, setMapRef } = useMapStore();
-    const { location } = useLocationStore();
-    const mapContainer = useRef<HTMLDivElement>(null);
-    const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
-    const [zoom, setZoom] = useState(14);
-    console.log("mapData :", mapData);
-    // -----creates Map ----- //
-    useEffect(() => {
-        if (map.current) return;
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current as HTMLElement,
-            style: "mapbox://styles/mapbox/streets-v11",
-            center: location,
-            zoom: zoom,
-        });
-    }, []);
+  const { mapRef, setMapRef } = useMapStore();
+  const { location } = useLocationStore();
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
+  const [zoom, setZoom] = useState(14);
+  console.log("mapData :", mapData);
+  // -----creates Map ----- //
+  useEffect(() => {
+    if (map.current) return;
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current as HTMLElement,
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: location,
+      zoom: zoom,
+    });
+  }, []);
 
-    useEffect(() => {
-        setMapRef(map);
-    }, [map, setMapRef]);
+  useEffect(() => {
+    setMapRef(map);
+  }, [map, setMapRef]);
 
-    const { lng, lat } = useMap(map, setZoom, mapData);
+  const { lng, lat } = useMap(map, setZoom, mapData);
 
-    return (
-        <div className="map z-10 relative">
-            <FilterIconButton
-                mapData={{
-                    type: "",
-                    features: [],
-                }}
-            />
-            <div ref={mapContainer} className="map-container" />
-        </div>
-    );
+  return (
+    <div className="map z-10 relative">
+      <FilterIconButton
+        mapData={{
+          type: "",
+          features: [],
+        }}
+      />
+      <div ref={mapContainer} className="map-container" />
+    </div>
+  );
 };
 
 export default Map;

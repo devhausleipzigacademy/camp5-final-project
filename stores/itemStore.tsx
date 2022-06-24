@@ -6,11 +6,11 @@ import { Geometry, MapData } from "../utils/types";
 const initialItems: MapData = { type: "", features: [] };
 
 interface ItemState {
-    items: MapData;
-    setItems: (i: MapData) => void;
+  items: MapData;
+  setItems: (i: MapData) => void;
 }
 
 export const useItemStore = create<ItemState>()((set) => ({
-    items: initialItems,
-    setItems: (i) => set((state) => ({ items: i })),
+  items: initialItems,
+  setItems: (i) => set((state) => ({ items: i })),
 }));

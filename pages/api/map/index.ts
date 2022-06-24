@@ -35,6 +35,7 @@ export default async function handler(
                 locations = await prisma.location.findMany();
                 users = await prisma.user.findMany();
             }
+
             //define a response object
             const data: MapData = {
                 type: "FeatureCollection",
