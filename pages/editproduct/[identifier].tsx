@@ -46,6 +46,7 @@ type UploadProps = {
   categoryTitle: string;
   subcategory: string;
   item: Item;
+  details: Object;
 };
 
 type Props = {
@@ -170,6 +171,8 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
   useEffect(() => {
     if (selectedCategory) {
       setPossibleSub(Object.keys(ontology[selectedCategory]));
+      setTitle(item.title);
+      setDescription(item.description);
     } else {
       setPossibleSub(() => []);
       setSelectedSub(() => "");
@@ -212,7 +215,7 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
         <div className="pt-2">
           <Input
             name="Title"
-            value={item.title}
+            value={title}
             placeholder="Title"
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               setTitle(event.target.value)
@@ -224,7 +227,7 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
           Description
         </label>
         <textarea
-          value={item.description}
+          value={description}
           id="Description"
           name="Description"
           className="placeholder-primary placeholder-opacity-40 rounded-md px-3 py-2 bg-primary bg-opacity-20 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 h-24 sm:text-sm"
@@ -242,7 +245,7 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
         <div className="h-auto w-full flex justify-center">
           <Image
             src={Object.values(item.images)[0]}
-            height={200}
+            height={160}
             width={200}
             layout="intrinsic"
             onClick={clear}
@@ -343,7 +346,7 @@ export default function EditProductPage({ item }: UploadProps): JSX.Element {
           <Button
             type="submit"
             onClick={handleOnSubmit}
-            value="Create offer"
+            value="Confirm"
             selected={false}
           />
         </div>
