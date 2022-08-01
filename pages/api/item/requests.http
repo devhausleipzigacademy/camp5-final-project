@@ -1,9 +1,9 @@
 
-POST http://localhost:3000/api/item?path=Kitchen,Appliances&user=01df4dcb-38b4-4437-a62a-f8e3c1003ff2
+POST http://localhost:3000/api/item?path=Kitchen,Appliances&user=a984d4b7-17b9-4810-ac22-4656ac5a73e6
 Content-Type: application/json
 
 {
-  "title": "Nespresso",
+  "title": "Coffee Machine",
   "images": ["x"],
   "description": "damn good coffee",
   "sellType": "FREE",
