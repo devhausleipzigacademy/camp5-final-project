@@ -1994,10 +1994,10 @@
   resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8.tgz#ce00e6377126e491a8b1e0e2039c97e2924bd6d9"
   integrity sha512-cRRJwpHFGFJZvtHbY3GZjMffNBEjjZk68ztn+S2hDgPCGB4H66IK26roK94GJxBodSehwRJ0wGyebC2GoIH1JQ==
 
-"@prisma/engines@3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a":
-  version "3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a.tgz#7fa11bc26a51d450185c816cc0ab8cac673fb4bf"
-  integrity "sha1-f6EbwmpR1FAYXIFswKuMrGc/tL8= sha512-LwZvI3FY6f43xFjQNRuE10JM5R8vJzFTSmbV9X0Wuhv9kscLkjRlZt0BEoiHmO+2HA3B3xxbMfB5du7ZoSFXGg=="
+"@prisma/engines@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-4.1.1.tgz#a6a75870618bbd19ff734c51af7dbe9f362c3265"
+  integrity sha512-DCw8L/SS0IXqmj5IW/fMxOXiifnsfjBzDfRhf0j3NFWqvMCh9OtfjmXQZxVgI2mwvJLc/5jzXhkiWT39qS09dA==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.1.3"
@@ -12072,12 +12072,12 @@ pretty-hrtime@^1.0.3:
   resolved "https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
   integrity "sha1-t+PqQkNaTJsnWdmeDyAesZWALuE= sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A=="
 
-prisma@^3.14.0:
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-3.14.0.tgz#dd67ece37d7b5373e9fd9588971de0024b49be81"
-  integrity "sha1-3Wfs4317U3Pp/ZWIlx3gAktJvoE= sha512-l9MOgNCn/paDE+i1K2fp9NZ+Du4trzPTJsGkaQHVBufTGqzoYHuNk8JfzXuIn0Gte6/ZjyKj652Jq/Lc1tp2yw=="
+prisma@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-4.1.1.tgz#41c2e19896357f484ef21567165d762908376fca"
+  integrity sha512-yw50J8If2dKP4wYIi695zthsCASQFHiogGvUHHWd3falx/rpsD6Sb1LMLRV9nO3iGG3lozxNJ2PSINxK7xwdpg==
   dependencies:
-    "@prisma/engines" "3.14.0-36.2b0c12756921c891fec4f68d9444e18c7d5d4a6a"
+    "@prisma/engines" "4.1.1"
 
 prismjs@^1.21.0:
   version "1.28.0"
