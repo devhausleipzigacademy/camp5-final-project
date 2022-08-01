@@ -116,19 +116,19 @@ export const ontology: Ontology<Classes, keyof typeof details> = {
       ["Other Dishes", ["Age", "Condition", "Brand", "Material"]],
     ],
     OtherKitchenCategories: [["Other Kitchen Categories", []]],
-    FirstTestCategory: {
-      TestNest1: {
-        TestNest2: {
-          TestNest3: [["First Test Class", []]],
-        },
-      },
-    },
-    SecondTestCategory: {
-      NestTest1: {
-        NestTest2: {
-          NestTest3: [["Second Test Class", []]],
-        },
-      },
-    },
+    // FirstTestCategory: {
+    //   TestNest1: {
+    //     TestNest2: {
+    //       TestNest3: [["First Test Class", []]],
+    //     },
+    //   },
+    // },
+    // SecondTestCategory: {
+    //   NestTest1: {
+    //     NestTest2: {
+    //       NestTest3: [["Second Test Class", []]],
+    //     },
+    //   },
+    // },
   },
 };
