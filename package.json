@@ -28,7 +28,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
-    "@prisma/client": "^3.14.0",
+    "@prisma/client": "^4.1.1",
     "@svgr/webpack": "^6.2.1",
     "@trendyol-js/react-carousel": "^2.0.1",
     "@turf/turf": "^6.5.0",
