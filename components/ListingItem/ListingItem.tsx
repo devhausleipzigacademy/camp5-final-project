@@ -1,3 +1,4 @@
+// Component for each Item in ItemDrawer on Map
 import Image from "next/image";
 import flyToStore from "../../utils/flyToStore";
 import createPopUp from "../../utils/createPopUp";
@@ -19,9 +20,14 @@ interface Props {
 const ListingItem = ({ feature, i, onClose }: Props) => {
   const router = useRouter();
   const distance = useDistance(feature);
+  // get userlocation from global store
   const { location } = useLocationStore();
+  // get map from global store
   const { mapRef } = useMapStore();
+
+  // initialize firstImage to get it out of scope
   let firstImage;
+  // loop over imagearray to get the first image
   for (var key in feature.properties.image) {
     if (feature.properties.image.hasOwnProperty(key)) {
       firstImage = Object(feature.properties.image)[key];
@@ -34,6 +40,9 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
       id={`listing-${i}`}
       className="item"
       onClick={() => {
+        {
+          /* close ItemDrawer */
+        }
         onClose();
         createPopUp(feature, location, mapRef, router);
         setTimeout(() => flyToStore(feature, mapRef), 300);
