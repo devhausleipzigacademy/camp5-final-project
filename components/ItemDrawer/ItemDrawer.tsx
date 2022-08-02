@@ -3,14 +3,8 @@
 
 import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  MutableRefObject,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import mapboxgl, { LngLatLike } from "mapbox-gl";
+import { ReactNode, useEffect, useState } from "react";
+import mapboxgl from "mapbox-gl";
 import { Feature } from "../../utils/types";
 import ListingItem from "../ListingItem/ListingItem";
 import React from "react";
