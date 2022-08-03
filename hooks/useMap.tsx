@@ -82,18 +82,17 @@ export default function useMap(
     // place all markers other than user on map
 
     const markerArray = addMarkers(location, map, mapData as MapData, router);
-    // setMarkers(markerArray);
     if (markerArray?.length) {
       setMarkerArray(markerArray);
     }
 
-    //enable scrolling and zooming for map
+    //enable scrolling and zooming for map and get the coordinates of the center on move
     (map.current as mapboxgl.Map).on("move", () => {
       setLng(Number((map.current as mapboxgl.Map).getCenter().lng.toFixed(4)));
       setLat(Number((map.current as mapboxgl.Map).getCenter().lat.toFixed(4)));
       setZoom(Number((map.current as mapboxgl.Map).getZoom().toFixed(2)));
     });
   }, []);
-
+  // returns lng lat of map-center
   return { lng, lat };
 }
