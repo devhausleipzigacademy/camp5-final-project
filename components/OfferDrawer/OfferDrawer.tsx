@@ -1,3 +1,4 @@
+// Component to show user items on item page for swapping
 import {
   Dispatch,
   MouseEventHandler,
@@ -33,12 +34,19 @@ const OfferDrawer = ({
   owner,
 }: OfferDrawerProps) => {
   const [selected, setSelected] = useState(false);
+  {
+    /* state for item id */
+  }
   const [selID, setSelID] = useState("");
   const [userItems, setUserItems] = useState<Item[]>([]);
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const session = useSession();
+  //@ts-ignore
   let userId = session.data.user.id;
 
+  {
+    /* fetch user items */
+  }
   async function getItems() {
     let itemFetch = await getUserItems(userId);
     setUserItems(itemFetch);
@@ -48,11 +56,17 @@ const OfferDrawer = ({
     getItems();
   }, []);
 
+  {
+    /* get item id and set selected to true */
+  }
   function toggleSelect(id: string) {
     setSelected((prev) => !prev);
     setSelID(id);
   }
 
+  {
+    /* after confirm dialog */
+  }
   const confirmOffer = () => {
     offersArray.push(selID);
     console.log(offersArray);
@@ -60,6 +74,9 @@ const OfferDrawer = ({
     setShowDrawer(false);
   };
 
+  {
+    /* save itemId in offersArray of product and go to tradepage */
+  }
   async function offerHandler() {
     try {
       await axios.put(`api/item?updateitem=${productId}`, offersArray);
@@ -77,7 +94,11 @@ const OfferDrawer = ({
   }
 
   if (!userItems) {
-    return <>you need to upload items</>;
+    return (
+      <>
+        <Spinner />
+      </>
+    );
   } else {
     return (
       <>
@@ -97,14 +118,13 @@ const OfferDrawer = ({
           )}
         >
           <div className="flex flex-col space-y-2 justify-between text-secondary-text">
-            {userItems.length === 0 && (
-              <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
-                <Spinner />
-              </div>
-            )}
             <p className="font-semibold text-center">My Items</p>
             <div className="h-[1px] bg-BG-text rounded-md opacity-25"></div>
-
+            {userItems.length === 0 && (
+              <div className="flex text-center items-center w-full h-[73.5vh] rounded-md">
+                <p>Please upload a swappable item.</p>
+              </div>
+            )}
             {userItems.length > 0 &&
               userItems.map((userItem, i) => (
                 <ProductUserListItem
