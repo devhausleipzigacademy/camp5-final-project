@@ -2,9 +2,7 @@
 import Image from "next/image";
 import flyToStore from "../../utils/flyToStore";
 import createPopUp from "../../utils/createPopUp";
-import { Coord } from "@turf/turf";
-import { Feature, ListData } from "../../utils/types";
-import useUserLocation from "../../utils/useUserLocation";
+import { Feature } from "../../utils/types";
 import useDistance from "../../utils/useDistance";
 import React from "react";
 import { useLocationStore } from "../../stores/locationStore";
