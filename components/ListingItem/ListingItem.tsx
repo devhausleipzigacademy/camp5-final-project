@@ -50,7 +50,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
         createPopUp(feature, location, mapRef, router);
         setTimeout(() => flyToStore(feature, mapRef), 300);
         {
-          /* change className to apply different styling for active item.
+          /* change className to apply different styling, flashes green onclick.
           look into mapcss.css */
         }
         const activeItem = document.getElementsByClassName("active");
@@ -62,6 +62,7 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
       }}
     >
       <div className="flex w-full gap-2 items-center">
+        {/* item data */}
         <Image
           src={firstImage}
           alt=""
@@ -72,13 +73,15 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
           objectFit="cover"
         />
         <div className="flex w-full justify-between items-center">
-          <a href="#" className="title" id={`link-${i}`}>
-            <div className="flex-col">
-              <div>{feature.properties.title}</div>
-              <div>{distance}</div>
-              <p>{feature.type.toLowerCase()}</p>
-            </div>
-          </a>
+          {/* a tag without usage? */}
+          {/* <a href="#" className="title" id={`link-${i}`}> */}
+          <div className="flex-col">
+            <div>{feature.properties.title}</div>
+            <div>{distance}</div>
+            <p>{feature.type.toLowerCase()}</p>
+          </div>
+          {/* </a> */}
+          {/* profile pic of item provider */}
           <Image
             src={feature.properties.profilePicture as string}
             alt=""
