@@ -44,13 +44,19 @@ const ListingItem = ({ feature, i, onClose }: Props) => {
           /* close ItemDrawer */
         }
         onClose();
+        {
+          /* create popup for this item and fly to marker on map */
+        }
         createPopUp(feature, location, mapRef, router);
         setTimeout(() => flyToStore(feature, mapRef), 300);
+        {
+          /* change className to apply different styling for active item.
+          look into mapcss.css */
+        }
         const activeItem = document.getElementsByClassName("active");
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
         }
-
         const thisElement = document.getElementById(`listing-${i}`);
         (thisElement as HTMLElement).classList.add("active");
       }}
