@@ -1,13 +1,6 @@
 // Component to show user items on item page for swapping
-import {
-  Dispatch,
-  MouseEventHandler,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Spinner } from "../Spinner/Spinner";
-import Image from "next/image";
 import clsx from "clsx";
 import Button from "../Button/Button";
 import ProductUserListItem from "../ProductUserListItem/ProductUserListItem";
