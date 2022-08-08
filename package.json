@@ -37,6 +37,7 @@
     "@types/geojson": "^7946.0.8",
     "@types/mapbox-gl": "^2.7.1",
     "add": "^2.0.6",
+    "argon2": "^0.28.7",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "browser-env": "^3.3.0",

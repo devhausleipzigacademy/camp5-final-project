@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "../components/Button/Button";
 import Input from "../components/Inputfields/Input";
+import * as argon2 from "argon2";
 
 type UserProps = {
   firstname: string;
@@ -18,7 +19,7 @@ const SignUpPage: NextPage = () => {
   const [hashedPW, setHashedPW] = useState("");
 
   // PW hashing
-  const bcrypt = require("bcrypt");
+  const argon = require("argon2");
   // const saltRounds = 10;
   // bcrypt.hash(password, saltRounds, function (hash: string) {
   //   setHashedPW(hash);
