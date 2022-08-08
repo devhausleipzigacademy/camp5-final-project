@@ -1,1 +1,30 @@
 GET http://localhost:3000/api/user?identifier=00f44bc7-5ebe-48b0-9ba4-e41a797f6d0f
+
+###
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+      "firstname": "Ingo",
+      "lastname": "McAtoo",
+      "email": "ingomcatoo@me.com",
+      "passwordHash": "testing123",
+      "passwordSalt": "bnfhjfdjdfjgfjkk",
+      "profilePicture":
+        "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
+      "rating": 2.1,
+      "favorite": [],
+}
+
+###
+    # identifier: string;
+    # createdAt: Date;
+    # updatedAt: Date;
+    # firstname: string;
+    # lastname: string;
+    # email: string;
+    # passwordHash: string;
+    # passwordSalt: string;
+    # profilePicture: string | null;
+    # rating: number;
+    # favorite: Prisma.JsonValue;

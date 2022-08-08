@@ -7,6 +7,21 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method === "POST") {
+    try {
+      const userData = await req.body;
+      // const locationData = await userData.
+      let user: User | null = null;
+      user = await prisma.user.create({
+        data: {
+          ...userData,
+        },
+      });
+      res.status(200).json(user);
+    } catch (err) {
+      console.log("Error:", err);
+    }
+  }
   if (req.method === "GET") {
     const id = req.query.identifier as string;
     try {
