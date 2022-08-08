@@ -34,6 +34,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     // endpoint for updating an existing item
+    // ERROR HANDLING FOR PUT REQUEST NEEDS UPDATE
     if (req.method === "PUT") {
         const id = req.query.updateitem as string;
         try {
