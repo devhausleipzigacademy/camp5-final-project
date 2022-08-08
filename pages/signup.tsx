@@ -7,7 +7,7 @@ type UserProps = {
   firstname: string;
   lastname: string;
   email: string;
-  password: string;
+  hashedPW: string;
 };
 
 const SignUpPage: NextPage = () => {
@@ -15,6 +15,15 @@ const SignUpPage: NextPage = () => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [hashedPW, setHashedPW] = useState("");
+
+  // PW hashing
+  const bcrypt = require("bcrypt");
+  // const saltRounds = 10;
+  // bcrypt.hash(password, saltRounds, function (hash: string) {
+  //   setHashedPW(hash);
+  //   console.log(hashedPW);
+  // });
 
   const rating = 0;
   const favorite = [];
@@ -25,7 +34,7 @@ const SignUpPage: NextPage = () => {
       firstname,
       lastname,
       email,
-      password,
+      hashedPW,
     };
   }
   return (
