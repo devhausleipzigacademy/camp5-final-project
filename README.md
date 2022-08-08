@@ -73,3 +73,8 @@ long:
 - your env file needs to be .env, not .env.local
 - npx prisma generate
 - yarn db:push
+
+## Password Hashing
+
+we're using bcrypt: https://www.npmjs.com/package/bcrypt
+you might need to download the dependencies mentioned in the docs

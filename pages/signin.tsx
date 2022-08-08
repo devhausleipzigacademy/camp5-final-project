@@ -105,6 +105,9 @@ export default function signin({ providers, csrfToken }: ProvidersList) {
           </div>
         );
       })}
+      <p className="py-2">
+        or got to <a href="/signup">SignUp</a>
+      </p>
     </div>
   );
 }
