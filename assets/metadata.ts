@@ -14,7 +14,7 @@ export const details = {
     "Wood",
     "Glass",
   ] as const,
-  Brand: [
+  KitchenBrand: [
     "Melitta",
     "WMF",
     "Krups",
@@ -115,20 +115,41 @@ export const ontology: Ontology<Classes, keyof typeof details> = {
       ["Tea Pots", ["Age", "Condition", "Brand", "Material"]],
       ["Other Dishes", ["Age", "Condition", "Brand", "Material"]],
     ],
-    // OtherKitchenCategories: [["Other Kitchen Categories", []]],
-    // FirstTestCategory: {
-    //   TestNest1: {
-    //     TestNest2: {
-    //       TestNest3: [["First Test Class", []]],
-    //     },
-    //   },
-    // },
-    // SecondTestCategory: {
-    //   NestTest1: {
-    //     NestTest2: {
-    //       NestTest3: [["Second Test Class", []]],
-    //     },
-    //   },
-    // },
   },
+
+  //   Cycling: {
+  //     "Bicycles: [
+  //       ["Road Bikes", ["Age", "Condition", "Brand", "Material"]],
+  //       ["Mountain Bikes", ["Age", "Condition", "Brand", "Material"]],
+  //       ["Touring Bikes", ["Age", "Condition", "Brand", "Material"]],
+  //       ["Hybrid Bikes", ["Age", "Condition", "Brand", "Material"]],
+  //       ["Electric Bikes", ["Age", "Condition", "Brand", "Material"]],
+  //     ],
+  //      Frames: [],
+  //     Tires: [],
+  //     Tubes, Wheels & Wheelsets: [],
+  // Bicycle Accessories: [],
+  // Bags & Panniers: [],
+  // Bags & Panniers: [],
+  // Baskets: [],
+  // Seats: [],
+  // Fenders: [],
+  // Lights & Reflectors: [],
+  // Locks & Security: [],
+  // }
+  // OtherKitchenCategories: [["Other Kitchen Categories", []]],
+  // FirstTestCategory: {
+  //   TestNest1: {
+  //     TestNest2: {
+  //       TestNest3: [["First Test Class", []]],
+  //     },
+  //   },
+  // },
+  // SecondTestCategory: {
+  //   NestTest1: {
+  //     NestTest2: {
+  //       NestTest3: [["Second Test Class", []]],
+  //     },
+  //   },
+  // },
 };
