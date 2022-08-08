@@ -15,16 +15,3 @@ Content-Type: application/json
       "rating": 2.1,
       "favorite": [],
 }
-
-###
-    # identifier: string;
-    # createdAt: Date;
-    # updatedAt: Date;
-    # firstname: string;
-    # lastname: string;
-    # email: string;
-    # passwordHash: string;
-    # passwordSalt: string;
-    # profilePicture: string | null;
-    # rating: number;
-    # favorite: Prisma.JsonValue;
