@@ -24,7 +24,7 @@ function userModel() {
       email: z.string(),
       passwordHash: z.string(),
       passwordSalt: z.string(),
-      profilePicture: z.array(z.string()),
+      profilePicture: z.string(),
       rating: z.number(),
       favorite: z.array(z.string()),
     })
