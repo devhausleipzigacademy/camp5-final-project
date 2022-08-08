@@ -166,7 +166,7 @@ export default function Search({ properties }: SearchProps) {
                   value="link to detailed search"
                   className="opacity-100 bg-primary text-primary-text py-1"
                 >
-                  <Link href="/search">
+                  <Link href="/filter">
                     <div>Click for detailed search</div>
                   </Link>
                 </Combobox.Option>
