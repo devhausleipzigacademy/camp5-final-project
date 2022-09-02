@@ -10,6 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User 
+// connected to: Items (owned Items) & recievedItems
+// inherits Location and Conversations table
 model User {
   identifier     String         @id @default(uuid())
   createdAt      DateTime       @default(now())
@@ -28,6 +31,8 @@ model User {
   receivedItems  Item[]         @relation("recipient_item")
 }
 
+// Location
+// always connected to a user
 model Location {
   identifier String @id @default(uuid())
   address    String
@@ -37,7 +42,10 @@ model Location {
   userId     String @unique
 }
 
-//TODO: need more work
+// Conversation
+// always connected to a user
+// questions: how to connect related messages or a whole messaging process? how to connect the user you're writing with?
+//  TODO: need more work
 model Conversation {
   identifier String   @id @default(uuid())
   createdAt  DateTime @default(now())
@@ -46,6 +54,8 @@ model Conversation {
   userId     String?
 }
 
+// Nodes
+// to structure our categories and their relationships to each other and the items
 model Node {
   identifier  String  @id @default(uuid())
   title       String  @unique // remove unique constraint here eventually
@@ -60,11 +70,15 @@ model Node {
   // @@unique([parentId, title])
 }
 
+// SellType enum for Items
 enum SellType {
   SWAP
   FREE
 }
 
+// Item
+// always connected to a user and categories (parent(Node), class, details)
+// after purchase: gone === true and a connection to recipient (User) is made
 model Item {
   identifier  String   @id @default(uuid())
   title       String
