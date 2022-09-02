@@ -32,22 +32,24 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "PUT") {
+    let item: Item | null;
     const id = req.query.updateitem as string;
+    const queryPath = req.query.path as string;
+    const path = queryPath.split(",");
     try {
-      let item: Item | null;
+      const itemData = await saveData(req.body);
+      recursiveConnectOrCreate(path, itemData);
       if (id) {
         item = await prisma.item.update({
           where: {
             identifier: id,
           },
-          data: {
-            gone: true,
-          },
+          data: itemData,
         });
+        res.status(200).json(item);
       } else {
         res.status(500).send("item not found");
       }
-      res.status(200).json(item);
     } catch (err) {
       console.log(err);
       res.status(500).end();
@@ -63,10 +65,10 @@ export default async function handler(
             identifier: id,
           },
         });
+        res.status(200).json(item);
       } else {
         res.status(500).send("item not found");
       }
-      res.status(200).json(item);
     } catch (err) {
       console.log(err);
       res.status(500).end();

@@ -79,10 +79,10 @@ export default async function handler(
             gone: true,
           },
         });
+        res.status(200).json(item);
       } else {
         res.status(500).send("item not found");
       }
-      res.status(200).json(item);
     } catch (err) {
       console.log(err);
       res.status(500).end();

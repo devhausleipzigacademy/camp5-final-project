@@ -17,7 +17,7 @@ const UserItems = (feature: Feature) => {
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [itemDeleted, setItemDeleted] = useState<number>(0);
   const session = useSession();
-  let userId = session.data.user.id;
+  let userId = session.data?.user.id;
   let itemId: string;
 
   async function getData() {
