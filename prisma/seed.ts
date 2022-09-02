@@ -42,49 +42,50 @@ async function main() {
       },
     },
   });
+  for (let j = 0; j <= 10; j++) {
+    for (const [i, leaf] of leaves.entries()) {
+      const path = leafPathMap[leaf];
 
-  for (const [i, leaf] of leaves.entries()) {
-    const path = leafPathMap[leaf];
-
-    let itemData = {
-      title: `Test Item`,
-      images: {
-        "1": "https://images.unsplash.com/photo-1529136490842-e2da7a4c7b74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3342&q=80",
-        "2": "https://images.unsplash.com/photo-1529139760315-66f8562cb1c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80",
-      },
-      description: "Test description",
-      details: {
-        condition: "***",
-      },
-      sellType: Math.floor(Math.random() * 10) > 5 ? "FREE" : "SWAP",
-      class: leaf,
-      user: {
-        create: {
-          firstname: "Johannes",
-          lastname: "Smith",
-          email: `johannes.smith@email.de${i}`,
-          passwordHash: "effegysdgerzerz",
-          passwordSalt: "bnfhjfdjdfjgfj",
-          profilePicture:
-            "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
-          rating: 2.1,
-          favorite: [],
-          location: {
-            create: {
-              lat: Math.random() * 2 + 50,
-              lon: Math.random() * 2 + 11,
-              address: "Kippenbergstraße 28, 04317 Leipzig",
+      let itemData = {
+        title: `Test Item`,
+        images: {
+          "1": "https://images.unsplash.com/photo-1529136490842-e2da7a4c7b74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3342&q=80",
+          "2": "https://images.unsplash.com/photo-1529139760315-66f8562cb1c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80",
+        },
+        description: "Test description",
+        details: {
+          condition: "***",
+        },
+        sellType: Math.floor(Math.random() * 10) > 5 ? "FREE" : "SWAP",
+        class: leaf,
+        user: {
+          create: {
+            firstname: "Johannes",
+            lastname: "Smith",
+            email: `johannes.smith@email.de${j}${i}`,
+            passwordHash: "effegysdgerzerz",
+            passwordSalt: "bnfhjfdjdfjgfj",
+            profilePicture:
+              "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687",
+            rating: 2.1,
+            favorite: [],
+            location: {
+              create: {
+                lat: Math.random() * 2 + 50,
+                lon: Math.random() * 2 + 11,
+                address: "Kippenbergstraße 28, 04317 Leipzig",
+              },
             },
           },
         },
-      },
-    };
+      };
 
-    // mutates itemData
-    recursiveConnectOrCreate(path, itemData);
+      // mutates itemData
+      recursiveConnectOrCreate(path, itemData);
 
-    //@ts-ignore
-    await prisma.item.create({ data: itemData });
+      //@ts-ignore
+      await prisma.item.create({ data: itemData });
+    }
   }
 }
 

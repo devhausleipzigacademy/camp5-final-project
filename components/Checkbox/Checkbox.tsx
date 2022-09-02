@@ -12,18 +12,30 @@ const Checkbox = ({ isChecked, id, name, checkHandler }: Props) => {
     // Giveaway Checkbox
     <div className="flex items-center justify-center space-x-1">
       {/* <div className="h-5 w-5 bg-primary opacity-20 rounded-sm"> */}
-      <input
-        onChange={checkHandler}
-        id={id}
-        name={name}
-        checked={isChecked}
-        type="checkbox"
-        className="focus:ring-indigo-500 h-5 w-5 rounded-sm bg-primary"
-      />
-      {/* </div> */}
-      <label htmlFor={name} className="text-primary select-none text-xs pr-2">
-        {name}
-      </label>
+      <div className="relative">
+        <input
+          onChange={checkHandler}
+          id={id}
+          name={name}
+          checked={isChecked}
+          type="checkbox"
+          className="absolute h-7 w-7 opacity-0 z-50"
+        />
+        {isChecked === true ? (
+          <span className="absolute l-0 h-7 w-7 bg-secondary rounded-md"></span>
+        ) : (
+          <span className="absolute h-7 w-7 bg-primary bg-opacity-25 rounded-md"></span>
+        )}
+        {/* </div> */}
+        <div className="mt-1">
+          <label
+            htmlFor={name}
+            className="text-primary select-none text-regular font-normal pr-2 pl-9"
+          >
+            {name}
+          </label>
+        </div>
+      </div>
     </div>
   );
 };

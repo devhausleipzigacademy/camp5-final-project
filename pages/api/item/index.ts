@@ -68,15 +68,27 @@ export default async function handler(
   }
   if (req.method === "PUT") {
     const id = req.query.updateitem as string;
+    const recId = req.query.recipient as string;
+    const reqArray = req.body as string[];
     try {
       let item: Item | null;
-      if (id) {
+      if (id && !recId) {
+        item = await prisma.item.update({
+          where: {
+            identifier: id,
+          },
+          data: {
+            requests: reqArray,
+          },
+        });
+      } else if (id && recId) {
         item = await prisma.item.update({
           where: {
             identifier: id,
           },
           data: {
             gone: true,
+            recipientId: recId,
           },
         });
       } else {

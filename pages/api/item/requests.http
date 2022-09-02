@@ -1,9 +1,9 @@
 
-POST http://localhost:3000/api/item?path=Kitchen,Appliances&user=01df4dcb-38b4-4437-a62a-f8e3c1003ff2
+POST http://localhost:3000/api/item?path=Kitchen,Appliances&user=a984d4b7-17b9-4810-ac22-4656ac5a73e6
 Content-Type: application/json
 
 {
-  "title": "Nespresso",
+  "title": "Coffee Machine",
   "images": ["x"],
   "description": "damn good coffee",
   "sellType": "FREE",
@@ -17,11 +17,17 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/api/item?updateitem=862c5226-26b0-48d7-9d69-6b9fb402194f
+PUT http://localhost:3000/api/item?updateitem=9d449540-6dc7-47e9-9d07-37c8c87e5613&recipient=3c98648e-50f5-4143-96e5-12153e415808
+
+###
+PUT http://localhost:3000/api/item?updateitem=f8e171e8-f06c-4d0f-98a5-135afc4f7936
+Content-Type: application/json
+
+["test", "test", "test"]
 
 ###
 
-GET http://localhost:3000/api/item?identifier=2caa255a-8e94-420c-8bd4-4bcb39545332
+GET http://localhost:3000/api/item?identifier=5144ee99-359d-4a47-8c7b-4cac705ccc72
 
 ###
 DELETE http://localhost:3000/api/item?identifier=12562128-46b9-487a-8588-5fec70490052

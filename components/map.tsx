@@ -9,6 +9,8 @@ import { Coord } from "@turf/turf";
 import Link from "next/link";
 import { useLocationStore } from "../stores/locationStore";
 import { useMapStore } from "../stores/mapStore";
+import { AdjustmentsIcon } from "@heroicons/react/solid";
+import { FilterIconButton } from "./FilterIconButton/FilterIconButton";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
@@ -22,7 +24,7 @@ const Map = ({ mapData }: MapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
-
+  console.log("mapData :", mapData);
   // -----creates Map ----- //
   useEffect(() => {
     if (map.current) return;
@@ -41,7 +43,13 @@ const Map = ({ mapData }: MapProps) => {
   const { lng, lat } = useMap(map, setZoom, mapData);
 
   return (
-    <div className="map z-10">
+    <div className="map z-10 relative">
+      <FilterIconButton
+        mapData={{
+          type: "",
+          features: [],
+        }}
+      />
       <div ref={mapContainer} className="map-container" />
     </div>
   );

@@ -18,10 +18,15 @@ export default async function handler(
         items = await prisma.item.findMany({
           where: {
             parent: { title: splitPath.at(-1) },
+            gone: false,
           },
         });
       } else {
-        items = await prisma.item.findMany({});
+        items = await prisma.item.findMany({
+          where: {
+            gone: false,
+          },
+        });
       }
       res.status(200).json(items);
     } catch (err) {
