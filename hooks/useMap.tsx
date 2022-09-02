@@ -13,7 +13,7 @@ export default function useMap(
   mapData: MapData
 ) {
   const { location } = useLocationStore();
-  // get all markers from storage
+  //get all markers from storage
   const { setMarkerArray } = useMarkerStore();
 
   const [lng, setLng] = useState(12.37);
@@ -26,6 +26,7 @@ export default function useMap(
     if (!map.current) {
       return;
     }
+    //fetch current user location from the browser
     map.current.on("load", () => {
       navigator.geolocation.getCurrentPosition((position) => {
         const userCoordinates = [
@@ -65,6 +66,7 @@ export default function useMap(
           enableHighAccuracy: true,
         },
         trackUserLocation: true,
+        //adds arrow for current user heading
         showUserHeading: true,
       });
 

@@ -12,6 +12,7 @@ import { useMapStore } from "../stores/mapStore";
 import { AdjustmentsIcon } from "@heroicons/react/solid";
 import { FilterIconButton } from "./FilterIconButton/FilterIconButton";
 
+// mapbox requires an account for non-commercial use
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJvbjE4IiwiYSI6ImNsMzRibG9xYjB3ZjUzaW13d2s3bzVjcGkifQ.QGlBNyR336mJ2rFfFprAPg";
 
@@ -20,7 +21,9 @@ type MapProps = {
 };
 const Map = ({ mapData }: MapProps) => {
   const { mapRef, setMapRef } = useMapStore();
+  // state management for location using 'zustand'  
   const { location } = useLocationStore();
+  // useRef hook to store map as a mutable value that doesn't cause re-render
   const mapContainer = useRef<HTMLDivElement>(null);
   const map: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
   const [zoom, setZoom] = useState(14);
@@ -40,6 +43,7 @@ const Map = ({ mapData }: MapProps) => {
     setMapRef(map);
   }, [map, setMapRef]);
 
+  //calling useMap hook to update map and get current location data
   const { lng, lat } = useMap(map, setZoom, mapData);
 
   return (
