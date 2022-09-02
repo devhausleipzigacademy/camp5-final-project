@@ -1,1 +1,9 @@
-GET http://localhost:3000/api/editproduct?identifier=2caa255a-8e94-420c-8bd4-4bcb39545332
+GET http://localhost:3000/api/editproduct?identifier=5c9e989f-d2a2-40eb-bae7-0a4f2e4d646c
+
+###
+PUT http://localhost:3000/api/editproduct?path=Kitchen,Appliances&updateitem=
+Content-Type: application/json
+
+{
+  "title": "my edited item"
+}
