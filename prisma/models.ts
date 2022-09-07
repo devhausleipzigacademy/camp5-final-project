@@ -1,3 +1,6 @@
+// Not sure if it's used
+// But probably important as example for data validation
+
 import { string, z } from "zod";
 import {
   Age,
