@@ -177,6 +177,8 @@ const EditProductPage: NextPage = () => {
   console.log("PICSfetch:", images);
 
   useEffect(() => {
+    // rewrite so it first checks for the productdata and maps accordingly
+    // then do this stuff:
     if (selectedCategory) {
       setPossibleSub(Object.keys(ontology[selectedCategory]));
     } else {
