@@ -1,7 +1,23 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ArrowRightIcon, GiftIcon } from "@heroicons/react/solid";
+import { HtmlProps } from "next/dist/shared/lib/html-context";
 import Link from "next/link";
-import { Fragment, SVGProps, useEffect, useRef, useState } from "react";
+import {
+    Fragment,
+    SVGProps,
+    useEffect,
+    useRef,
+    useState,
+    forwardRef,
+    HtmlHTMLAttributes,
+    ForwardRefExoticComponent,
+    RefAttributes,
+    RefObject,
+    LegacyRef,
+    ForwardedRef,
+    ReactNode,
+} from "react";
+import { ClassElement } from "typescript";
 import ProfilIcon from "../../public/profile.svg";
 
 export default function BurgerDropDown() {
@@ -30,7 +46,7 @@ export default function BurgerDropDown() {
                         <div className="px-1 py-1 ">
                             <Menu.Item>
                                 {({ active }) => (
-                                    <Link href="/useritems">
+                                    <CustomLink href="/useritems">
                                         <button
                                             className={`${
                                                 active
@@ -51,7 +67,7 @@ export default function BurgerDropDown() {
                                             )}
                                             My Items
                                         </button>
-                                    </Link>
+                                    </CustomLink>
                                 )}
                             </Menu.Item>
                             {/* <Menu.Item>
@@ -106,7 +122,7 @@ export default function BurgerDropDown() {
                             </Menu.Item> */}
                             <Menu.Item>
                                 {({ active }) => (
-                                    <Link href="/signin">
+                                    <CustomLink href="signin">
                                         <button
                                             className={`${
                                                 active
@@ -127,7 +143,7 @@ export default function BurgerDropDown() {
                                             )}
                                             Sign Out
                                         </button>
-                                    </Link>
+                                    </CustomLink>
                                 )}
                             </Menu.Item>
                         </div>
@@ -163,6 +179,24 @@ export default function BurgerDropDown() {
         </div>
     );
 }
+//Next.js link component does not forward props to underlzing 'a'element, hence no automatic close of the menue on click. needs a custom component
+type CustomLinkProps = {
+    href: string;
+    children: ReactNode;
+};
+
+const CustomLink = forwardRef(
+    (props: CustomLinkProps, ref: LegacyRef<HTMLAnchorElement>) => {
+        let { href, children, ...rest } = props;
+        return (
+            <Link href={href}>
+                <a ref={ref} {...rest}>
+                    {children}
+                </a>
+            </Link>
+        );
+    }
+);
 
 function EditInactiveIcon(
     props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
