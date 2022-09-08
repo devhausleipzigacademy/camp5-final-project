@@ -9,14 +9,14 @@ const session = getSession();
 
 export default function BurgerDropDown() {
     return (
-        <div className="flex px-4">
+        <div className="flex pr-4">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                    <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                         <ProfilIcon
-                            className="ml-2 -mr-1 text-BG"
+                            className="ml-2 -mr-1 text-BG w-9"
                             aria-hidden="true"
-                            width="34"
+                            // width="34"
                         />
                     </Menu.Button>
                 </div>

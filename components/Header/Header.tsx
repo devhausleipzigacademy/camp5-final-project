@@ -62,7 +62,7 @@ const Header = () => {
     }, [router]);
 
     return (
-        <div className="flex sticky top-0 font-medium tracking-wide bg-primary text-primary-text w-screen h-16 place-items-center justify-between z-50">
+        <div className="flex justify-between sticky top-0 font-medium tracking-wide bg-primary text-primary-text w-screen h-16 place-items-center z-50">
             <div className="px-4">
                 <Link href="/">
                     <a>
@@ -71,7 +71,11 @@ const Header = () => {
                 </Link>
             </div>
             <h3 className="text-lg font-poppins">{pagename}</h3>
-            {session.data?.user ? <BurgerDropDown /> : <div></div>}
+            {session.data?.user ? (
+                <BurgerDropDown />
+            ) : (
+                <div className="w-9 pr-4"></div>
+            )}
             {/* <div className="px-4">
                 <Link href="/useritems">
                     <div className="flex">
