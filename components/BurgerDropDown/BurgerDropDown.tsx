@@ -1,23 +1,8 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ArrowRightIcon, GiftIcon } from "@heroicons/react/solid";
-import { HtmlProps } from "next/dist/shared/lib/html-context";
 import Link from "next/link";
-import {
-    Fragment,
-    SVGProps,
-    useEffect,
-    useRef,
-    useState,
-    forwardRef,
-    HtmlHTMLAttributes,
-    ForwardRefExoticComponent,
-    RefAttributes,
-    RefObject,
-    LegacyRef,
-    ForwardedRef,
-    ReactNode,
-} from "react";
-import { ClassElement } from "typescript";
+import { Fragment, SVGProps, forwardRef, LegacyRef, ReactNode } from "react";
+
 import ProfilIcon from "../../public/profile.svg";
 
 export default function BurgerDropDown() {
