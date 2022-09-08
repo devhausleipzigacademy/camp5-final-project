@@ -1,9 +1,21 @@
-GET http://localhost:3000/api/editproduct?identifier=5c9e989f-d2a2-40eb-bae7-0a4f2e4d646c
+GET http://localhost:3000/api/editproduct?identifier=d9fcc22a-e1cb-414a-969b-72dbe911578b
 
 ###
-PUT http://localhost:3000/api/editproduct?path=Kitchen,Appliances&updateitem=
+PUT http://localhost:3000/api/editproduct?path=Kitchen,Appliances&updateitem=d9fcc22a-e1cb-414a-969b-72dbe911578b
 Content-Type: application/json
 
 {
-  "title": "my edited item"
+  "title": "my edited item",
+    "images": [
+    "https://res.cloudinary.com/dadz3vdyw/image/upload/v1662642251/sharing-app-uploads/zmhpdgincwnv30hbxhey.jpg"
+  ],
+    "description": "did it work?",
+    "sellType": "FREE",
+  "details": {
+    "Age": "Less than five years",
+    "Brand": "Krups",
+    "Condition": "***",
+    "EnergyEfficiencyClass": "B"
+  },
+  "class": "Juicers"
 }

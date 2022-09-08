@@ -44,7 +44,7 @@ export default async function handler(
           where: {
             identifier: id,
           },
-          data: itemData,
+          data: { ...itemData },
         });
         res.status(200).json(item);
       } else {
