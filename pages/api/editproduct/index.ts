@@ -57,6 +57,9 @@ export default async function handler(
   }
   if (req.method === "GET") {
     const id = req.query.identifier as string;
+    const queryPath = req.query.path as string;
+    const path = queryPath.split(",");
+
     try {
       let item: Item | null;
       if (id) {
