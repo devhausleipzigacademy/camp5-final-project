@@ -1,8 +1,8 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ArrowRightIcon, GiftIcon } from "@heroicons/react/solid";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { Fragment, SVGProps, forwardRef, LegacyRef, ReactNode } from "react";
-
 import ProfilIcon from "../../public/profile.svg";
 
 export default function BurgerDropDown() {
@@ -109,6 +109,7 @@ export default function BurgerDropDown() {
                                 {({ active }) => (
                                     <CustomLink href="signin">
                                         <button
+                                            onClick={() => signOut()}
                                             className={`${
                                                 active
                                                     ? "bg-violet-500 text-white"
