@@ -62,6 +62,24 @@ export type Item = {
   recipientId?: string | undefined;
 };
 
+export type EditItem = {
+  details: Object;
+  class: string;
+  identifier: string;
+  title: string;
+  images: string[];
+  description: string;
+  user?: string;
+  userId?: string;
+  sellType: string;
+  createdAt: string;
+  categoryTitle: string;
+  subcategory: string;
+  gone: boolean;
+  requests: string[];
+  recipientId?: string | undefined;
+};
+
 export type MockKitchenCategories = {
   kitchen: CatObject[];
 };

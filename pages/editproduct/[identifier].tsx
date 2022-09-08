@@ -7,99 +7,93 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Inputfields/Input";
 import { PrismaClient, SellType } from "@prisma/client";
 // import { mockKitchenCategories } from "../assets/data";
-import { Feature, Item, MockKitchenCategories } from "../../utils/types";
+import {
+  EditItem,
+  Feature,
+  Item,
+  MockKitchenCategories,
+} from "../../utils/types";
 import axios from "axios";
 import Link from "next/link";
 import router, { useRouter } from "next/router";
 import { ontology, details } from "../../assets/metadata";
-import { leafDetailsMap, leaves } from "../../assets/class-models-paths";
+import {
+  leafDetailsMap,
+  leafPathMap,
+  leaves,
+} from "../../assets/class-models-paths";
 import { getItem } from "../../utils/getItem";
 import UserItems from "../useritems";
 import { getProduct } from "../../utils/getProduct";
 import { useSession } from "next-auth/react";
 import { setISOWeek } from "date-fns/esm";
 import { getUser } from "../../utils/getUser";
+import { itemList } from "../../utils/filterList";
 
-type SubCat = {
-  title: string;
-  description: string;
-  subcategories: string[];
-};
-type Field = {
-  name: string;
-  placeholder: string;
-};
+// type SubCat = {
+//   title: string;
+//   description: string;
+//   subcategories: string[];
+// };
+// type Field = {
+//   name: string;
+//   placeholder: string;
+// };
 
 type UploadProps = {
   title: string;
   images: Object;
   description: string;
-  userId?: string;
+  class: string;
   sellType: string;
-  categoryTitle: string;
-  subcategory: string;
+  details: Object;
 };
 
 type Props = {
   item: Item;
 };
 
-export default function EditProductPage({ item }: Props): JSX.Element {
+const EditProductPage: NextPage = () => {
   const router = useRouter();
-  // console.log("edit", identifier);
+  let id = router.asPath.split("/")[2];
+  console.log("router id output:", id);
 
-  // async function getData(id: string) {
-  //   const productDataFetch = await getItem(id);
-  //   setInitialProductData(productDataFetch);
-  // }
-  // useEffect(() => {
-  //   getData(identifier as string);
-  // }, [identifier]);
-
-  // async function getItem(id: string) {
-  //   try {
-  //     const uniqueItem = await axios.get(
-  //       `http://localhost:3000/api/item/${id}`
-  //     );
-  //     return uniqueItem.data;
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
-
-  const [productData, setProductData] = useState<Item | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [category, setCategory] = useState<Node[]>([]);
   const [possibleSub, setPossibleSub] = useState<string[]>([]);
   const [selectedSub, setSelectedSub] = useState("");
   const [possibleSubSub, setPossibleSubSub] = useState<string[]>([]);
   const [selectedSubSub, setSelectedSubSub] = useState("");
   const [fields, setFields] = useState<string[]>([]);
+  const [selectedDetails, setSelectedDetails] = useState<
+    Record<string, string>
+  >({});
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [checkedItems, setCheckedItems] = useState<SellType>("FREE");
   const [isChecked, setIsChecked] = useState<boolean>(true);
-  const [images, setImages] = useState<{ "0": string } | null>(null);
-  const [selectedDetails, setSelectedDetails] = useState<
-    Record<string, string>
-  >({});
-  const [initialProductData, setInitialProductData] = useState<Feature[]>([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [productData, setProductData] = useState<Item | null>(null);
 
-  // async function getProductData(id: string) {
-  //   const item = await getProduct(id);
-  //   console.log("item", item);
-  //   // setProductData(item);
-  //   // setTitle(item.title);
-  //   // setDescription(item.description);
-  //   // setImages(item.images);
-  //   // setIsChecked(item.isChecked);
-  //   // setCategory(item.category);
-  //   // setSelectedSub;
-  // }
+  async function getProductData(identifier: string) {
+    const item = await getItem(identifier);
+    setProductData(item);
+    console.log("item", item);
+    const leafs = leafPathMap[item.class];
+    setTitle(item.title);
+    setDescription(item.description);
+    setImages(item.images);
+    setSelectedCategory(leafs[0]);
+    setSelectedSub(leafs[1]);
+    setSelectedSubSub(item.class);
+    console.log("leafshit", leafs);
+    if (item.sellType === "SWAP") {
+      setIsChecked(false);
+    }
+  }
 
-  // useEffect(() => {
-  //   getProductData(identifier as string);
-  // }, []);
+  useEffect(() => {
+    getProductData(id as string);
+  }, []);
 
   function checkHandler() {
     setIsChecked((prev) => !prev);
@@ -109,12 +103,6 @@ export default function EditProductPage({ item }: Props): JSX.Element {
       setCheckedItems("SWAP");
     }
   }
-
-  // useEffect(() => {
-  //   console.log("initialproduct", initialProductData);
-  // }, [initialProductData]);
-
-  const session = useSession();
 
   const [openFileSelector, { filesContent, loading, errors, clear }] =
     useFilePicker({
@@ -131,10 +119,6 @@ export default function EditProductPage({ item }: Props): JSX.Element {
         minWidth: 200,
       },
     });
-
-  useEffect(() => {
-    console.log(item);
-  }, [item]);
 
   useEffect(() => {
     const handleFileUpload = async () => {
@@ -168,8 +152,6 @@ export default function EditProductPage({ item }: Props): JSX.Element {
   async function handleOnSubmit(event: FormEvent) {
     event.preventDefault();
 
-    const userId = session.data?.user.id;
-
     // UPLOAD IMAGE
     if (images) {
       const realData: UploadProps = {
@@ -182,8 +164,8 @@ export default function EditProductPage({ item }: Props): JSX.Element {
       };
 
       try {
-        await axios.post(
-          `/api/item?path=Kitchen,${selectedSub}&user=${userId}`,
+        await axios.put(
+          `/api/editproduct?path=Kitchen,${selectedSub}&updateitem=${itemId}`,
           realData
         );
         router.push("/useritems");
@@ -192,6 +174,7 @@ export default function EditProductPage({ item }: Props): JSX.Element {
       }
     }
   }
+  console.log("PICSfetch:", images);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -228,7 +211,7 @@ export default function EditProductPage({ item }: Props): JSX.Element {
     return <div>Loading...</div>;
   }
   if (!productData) {
-    return <> </>;
+    return <>Item not found...</>;
   } else {
     return (
       <div className="font-medium pt-16 flex-col h-screen flex items-center justify-center pl-4 pr-10 w-full overflow-scroll">
@@ -263,6 +246,7 @@ export default function EditProductPage({ item }: Props): JSX.Element {
             filesContent={filesContent}
             openFileSelector={openFileSelector}
             clear={clear}
+            images={[]}
           />
 
           {/* ---------------------- CHECKBOXES ------------------------- */}
@@ -356,22 +340,23 @@ export default function EditProductPage({ item }: Props): JSX.Element {
       </div>
     );
   }
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const prisma = new PrismaClient();
-  const item = await prisma.item.findUnique({
-    where: {
-      identifier: query.identifier as string,
-    },
-    select: {
-      identifier: true,
-    },
-  });
-  console.log("serverside", item);
-  return {
-    props: {
-      item,
-    },
-  };
 };
+
+export default EditProductPage;
+// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+//   const prisma = new PrismaClient();
+//   const item = await prisma.item.findUnique({
+//     where: {
+//       identifier: query.identifier as string,
+//     },
+//     select: {
+//       identifier: true,
+//     },
+//   });
+//   console.log("serverside", item);
+//   return {
+//     props: {
+//       item,
+//     },
+//   };
+// };

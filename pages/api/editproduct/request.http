@@ -9,7 +9,7 @@ Content-Type: application/json
     "images": [
     "https://res.cloudinary.com/dadz3vdyw/image/upload/v1662642251/sharing-app-uploads/zmhpdgincwnv30hbxhey.jpg"
   ],
-    "description": "did it work?",
+    "description": "did it work again?",
     "sellType": "FREE",
   "details": {
     "Age": "Less than five years",
