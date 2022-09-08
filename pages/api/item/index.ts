@@ -50,6 +50,7 @@ export default async function handler(
       // console.log(itemData);
       let item = await prisma.item.create({
         data: {
+          ...itemData,
           user: { connect: { identifier: userId } },
         },
       });
