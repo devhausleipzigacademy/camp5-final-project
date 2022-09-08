@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import BurgerMenu from "../../public/menu.svg";
-import ProfileIcon from "../../public/profile.svg";
 import HomeIcon from "../../public/home.svg";
 import { useEffect, useState } from "react";
 import { Item } from "../../utils/types";
@@ -73,7 +71,7 @@ const Header = () => {
                 </Link>
             </div>
             <h3 className="text-lg font-poppins">{pagename}</h3>
-            <BurgerDropDown />
+            {session.data?.user ? <BurgerDropDown /> : <div></div>}
             {/* <div className="px-4">
                 <Link href="/useritems">
                     <div className="flex">
