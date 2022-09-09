@@ -7,26 +7,26 @@ import { useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { setLocation } = useLocationStore();
+    const { setLocation } = useLocationStore();
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const userCoordinates = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
-      setLocation([userCoordinates[0], userCoordinates[1]]);
-    });
-  }, []);
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const userCoordinates = [
+                position.coords.longitude,
+                position.coords.latitude,
+            ];
+            setLocation([userCoordinates[0], userCoordinates[1]]);
+        });
+    }, []);
 
-  return (
-    <SessionProvider session={pageProps.session}>
-      <div className="w-screen h-screen overflow-y-scroll bg-BG">
-        <Header />
-        <Component {...pageProps} />
-      </div>
-    </SessionProvider>
-  );
+    return (
+        <SessionProvider session={pageProps.session}>
+            <div className="w-screen h-screen overflow-y-scroll bg-BG">
+                <Header />
+                <Component {...pageProps} />
+            </div>
+        </SessionProvider>
+    );
 }
 
 export default MyApp;

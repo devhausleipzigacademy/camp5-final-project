@@ -16,7 +16,6 @@ export default function BurgerDropDown() {
                         <ProfilIcon
                             className="ml-2 -mr-1 text-BG w-9"
                             aria-hidden="true"
-                            // width="34"
                         />
                     </Menu.Button>
                 </div>
@@ -57,56 +56,8 @@ export default function BurgerDropDown() {
                                     </CustomLink>
                                 )}
                             </Menu.Item>
-                            {/* <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        className={`${
-                                            active
-                                                ? "bg-violet-500 text-white"
-                                                : "text-gray-900"
-                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                    >
-                                        {active ? (
-                                            <DuplicateActiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        ) : (
-                                            <DuplicateInactiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        )}
-                                        Duplicate
-                                    </button>
-                                )}
-                            </Menu.Item> */}
                         </div>
                         <div className="px-1 py-1">
-                            {/* <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        className={`${
-                                            active
-                                                ? "bg-violet-500 text-white"
-                                                : "text-gray-900"
-                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                    >
-                                        {active ? (
-                                            <ArchiveActiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        ) : (
-                                            <ArchiveInactiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        )}
-                                        Archive
-                                    </button>
-                                )}
-                            </Menu.Item> */}
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
@@ -133,32 +84,6 @@ export default function BurgerDropDown() {
                                 )}
                             </Menu.Item>
                         </div>
-                        {/* <div className="px-1 py-1">
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        className={`${
-                                            active
-                                                ? "bg-violet-500 text-white"
-                                                : "text-gray-900"
-                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                    >
-                                        {active ? (
-                                            <DeleteActiveIcon
-                                                className="mr-2 h-5 w-5 text-violet-400"
-                                                aria-hidden="true"
-                                            />
-                                        ) : (
-                                            <DeleteInactiveIcon
-                                                className="mr-2 h-5 w-5 text-violet-400"
-                                                aria-hidden="true"
-                                            />
-                                        )}
-                                        Delete
-                                    </button>
-                                )}
-                            </Menu.Item>
-                        </div> */}
                     </Menu.Items>
                 </Transition>
             </Menu>
